@@ -391,47 +391,6 @@ namespace ShareX.HelpersLib
         }
 
         /// <summary>
-        /// Version of <see cref="AVISaveOptions(IntPtr, int, int, IntPtr[], IntPtr[])"/> for one stream only.
-        /// </summary>
-        ///
-        /// <param name="stream">Stream to configure.</param>
-        /// <param name="options">Stream options.</param>
-        ///
-        /// <returns>Returns TRUE if the user pressed OK, FALSE for CANCEL, or an error otherwise.</returns>
-        public static int AVISaveOptions(IntPtr stream, ref AVICOMPRESSOPTIONS options, IntPtr parentWindow)
-        {
-            IntPtr[] streams = new IntPtr[1];
-            IntPtr[] infPtrs = new IntPtr[1];
-
-            // alloc unmanaged memory
-            IntPtr mem = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(AVICOMPRESSOPTIONS)));
-
-            // copy from managed structure to unmanaged memory
-            Marshal.StructureToPtr(options, mem, false);
-
-            streams[0] = stream;
-            infPtrs[0] = mem;
-
-            // show dialog with a list of available compresors and configuration
-            int ret = AVISaveOptions(parentWindow, 0, 1, streams, infPtrs);
-
-            // copy from unmanaged memory to managed structure
-            options = (AVICOMPRESSOPTIONS)Marshal.PtrToStructure(mem, typeof(AVICOMPRESSOPTIONS));
-
-            // free AVI compression options
-            AVISaveOptionsFree(1, infPtrs);
-
-            // clear it, because the information already freed by AVISaveOptionsFree
-            options.format = 0;
-            options.parameters = 0;
-
-            // free unmanaged memory
-            Marshal.FreeHGlobal(mem);
-
-            return ret;
-        }
-
-        /// <summary>
         /// .NET replacement of mmioFOURCC macros. Converts four characters to code.
         /// </summary>
         ///
