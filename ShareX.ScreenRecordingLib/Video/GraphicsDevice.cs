@@ -23,21 +23,17 @@
 
 #endregion License Information (GPL v3)
 
-using ShareX.ScreenRecordingLib.Native;
-using System.Runtime.InteropServices;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
-using Windows.Graphics.DirectX.Direct3D11;
-using WinRT;
 
 namespace ShareX.ScreenRecordingLib.Video;
 
+// shortcut: the WinRT device is removed and D3D11 itself is missing on Linux, GraphicsCapture.GetTargets fails first; remove this class in M6.
 internal sealed unsafe class GraphicsDevice : IDisposable
 {
     public ID3D11Device Device { get; private set; } = null!;
     public ID3D11DeviceContext Context { get; private set; } = null!;
-    public IDirect3DDevice WinRTDevice { get; private set; } = null!;
 
     public GraphicsDevice(nint monitor)
     {
@@ -51,11 +47,6 @@ internal sealed unsafe class GraphicsDevice : IDisposable
             Context = context;
             using ID3D11Multithread multithread = Context.QueryInterface<ID3D11Multithread>();
             multithread.SetMultithreadProtected(true);
-            using IDXGIDevice dxgiDevice = Device.QueryInterface<IDXGIDevice>();
-            nint inspectable;
-            NativeMethods.CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice.NativePointer, &inspectable).ThrowOnFailure();
-            try { WinRTDevice = MarshalInterface<IDirect3DDevice>.FromAbi(inspectable); }
-            finally { Marshal.Release(inspectable); }
         }
         catch { Dispose(); throw; }
     }
@@ -96,7 +87,6 @@ internal sealed unsafe class GraphicsDevice : IDisposable
 
     public void Dispose()
     {
-        WinRTDevice?.Dispose();
         Context?.Dispose();
         Device?.Dispose();
     }

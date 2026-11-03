@@ -22,7 +22,7 @@ git --no-pager log "$tag..HEAD" --no-merges --reverse --date=short --format='%h 
 git --no-pager log "$tag..HEAD" --merges --reverse --format='%h | %s'
 ```
 
-Stop and report if there is no tag or the range is empty. `Directory.build.props` is only bumped at release time, so do not read the next version from it.
+Stop and report if there is no tag or the range is empty. `Directory.Build.props` is only bumped at release time, so do not read the next version from it.
 
 ## Resolve the target section
 
