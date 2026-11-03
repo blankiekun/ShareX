@@ -40,20 +40,20 @@ The other tables overlap with the checklist, so their rows aren't added to these
   start. Keep the window code isolated in case native Wayland matures.
 - **An XWayland app can't see the real screen or the global cursor**, so capture must go through KWin or the portals.
 - **Window handles are a trap.** Under X11 the handle is a non-zero XID, so `handle != IntPtr.Zero` guards pass and the
-  code reaches `user32`, which should throw `DllNotFoundException`. Windows version checks have a similar problem:
-  `Helpers.IsWindows7OrGreater` is true on Linux because it only compares version numbers. Use `OperatingSystem.IsWindows()`.
+  code reaches `user32`, which should throw `DllNotFoundException`. Windows version checks had a similar problem: fixed in M2,
+  every `Helpers.IsWindows*` is now false off Windows.
 - **The default hotkeys clash with KDE.** Print and Shift+Print belong to Spectacle on this machine.
 
 ## 2. Fix these first
 
 | # | Item | Where | Why |
 |---|---|---|---|
-| 1 | Secrets can be written in plaintext | `ShareX.HelpersLib/Settings/DPAPIEncryptedStringValueProvider.cs` (`GetValue`) | An empty `catch` returns the plain value when encryption fails, which is expected on Linux. Covers `UploadersConfig.json` and AI API keys. **Fix before any Linux build saves settings** |
+| 1 | Done in M2: secrets could be written in plaintext | `ShareX.HelpersLib/Settings/EncryptedStringValueProvider.cs`, `ShareX.HelpersLib/Cryptographic/SecretServiceCrypto.cs` | `$ShareXEncrypted$` + AES-GCM under one master key in the Secret Service. If a value can't be encrypted the save aborts and the file on disk stays as it was. All three config files now encrypt, including AI API keys |
 | 2 | Done in M1: props files weren't imported on Linux | `Directory.Build.props`, `Directory.Build.targets` | MSBuild looks for `Directory.Build.*` and Linux is case-sensitive, so the build got version 1.0.0. Renamed, with the RID set to `linux-x64` |
 | 3 | Done in M1: resource path casing | `ShareX.UploadersLib/Properties/Resources.resx:17` | Pointed to `..\resources\oauthcallbackpage.html`; the file is `Resources/OAuthCallbackPage.html` |
 | 4 | Done in M1: Windows-only targets | All projects now target `net10.0`; `Microsoft.WindowsDesktop.App` removed from `ShareX.HelpersLib.csproj` | Was `NETSDK1100` on Linux |
 | 5 | Done in M1: hotkey host crashed start-up | `ShareX/Forms/MainForm.cs:47`, `ShareX.HelpersLib/Input/NullHotkeyHost.cs` | `MainForm` now builds a host that registers nothing, so hotkeys do nothing until M5 |
-| 6 | Portable mode collides with the binary | `ShareX/Infrastructure/AppPaths.cs:42` | The folder `ShareX` has the same name as the `ShareX` apphost. In the test, the run fell back to `~/Documents/ShareX` and crashed with "Avalonia is already initialized" |
+| 6 | Done in M2: portable mode collided with the binary | `ShareX/Infrastructure/AppPaths.cs:42` | The folder is now `ShareXData`. `-portable` starts, with no "Avalonia is already initialized" crash |
 
 ## 3. Suggested order
 
@@ -61,7 +61,7 @@ The other tables overlap with the checklist, so their rows aren't added to these
    Remove `ShareX.Steam` and `ShareX.Setup`. Add the 4 compile-time packages
    (`System.Drawing.Common`, `System.Security.Cryptography.ProtectedData`, `System.Windows.Extensions`, `System.Management`).
    Done in M1: both builds give 0 errors and an ELF apphost, and the main window opens with the title "ShareX 22.1 Dev".
-2. **Safety:** the plaintext secrets fix, the version and handle guards, the portable folder.
+2. **Safety:** done in M2: the plaintext secrets fix, the version and handle guards, the portable folder.
 3. **Cheap shared fixes:** the `.exe` check in `FFmpegCLIManager.cs:89`, folder opening in `FileHelpers.cs:294,337`, path
    and separator handling. Together these unlock about a dozen tools. Delete dead code too: 77 of the 159 `NativeMethods.cs`
    P/Invokes have no callers.
@@ -125,7 +125,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| Secrets (DPAPI) | ShareX.HelpersLib/Settings/DPAPIEncryptedStringValueProvider.cs:48-54,66-74 | Failed load silently nulls copied secrets; failed save silently writes plaintext | REWRITE | KWallet or Secret Service (V) | M | High |
+| Secrets | ShareX.HelpersLib/Settings/EncryptedStringValueProvider.cs; ShareX.HelpersLib/Cryptographic/SecretServiceCrypto.cs | Replaced in M2. A failed save aborts; a failed load keeps the raw tagged value and logs it. `$DPAPIEncrypted$` values stay byte-identical for M8 | READY | Secret Service. Run with a real `ksecretd` and a throwaway wallet in a virtual session; not run against the owner's wallet or with a person answering a wallet prompt | M | High |
 | OAuth, browser | ShareX.UploadersLib/OAuth/OAuthListener.cs:70,84; ShareX.HelpersLib/Helpers/URLHelpers.cs:66-70 | Managed HttpListener; migrated `chrome.exe` BrowserPath breaks launch | SWAP | xdg-open (V) | S | Med |
 | FTP/FTPS, SFTP | ShareX.UploadersLib/FileUploaders/FTP.cs:143,148; ShareX.UploadersLib/FileUploaders/SFTP.cs:213 | Packages have portable TFMs (V); Windows key paths; FTPS accepts invalid certificates on every OS | UNVERIFIED | User re-selects files | S | Med |
 | Shared Folder | ShareX.UploadersLib/FileUploaders/LocalhostAccount.cs:75,190 | UNC root becomes a literal relative filename | LIMITED: UNC paths lost | mount.cifs (V), kio-fuse (A) | S | High |
@@ -136,7 +136,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Serialized paths | ShareX.HelpersLib/Helpers/FileHelpers.cs:440; ShareX/Infrastructure/AppPaths.cs:79; ShareX/Infrastructure/PersonalPathManager.cs:89 | `%MyDocuments%\ShareX` expands with mixed separators, creating backslash-named entries | REWRITE | Import-time normaliser (A) | M | High |
 | Open folder | ShareX.HelpersLib/Helpers/FileHelpers.cs:294-297 | Appends `\` to the path | SWAP | FileManager1 (V) | S | High |
 | History file paths | ShareX.HistoryLib/Views/ImageHistoryWindow.axaml.cs:298; ShareX.HistoryLib/Views/HistoryWindow.axaml.cs:999 | Stored `C:\` paths fail File.Exists | LIMITED: old local files unresolved | SQL path rewrite (A) | M | High |
-| Settings migration | ShareX/SettingManager.cs:287,440,484 | No Windows-to-Linux migration. `.sxb` export holds plaintext secrets, the only route preserving them; import skips History.db | REWRITE | Import wizard (A) | M | High |
+| Settings migration | ShareX/SettingManager.cs:287,440,484 | No Windows-to-Linux migration. `.sxb` export holds plaintext secrets (confirmed in M2: `SaveToMemoryStream(false)` skips the provider), the only route preserving them; a value that didn't decrypt is exported as its raw tagged string; import skips History.db | REWRITE | Import wizard (A) | M | High |
 
 
 #### Capture types (8)
@@ -331,7 +331,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | History window, stats | TH:878; TH:910; ShareX.HistoryLib/Integration/HistoryIntegration.cs:39,53 | None found | UNVERIFIED | None | S | Med |
 | Debug log | TH:916 | None found | READY | None | S | Med |
 | Backup export and import | ShareX/SettingManager.cs:427,476 | Import skips History.db | SWAP | Fix filter, add path normaliser (A) | S | High |
-| Portable and sandbox modes | ShareX/Infrastructure/PersonalPathManager.cs:58,64 | None found | UNVERIFIED | None | S | Med |
+| Portable and sandbox modes | ShareX/Infrastructure/PersonalPathManager.cs:58,64 | None found. `-portable` started in M2; sandbox not run | UNVERIFIED | None | S | Med |
 | Policy options | ShareX/SystemOptions.cs:51 | HKLM and HKCU registry | SWAP | System config file (A) | S | High |
 | Start on login | ShareX/StartupManager.cs:62 | Startup shortcut, registry | SWAP | XDG autostart (A); portal Background (V) | S | High |
 | Shell context menu | ShareX/IntegrationHelpers.cs:42 | Registry | SWAP | KIO service menu; /usr/share/kio/servicemenus seen (V) | S | High |
@@ -359,7 +359,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| Recorder bar window | ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:456,501 | SetWindowPos z-order | REWRITE | KWin rule or layer-shell (A) | M | High |
+| Recorder bar window | ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:110,444 | M2 removed the `user32` calls so it opens under X11. Lost: tool-window style and keeping the outline behind the bar | REWRITE | KWin rule or layer-shell (A) | M | High |
 | Main window thumbnails | ShareX/Presentation/MainWindow/ThumbnailItemViewModel.cs:268 | Shell thumbnail COM | SWAP | ffmpeg, ~/.cache/thumbnails (V) | S | High |
 | Main window menus and position | ShareX/Presentation/MainWindow/MainWindow.axaml.cs:217,2111 | GetCursorPos; Position | LIMITED: global cursor anchoring lost | Pointer-event anchors (A) | S | Med |
 | Actions toolbar | ShareX/Presentation/ActionsToolbar/ActionsToolbarWindow.axaml.cs:54,266,271 | Topmost, Position, GetCursorPos | LIMITED: placement is compositor-dependent | KWin rule (A) | M | Med |
@@ -382,7 +382,7 @@ The only table whose rows were really run; see its evidence column.
 | Windowing backend | `libX11`, `libXi`, `libXrandr`, `libGLX_nvidia` mapped, no `libwayland`; only `avalonia.x11` restored | LIMITED | XWayland only: no native Wayland window. Effects on capture and scaling not tested | L | High |
 | Resx casing | `ShareX.UploadersLib/Properties/Resources.resx:17`: path corrected, `MSB3103` gone in the build | READY | None needed | S | High |
 | Windows TFMs | All projects on `net10.0`; `ShareX.sln` builds in Debug and Release with 0 errors, 156 warnings (all CA1416) | READY | None needed | M | High |
-| HelpersLib | `WindowsDesktop.App` removed; `System.Drawing.Common`, `System.Management`, `System.Security.Cryptography.ProtectedData`, `System.Windows.Extensions` added at 10.0.13; 0 errors. Compile only | SWAP | Keep the packages to compile only; replace Registry, printing and DPAPI behind interfaces | M | High |
+| HelpersLib | `WindowsDesktop.App` removed; `System.Drawing.Common`, `System.Management`, `System.Windows.Extensions` added at 10.0.13; 0 errors. Compile only. `ProtectedData` removed in M2, `Tmds.DBus.Protocol` 0.94.1 added (same version Avalonia.FreeDesktop uses) | SWAP | Keep the packages to compile only; replace Registry and printing behind interfaces | M | High |
 | HistoryLib, ImageEffectsLib, UploadersLib, ScreenCaptureLib | 0 errors in the M1 build; `History.db` is created at start-up | UNVERIFIED | Compile only; CA1416 misses P/Invoke, so behaviour is untested | M | Medium |
 | SQLite | `libe_sqlite3.so` shipped, `History.db` created; `Directory.Packages.props:7` is an 11.0 RC | READY | Consider a stable version | S | High |
 | ScreenRecordingLib | 0 errors: `GraphicsCapture` is a stub that throws `PlatformNotSupportedException` and the WinRT part of `GraphicsDevice` is gone; 16 files reference Vortice | REWRITE | Portal ScreenCast, PipeWire, FFmpeg | L | Medium |
@@ -394,7 +394,7 @@ The only table whose rows were really run; see its evidence column.
 | `UseNls` | `ShareX.csproj:59`; present in the runtime config and the app still ran | READY | Remove on Linux for tidiness | S | Medium |
 | Global hotkeys | Crash fixed in M1: `MainForm` builds `NullHotkeyHost`, which registers nothing, so hotkeys do nothing | LIMITED | KGlobalAccel or the GlobalShortcuts portal; no free key grabbing | L | High |
 | Registry, pipe ACL | Logged `PlatformNotSupportedException` from `RegistryHelpers.cs:81` and `SingleInstanceManager.cs:96`, not fatal | SWAP | Config files; plain pipe or D-Bus. Second-instance arguments stay broken until then | M | High |
-| Portable mode | `AppPaths.cs:42`: folder `ShareX` collides with the `ShareX` apphost; run fell back to `~/Documents/ShareX` and crashed with "Avalonia is already initialized" | SWAP | Rename the folder | S | High |
+| Portable mode | `AppPaths.cs:42`: folder renamed `ShareXData` in M2. `-portable` run in a virtual session: starts, uses that folder, no "Avalonia is already initialized" | READY | None. An unwritable app folder was still running after 12 s with no crash text; by the code it falls back to `~/Documents/ShareX` | S | High |
 | Tray icon | `TrayIconService.cs:85` uses Avalonia `TrayIcon` | UNVERIFIED | Status Notifier; I did not confirm our item registered | S | Medium |
 | ShareX.Setup | Removed in M1 | DROP | Packaging script | S | High |
 | ShareX.Steam | Removed in M1 | DROP | None needed | S | High |
@@ -423,14 +423,14 @@ The only table whose rows were really run; see its evidence column.
 | CursorData | ShareX.HelpersLib/CursorData.cs:58 | Cursor handles, registry | LIMITED | Compositor-included cursor [A]. Lost: separate cursor bitmap | M | Medium |
 | WindowsNativeWindow | ShareX.HelpersLib/Native/WindowsNativeWindow.cs:48 | Layered Win32 overlays; throws off Windows | LIMITED | Avalonia transparent window [A]. Lost: absolute placement, z-order | L | Medium |
 | DWMManager | ShareX.HelpersLib/DWMManager.cs:30 | dwmapi; 0 callers | DROP | Delete | S | High |
-| OS version gates | ShareX.HelpersLib/Helpers/Helpers.cs:321 | Kernel 7.x would pass the Vista check [A], so `IsDWMEnabled` hits dwmapi | SWAP | `OperatingSystem.IsWindows()` | S | Medium |
+| OS version gates | ShareX.HelpersLib/Helpers/Helpers.cs:64 | Fixed in M2: `OSVersion` is 0.0 off Windows, so all 10 `IsWindows*` return false (run on kernel 7.2). `CaptureHelpers.cs:304` still reaches `IsZoomed`, because it tests `!IsWindows10OrGreater()` | READY | None | S | High |
 | Helpers misc | ShareX.HelpersLib/Helpers/Helpers.cs:565 | WindowsIdentity, registry; `IsTabletMode`, wallpaper path have 0 callers | SWAP | `Environment.IsPrivilegedProcess`, `/etc/os-release` [A] | S | Medium |
 | Cursor lock, window move | ShareX.HelpersLib/Helpers/Helpers.cs:919 | Win32; no-op elsewhere | LIMITED | Pointer constraints [A]. Lost: arbitrary positioning | M | Medium |
 | Authenticode, updater | ShareX.HelpersLib/Helpers/AuthenticodeSignatureVerifier.cs:65 | wintrust, setup.exe, `runas` | DROP | Package updates; if kept, checksum or gpg [V] | S | High |
 | FileHelpers open/reveal | ShareX.HelpersLib/Helpers/FileHelpers.cs:337 | shell32; `UseShellExecute` is portable | SWAP | `FileManager1.ShowItems` [V], `xdg-open` [V] | S | High |
 | FileHelpers paths | ShareX.HelpersLib/Helpers/FileHelpers.cs:412 | Empty SpecialFolder likely aborts `Replace` [A]; `:\` root at :211; locks advisory at :470 | SWAP | Guard empties, XDG paths | S | Medium |
 | RegistryHelpers | ShareX.HelpersLib/Helpers/RegistryHelpers.cs:41 | Registry stub [A]; callers IntegrationHelpers, ScreenRecordingOptions, SystemOptions, Setup, others | REWRITE | `.desktop`, `xdg-mime`, `kbuildsycoca6` [V]; JSON | M | High |
-| DPAPI | ShareX.HelpersLib/Settings/DPAPIEncryptedStringValueProvider.cs:50 | ProtectedData absent [V] | SWAP | Secret Service [V], `secret-tool` [V] | M | High |
+| DPAPI | ShareX.HelpersLib/Settings/EncryptedStringValueProvider.cs | `DPAPI.cs` and `ProtectedData` deleted in M2 | READY | Secret Service through `SecretServiceCrypto`; see Secrets in 5.1 | M | High |
 | WshShell, ShortcutHelpers | ShareX.HelpersLib/Helpers/ShortcutHelpers.cs:104 | COM `.lnk` | SWAP | `.desktop`, `~/.config/autostart` [A] | S | High |
 | MutexManager | ShareX.HelpersLib/MutexManager.cs:43 | None visible; .NET named mutex | UNVERIFIED | Keep; test cross-process | S | Medium |
 | SingleInstanceManager | ShareX.HelpersLib/SingleInstanceManager.cs:96 | Pipe ACL; failure stops the listener (:136) | SWAP | `PipeOptions.CurrentUserOnly` [A] | S | Medium |
@@ -470,7 +470,7 @@ Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screen
 | Monitor HUD clamp (627ceb477) | `R`:1250,1459 | None; Avalonia Screens | UNVERIFIED | Works in a spanning window; trivial per monitor. One-scale math breaks mixed DPI | S | Medium |
 | Window list menu | `S`Helpers/WindowsList.cs:54; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:154 | EnumWindows | SWAP | Same KWin script | S | Medium |
 | Scrolling input | `S`ScrollingCaptureManager.cs:104-147,232 | SendInput, SendMessage, GetScrollInfo | LIMITED | RemoteDesktop portal or XTest, with possible consent prompt; scroll-message method and scrollbar query lost | L | Low |
-| Scrolling frame | `S`Presentation/ScrollingCapture/ScrollingCaptureRegionWindow.axaml.cs:63,97-132 | ExStyle, SetWindowRgn | LIMITED | X11 shape region; exact position only under XWayland | M | Low |
+| Scrolling frame | `S`Presentation/ScrollingCapture/ScrollingCaptureRegionWindow.axaml.cs | M2 removed ExStyle and SetWindowRgn so it opens under X11. Lost: click-through, the hole in the frame and the tool-window style, so the window now sits over the region and takes its clicks | LIMITED | X11 shape region; exact position only under XWayland | M | Low |
 | Scrolling UI | `S`Presentation/ScrollingCapture/ScrollingCaptureWindow.axaml.cs | None found | UNVERIFIED | Keep; its capture and selection depend on rows above | S | Medium |
 
 
@@ -495,7 +495,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | Mixer, clock | `AudioMixer.cs:29`; `RecordingClock.cs:37` | None found | READY | Keep; PipeWire timestamps assumed monotonic | S | Med |
 | Webcam capture | `CameraCapture.cs:55-74`; `CameraCaptureDevices.cs:45`; `Native/SourceReaderCallback.cs:46` | MF | SWAP | ffmpeg `v4l2` to raw pipe | M | Low |
 | Webcam overlay | `CameraOverlay.cs:71`; `CameraCircleShader.cs:63,138`; `Native/D3DCompiler.cs:33` | D3D11, HLSL | REWRITE | SkiaSharp composite | M | Med |
-| Recording controls | `ScreenRecordWindow.axaml.cs:697,705,885`; `ScreenRecorderBarWindow.axaml.cs:116,456` | Display affinity, GDI region | LIMITED: no capture exclusion found; placement unconfirmed | Keep controls outside crop | M | Low |
+| Recording controls | `ScreenRecordWindow.axaml.cs:697,705,885` | Display affinity, GDI region | LIMITED: no capture exclusion found; placement unconfirmed | Keep controls outside crop | M | Low |
 | Mouse highlighter | `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterMouseHook.cs:74` | Global hook | LIMITED: no global hook | Disable initially | S | Med |
 | Legacy FFmpeg capture | `ScreenRecordingOptions.cs:56,100-196`; `TaskSettings.cs:403` | gdigrab, ddagrab, dshow | DROP | Remove these sources | S | High |
 | Legacy encode args, two-pass, concat | `ScreenRecordingOptions.cs:208-338`; `SCL/ScreenRecording/ScreenRecorder.cs:258`; `FFmpegCLIManager.cs:282` | None found | UNVERIFIED | Keep; AMF/QSV need review | S | Med |
@@ -544,7 +544,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | Build targets | `ShareX/ShareX.csproj:3`, `Directory.Build.props:15,19`, `ShareX.HelpersLib/ShareX.HelpersLib.csproj` | Moved off `net10.0-windows`, win RIDs, WindowsDesktop in M1 | READY | None needed | L | H |
 | Start-up sequence | `ShareX/Program.cs:47-119` | None direct | UNVERIFIED | None | S | M |
 | UseNls | `ShareX/ShareX.csproj:59` | NLS | DROP | ICU, sort order may differ | S | H |
-| Personal folder, portable | `ShareX/Infrastructure/AppPaths.cs:41-44`, `PersonalPathManager.cs:42,118` | SpecialFolder; case-insensitive compare | UNVERIFIED | Keep; portable needs writable app dir | S | M |
+| Personal folder, portable | `ShareX/Infrastructure/AppPaths.cs:40-42,105`, `PersonalPathManager.cs:42,118` | Confirmed in M2: a missing `~/Documents` made `GetFolderPath` return "" and the path relative. Now `DoNotVerify`, so it's absolute and the folder gets created. A relative `HOME` refuses to start. Case-insensitive compare remains | READY | Keep; portable needs writable app dir | S | M |
 | Policy registry | `ShareX/SystemOptions.cs:34,51-86` | HKLM/HKCU | SWAP | `/etc/xdg/ShareX`, then `~/.config/ShareX` | S | H |
 | Autostart, shortcuts | `ShareX/StartupManager.cs:40,62-98`, `ShareX.HelpersLib/Helpers/ShortcutHelpers.cs:104` | `.lnk`, StartupApproved, WshShell, StartupTask | SWAP | `~/.config/autostart/*.desktop`, `Exec=… -silent`, `Hidden=true` as disabled | S | H |
 | Context menu | `ShareX/IntegrationHelpers.cs:42-55,115-176` | HKCU shell verbs | SWAP | `~/.local/share/kio/servicemenus`; Dolphin/KIO only | M | H |
@@ -592,10 +592,10 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | Placement restore | `ShareX.HistoryLib/Views/HistoryWindow.axaml.cs:190`; `ImageHistoryWindow.axaml.cs:162`; `ShareX/Presentation/ActionsToolbar/ActionsToolbarWindow.axaml.cs:264` | None | LIMITED | Expected on X11; native loses it | S | Medium |
 | Topmost windows | `ScreenColorPickerWindow.axaml:7`; `ShareX.Tools/Tools/PinToScreen/PinToScreenWindow.axaml.cs:109` | None | LIMITED | X11 atom; native needs KWin rule or layer-shell helper | M | Medium |
 | Transparency | `ScreenColorPickerWindow.axaml:8`; `ShareX.ScreenCaptureLib/Presentation/ScreenRecording/ScreenRecordWindow.axaml:20` | None | UNVERIFIED | X11 hint; native `SetTransparencyLevelHint` is a no-op | S | Medium |
-| Click-through, shaped regions | `ScrollingCaptureRegionWindow.axaml.cs:104`; `ScreenRecordWindow.axaml.cs:717-742` | `WS_EX_TRANSPARENT`, GDI regions | REWRITE | XShape input region on the XID; no Avalonia native API | M | Medium |
-| Tool-window style, Z-order | `ScreenRecordWindow.axaml.cs:696`; `ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:116,456` | `WS_EX_TOOLWINDOW`, `SetWindowPos` | SWAP | `ShowInTaskbar=False`, owned windows; native taskbar hint is a no-op (`WindowImpl.cs:285`) | S | Medium |
+| Click-through, shaped regions | `ScreenRecordWindow.axaml.cs:717-742`; `ScrollingCaptureRegionWindow` lost both in M2 | `WS_EX_TRANSPARENT`, GDI regions | REWRITE | XShape input region on the XID; no Avalonia native API | M | Medium |
+| Tool-window style, Z-order | `ScreenRecordWindow.axaml.cs:696`; `ScreenRecorderBarWindow` lost both in M2 | `WS_EX_TOOLWINDOW`, `SetWindowPos` | SWAP | `ShowInTaskbar=False`, owned windows; native taskbar hint is a no-op (`WindowImpl.cs:285`) | S | Medium |
 | Exclude from capture | `ScreenRecordWindow.axaml.cs:697` | `SetWindowDisplayAffinity` | LIMITED | No known equivalent; controls may appear in recordings | M | Low |
-| Taskbar flash | `ShareX.HelpersLib/Presentation/UpdateChecker/UpdateMessageWindow.axaml.cs:163` | `FlashWindowEx` | SWAP | Guard; X11 urgency hint or tray notification | S | Medium |
+| Taskbar flash | `ShareX.HelpersLib/Presentation/UpdateChecker/UpdateMessageWindow.axaml.cs:161` | `FlashWindowEx` call removed in M2, so a background update prompt only minimizes and no longer flashes | SWAP | X11 urgency hint or tray notification | S | Medium |
 | Cursor lock, HWND move | `ShareX.HelpersLib/Helpers/Helpers.cs:919,937` | `ClipCursor`, `SetWindowPos` | LIMITED | Guarded no-ops; cursor confinement lost | S | Medium |
 | Foreign-window tools | `ShareX.Tools/Tools/InspectWindow/InspectWindowWindow.axaml.cs:56`; `ShareX.Tools/Tools/BorderlessWindow/BorderlessWindowWindow.axaml.cs:57`; `ShareX.ScreenCaptureLib/Presentation/RegionCapture/RegionCaptureWindow.axaml.cs:519` | HWND enumeration and control | DROP | No client API; region capture needs its own window-detection plan | L | Medium |
 | Mouse highlighter overlay | `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterOverlayWindow.cs:54` | Native layered window | LIMITED | No global cursor for clients; loses system-wide tracking | L | Medium |
@@ -607,7 +607,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 
 | Tool | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
 |---|---|---|---|---|---|---|
-| AnalyzeImage | `ShareX.Tools/Tools/AnalyzeImage/AIOptions.cs:44` | DPAPI; failure is swallowed, so API keys save as plaintext | SWAP | Secret Service/KWallet | S | M |
+| AnalyzeImage | `ShareX.Tools/Tools/AnalyzeImage/AIOptions.cs:44` | API keys live in `ApplicationConfig.json` and `HotkeysConfig.json`, which never encrypted before M2. Both do now; save and reload run. The tool itself not run | UNVERIFIED | Secret Service | S | M |
 | AnimatedGifMaker | `ShareX.Tools/Tools/AnimatedGifMaker/AnimatedGifMakerViewModel.cs:239` | Fix A | SWAP | FileManager1 | S | H |
 | AnimatedGifTrimmer | `ShareX.Tools/Tools/AnimatedGifTrimmer/AnimatedGifTrimmerViewModel.cs:314` | Fix A | SWAP | FileManager1 | S | H |
 | BackgroundRemover | `ShareX.Tools/Tools/BackgroundRemover/BackgroundRemovalService.cs:163`, `:215` | DirectML, DXGI | SWAP | ONNX Runtime CUDA 1.27+; existing CPU fallback | S | M |

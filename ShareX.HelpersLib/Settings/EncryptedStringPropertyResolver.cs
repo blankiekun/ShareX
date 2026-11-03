@@ -32,7 +32,7 @@ using System.Reflection;
 
 namespace ShareX.HelpersLib
 {
-    public class DPAPIEncryptedStringPropertyResolver : WritablePropertiesOnlyResolver
+    public class EncryptedStringPropertyResolver : WritablePropertiesOnlyResolver
     {
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
@@ -44,7 +44,7 @@ namespace ShareX.HelpersLib
 
                 if (pi != null && pi.GetCustomAttribute(typeof(JsonEncryptAttribute), true) != null)
                 {
-                    prop.ValueProvider = new DPAPIEncryptedStringValueProvider(pi);
+                    prop.ValueProvider = new EncryptedStringValueProvider(pi);
                 }
             }
 

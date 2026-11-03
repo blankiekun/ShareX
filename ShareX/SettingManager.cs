@@ -180,7 +180,7 @@ namespace ShareX
             UploadersConfig = UploadersConfig.Load(UploadersConfigFilePath, BackupFolder, fallbackSupport);
             UploadersConfig.CreateBackup = true;
             UploadersConfig.CreateWeeklyBackup = true;
-            UploadersConfig.SupportDPAPIEncryption = true;
+            UploadersConfig.SettingsSaveFailed += Settings_SettingsSaveFailed;
             UploadersConfigBackwardCompatibilityTasks();
         }
 
@@ -189,6 +189,7 @@ namespace ShareX
             HotkeysConfig = HotkeysConfig.Load(HotkeysConfigFilePath, BackupFolder, fallbackSupport);
             HotkeysConfig.CreateBackup = true;
             HotkeysConfig.CreateWeeklyBackup = true;
+            HotkeysConfig.SettingsSaveFailed += Settings_SettingsSaveFailed;
             HotkeysConfigBackwardCompatibilityTasks();
         }
 
