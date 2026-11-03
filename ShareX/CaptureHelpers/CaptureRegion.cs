@@ -23,11 +23,8 @@
 
 #endregion License Information (GPL v3)
 
-using ShareX.HelpersLib;
 using ShareX.ScreenCaptureLib;
 using ShareX.ScreenCaptureLib.Presentation.RegionCapture;
-using SkiaSharp;
-using System.Drawing;
 using System.Threading.Tasks;
 using Bitmap = SkiaSharp.SKBitmap;
 
@@ -47,48 +44,12 @@ namespace ShareX
 
         protected async Task<TaskMetadata> ExecuteRegionCaptureAvaloniaAsync(TaskSettings taskSettings)
         {
-            Screenshot screenshot = TaskHelpers.GetScreenshot(taskSettings);
-            screenshot.CaptureCursor = false;
-
-            bool activeMonitorMode = taskSettings.CaptureSettings.RegionCaptureOptions.ActiveMonitorMode;
-            Rectangle screenBounds = activeMonitorMode
-                ? CaptureHelpers.GetActiveScreenBounds()
-                : CaptureHelpers.GetScreenBounds();
-
-            SKBitmap frozenScreenshot;
-            using (Bitmap canvas = activeMonitorMode
-                ? screenshot.CaptureActiveMonitor()
-                : screenshot.CaptureFullscreen())
-            {
-                frozenScreenshot = canvas.Copy();
-            }
-
-            SKBitmap cursorBitmap = null;
-            Point cursorPosition = Point.Empty;
-
-            if (taskSettings.CaptureSettings.ShowCursor)
-            {
-                CursorData cursorData = new CursorData();
-                if (cursorData.IsVisible)
-                {
-                    using Bitmap cursor = cursorData.ToBitmap(frozenScreenshot, screenBounds.Location);
-                    cursorBitmap = cursor.Copy();
-                    cursorPosition = new Point(
-                        cursorData.DrawPosition.X - screenBounds.X,
-                        cursorData.DrawPosition.Y - screenBounds.Y);
-                }
-            }
-
-            AvaloniaRegionCaptureRequest request = new AvaloniaRegionCaptureRequest
-            {
-                Screenshot = frozenScreenshot,
-                ScreenBounds = screenBounds,
-                RegionCaptureOptions = taskSettings.CaptureSettingsReference.RegionCaptureOptions,
-                ImageEditorOptions = taskSettings.ToolsSettingsReference.ImageEditorOptions,
-                EnableAnnotations = !taskSettings.AdvancedSettings.RegionCaptureDisableAnnotation,
-                CursorBitmap = cursorBitmap,
-                CursorPosition = cursorPosition
-            };
+            // Spectacle draws the cursor into the frozen screenshot, so it can't be moved or removed as an annotation.
+            AvaloniaRegionCaptureRequest request = await RegionCaptureTasks.CreateRequestAsync(
+                taskSettings.CaptureSettingsReference.RegionCaptureOptions,
+                taskSettings.ToolsSettingsReference.ImageEditorOptions,
+                !taskSettings.AdvancedSettings.RegionCaptureDisableAnnotation,
+                taskSettings.CaptureSettings.ShowCursor);
 
             AvaloniaRegionCaptureResult result = await RegionCaptureIntegration.CaptureAsync(request);
             if (result == null)

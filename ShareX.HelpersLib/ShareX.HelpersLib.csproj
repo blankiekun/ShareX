@@ -8,6 +8,7 @@
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="Tmds.DBus.Protocol" />
     <!-- Compile only: these throw or do nothing on Linux until the code using them is replaced. -->
     <PackageReference Include="System.Drawing.Common" />
     <PackageReference Include="System.Management" />

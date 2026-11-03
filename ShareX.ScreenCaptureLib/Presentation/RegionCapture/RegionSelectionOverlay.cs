@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -206,11 +206,13 @@ public sealed class RegionSelectionOverlay : Control
 
         if (IsValid(active))
         {
+            // Not clipped to this monitor: a selection crossing the edge has no outline along that edge.
+            Rect outline = ActiveRectangle;
             Rect antRectangle = new(
-                active.X + 0.5,
-                active.Y + 0.5,
-                Math.Max(0, active.Width - 1),
-                Math.Max(0, active.Height - 1));
+                outline.X + 0.5,
+                outline.Y + 0.5,
+                Math.Max(0, outline.Width - 1),
+                Math.Max(0, outline.Height - 1));
             DrawAntRectangle(context, antRectangle);
 
             if (ShowCenterCrosshair && IsValid(SelectionRectangle))
@@ -237,13 +239,21 @@ public sealed class RegionSelectionOverlay : Control
     private void DrawCursorCrosshair(DrawingContext context, Rect surface)
     {
         const double cursorGap = 5;
-        double x = Math.Clamp(Math.Floor(CursorPosition.X), surface.Left, Math.Max(surface.Left, surface.Right - 1)) + 0.5;
-        double y = Math.Clamp(Math.Floor(CursorPosition.Y), surface.Top, Math.Max(surface.Top, surface.Bottom - 1)) + 0.5;
+        // Not clamped: with the cursor on another monitor, the lines continue from it across this one.
+        double x = Math.Floor(CursorPosition.X) + 0.5;
+        double y = Math.Floor(CursorPosition.Y) + 0.5;
 
-        DrawAntLineIfVisible(context, new Point(surface.Left, y), new Point(x - cursorGap, y));
-        DrawAntLineIfVisible(context, new Point(x + cursorGap, y), new Point(surface.Right, y));
-        DrawAntLineIfVisible(context, new Point(x, surface.Top), new Point(x, y - cursorGap));
-        DrawAntLineIfVisible(context, new Point(x, y + cursorGap), new Point(x, surface.Bottom));
+        if (y >= surface.Top && y < surface.Bottom)
+        {
+            DrawAntLineIfVisible(context, new Point(surface.Left, y), new Point(Math.Min(x - cursorGap, surface.Right), y));
+            DrawAntLineIfVisible(context, new Point(Math.Max(x + cursorGap, surface.Left), y), new Point(surface.Right, y));
+        }
+
+        if (x >= surface.Left && x < surface.Right)
+        {
+            DrawAntLineIfVisible(context, new Point(x, surface.Top), new Point(x, Math.Min(y - cursorGap, surface.Bottom)));
+            DrawAntLineIfVisible(context, new Point(x, Math.Max(y + cursorGap, surface.Top)), new Point(x, surface.Bottom));
+        }
     }
 
     private void DrawAntLineIfVisible(DrawingContext context, Point start, Point end)

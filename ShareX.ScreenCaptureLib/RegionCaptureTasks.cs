@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -28,8 +28,10 @@
 using ShareX.HelpersLib;
 using ShareX.ImageEditor.Integration;
 using ShareX.ScreenCaptureLib.Presentation.RegionCapture;
-using SkiaSharp;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using Bitmap = SkiaSharp.SKBitmap;
 
@@ -66,7 +68,7 @@ public static class RegionCaptureTasks
         }
     }
 
-    public static async Task<(Rectangle Rectangle, WindowInfo? WindowInfo)?> GetRectangleRegionAsync(
+    public static async Task<(Rectangle Rectangle, KWinWindow? WindowInfo)?> GetRectangleRegionAsync(
         RegionCaptureOptions? options = null)
     {
         AvaloniaRegionCaptureResult? result = await CaptureAsync(options);
@@ -83,32 +85,51 @@ public static class RegionCaptureTasks
     {
         options ??= new RegionCaptureOptions();
 
-        Screenshot screenshot = new Screenshot
-        {
-            CaptureCursor = false
-        };
+        AvaloniaRegionCaptureRequest request;
 
-        Rectangle screenBounds = options.ActiveMonitorMode
-            ? CaptureHelpers.GetActiveScreenBounds()
-            : CaptureHelpers.GetScreenBounds();
-
-        SKBitmap frozenScreenshot;
-        using (Bitmap canvas = options.ActiveMonitorMode
-            ? screenshot.CaptureActiveMonitor()
-            : screenshot.CaptureFullscreen())
+        try
         {
-            frozenScreenshot = canvas.Copy();
+            request = await CreateRequestAsync(options, new ImageEditorOptions(), false, false);
+        }
+        catch (Exception e) when (e is ScreenCaptureException or KWinScriptException)
+        {
+            DebugHelper.WriteException(e);
+            e.ShowError(false);
+            return null;
         }
 
-        AvaloniaRegionCaptureRequest request = new AvaloniaRegionCaptureRequest
-        {
-            Screenshot = frozenScreenshot,
-            ScreenBounds = screenBounds,
-            RegionCaptureOptions = options,
-            ImageEditorOptions = new ImageEditorOptions(),
-            EnableAnnotations = false
-        };
-
         return await RegionCaptureIntegration.CaptureAsync(request);
+    }
+
+    /// <summary>Freezes the desktop for region capture. Windows are listed first, so ShareX's overlay is not among them.</summary>
+    /// <exception cref="ScreenCaptureException">Spectacle failed.</exception>
+    /// <exception cref="KWinScriptException">KWin did not answer.</exception>
+    public static Task<AvaloniaRegionCaptureRequest> CreateRequestAsync(RegionCaptureOptions options, ImageEditorOptions imageEditorOptions,
+        bool enableAnnotations, bool includeCursor)
+    {
+        return Task.Run(() =>
+        {
+            KWinDesktop desktop = KWinDesktop.Query();
+            SpectacleImage image = SpectacleCapture.Capture(
+                options.ActiveMonitorMode ? SpectacleMode.ActiveMonitor : SpectacleMode.AllMonitors, includeCursor);
+
+            IReadOnlyList<KWinOutput> outputs = options.ActiveMonitorMode
+                ? [desktop.Outputs.FirstOrDefault(x => x.Name == image.ScreenName) ??
+                    desktop.Outputs.FirstOrDefault(x => x.Name == desktop.ActiveOutputName) ??
+                    desktop.Outputs[0]]
+                : desktop.Outputs;
+
+            return new AvaloniaRegionCaptureRequest
+            {
+                Screenshot = image.Bitmap,
+                Coordinates = desktop.Coordinates.ForImage(outputs, new Size(image.Bitmap.Width, image.Bitmap.Height)),
+                Outputs = outputs,
+                Windows = desktop.Windows,
+                Cursor = desktop.Cursor,
+                RegionCaptureOptions = options,
+                ImageEditorOptions = imageEditorOptions,
+                EnableAnnotations = enableAnnotations
+            };
+        });
     }
 }

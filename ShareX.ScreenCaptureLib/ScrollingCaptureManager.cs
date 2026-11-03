@@ -218,9 +218,10 @@ namespace ShareX.ScreenCaptureLib
                 return false;
             }
 
+            // shortcut: scrolling still needs an HWND, so it finds no window on Linux until its own row is ported.
             selectedRectangle = selection.Value.Rectangle;
-            selectedWindow = selection.Value.WindowInfo;
-            return selectedWindow != null;
+            selectedWindow = null;
+            return false;
         }
 
         private bool IsScrollReachedBottom(IntPtr handle)

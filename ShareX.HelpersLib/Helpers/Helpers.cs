@@ -934,24 +934,6 @@ namespace ShareX.HelpersLib
             }
         }
 
-        public static void LockCursorToWindow(Avalonia.Controls.Window window)
-        {
-            window.Activated += (sender, e) =>
-            {
-                IntPtr handle = window.TryGetPlatformHandle()?.Handle ?? IntPtr.Zero;
-                if (OperatingSystem.IsWindows() && handle != IntPtr.Zero)
-                {
-                    Rectangle bounds = NativeMethods.GetWindowRect(handle);
-                    if (bounds.Width > 0 && bounds.Height > 0)
-                    {
-                        NativeMethods.ClipCursor(new RECT(bounds));
-                    }
-                }
-            };
-            window.Deactivated += (sender, e) => { if (OperatingSystem.IsWindows()) NativeMethods.ClipCursor(IntPtr.Zero); };
-            window.Closed += (sender, e) => { if (OperatingSystem.IsWindows()) NativeMethods.ClipCursor(IntPtr.Zero); };
-        }
-
         public static bool IsDefaultSettings<T>(IEnumerable<T> current, IEnumerable<T> source, Func<T, T, bool> predicate)
         {
             if (current != null && current.Count() > 0)
