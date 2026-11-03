@@ -66,7 +66,11 @@ internal sealed partial class GsrSession : IDisposable
     {
         this.socketPath = socketPath;
         this.firstFrameFile = firstFrameFile;
-        ProcessStartInfo info = new(recorderPath, arguments)
+        // gsr has no consent prompt or indicator, so it must not keep recording if ShareX dies. The kernel sends the signal
+        // when the thread that started it exits, and that's the recording thread, which outlives this session.
+        string guard = HostTools.FindOnPath("setpriv")
+            ?? throw new FileNotFoundException("setpriv wasn't found, so gpu-screen-recorder couldn't be stopped if ShareX crashed. Install util-linux.");
+        ProcessStartInfo info = new(guard, ["--pdeathsig", "INT", "--", recorderPath, .. arguments])
         {
             UseShellExecute = false,
             // gsr's output goes to pipes, never a regular file: it corrupts the video when its stdout is one.

@@ -96,6 +96,24 @@ namespace ShareX
             }
         }
 
+        /// <summary>Ends a recording because ShareX was asked to quit. What's been recorded is saved; a recording with no frames yet is dropped.</summary>
+        public static void FinishRecording()
+        {
+            configurationBar?.Cancel();
+            if (!IsRecording || recordForm == null || recordForm.IsDisposed) return;
+            switch (recordForm.Status)
+            {
+                case ScreenRecordingStatus.Recording:
+                case ScreenRecordingStatus.Paused:
+                    recordForm.StartStopRecording();
+                    break;
+                case ScreenRecordingStatus.Waiting:
+                case ScreenRecordingStatus.Working:
+                    recordForm.AbortRecording();
+                    break;
+            }
+        }
+
         private static async Task StartRecording(ScreenRecordOutput outputType, TaskSettings taskSettings, ScreenRecordStartMethod startMethod = ScreenRecordStartMethod.Region)
         {
             bool useNative = taskSettings.CaptureSettings.ScreenRecordUseNative;
