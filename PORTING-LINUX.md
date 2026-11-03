@@ -91,7 +91,6 @@ assume a requested key became active.
 - **Two audio tracks when both sources are on.** A silent microphone can only be detected on its own track (ffprobe bytes per packet, logged through `Diagnostic`). The cost: players that only play the first track won't play the microphone, where the Windows mixer made one track.
 - **GIF:** `RecordNativeAsync` records a constant-frame-rate MP4, then calls `FFmpegEncodeAsGIF` with a crop, because gsr rounds odd sizes up to even. The crop runs in RGB: on 4:2:0 video `crop` silently rounds odd sizes and offsets down (run). `GifWriter` is deleted, so GIF quality now starts from 4:2:0 H.264 (colored text edges are the likely loss, not viewed yet).
 - **Frame rate:** MP4 stays variable, because the man page warns `-fm cfr` can collapse to 1 to 2 fps under heavy GPU load.
-- **Depends on M3:** `FFmpegOptions.FFmpegPath` and `FFmpegCLIManager.Run` still require `ffmpeg.exe`, so GIF encoding can't succeed in the app until M3 lands. The finished MP4 is kept and named in the error until then.
 
 **Where reports disagreed:** subsystem tables win over the checklist in 5.1, whose rows are best guesses. Specifically:
 wallpaper is read-only, so nothing sets a wallpaper (the checklist's "Plasma wallpaper API" means reading it). OCR is a `SWAP`
@@ -197,7 +196,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | ScreenRecorderActiveWindow | TH:160; ShareX/ScreenRecordManager.cs:172 | Owner recording: GetForegroundWindow | LIMITED: refused with a clear error when a window handle is passed; gsr has no window capture on Wayland | Portal ScreenCast later (V) | L | Med |
 | ScreenRecorderCustomRegion | TH:163 | Owner recording | UNVERIFIED | Done in M6: `-w WxH+X+Y`, must fit one monitor | S | Med |
 | StartScreenRecorder | TH:166 | Owner recording | UNVERIFIED | As ScreenRecorder | S | Med |
-| ScreenRecorderGIF | TH:169 | Owner recording, `FFmpegEncodeAsGIF` | UNVERIFIED | Done in M6: record MP4, then FFmpeg; needs M3's FFmpeg path fix to work in the app | S | Med |
+| ScreenRecorderGIF | TH:169 | Owner recording, `FFmpegEncodeAsGIF` | UNVERIFIED | Done in M6: record MP4, then FFmpeg | S | Med |
 | ScreenRecorderGIFActiveWindow | TH:172 | Owner recording | LIMITED: as active window | Portal ScreenCast later (V) | L | Med |
 | ScreenRecorderGIFCustomRegion | TH:175 | Owner recording | UNVERIFIED | As GIF recorder | S | Med |
 | StartScreenRecorderGIF | TH:178 | Owner recording | UNVERIFIED | As GIF recorder | S | Med |
@@ -496,7 +495,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | Failure handling | `SRL/Gsr/GsrSession.cs`; `SRL/Gsr/HostTools.cs` | Exit codes 0, 1, 2, 50, 51, 126; black video markers; SIGKILL | UNVERIFIED | Each path run on the stub, plus the recorder ignoring every stop | S | High |
 | Frame and drop counts | `SRL/RecordingOptions.cs` | gsr reports none; ffprobe | LIMITED: dropped frames and audio discontinuities are always -1 | Frames from ffprobe; -1 without it | S | High |
 | GIF input | `SX/ScreenRecordManager.cs` `RecordNativeAsync` | gsr, `-fm cfr` | UNVERIFIED | MP4 first, because gsr has no raw frames; `GifWriter` deleted | S | Med |
-| GIF encode | `SCL/ScreenRecording/ScreenRecorder.cs` `FFmpegEncodeAsGIF`; `SX/ScreenRecordManager.cs` `EncodeNativeGif` | FFmpeg | LIMITED: quality starts from 4:2:0 H.264 instead of lossless BGRA | ShareX's method run on real FFmpeg with generated clips; 801x601 output and crop offset measured. Blocked in the app until M3 removes the guards | S | Med |
+| GIF encode | `SCL/ScreenRecording/ScreenRecorder.cs` `FFmpegEncodeAsGIF`; `SX/ScreenRecordManager.cs` `EncodeNativeGif` | FFmpeg | LIMITED: quality starts from 4:2:0 H.264 instead of lossless BGRA | ShareX's method run on real FFmpeg with generated clips; 801x601 output and crop offset measured. | S | Med |
 | System audio, mic | `SRL/Gsr/GsrCommand.cs`; `SRL/ScreenRecorder.cs` | gsr `-a` | LIMITED: two tracks when both are on, so first-track players miss the microphone | Empty track logged through `Diagnostic`, not shown in the UI; stub with generated silent AAC (6 bytes per packet, as measured on the Blue mic) | S | Med |
 | Audio gain | `SRL/RecordingOptions.cs` | gsr has no option | LIMITED: gain settings are ignored and logged | None | S | High |
 | Audio device lists | `SRL/AudioCaptureDevices.cs`; `SX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:82` | `pactl -f json` | UNVERIFIED | JSON shape from memory, run only against a fake `pactl`; saved Windows IDs fail with exit 50 and a clear error | S | Med |
