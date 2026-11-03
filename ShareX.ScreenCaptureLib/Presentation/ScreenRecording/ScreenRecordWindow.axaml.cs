@@ -39,7 +39,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using AvaloniaBitmap = Avalonia.Media.Imaging.Bitmap;
 using DrawingColor = System.Drawing.Color;
@@ -57,8 +56,6 @@ public partial class ScreenRecordWindow : Window, IDisposable
     private const int ActionButtonCount = 4;
     private const double ToolbarWidth = 461;
     private const double ToolbarHeight = 42;
-    private const int RegionOr = 2;
-    private const int RegionDiff = 4;
 
     private readonly int _captureWidth;
     private readonly int _captureHeight;
@@ -92,7 +89,6 @@ public partial class ScreenRecordWindow : Window, IDisposable
     public event Action? PauseRequested;
     public event Action? ResumeRequested;
     public bool UseInProcessPause { get; set; }
-    public bool ExcludeFromCapture { get; set; }
 
     public ScreenRecordingStatus Status
     {
@@ -602,9 +598,6 @@ public partial class ScreenRecordWindow : Window, IDisposable
         double scaling = GetScreenScaling(_initialPosition);
         ConfigureGeometry(scaling);
         Helpers.EnsureWindowPosition(this, _initialPosition.X - _frameLeftPixels, _initialPosition.Y);
-        ApplyToolWindowStyle();
-        ApplyNativeWindowRegion();
-        Dispatcher.UIThread.Post(ApplyNativeWindowRegion, DispatcherPriority.Loaded);
 
         if (ActivateWindow)
         {
@@ -667,11 +660,6 @@ public partial class ScreenRecordWindow : Window, IDisposable
 
             Width = contentWidthPixels / _windowScaling;
             Height = frameHeight + gap + ToolbarHeight;
-
-            if (IsVisible)
-            {
-                Dispatcher.UIThread.Post(ApplyNativeWindowRegion, DispatcherPriority.Loaded);
-            }
         }
         finally
         {
@@ -684,70 +672,11 @@ public partial class ScreenRecordWindow : Window, IDisposable
         return Screens.ScreenFromPoint(point)?.Scaling ?? Screens.Primary?.Scaling ?? 1;
     }
 
-    private void ApplyToolWindowStyle()
-    {
-        IntPtr handle = TryGetPlatformHandle()?.Handle ?? IntPtr.Zero;
-        if (handle == IntPtr.Zero)
-        {
-            return;
-        }
-
-        WindowInfo info = new(handle);
-        info.ExStyle |= WindowStyles.WS_EX_TOOLWINDOW;
-        if (ExcludeFromCapture && !NativeMethods.SetWindowDisplayAffinity(handle, 0x11)) // WDA_EXCLUDEFROMCAPTURE
-        {
-            DebugHelper.WriteLine("Could not exclude the recording controls from capture. Win32 error: {0}", Marshal.GetLastWin32Error());
-        }
-    }
-
-    private void ApplyNativeWindowRegion()
-    {
-        IntPtr handle = TryGetPlatformHandle()?.Handle ?? IntPtr.Zero;
-        if (handle == IntPtr.Zero)
-        {
-            return;
-        }
-
-        int frameWidth = _captureWidth + BorderPixels * 2;
-        int frameHeight = _captureHeight + BorderPixels * 2;
-        int toolbarTop = frameHeight + ToolbarGapPixels;
-        int toolbarWidth = (int)Math.Ceiling(DisplayedToolbarWidth * _windowScaling);
-        int toolbarHeight = (int)Math.Ceiling(ToolbarHeight * _windowScaling);
-
-        IntPtr windowRegion = CreateRectRgn(_frameLeftPixels, 0, _frameLeftPixels + frameWidth, frameHeight);
-        IntPtr apertureRegion = CreateRectRgn(
-            _frameLeftPixels + BorderPixels,
-            BorderPixels,
-            _frameLeftPixels + frameWidth - BorderPixels,
-            frameHeight - BorderPixels);
-        IntPtr toolbarRegion = CreateRectRgn(
-            _toolbarLeftPixels,
-            toolbarTop,
-            _toolbarLeftPixels + toolbarWidth,
-            toolbarTop + toolbarHeight);
-
-        if (windowRegion == IntPtr.Zero || apertureRegion == IntPtr.Zero || toolbarRegion == IntPtr.Zero)
-        {
-            DeleteRegion(windowRegion);
-            DeleteRegion(apertureRegion);
-            DeleteRegion(toolbarRegion);
-            return;
-        }
-
-        CombineRgn(windowRegion, windowRegion, apertureRegion, RegionDiff);
-        CombineRgn(windowRegion, windowRegion, toolbarRegion, RegionOr);
-        DeleteObject(apertureRegion);
-        DeleteObject(toolbarRegion);
-
-        if (SetWindowRgn(handle, windowRegion, true) == 0)
-        {
-            DeleteObject(windowRegion);
-        }
-    }
-
     private void OnTimerPointerPressed(object? sender, PointerPressedEventArgs e)
     {
+        // gpu-screen-recorder can't move a running capture, so the frame must not move away from it during a pause.
         if (Status is not (ScreenRecordingStatus.Waiting or ScreenRecordingStatus.Paused) ||
+            (UseInProcessPause && Status == ScreenRecordingStatus.Paused) ||
             !e.GetCurrentPoint(TimerDragHandle).Properties.IsLeftButtonPressed)
         {
             return;
@@ -873,24 +802,4 @@ public partial class ScreenRecordWindow : Window, IDisposable
     {
         Dispatcher.UIThread.Post(action);
     }
-
-    private static void DeleteRegion(IntPtr region)
-    {
-        if (region != IntPtr.Zero)
-        {
-            DeleteObject(region);
-        }
-    }
-
-    [DllImport("gdi32.dll")]
-    private static extern IntPtr CreateRectRgn(int left, int top, int right, int bottom);
-
-    [DllImport("gdi32.dll")]
-    private static extern int CombineRgn(IntPtr destination, IntPtr source1, IntPtr source2, int combineMode);
-
-    [DllImport("gdi32.dll")]
-    private static extern bool DeleteObject(IntPtr handle);
-
-    [DllImport("user32.dll")]
-    private static extern int SetWindowRgn(IntPtr windowHandle, IntPtr regionHandle, bool redraw);
 }

@@ -27,11 +27,11 @@ using System.Diagnostics;
 
 namespace ShareX.ScreenRecordingLib;
 
-/// <summary>WGC SystemRelativeTime and WASAPI QPCPosition both use the system QPC epoch, in 100 ns.</summary>
+/// <summary>Recording time excluding pauses, in 100 ns, from a monotonic clock.</summary>
 internal sealed class RecordingClock
 {
     private readonly object sync = new();
-    private long origin, pauseStarted, pausedTime, segmentStart, stoppedElapsed;
+    private long origin, pauseStarted, pausedTime, stoppedElapsed;
     private bool started, paused, stopped;
 
     public static long Now => (long)((Int128)Stopwatch.GetTimestamp() * TimeSpan.TicksPerSecond / Stopwatch.Frequency);
@@ -40,7 +40,7 @@ internal sealed class RecordingClock
 
     public void Start(long timestamp)
     {
-        lock (sync) { origin = segmentStart = timestamp; started = true; }
+        lock (sync) { origin = timestamp; started = true; }
     }
 
     public void Pause()
@@ -57,8 +57,7 @@ internal sealed class RecordingClock
         {
             if (paused && !stopped)
             {
-                segmentStart = Now;
-                pausedTime += segmentStart - pauseStarted;
+                pausedTime += Now - pauseStarted;
                 paused = false;
             }
         }
@@ -72,16 +71,6 @@ internal sealed class RecordingClock
             stoppedElapsed = started ? (paused ? pauseStarted : Now) - origin - pausedTime : 0;
             stopped = true;
             paused = false;
-        }
-    }
-
-    public bool TryMap(long timestamp, out long relative, out long segment)
-    {
-        lock (sync)
-        {
-            relative = timestamp - origin - pausedTime;
-            segment = segmentStart;
-            return started && !paused && !stopped && timestamp >= segmentStart;
         }
     }
 }

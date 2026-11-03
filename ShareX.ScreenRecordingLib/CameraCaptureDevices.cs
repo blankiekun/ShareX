@@ -23,38 +23,14 @@
 
 #endregion License Information (GPL v3)
 
-using ShareX.ScreenRecordingLib.Native;
-using Vortice.MediaFoundation;
-
 namespace ShareX.ScreenRecordingLib;
 
-/// <summary>A Windows camera. Id is its persistent Media Foundation symbolic link.</summary>
 public sealed record CameraCaptureDevice(string Id, string Name);
 
-public static unsafe class CameraCaptureDevices
+public static class CameraCaptureDevices
 {
-    public static IReadOnlyList<CameraCaptureDevice> GetCameras()
-    {
-        HRESULT initialized = NativeMethods.CoInitializeEx(null, COINIT.COINIT_MULTITHREADED);
-        if (initialized.Value != unchecked((int)0x80010106)) initialized.ThrowOnFailure(); // UI may already be STA.
-        bool started = false;
-        try
-        {
-            MediaFactory.MFStartup(true).CheckError();
-            started = true;
-            using var devices = MediaFactory.MFEnumVideoDeviceSources();
-            List<CameraCaptureDevice> result = new();
-            foreach (IMFActivate device in devices)
-                result.Add(new(device.GetString(CaptureDeviceAttributeKeys.SourceTypeVidcapSymbolicLink),
-                    device.GetString(CaptureDeviceAttributeKeys.FriendlyName)));
-            return result;
-        }
-        finally
-        {
-            if (started) MediaFactory.MFShutdown();
-            if (initialized.Succeeded) NativeMethods.CoUninitialize();
-        }
-    }
+    /// <summary>Always empty: the camera overlay isn't available with gpu-screen-recorder yet, so no camera can be chosen.</summary>
+    public static IReadOnlyList<CameraCaptureDevice> GetCameras() => [];
 }
 
 public enum CameraOverlayPosition { TopLeft, TopRight, BottomLeft, BottomRight }
