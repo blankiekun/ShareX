@@ -23,86 +23,21 @@
 
 #endregion License Information (GPL v3)
 
-using ShareX.HelpersLib;
-using Windows.Globalization;
-using Windows.Graphics.Imaging;
-using Windows.Media.Ocr;
-using Windows.Storage.Streams;
 using Bitmap = SkiaSharp.SKBitmap;
-using ImageFormat = SkiaSharp.SKEncodedImageFormat;
 
 namespace ShareX.Tools;
 
+// shortcut: OCR always fails because Windows.Media.Ocr does not exist on Linux, replace with Tesseract in M7.
 public static class OCRHelper
 {
-    private const string SupportedVersion = "10.0.18362.0";
+    private const string Unavailable = "OCR is not available on Linux yet.";
 
-    public static bool IsSupported => Helpers.OSVersion >= new Version(SupportedVersion);
+    public static bool IsSupported => false;
 
-    public static OCRLanguageOption[] AvailableLanguages
-    {
-        get
-        {
-            ThrowIfNotSupported();
-            return OcrEngine.AvailableRecognizerLanguages
-                .Select(x => new OCRLanguageOption(x.DisplayName, x.LanguageTag))
-                .ToArray();
-        }
-    }
+    public static OCRLanguageOption[] AvailableLanguages => throw new InvalidOperationException(Unavailable);
 
-    public static void ThrowIfNotSupported()
-    {
-        if (!IsSupported)
-        {
-            throw new InvalidOperationException(
-                string.Format(Localization.Strings.OCRHelper_Requires_Windows_version, SupportedVersion));
-        }
-    }
+    public static void ThrowIfNotSupported() => throw new InvalidOperationException(Unavailable);
 
-    public static async Task<string> OCR(Bitmap bitmap, string languageTag = "en", float scaleFactor = 1f,
-        bool singleLine = false)
-    {
-        ThrowIfNotSupported();
-        scaleFactor = Math.Max(scaleFactor, 1f);
-
-        return await Task.Run(async () =>
-        {
-            using Bitmap scaledBitmap = SkiaImageHelpers.ScaleImageFast(bitmap, scaleFactor);
-            return await OCRInternal(scaledBitmap, languageTag, singleLine);
-        });
-    }
-
-    private static async Task<string> OCRInternal(Bitmap bitmap, string languageTag, bool singleLine)
-    {
-        Language language = new(languageTag);
-        if (!OcrEngine.IsLanguageSupported(language))
-        {
-            throw new InvalidOperationException(string.Format(Localization.Strings.OCRHelper_Language_unavailable, language.DisplayName));
-        }
-
-        OcrEngine engine = OcrEngine.TryCreateFromLanguage(language);
-        using InMemoryRandomAccessStream stream = new();
-        bitmap.Save(stream.AsStream(), ImageFormat.Png);
-        stream.Seek(0);
-        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-        using SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync();
-        OcrResult result = await engine.RecognizeAsync(softwareBitmap);
-
-        IEnumerable<string> lines;
-        if (language.LanguageTag.StartsWith("zh", StringComparison.OrdinalIgnoreCase) ||
-            language.LanguageTag.StartsWith("ja", StringComparison.OrdinalIgnoreCase))
-        {
-            lines = result.Lines.Select(line => string.Concat(line.Words.Select(word => word.Text)));
-        }
-        else if (language.LayoutDirection == LanguageLayoutDirection.Rtl)
-        {
-            lines = result.Lines.Select(line => string.Join(" ", line.Words.Reverse().Select(word => word.Text)));
-        }
-        else
-        {
-            lines = result.Lines.Select(line => line.Text);
-        }
-
-        return string.Join(singleLine ? " " : Environment.NewLine, lines);
-    }
+    public static Task<string> OCR(Bitmap bitmap, string languageTag = "en", float scaleFactor = 1f,
+        bool singleLine = false) => Task.FromException<string>(new InvalidOperationException(Unavailable));
 }

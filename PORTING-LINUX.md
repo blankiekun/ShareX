@@ -49,10 +49,10 @@ The other tables overlap with the checklist, so their rows aren't added to these
 | # | Item | Where | Why |
 |---|---|---|---|
 | 1 | Secrets can be written in plaintext | `ShareX.HelpersLib/Settings/DPAPIEncryptedStringValueProvider.cs` (`GetValue`) | An empty `catch` returns the plain value when encryption fails, which is expected on Linux. Covers `UploadersConfig.json` and AI API keys. **Fix before any Linux build saves settings** |
-| 2 | Props files aren't imported on Linux | `Directory.build.props`, `Directory.build.targets` | MSBuild looks for `Directory.Build.*` and Linux is case-sensitive, so the build gets version 1.0.0. Rename them, update `build.yml:43`, and make the RID `linux-x64` in the same change, or x64 builds produce a `win-x64` `.exe` |
-| 3 | Resource path casing | `ShareX.UploadersLib/Properties/Resources.resx:17` | Points to `..\resources\oauthcallbackpage.html`; the file is `Resources/OAuthCallbackPage.html` |
-| 4 | Windows-only targets | 10 projects; `ShareX.HelpersLib.csproj` references `Microsoft.WindowsDesktop.App` | `NETSDK1100` on Linux |
-| 5 | Hotkey host crashes start-up | `ShareX/Forms/MainForm.cs:47`, `ShareX.HelpersLib/Input/WindowsHotkeyHost.cs:55` | First hard crash; the ctor throws off Windows before the tray exists |
+| 2 | Done in M1: props files weren't imported on Linux | `Directory.Build.props`, `Directory.Build.targets` | MSBuild looks for `Directory.Build.*` and Linux is case-sensitive, so the build got version 1.0.0. Renamed, with the RID set to `linux-x64` |
+| 3 | Done in M1: resource path casing | `ShareX.UploadersLib/Properties/Resources.resx:17` | Pointed to `..\resources\oauthcallbackpage.html`; the file is `Resources/OAuthCallbackPage.html` |
+| 4 | Done in M1: Windows-only targets | All projects now target `net10.0`; `Microsoft.WindowsDesktop.App` removed from `ShareX.HelpersLib.csproj` | Was `NETSDK1100` on Linux |
+| 5 | Done in M1: hotkey host crashed start-up | `ShareX/Forms/MainForm.cs:47`, `ShareX.HelpersLib/Input/NullHotkeyHost.cs` | `MainForm` now builds a host that registers nothing, so hotkeys do nothing until M5 |
 | 6 | Portable mode collides with the binary | `ShareX/Infrastructure/AppPaths.cs:42` | The folder `ShareX` has the same name as the `ShareX` apphost. In the test, the run fell back to `~/Documents/ShareX` and crashed with "Avalonia is already initialized" |
 
 ## 3. Suggested order
@@ -60,7 +60,7 @@ The other tables overlap with the checklist, so their rows aren't added to these
 1. **Build:** items 2 to 5 above, plus stubs for `OCRHelper.cs`, `GraphicsCapture.cs` and the WinRT part of `GraphicsDevice.cs`.
    Remove `ShareX.Steam` and `ShareX.Setup`. Add the 4 compile-time packages
    (`System.Drawing.Common`, `System.Security.Cryptography.ProtectedData`, `System.Windows.Extensions`, `System.Management`).
-   Result: the main window runs from a real branch. The rename has only been tested on the editor, not full ShareX.
+   Done in M1: both builds give 0 errors and an ELF apphost, and the main window opens with the title "ShareX 22.1 Dev".
 2. **Safety:** the plaintext secrets fix, the version and handle guards, the portable folder.
 3. **Cheap shared fixes:** the `.exe` check in `FFmpegCLIManager.cs:89`, folder opening in `FileHelpers.cs:294,337`, path
    and separator handling. Together these unlock about a dozen tools. Delete dead code too: 77 of the 159 `NativeMethods.cs`
@@ -234,7 +234,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | AnimatedGifTrimmer | TH:315; TH:1131 | Owner tools: only grep hit is portable `ICommand` | UNVERIFIED | None | S | Med |
 | VideoThumbnailer | TH:318; ShareX.Tools/Tools/VideoThumbnailer/VideoThumbnailer.cs:53 | Owner tools: `.exe` guard | SWAP | /usr/bin/ffmpeg (V) | S | High |
 | AnalyzeImage | TH:321; TH:1872 | Owner tools: HTTP AI; `[JsonEncrypt]` options at ShareX.Tools/Tools/AnalyzeImage/AIOptions.cs:44 | UNVERIFIED | None | S | Med |
-| OCR | TH:324; ShareX.Tools/Tools/OCR/OCRHelper.cs:28-29 | Owner tools: `Windows.Media.Ocr` | REWRITE | tesseract (V) | M | High |
+| OCR | TH:324; ShareX.Tools/Tools/OCR/OCRHelper.cs (stubbed in M1, always fails) | Owner tools: was `Windows.Media.Ocr` | REWRITE | tesseract (V) | M | High |
 | QRCode | TH:334; TH:1730 | Owner tools: ZXing, Skia | UNVERIFIED | None | S | Med |
 | QRCodeDecodeFromScreen | TH:344; TH:1749 | Owner tools plus capture | SWAP | Portal Screenshot (V) | S | Med |
 | QRCodeScanRegion | TH:347; TH:1754 | Owner tools plus capture | LIMITED: as Region | As Region | S | Med |
@@ -350,7 +350,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Auto-update, dev builds | ShareX.HelpersLib/UpdateChecker/GitHubUpdateChecker.cs:174; TH:2634 | Setup `.exe` assets | DROP | Distribution packaging (A) | S | High |
 | Steam build | ShareX/Presentation/ApplicationSettings/ApplicationSettingsViewModel.cs:162 | Windows launcher | DROP | None | S | Med |
 | Microsoft Store build | ShareX/Enums.cs:30-31 | Windows.ApplicationModel | DROP | None | S | High |
-| Installer | ShareX.Setup/ShareX.Setup.csproj:3 | Windows setup | DROP | Distribution packaging (A) | M | High |
+| Installer | `ShareX.Setup` removed in M1 | Windows setup | DROP | Distribution packaging (A) | M | High |
 | Translations (29 languages incl. Automatic) | ShareX/Enums.cs:52; ShareX/ShareX.csproj | NLS flag has no Linux effect (A) | UNVERIFIED | libicu present (V) | S | Med |
 | Clicker easter egg | ShareX/EasterEggs/ShareXClicker/ShareXClickerControl.cs:188 | SoundPlayer only | UNVERIFIED | As sounds | S | Med |
 
@@ -376,30 +376,30 @@ The only table whose rows were really run; see its evidence column.
 
 | Item | Evidence | Label | KDE Wayland/Linux replacement | Effort | Confidence |
 |---|---|---|---|---|---|
-| Props filename casing | `Directory.build.props` and `.targets` are not imported on Linux. Evaluated `Version=1.0.0`; window title "ShareX 1.0 Dev" | SWAP | Rename to `Directory.Build.*`; update `build.yml:43` | S | High |
-| RID mapping | `Directory.build.props:13-20`: with the rename, `Platform=x64` gives `win-x64` and a PE32+ `.exe` | SWAP | Add an OS condition for `linux-x64`. Passing `-r linux-x64` also worked | S | High |
+| Props filename casing | Renamed to `Directory.Build.*`. Evaluated `Version=22.1.0`; window title "ShareX 22.1 Dev" (`VersionText` drops a zero build number) | READY | None needed | S | High |
+| RID mapping | `Directory.Build.props:13-20`: `Platform=x64` gives `linux-x64` and an ELF apphost (built and run). `ARM64` evaluates to `linux-arm64`; not built | READY | None needed | S | High |
 | ShareX.ImageEditor.App | 0 errors with no RID override (only because of the casing bug); window "ShareX - Image Editor - 800x600"; `WinExe` and `app.manifest` are harmless | READY | None needed | S | High |
 | Windowing backend | `libX11`, `libXi`, `libXrandr`, `libGLX_nvidia` mapped, no `libwayland`; only `avalonia.x11` restored | LIMITED | XWayland only: no native Wayland window. Effects on capture and scaling not tested | L | High |
-| Resx casing | `ShareX.UploadersLib/Properties/Resources.resx:17`: `MSB3103 ... resources/oauthcallbackpage.html` | SWAP | Correct the path casing | S | High |
-| Windows TFMs | `NETSDK1100` on all 10 projects in the full solution build | SWAP | Move to `net10.0` | M | High |
-| HelpersLib | `WindowsDesktop.App` gives `NETSDK1100`; without it 28 errors (`Icon`, printing, `DataProtectionScope`); with 3 packages 6 (`SoundPlayer`); with a 4th, 0 errors, 137 CA1416 | SWAP | Keep the packages to compile only; replace Registry, printing and DPAPI behind interfaces | M | High |
-| HistoryLib, ImageEffectsLib, UploadersLib, ScreenCaptureLib | 0 errors, 0 CA1416 each | UNVERIFIED | Compile only; CA1416 misses P/Invoke, so behaviour is untested | M | Medium |
+| Resx casing | `ShareX.UploadersLib/Properties/Resources.resx:17`: path corrected, `MSB3103` gone in the build | READY | None needed | S | High |
+| Windows TFMs | All projects on `net10.0`; `ShareX.sln` builds in Debug and Release with 0 errors, 156 warnings (all CA1416) | READY | None needed | M | High |
+| HelpersLib | `WindowsDesktop.App` removed; `System.Drawing.Common`, `System.Management`, `System.Security.Cryptography.ProtectedData`, `System.Windows.Extensions` added at 10.0.13; 0 errors. Compile only | SWAP | Keep the packages to compile only; replace Registry, printing and DPAPI behind interfaces | M | High |
+| HistoryLib, ImageEffectsLib, UploadersLib, ScreenCaptureLib | 0 errors in the M1 build; `History.db` is created at start-up | UNVERIFIED | Compile only; CA1416 misses P/Invoke, so behaviour is untested | M | Medium |
 | SQLite | `libe_sqlite3.so` shipped, `History.db` created; `Directory.Packages.props:7` is an 11.0 RC | READY | Consider a stable version | S | High |
-| ScreenRecordingLib | 14 errors (WinRT capture), 9 after removing usings, 0 once `GraphicsCapture` is stubbed and `GraphicsDevice` patched, 2 CA1416; 16 files reference Vortice | REWRITE | Portal ScreenCast, PipeWire, FFmpeg | L | Medium |
-| ShareX.Tools OCR | 4 errors, then 11 in `OCRHelper.cs`, plus 5 callers in `ShareX`; 5 CA1416 | SWAP | Tesseract (not tested) | M | High |
+| ScreenRecordingLib | 0 errors: `GraphicsCapture` is a stub that throws `PlatformNotSupportedException` and the WinRT part of `GraphicsDevice` is gone; 16 files reference Vortice | REWRITE | Portal ScreenCast, PipeWire, FFmpeg | L | Medium |
+| ShareX.Tools OCR | 0 errors: `OCRHelper.cs` is a stub, `IsSupported` is false and calls throw `InvalidOperationException` | SWAP | Tesseract (not tested) | M | High |
 | ONNX provider | `BackgroundRemovalService.cs:163` uses DML; compiles, but `runtimes/linux-x64` has no onnxruntime library | SWAP | `Microsoft.ML.OnnxRuntime`, CPU first | S | Medium |
 | Vortice.Direct2D1 | Only `WindowsEmojiBitmapRenderer.cs`; guarded by `IsWindows` at lines 56 and 159; compiles | SWAP | Skia with Noto Color Emoji | S | Medium |
 | PhotoEditor, NativeMessagingHost | 0 errors; CA1416 6 (`ImageIO.cs`) and 0; `host-manifest-firefox.json:4` names an `.exe` | SWAP | Linux manifest with an absolute path, installed in browser native-messaging folders | S | Medium |
-| ShareX project | 5 errors, all `OCRHelper` callers; 6 CA1416; `Windows.ApplicationModel` is behind `#if MicrosoftStore` | SWAP | Exclude or stub OCR | S | High |
+| ShareX project | 0 errors; main window ran with a throwaway home and no session bus; `Windows.ApplicationModel` is behind `#if MicrosoftStore` | READY | None needed to build and open; tray not exercised | S | High |
 | `UseNls` | `ShareX.csproj:59`; present in the runtime config and the app still ran | READY | Remove on Linux for tidiness | S | Medium |
-| Global hotkeys | First hard crash: `WindowsHotkeyHost.cs:56`, "Global hotkeys require a backend" | LIMITED | KGlobalAccel or the GlobalShortcuts portal; no free key grabbing | L | High |
+| Global hotkeys | Crash fixed in M1: `MainForm` builds `NullHotkeyHost`, which registers nothing, so hotkeys do nothing | LIMITED | KGlobalAccel or the GlobalShortcuts portal; no free key grabbing | L | High |
 | Registry, pipe ACL | Logged `PlatformNotSupportedException` from `RegistryHelpers.cs:81` and `SingleInstanceManager.cs:96`, not fatal | SWAP | Config files; plain pipe or D-Bus. Second-instance arguments stay broken until then | M | High |
 | Portable mode | `AppPaths.cs:42`: folder `ShareX` collides with the `ShareX` apphost; run fell back to `~/Documents/ShareX` and crashed with "Avalonia is already initialized" | SWAP | Rename the folder | S | High |
 | Tray icon | `TrayIconService.cs:85` uses Avalonia `TrayIcon` | UNVERIFIED | Status Notifier; I did not confirm our item registered | S | Medium |
-| ShareX.Setup | Compiles, but hardcodes `win-x64` (`.csproj:6`), ISCC and makeappx (`Program.cs:91-93`) | DROP | Packaging script | S | High |
-| ShareX.Steam | `net48`/`x86`, `steam_api.dll`; builds to a useless `.exe` on Linux | DROP | Remove from the repo | S | High |
-| Steam, MicrosoftStore configs | `Directory.build.props:21-33`; the `.sln` maps them for all projects | DROP | Leave out of the Linux build matrix | S | High |
-| CI | `build.yml:17` and `pr.yml:14` are `windows-latest`; FFmpeg, signing and artifact steps are Windows-specific | SWAP | Move `pr.yml` to `ubuntu-latest`; remove the Windows release pipeline | M | High |
+| ShareX.Setup | Removed in M1 | DROP | Packaging script | S | High |
+| ShareX.Steam | Removed in M1 | DROP | None needed | S | High |
+| Steam, MicrosoftStore configs | `Directory.Build.props:21-33`; the `.sln` maps them for all projects | DROP | Leave out of the Linux build matrix | S | High |
+| CI | `pr.yml` is on `ubuntu-latest`, Release and Debug on x64; `build.yml` removed. Same build commands ran locally, not yet in Actions | UNVERIFIED | M5 adds the AppImage pipeline | M | High |
 | `Scripts/` | PowerShell only, not called from any csproj; `pwsh` not installed here | UNVERIFIED | Optional developer tools; not needed to build | S | Medium |
 | FFmpeg | `VideoTrimmerWindow.axaml.cs:40`, `FFmpegDownloader.cs:61` hardcode `ffmpeg.exe` | SWAP | Use system `ffmpeg` as a package dependency | S | High |
 | PKGBUILD/AUR | Not written. Depends: `dotnet-runtime`, `ffmpeg`, `libx11`, `libxcursor`, `libxi`, `libxrandr`, `libice`, `libsm`, `fontconfig` (from `ldd` and mapped libraries) | UNVERIFIED | Framework-dependent `-r linux-x64` | M | Medium |
@@ -476,7 +476,7 @@ Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screen
 
 ### 5.5 Screen recording
 
-Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `HL` = `ShareX.HelpersLib`, `SX` = `ShareX`. Bare file names are in `ShareX.ScreenRecordingLib`.
+Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `HL` = `ShareX.HelpersLib`, `SX` = `ShareX`. Bare file names are in `ShareX.ScreenRecordingLib`. `GraphicsCapture.cs` and `GraphicsDevice.cs` were stubbed in M1, so their line numbers refer to the code before that change.
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
 |---|---|---|---|---|---|---|
@@ -510,7 +510,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 |---|---|---|---|---|---|---|
 | Hotkey data model | `HelpersLib/Input/HotkeyInfo.cs:33-70`, `InputKey.cs`, `InputMouseButton.cs` | VK-style values | READY | Add InputKey to Qt key mapping in the backend | S | High |
 | HotkeyManager | `ShareX/HotkeyManager.cs:57-68,100-129` | Via `IHotkeyHost`, `IsActiveWindowFullscreen` | READY | Keep | S | High |
-| Hotkey host | `WindowsHotkeyHost.cs:89,97,114`; `IHotkeyHost.cs:36-37`; `WindowsNativeWindow.cs:48` | RegisterHotKey, atoms, HWND, WM_HOTKEY | SWAP | KGlobalAccel: `doRegister`, `setShortcut`, `unregister`, `globalShortcutPressed`; remove `Handle`, `NativeMessageReceived` from the interface | M | Med-High |
+| Hotkey host | `WindowsHotkeyHost.cs:89,97,114` (unused since M1; `NullHotkeyHost` runs instead); `IHotkeyHost.cs:36-37`; `WindowsNativeWindow.cs:48` | RegisterHotKey, atoms, HWND, WM_HOTKEY | SWAP | KGlobalAccel: `doRegister`, `setShortcut`, `unregister`, `globalShortcutPressed`; remove `Handle`, `NativeMessageReceived` from the interface | M | Med-High |
 | Default hotkeys | `HotkeyManager.cs:227-231` | Assumes PrintScreen is free | LIMITED | Print and Shift+Print belong to Spectacle here: 2 of 5 defaults conflict; prompt or remap | S | High |
 | Press-any-key UI | `HotkeySettingsWindow.axaml.cs:165-208`; `HotkeySettingsAvaloniaService.cs:151-182,247` | PrintScreen KeyUp workaround | LIMITED | Keep with KGlobalAccel; KWin may swallow bound keys; `blockGlobalShortcuts` exists, untested | M | Med |
 | Repeat limit, fullscreen suppression | `WindowsHotkeyHost.cs:155-163`; `HotkeyManager.cs:59`; `CaptureHelpers.cs:324` | GetForegroundWindow | SWAP | Keep limiter; KWin script for `activeWindow.fullScreen` | M | Med-Low |
@@ -541,7 +541,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 
 | Feature | Evidence | Windows dependency | Label | KDE Wayland replacement | Effort | Conf. |
 |---|---|---|---|---|---|---|
-| Build targets (blocks all rows) | `ShareX/ShareX.csproj:3`, `Directory.build.props:15,19`, `ShareX.HelpersLib/ShareX.HelpersLib.csproj:14` | `net10.0-windows`, win RIDs, WindowsDesktop | SWAP | `net10.0`, `linux-x64` | L | H |
+| Build targets | `ShareX/ShareX.csproj:3`, `Directory.Build.props:15,19`, `ShareX.HelpersLib/ShareX.HelpersLib.csproj` | Moved off `net10.0-windows`, win RIDs, WindowsDesktop in M1 | READY | None needed | L | H |
 | Start-up sequence | `ShareX/Program.cs:47-119` | None direct | UNVERIFIED | None | S | M |
 | UseNls | `ShareX/ShareX.csproj:59` | NLS | DROP | ICU, sort order may differ | S | H |
 | Personal folder, portable | `ShareX/Infrastructure/AppPaths.cs:41-44`, `PersonalPathManager.cs:42,118` | SpecialFolder; case-insensitive compare | UNVERIFIED | Keep; portable needs writable app dir | S | M |
@@ -558,8 +558,8 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | Restart, elevation | `ShareX/Infrastructure/ApplicationLifecycle.cs:112-124`, `ShareX/Presentation/MainWindow/MainMenuBuilder.cs:111`, `ShareX.HelpersLib/Helpers/Helpers.cs:565-597` | `runas`, WindowsPrincipal | DROP | Plain restart stays; remove admin item | S | H |
 | Update check | `ShareX.HelpersLib/UpdateChecker/GitHubUpdateChecker.cs:153-186` | Windows asset names | SWAP | Match Linux assets; no match reports failure hourly | S | H |
 | Installer, signature | `ShareX.HelpersLib/Presentation/UpdateChecker/DownloaderWindow.axaml.cs:137,303-312`, `AuthenticodeSignatureVerifier.cs:89` | wintrust, `/UPDATE`, `runas` | REWRITE | Package-manager notice or signed archive check; never stub as trusted | M | H |
-| ShareX.Setup | `ShareX.Setup/Program.cs:67-93,255` | Inno, makeappx, `C:\`, registry | REWRITE | PKGBUILD/AppImage/Flatpak installing `.desktop`, MIME, icons, manifests | L | M |
-| ShareX.Steam, Store | `ShareX.Steam/Launcher.cs:208-259`, `ShareX.Steam.csproj:3`, `ShareX/Program.cs:97-99` | WMI, WinExec, `cmd.exe`, net48, WinRT | DROP | Exclude from Linux build | S | H |
+| ShareX.Setup | Removed in M1 | Was Inno, makeappx, `C:\`, registry | REWRITE | PKGBUILD/AppImage/Flatpak installing `.desktop`, MIME, icons, manifests | L | M |
+| ShareX.Steam, Store | `ShareX.Steam` removed in M1; `ShareX/Program.cs:97-99` remains | WinRT behind `#if MicrosoftStore` | DROP | Remove the Store block | S | H |
 | External programs | `ShareX.HelpersLib/ExternalProgram.cs:59,67,102-107`, `ShareX/TaskHelpers.cs:748-761`, `RegistryHelpers.cs:115-169` | Registry discovery; `File.Exists` rejects bare commands | SWAP | PATH lookup, `.desktop` discovery | M | M |
 | Open file, URL | `FileHelpers.cs:262-265`, `URLHelpers.cs:65-71` | ShellExecute | UNVERIFIED | Explicit `xdg-open` avoids running executable files | S | M |
 | Open, show folder | `FileHelpers.cs:294-296,337`, `Native/NativeMethods_Helpers.cs:482-488` | Appends `\`; SHOpenFolderAndSelectItems | SWAP | `FileManager1.ShowItems`, fallback `xdg-open` parent; repo has no D-Bus client | S | H |
@@ -573,7 +573,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 
 | Feature | Evidence | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
 |---|---|---|---|---|---|---|
-| Build target | `ShareX.HelpersLib/ShareX.HelpersLib.csproj:3,14`; `Directory.build.props:15,19` | `net10.0-windows`, WindowsDesktop.App, win RIDs | SWAP | `net10.0`, linux-x64 | M | High |
+| Build target | `ShareX.HelpersLib/ShareX.HelpersLib.csproj:3`; `Directory.Build.props:15,19` | Moved off `net10.0-windows`, WindowsDesktop.App, win RIDs in M1 | READY | None needed | M | High |
 | Backend selection | `AvaloniaBootstrapper.cs:164` | None | UNVERIFIED | Keep X11 now; trial `UseWaylandWithFallback` | S | High |
 | Text and file clipboard | `ShareX.HelpersLib/Helpers/AvaloniaClipboard.cs:55` | None | UNVERIFIED | Avalonia offers only `text/uri-list`; add `x-special/gnome-copied-files` for GNOME apps | S | Medium |
 | Image copy | `AvaloniaClipboard.cs:75,79`; `WindowsClipboard.cs:37` (a comment, not a WinForms reference) | Win32 clipboard, Windows branch only | SWAP | Existing PNG path | S | Medium |
@@ -628,7 +628,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | MonitorTest | `ShareX.Tools/Tools/MonitorTest/MonitorTestWindow.axaml.cs:53` | `GetCursorPos`, uncaught | SWAP | `Screens` API | S | H |
 | MouseHighlighter | `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterMouseHook.cs:74`; `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterOverlayWindow.cs:54` | Global hook, layered overlay | LIMITED | KWin `mouseclick`/`trackmouse`. Lost: ripple, crosshairs, custom options unless a custom effect is written | M | M |
 | NetworkMonitor | `ShareX.Tools/Tools/NetworkMonitor/NetworkMonitorProbe.cs:83` | None | READY | None needed | S | H |
-| OCR | `ShareX.Tools/Tools/OCR/OCRHelper.cs:29`, `:83` | `Windows.Media.Ocr` | SWAP | Tesseract CLI; map language tags, add language packs | S | H |
+| OCR | `ShareX.Tools/Tools/OCR/OCRHelper.cs` (stubbed in M1, always fails) | Was `Windows.Media.Ocr` | SWAP | Tesseract CLI; map language tags, add language packs | S | H |
 | PinToScreen | `ShareX.Tools/Tools/PinToScreen/PinToScreenWindow.axaml.cs:101`, `:109` | `GetCursorPos`, uncaught | LIMITED | XWayland `Topmost`; no KWin rule or layer-shell. Lost: reliable cursor-monitor placement | S | M |
 | QRCode | `ShareX/TaskHelpers.cs:1792` | Screen capture in main app | SWAP | Spectacle or portal for scan modes | S | M |
 | RemoteStorageBrowser | `ShareX/TaskHelpers.cs:1724` | None in tool; providers unaudited | UNVERIFIED | None needed | S | M |
@@ -645,7 +645,7 @@ Paths: `IE/` = `ShareX.ImageEditor`, `IE.App/` = `ShareX.ImageEditor.App`, `PE/`
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
 |---|---|---|---|---|---|---|
-| Build props | `Directory.build.props:15`; SDK `Microsoft.Common.props:27` | Lowercase name likely not imported on Linux; if renamed, x64 forces `win-x64` | SWAP | Rename; condition RID | S | Med |
+| Build props | `Directory.Build.props:15` | Renamed and x64 maps to `linux-x64` in M1 | READY | None needed | S | High |
 | HL dependency (blocks PE, FX) | `HL/ShareX.HelpersLib.csproj:3,14` | `net10.0-windows`, WindowsDesktop.App | SWAP | Move Skia, font and clipboard helpers to a `net10.0` library | M | Med |
 | PE target | `PE/ShareX.PhotoEditor.csproj:3,20` | HL only | SWAP | Retarget `net10.0` | S | High |
 | FX target | `FX/ShareX.ImageEffectsLib.csproj:3`; `FX/Drawings/DrawText.cs:135` | HL only | READY | Retarget after HL; drop unused `UseSystemDrawing` | S | High |
