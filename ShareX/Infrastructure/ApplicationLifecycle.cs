@@ -166,7 +166,7 @@ internal static class ApplicationLifecycle
             if (MessageBox.Show(Strings.ShareXCannotBeClosedWhileScreenRecordingIsActive, ApplicationInfo.Name,
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                ScreenRecordManager.AbortRecording();
+                ScreenRecordManager.FinishRecording();
             }
 
             return;

@@ -2063,7 +2063,7 @@ Please run ShareX as administrator to change personal folder path.</value>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX cannot be closed while screen recording is active.
 
-Do you want to abort the active screen recording?</value>
+Do you want to stop the active screen recording and save it?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX is minimized to the system tray.</value>
