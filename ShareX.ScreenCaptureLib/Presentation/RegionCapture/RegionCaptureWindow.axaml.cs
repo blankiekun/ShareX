@@ -141,6 +141,9 @@ public partial class RegionCaptureWindow : Window
         // Set while the window still has its small initial size, so it is mapped on the right monitor.
         Position = new PixelPoint(_x11Rectangle.X, _x11Rectangle.Y);
         ApplyPixelSize();
+
+        // KWin moves a plain window out from under a panel's reserved strip, which leaves the live panel showing.
+        WindowState = Avalonia.Controls.WindowState.FullScreen;
         Show();
     }
 

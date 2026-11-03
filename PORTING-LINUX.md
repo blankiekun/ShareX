@@ -77,7 +77,7 @@ The other tables overlap with the checklist, so their rows aren't added to these
 ## 4. Design notes and open decisions
 
 **Region overlay.** Built in M4 (route A: `spectacle` plus a KWin script, owner decision): one window per output, each showing a
-crop of the frozen screenshot, sharing a selection in image pixels. Run in a virtual session only. Layer-shell was not needed. Window
+crop of the frozen screenshot, sharing a selection in image pixels. Run in a virtual session only. Layer-shell was not needed, but `Topmost` alone was not enough: KWin moved the plain window out from under a top panel's reserved strip, so the live panel stayed visible with the frozen one just below it (the owner's real run showed this first). Each window is now fullscreen, which held on both outputs in the virtual session, with focus on either one. The fix has not been seen on a real desktop yet. Window
 snapping uses a KWin script that reads `workspace.stackingOrder` and geometry before the overlay appears.
 
 Three coordinate spaces (`DesktopCoordinates`), measured in the M4 spike and checked again through ShareX's menu:
@@ -471,7 +471,7 @@ Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screen
 | Transparent window | `Screenshot_Transparent.cs` deleted in M4 | None | UNVERIFIED | `spectacle -a` is RGBA with the shadow; the setting no longer changes anything. Alpha over a real desktop not checked (M4, virtual session only) | M | Low |
 | Cursor capture | ShareX/TaskHelpers.cs; ShareX/CaptureHelpers/CaptureRegion.cs | Done in M4 | LIMITED | `spectacle -p`: drawn at the pointer only with `-p`, measured with an EI pointer (M4, virtual session only). Movable cursor annotation lost: in region capture it is part of the frozen image | M | Medium |
 | HDR | `HDRScreenCapture.cs` deleted in M4; setting left in place | None | DROP | Use KWin output; tone-mapping unknown | S | Low |
-| Overlay window | `R`; `S`Presentation/RegionCapture/RegionCaptureSession.cs | Done in M4 | UNVERIFIED | One Topmost window per output, sized in X11 pixels. Above a real Plasma panel, at full output size and active (M4, virtual session only, plasmashell inside it). Real monitors not seen yet | L | Medium |
+| Overlay window | `R`; `S`Presentation/RegionCapture/RegionCaptureSession.cs | Done in M4 | UNVERIFIED | One fullscreen, Topmost window per output, sized in X11 pixels. Covers real Plasma panels on both outputs, top and bottom, at full output size, with focus on either output (virtual session only, plasmashell inside it). M4's check had one bottom panel, so it missed the top-panel offset the owner saw. Real monitors not seen with this fix yet | L | Medium |
 | Selection, dimming | `R`; `S`Presentation/RegionCapture/RegionSelectionOverlay.cs | Done in M4 | UNVERIFIED | Selection is global, in image pixels, and each window draws its part. Dragging and moving across outputs work by the X11 implicit grab, driven with `xdotool` (M4, virtual session only) | S | Medium |
 | Initial pointer, arrow-key nudge | `R` | Done in M4 | LIMITED | Start point from the KWin script. Arrow keys move a virtual point (HUD, hover, selection being created): the real cursor doesn't move, and it wasn't run | M | Medium |
 | Active-monitor cursor lock | Removed in M4 | None | LIMITED | One overlay on the output `-m` captured (M4, virtual session only); pointer can leave it | S | Medium |
