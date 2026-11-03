@@ -23,51 +23,32 @@
 
 #endregion License Information (GPL v3)
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace ShareX.HelpersLib
 {
-    public class DWMManager : IDisposable
+    public class EncryptedStringPropertyResolver : WritablePropertiesOnlyResolver
     {
-        private bool isDWMEnabled;
-        private bool autoEnable;
-
-        public DWMManager()
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
-            isDWMEnabled = NativeMethods.IsDWMEnabled();
-        }
+            IList<JsonProperty> props = base.CreateProperties(type, memberSerialization);
 
-        public bool AutoDisable()
-        {
-            if (isDWMEnabled)
+            foreach (JsonProperty prop in props.Where(p => p.PropertyType == typeof(string)))
             {
-                ChangeComposition(false);
-                autoEnable = true;
-                return true;
+                PropertyInfo pi = type.GetProperty(prop.UnderlyingName);
+
+                if (pi != null && pi.GetCustomAttribute(typeof(JsonEncryptAttribute), true) != null)
+                {
+                    prop.ValueProvider = new EncryptedStringValueProvider(pi);
+                }
             }
 
-            return false;
-        }
-
-        public void ChangeComposition(bool enable)
-        {
-            try
-            {
-                NativeMethods.DwmEnableComposition(enable ? DWM_EC.DWM_EC_ENABLECOMPOSITION : DWM_EC.DWM_EC_DISABLECOMPOSITION);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-        }
-
-        public void Dispose()
-        {
-            if (isDWMEnabled && autoEnable)
-            {
-                ChangeComposition(true);
-                autoEnable = false;
-            }
+            return props;
         }
     }
 }

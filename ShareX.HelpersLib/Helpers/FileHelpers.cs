@@ -31,6 +31,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using MessageBox = ShareX.AvaloniaUI.MessageBox;
 using MessageBoxButtons = ShareX.AvaloniaUI.MessageBoxButtons;
 using MessageBoxIcon = ShareX.AvaloniaUI.MessageBoxIcon;
@@ -89,11 +90,11 @@ namespace ShareX.HelpersLib
         {
             if (!string.IsNullOrEmpty(filePath))
             {
-                int pos = filePath.LastIndexOf('\\');
+                int pos = filePath.LastIndexOf('/');
 
                 if (pos < 0)
                 {
-                    pos = filePath.LastIndexOf('/');
+                    pos = filePath.LastIndexOf('\\');
                 }
 
                 if (pos >= 0)
@@ -206,16 +207,11 @@ namespace ShareX.HelpersLib
             return Path.GetFullPath(path);
         }
 
-        public static string GetPathRoot(string path)
+        public static string FindExecutableOnPath(string fileName)
         {
-            int separator = path.IndexOf(":\\");
+            string[] folders = Environment.GetEnvironmentVariable("PATH")?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries) ?? [];
 
-            if (separator > 0)
-            {
-                return path.Substring(0, separator + 2);
-            }
-
-            return "";
+            return folders.Select(x => Path.Combine(x, fileName)).FirstOrDefault(File.Exists);
         }
 
         public static string SanitizeFileName(string fileName, string replaceWith = "")
@@ -238,7 +234,10 @@ namespace ShareX.HelpersLib
 
         public static string SanitizePath(string path, string replaceWith = "")
         {
-            string root = GetPathRoot(path);
+            // Patterns saved on Windows use backslash separators.
+            path = path.Replace('\\', '/');
+
+            string root = Path.GetPathRoot(path);
 
             if (!string.IsNullOrEmpty(root))
             {
@@ -291,33 +290,12 @@ namespace ShareX.HelpersLib
         {
             if (!string.IsNullOrEmpty(folderPath) && Directory.Exists(folderPath))
             {
-                if (!folderPath.EndsWith(@"\"))
-                {
-                    folderPath += @"\";
-                }
+                folderPath = Path.GetFullPath(folderPath);
+                ShowInFileManager("ShowFolders", folderPath, folderPath);
 
-                try
-                {
-                    using (Process process = new Process())
-                    {
-                        ProcessStartInfo psi = new ProcessStartInfo()
-                        {
-                            FileName = folderPath,
-                            UseShellExecute = true
-                        };
+                DebugHelper.WriteLine("Folder opened: " + folderPath);
 
-                        process.StartInfo = psi;
-                        process.Start();
-                    }
-
-                    DebugHelper.WriteLine("Folder opened: " + folderPath);
-
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    DebugHelper.WriteException(e, $"OpenFolder({folderPath}) failed.");
-                }
+                return true;
             }
             else if (allowMessageBox)
             {
@@ -332,18 +310,12 @@ namespace ShareX.HelpersLib
         {
             if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
             {
-                try
-                {
-                    NativeMethods.OpenFolderAndSelectFile(filePath);
+                filePath = Path.GetFullPath(filePath);
+                ShowInFileManager("ShowItems", filePath, Path.GetDirectoryName(filePath));
 
-                    DebugHelper.WriteLine("Folder opened with file: " + filePath);
+                DebugHelper.WriteLine("Folder opened with file: " + filePath);
 
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    DebugHelper.WriteException(e, $"OpenFolderWithFile({filePath}) failed.");
-                }
+                return true;
             }
             else
             {
@@ -352,6 +324,61 @@ namespace ShareX.HelpersLib
             }
 
             return false;
+        }
+
+        // Runs in the background: starting the file manager can take seconds and most callers are on the UI thread.
+        private static void ShowInFileManager(string method, string path, string fallbackFolder)
+        {
+            Task.Run(() =>
+            {
+                if (CallFileManager(method, path))
+                {
+                    return;
+                }
+
+                try
+                {
+                    // xdg-open can stay alive as long as the application it opened, so don't wait for it.
+                    using Process process = Process.Start(new ProcessStartInfo("xdg-open", new[] { fallbackFolder }));
+                }
+                catch (Exception e)
+                {
+                    DebugHelper.WriteException(e, $"xdg-open {fallbackFolder} failed.");
+                }
+            });
+        }
+
+        private static bool CallFileManager(string method, string path)
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo("dbus-send", new[]
+                {
+                    "--session", "--print-reply", "--dest=org.freedesktop.FileManager1", "/org/freedesktop/FileManager1",
+                    "org.freedesktop.FileManager1." + method, "array:string:" + GetFileUri(path), "string:"
+                })
+                {
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+
+                using Process process = Process.Start(psi);
+                process.WaitForExit();
+
+                return process.ExitCode == 0;
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e, $"FileManager1.{method}({path}) failed.");
+            }
+
+            return false;
+        }
+
+        // Escapes each segment by hand: new Uri() keeps a literal "%20" in a file name, and dbus-send splits array values on commas.
+        public static string GetFileUri(string path)
+        {
+            return "file://" + string.Join('/', path.Split('/').Select(Uri.EscapeDataString));
         }
 
         public static string GetUniqueFilePath(string filePath)
@@ -403,13 +430,22 @@ namespace ShareX.HelpersLib
                     {
                         foreach (KeyValuePair<string, string> specialFolder in HelpersOptions.ShareXSpecialFolders)
                         {
-                            path = path.Replace(specialFolder.Value, $"%{specialFolder.Key}%", StringComparison.OrdinalIgnoreCase);
+                            if (!string.IsNullOrEmpty(specialFolder.Value))
+                            {
+                                path = path.Replace(specialFolder.Value, $"%{specialFolder.Key}%", StringComparison.Ordinal);
+                            }
                         }
                     }
 
                     foreach (Environment.SpecialFolder specialFolder in Helpers.GetEnums<Environment.SpecialFolder>())
                     {
-                        path = path.Replace(Environment.GetFolderPath(specialFolder), $"%{specialFolder}%", StringComparison.OrdinalIgnoreCase);
+                        string folderPath = Environment.GetFolderPath(specialFolder, Environment.SpecialFolderOption.DoNotVerify);
+
+                        // Many special folders are empty on Linux, and Replace throws on an empty search string.
+                        if (!string.IsNullOrEmpty(folderPath))
+                        {
+                            path = path.Replace(folderPath, $"%{specialFolder}%", StringComparison.Ordinal);
+                        }
                     }
                 }
                 catch (Exception e)
@@ -427,20 +463,34 @@ namespace ShareX.HelpersLib
             {
                 try
                 {
+                    string expanded = path;
+
                     if (supportCustomSpecialFolders)
                     {
                         foreach (KeyValuePair<string, string> specialFolder in HelpersOptions.ShareXSpecialFolders)
                         {
-                            path = path.Replace($"%{specialFolder.Key}%", specialFolder.Value, StringComparison.OrdinalIgnoreCase);
+                            expanded = expanded.Replace($"%{specialFolder.Key}%", specialFolder.Value, StringComparison.OrdinalIgnoreCase);
                         }
                     }
 
                     foreach (Environment.SpecialFolder specialFolder in Helpers.GetEnums<Environment.SpecialFolder>())
                     {
-                        path = path.Replace($"%{specialFolder}%", Environment.GetFolderPath(specialFolder), StringComparison.OrdinalIgnoreCase);
+                        string folderPath = Environment.GetFolderPath(specialFolder, Environment.SpecialFolderOption.DoNotVerify);
+
+                        // Keep the variable when the folder doesn't exist on Linux, so "%Windows%\x" can't turn into "/x".
+                        if (!string.IsNullOrEmpty(folderPath))
+                        {
+                            expanded = expanded.Replace($"%{specialFolder}%", folderPath, StringComparison.OrdinalIgnoreCase);
+                        }
                     }
 
-                    path = Environment.ExpandEnvironmentVariables(path);
+                    expanded = Environment.ExpandEnvironmentVariables(expanded);
+
+                    // Settings saved on Windows hold values like "%MyDocuments%\ShareX".
+                    if (expanded != path)
+                    {
+                        path = expanded.Replace('\\', '/');
+                    }
                 }
                 catch (Exception e)
                 {

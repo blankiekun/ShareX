@@ -480,7 +480,7 @@ public partial class FFmpegOptionsWindow : Window
             SuggestedStartLocation = startFolder,
             FileTypeFilter =
             [
-                new FilePickerFileType(Localization.Strings.FFmpegOptionsWindow_FFmpeg_executable) { Patterns = ["*.exe"] }
+                new FilePickerFileType(Localization.Strings.FFmpegOptionsWindow_FFmpeg_executable) { Patterns = ["ffmpeg*"] }
             ]
         });
 

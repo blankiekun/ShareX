@@ -37,9 +37,9 @@ internal static class AppPaths
     internal const string HistoryFileNameOld = "History.json";
     internal const string LogsFolderName = "Logs";
 
-    internal static readonly string DefaultPersonalFolder =
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationInfo.Name);
-    internal static readonly string PortablePersonalFolder = FileHelpers.GetAbsolutePath(ApplicationInfo.Name);
+    internal static readonly string DefaultPersonalFolder = Path.Combine(GetDocumentsFolder(), ApplicationInfo.Name);
+    // Not named after the application: the apphost next to it is already a file called ShareX.
+    internal static readonly string PortablePersonalFolder = FileHelpers.GetAbsolutePath(ApplicationInfo.Name + "Data");
     internal static readonly string PortableCheckFilePath = FileHelpers.GetAbsolutePath("Portable");
     internal static readonly string SteamInAppFilePath = FileHelpers.GetAbsolutePath("Steam");
 
@@ -99,4 +99,14 @@ internal static class AppPaths
 
     internal static string ImageEffectsFolder => Path.Combine(PersonalFolder, "ImageEffects");
     internal static string ModelsFolder => Path.Combine(PersonalFolder, "Models");
+
+    // DoNotVerify: otherwise a missing Documents folder gives "" and settings land in the working directory.
+    // A relative HOME still gives a relative path, and not starting beats scattering settings there.
+    private static string GetDocumentsFolder()
+    {
+        string documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments, Environment.SpecialFolderOption.DoNotVerify);
+        return Path.IsPathRooted(documents)
+            ? documents
+            : throw new InvalidOperationException($"Can't find the Documents folder: HOME is \"{Environment.GetEnvironmentVariable("HOME")}\".");
+    }
 }

@@ -25,6 +25,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ShareX.HelpersLib;
 using System.Text;
 
 namespace ShareX.Tools;
@@ -335,7 +336,7 @@ public sealed partial class VideoConverterViewModel : ViewModelBase, IDisposable
     private string BuildArguments()
     {
         StringBuilder args = new();
-        args.Append($"-i \"{InputFilePath}\" ");
+        args.Append($"-i {Helpers.EscapeCLIText(InputFilePath)} ");
         int quality = Math.Clamp((int)Math.Round(VideoQuality), (int)QualityMinimum, (int)QualityMaximum);
         int bitrate = Math.Max(0, (int)VideoBitrate);
 
@@ -429,7 +430,7 @@ public sealed partial class VideoConverterViewModel : ViewModelBase, IDisposable
             }
         }
 
-        args.Append($"-y \"{OutputFilePath}\"");
+        args.Append($"-y {Helpers.EscapeCLIText(OutputFilePath)}");
         return args.ToString();
     }
 

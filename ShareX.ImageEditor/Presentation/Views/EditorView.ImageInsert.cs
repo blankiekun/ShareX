@@ -36,7 +36,6 @@ using ShareX.ImageEditor.Presentation.Rendering;
 using ShareX.ImageEditor.Presentation.ViewModels;
 using SkiaSharp;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
 
 namespace ShareX.ImageEditor.Presentation.Views
 {
@@ -239,7 +238,7 @@ namespace ShareX.ImageEditor.Presentation.Views
             {
                 case InsertImagePlacement.Center:
                     Canvas? canvas = this.FindControl<Canvas>("AnnotationCanvas");
-                    Point? screenCenter = canvas == null ? null : GetCursorScreenCenter(canvas);
+                    Point? screenCenter = canvas == null ? null : GetWindowScreenCenter(canvas);
                     position = screenCenter.HasValue
                         ? new Point(
                             Math.Clamp(screenCenter.Value.X, 0, _editorCore.CanvasSize.Width) - skBitmap.Width / 2.0,
@@ -393,7 +392,7 @@ namespace ShareX.ImageEditor.Presentation.Views
             }
 
             modalHost.RenderTransform = null;
-            Point? targetCenter = GetCursorScreenCenter(this);
+            Point? targetCenter = GetWindowScreenCenter(this);
             if (!targetCenter.HasValue)
             {
                 return;
@@ -416,17 +415,15 @@ namespace ShareX.ImageEditor.Presentation.Views
             }
         }
 
-        private Point? GetCursorScreenCenter(Visual relativeTo)
+        private Point? GetWindowScreenCenter(Visual relativeTo)
         {
             TopLevel? topLevel = TopLevel.GetTopLevel(this);
-            if (topLevel == null || !GetCursorPos(out NativePoint cursorPosition))
+            if (topLevel == null)
             {
                 return null;
             }
 
-            Screens? screens = topLevel.Screens;
-            Screen? screen = screens?.ScreenFromPoint(
-                new PixelPoint(cursorPosition.X, cursorPosition.Y));
+            Screen? screen = topLevel.Screens?.ScreenFromVisual(topLevel);
             if (screen == null)
             {
                 return null;
@@ -437,16 +434,5 @@ namespace ShareX.ImageEditor.Presentation.Views
                 screen.Bounds.Y + screen.Bounds.Height / 2);
             return topLevel.TranslatePoint(topLevel.PointToClient(screenCenter), relativeTo);
         }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct NativePoint
-        {
-            public int X;
-            public int Y;
-        }
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool GetCursorPos(out NativePoint point);
     }
 }

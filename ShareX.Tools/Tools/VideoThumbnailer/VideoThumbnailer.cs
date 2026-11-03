@@ -92,7 +92,7 @@ namespace ShareX.Tools
                     ProcessStartInfo psi = new ProcessStartInfo()
                     {
                         FileName = FFmpegPath,
-                        Arguments = $"-ss {timeSliceElapsed} -i \"{MediaPath}\" -f image2 -vframes 1 -y \"{tempThumbnailPath}\"",
+                        Arguments = $"-ss {timeSliceElapsed} -i {Helpers.EscapeCLIText(MediaPath)} -f image2 -vframes 1 -y {Helpers.EscapeCLIText(tempThumbnailPath)}",
                         UseShellExecute = false,
                         CreateNoWindow = true
                     };
