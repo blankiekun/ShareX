@@ -22,8 +22,8 @@ User-facing features in the checklist (section 5.1), by label:
 
 | Label | Rows |
 |---|---|
-| `READY` | 36 |
-| `UNVERIFIED` | 59 |
+| `READY` | 39 |
+| `UNVERIFIED` | 56 |
 | `SWAP` | 30 |
 | `REWRITE` | 17 |
 | `LIMITED` | 33 |
@@ -156,9 +156,9 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| Fullscreen | ShareX/CaptureHelpers/CaptureFullscreen.cs:35 | Done in M4 | UNVERIFIED | `spectacle -f`. Pixels match KWin geometry on both outputs (M4, virtual session only) | M | Med |
+| Fullscreen | ShareX/CaptureHelpers/CaptureFullscreen.cs:35 | Done in M4 | READY | `spectacle -f`. Pixels match KWin geometry on both outputs (M4; owner confirmed on the real desktop, 2026-11-03) | M | Med |
 | Monitor | ShareX/Presentation/MainWindow/MainMenuBuilder.cs:185 | Done in M4 | UNVERIFIED | `spectacle -f`, cropped. Spectacle can't name a monitor (M4, virtual session only) | M | Med |
-| ActiveMonitor | ShareX/CaptureHelpers/CaptureActiveMonitor.cs:35 | Done in M4; new item in the Capture menu | UNVERIFIED | `spectacle -m`, which follows the active window's output, not the cursor (M4, virtual session only) | M | Med |
+| ActiveMonitor | ShareX/CaptureHelpers/CaptureActiveMonitor.cs:35 | Done in M4; new item in the Capture menu | READY | `spectacle -m`, which follows the active window's output, not the cursor (M4; owner confirmed on the real desktop, 2026-11-03) | M | Med |
 | Window | ShareX/CaptureHelpers/CaptureWindow.cs:47; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:156 | Done in M4 | LIMITED: spectacle only captures the active window, so the window is activated first. Minimized windows aren't listed, and entries have no icon | KWin script list, `spectacle -a` (M4, virtual session only) | L | Med |
 | ActiveWindow | ShareX/CaptureHelpers/CaptureActiveWindow.cs:33 | Done in M4; new item in the Capture menu | UNVERIFIED | `spectacle -a`, or `-a -S`, `-a -e -S` by setting. From the menu it captures the window KWin activates when ShareX hides, and KWin stayed on ShareX's monitor in tests (M4, virtual session only) | M | Med |
 | Region | ShareX/CaptureHelpers/CaptureRegion.cs:46 | Done in M4 | LIMITED: annotations are per monitor; cursor is drawn into the frozen image | One overlay per output over a frozen `spectacle -f` (M4, virtual session only); see 5.4 | L | Med |
@@ -206,7 +206,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | ScreenRecorderActiveWindow | TH:160; ShareX/ScreenRecordManager.cs:172 | Owner recording: GetForegroundWindow | LIMITED: refused with a clear error when a window handle is passed; gsr has no window capture on Wayland | Portal ScreenCast later (V) | L | Med |
 | ScreenRecorderCustomRegion | TH:163 | Owner recording | UNVERIFIED | Done in M6: `-w WxH+X+Y`, must fit one monitor | S | Med |
 | StartScreenRecorder | TH:166 | Owner recording | UNVERIFIED | As ScreenRecorder | S | Med |
-| ScreenRecorderGIF | TH:169 | Owner recording, `FFmpegEncodeAsGIF` | UNVERIFIED | Done in M6: record MP4, then FFmpeg | S | Med |
+| ScreenRecorderGIF | TH:169 | Owner recording, `FFmpegEncodeAsGIF` | READY | Done in M6: record MP4, then FFmpeg; owner confirmed on the real desktop, 2026-11-03 (right area, plays with motion) | S | Med |
 | ScreenRecorderGIFActiveWindow | TH:172 | Owner recording | LIMITED: as active window | Portal ScreenCast later (V) | L | Med |
 | ScreenRecorderGIFCustomRegion | TH:175 | Owner recording | UNVERIFIED | As GIF recorder | S | Med |
 | StartScreenRecorderGIF | TH:178 | Owner recording | UNVERIFIED | As GIF recorder | S | Med |
@@ -464,8 +464,8 @@ Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screen
 |---|---|---|---|---|---|---|
 | Build | `S`ShareX.ScreenCaptureLib.csproj | Done: net10.0; Vortice removed in M4 with `HDRScreenCapture.cs` | READY | None | M | High |
 | Fullscreen, rectangle, custom, last region | `Scr`; ShareX/CaptureHelpers/CaptureCustomRegion.cs:36; CaptureLastRegion.cs:48 | Done in M4 | UNVERIFIED | `spectacle -b -n -f -o`, in `S`SpectacleCapture.cs, the only place that spawns it. Rectangles crop the image. Fast path for later: ScreenShot2 accepted a plain process on 6.8.1 (spike), so it is not limited to authorized apps. (M4, virtual session only) | M | Medium |
-| Active monitor | `Scr`; `H`Helpers/CaptureHelpers.cs:50 | Done in M4 | UNVERIFIED | `spectacle -m`, active window's output. The PNG's `screen` text chunk says which (M4, virtual session only) | S | Medium |
-| Active window, by handle | `Scr` | Done in M4 | UNVERIFIED | `spectacle -a`; `CaptureWindow(string)` replaces IntPtr and activates through a KWin script first (M4, virtual session only) | M | Medium |
+| Active monitor | `Scr`; `H`Helpers/CaptureHelpers.cs:50 | Done in M4 | READY | `spectacle -m`, active window's output. The PNG's `screen` text chunk says which (M4; owner confirmed on the real desktop, 2026-11-03) | S | Medium |
+| Active window, by handle | `Scr` | Done in M4 | READY | `spectacle -a`; `CaptureWindow(string)` replaces IntPtr and activates through a KWin script first (M4; owner confirmed on the real desktop, 2026-11-03) | M | Medium |
 | Client area | `Scr` | Done in M4 | LIMITED | `-a -e -S`, 420x294 for a 420x294 client (M4, virtual session only); apps drawing their own titlebars keep them | S | Medium |
 | Auto-hide taskbar | Removed from `Scr` in M4; setting left in place | None | DROP | None | S | High |
 | Transparent window | `Screenshot_Transparent.cs` deleted in M4 | None | UNVERIFIED | `spectacle -a` is RGBA with the shadow; the setting no longer changes anything. Alpha over a real desktop not checked (M4, virtual session only) | M | Low |
@@ -479,7 +479,7 @@ Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screen
 | Annotation | `R`; ShareX.ImageEditor/Presentation/Rendering/WindowsCursorBitmapRenderer.cs:81,391 | One editor per monitor, composed on completion | LIMITED | Each monitor has its own toolbar, tool and undo, and a shape can't cross monitors. One shape in a two-monitor selection checked (M4, virtual session only); the other tools not run | S | Medium |
 | Window snapping | `H`Helpers/KWinDesktop.cs; `S`Presentation/RegionCapture/RegionCaptureSession.cs | Done in M4; `WindowsRectangleList.cs` deleted | UNVERIFIED | KWin script before the overlay opens. Skips minimized, other desktops, closing windows, pid -1 (M4, virtual session only) | M | Medium |
 | Control snapping | Deleted in M4 | None | DROP | None; only frames are snapped, and the `DetectControls` setting does nothing | S | High |
-| Window under cursor (8ed375c7b) | `S`Presentation/RegionCapture/RegionCaptureSession.cs | Done in M4 | UNVERIFIED | Same logic over `KWinWindow`. File names pick up the process name from `/proc` (M4, virtual session only) | M | Medium |
+| Window under cursor (8ed375c7b) | `S`Presentation/RegionCapture/RegionCaptureSession.cs | Done in M4 | READY | Same logic over `KWinWindow`. File names pick up the process name from `/proc` (M4; owner confirmed on the real desktop, 2026-11-03) | M | Medium |
 | Monitor HUD clamp (627ceb477) | `R` | Done in M4 | UNVERIFIED | Each window clamps to itself. In mixed scale the toolbar can be wider than a small monitor and is cut off, and it can cover the magnifier at the top (M4, virtual session only) | S | Medium |
 | Window list menu | ShareX/Presentation/MainWindow/MainMenuBuilder.cs:156 | Done in M4; `WindowsList.cs` deleted | UNVERIFIED | Same KWin script, normal windows that aren't skip-taskbar (M4, virtual session only) | S | Medium |
 | Scrolling input | `S`ScrollingCaptureManager.cs:104-147,232 | SendInput, SendMessage, GetScrollInfo | LIMITED | RemoteDesktop portal or XTest. XTest from XWayland does prompt: KWin's "Remote Control" dialog, seen in the M4 spike unless `XwaylandEisNoPrompt` is set. Scroll-message method and scrollbar query lost. Since M4, selecting a window here returns none, because it still needs an HWND | L | Low |
@@ -504,7 +504,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | Session, timer, duration | `SRL/ScreenRecorder.cs`; `SRL/Gsr/GsrSession.cs`; `SRL/RecordingClock.cs` | gsr `-ipc`, no duration flag | UNVERIFIED | No armed state, so Prepare checks and reserves and Start spawns; ShareX's timer sends the stop; stub | S | Med |
 | Failure handling | `SRL/Gsr/GsrSession.cs`; `SRL/Gsr/HostTools.cs` | Exit codes 0, 1, 2, 50, 51, 126; black video markers; SIGKILL | UNVERIFIED | Each path run on the stub, plus the recorder ignoring every stop. Started through `setpriv --pdeathsig INT`, so it stops if ShareX dies, leaving its hidden temp file behind | S | High |
 | Frame and drop counts | `SRL/RecordingOptions.cs` | gsr reports none; ffprobe | LIMITED: dropped frames and audio discontinuities are always -1 | Frames from ffprobe; -1 without it | S | High |
-| GIF input | `SX/ScreenRecordManager.cs` `RecordNativeAsync` | gsr, `-fm cfr` | UNVERIFIED | MP4 first, because gsr has no raw frames; `GifWriter` deleted | S | Med |
+| GIF input | `SX/ScreenRecordManager.cs` `RecordNativeAsync` | gsr, `-fm cfr` | READY | MP4 first, because gsr has no raw frames; `GifWriter` deleted; owner confirmed on the real desktop, 2026-11-03 | S | Med |
 | GIF encode | `SCL/ScreenRecording/ScreenRecorder.cs` `FFmpegEncodeAsGIF`; `SX/ScreenRecordManager.cs` `EncodeNativeGif` | FFmpeg | LIMITED: quality starts from 4:2:0 H.264 instead of lossless BGRA | ShareX's method run on real FFmpeg with generated clips; 801x601 output and crop offset measured. | S | Med |
 | System audio, mic | `SRL/Gsr/GsrCommand.cs`; `SRL/ScreenRecorder.cs` | gsr `-a` | LIMITED: two tracks when both are on, so first-track players miss the microphone | Empty track logged through `Diagnostic`, not shown in the UI; stub with generated silent AAC (6 bytes per packet, as measured on the Blue mic) | S | Med |
 | Audio gain | `SRL/RecordingOptions.cs` | gsr has no option | LIMITED: gain settings are ignored and logged | None | S | High |
@@ -542,7 +542,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | WindowsTrayIcon | `Native/WindowsTrayIcon.cs:35,48` | Shell_NotifyIcon | DROP | Gated by `TrayIconService.cs:77` | S | High |
 | LucideTrayIcon | `LucideTrayIcon.cs:87,102,110,205` | Registry, metrics, gated | UNVERIFIED | Falls back to Avalonia theme, 16px; check HiDPI | S | Med |
 | TaskbarManager | `Native/TaskbarManager.cs:44-73,164-168`; `TaskManager.cs:345,351`; `WorkerTask.cs:391` | ITaskbarList4 COM | SWAP | `com.canonical.Unity.LauncherEntry.Update`; needs installed `.desktop`; only Normal and NoProgress used | S | Med-High |
-| Toast window | `NotificationWindow.axaml:8-10`; `NotificationWindow.cs:320,332,410`; `TaskManager.cs:282`; `TaskHelpers.cs:2770` | GetCursorPos | UNVERIFIED | Keep under XWayland; pointer events for hover; `KWin.activeOutputName` for screen | S | Med |
+| Toast window | `NotificationWindow.axaml:8-10`; `NotificationWindow.cs:320,332,410`; `TaskManager.cs:282`; `TaskHelpers.cs:2770` | GetCursorPos | READY | Keep under XWayland; pointer events for hover; `KWin.activeOutputName` for screen; owner confirmed on the real desktop, 2026-11-03 | S | Med |
 | Native notifications (optional) | same call sites | None | SWAP | org.freedesktop.Notifications; loses placement, hover, per-button click actions | M | Med-High |
 | GetCursorPos helper | `CaptureHelpers.cs:91`; callers `QuickTaskMenu.cs:94`, `ActionsToolbarWindow.axaml.cs:271`, `MouseHighlighterService.cs:65` | Done in M4 | LIMITED | KWin script, `workspace.cursorPos`, converted to X11. Each call loads a script (a few ms), blocking the caller, and returns (0,0) with a log entry if KWin fails, so it must never be polled: the notification's 40 ms hover check now uses `IsPointerOver`. Callers that own the pointer should use pointer events | M | Med |
 | Direct GetCursorPos | `ScreenColorPickerWindow.axaml.cs:132`; `EditorView.ImageInsert.cs:422`; `MonitorTestWindow.axaml.cs:53`; `VideoPlayerWindow.axaml.cs:142`; `EmojiPicker.cs:43` guarded | user32. M3: replaced with `Screens.ScreenFromVisual` or pointer events; not run | UNVERIFIED | Pointer events or `Screens.Primary` | S | Med-High |
