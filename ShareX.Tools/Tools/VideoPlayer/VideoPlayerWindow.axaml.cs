@@ -49,7 +49,6 @@ public partial class VideoPlayerWindow : Window
     private readonly Border _viewport;
     private readonly DispatcherTimer _controlsTimer;
     private WindowState _previousWindowState;
-    private PixelPoint _lastPointer;
     private long _lastInteraction = Environment.TickCount64;
     private bool _seeking, _dialogOpen, _closed, _keyboardNavigation;
 
@@ -72,6 +71,7 @@ public partial class VideoPlayerWindow : Window
         _controlsTimer.Tick += (_, _) => UpdateControls();
         _viewport.SizeChanged += (_, _) => PositionControls();
         Activated += (_, _) => ShowControls();
+        PointerMoved += (_, _) => ShowControls();
         Deactivated += (_, _) => UpdateControls();
         AddHandler(KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
         _controls.AddHandler(KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
@@ -138,14 +138,6 @@ public partial class VideoPlayerWindow : Window
     private void UpdateControls()
     {
         if (_closed) return;
-        // Pointer events over the native video HWND do not reach Avalonia.
-        if (NativeMethods.GetCursorPos(out POINT cursor))
-        {
-            PixelPoint pointer = new(cursor.X, cursor.Y);
-            if (pointer != _lastPointer && new Rect(_viewport.Bounds.Size).Contains(_viewport.PointToClient(pointer)))
-                _lastInteraction = Environment.TickCount64;
-            _lastPointer = pointer;
-        }
         _controlsPopup.IsOpen = IsVisible && IsActive && WindowState != WindowState.Minimized && !_dialogOpen &&
             (!_viewModel.IsPlaying || _seeking || _controls.IsPointerOver || _keyboardNavigation && _controls.IsKeyboardFocusWithin ||
              Environment.TickCount64 - _lastInteraction < 3000);

@@ -128,12 +128,6 @@ namespace ShareX.AvaloniaUI.Windows
 
             Activate();
             Focus();
-
-            if (GetCursorPos(out NativePoint cursorPosition))
-            {
-                var screenPoint = new PixelPoint(cursorPosition.X, cursorPosition.Y);
-                UpdatePicker(screenPoint, this.PointToClient(screenPoint));
-            }
         }
 
         protected override void OnPointerMoved(PointerEventArgs e)
@@ -456,10 +450,6 @@ namespace ShareX.AvaloniaUI.Windows
             public BitmapInfoHeader Header;
             public uint Colors;
         }
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool GetCursorPos(out NativePoint point);
 
         [DllImport("user32.dll")]
         private static extern nint GetDC(nint windowHandle);

@@ -1272,7 +1272,7 @@ namespace ShareX.ImageEditor.Presentation.Views
                 return;
             }
 
-            Point? screenCenter = GetCursorScreenCenter(this);
+            Point? screenCenter = GetWindowScreenCenter(this);
             if (screenCenter.HasValue)
             {
                 notificationHost.RenderTransform = new TranslateTransform(
@@ -1701,7 +1701,7 @@ namespace ShareX.ImageEditor.Presentation.Views
 
             const int defaultSize = 160;
 
-            Point? screenCenter = dropPosition.HasValue ? null : GetCursorScreenCenter(canvas);
+            Point? screenCenter = dropPosition.HasValue ? null : GetWindowScreenCenter(canvas);
             double centerX = screenCenter.HasValue
                 ? Math.Clamp(screenCenter.Value.X, 0, _editorCore.CanvasSize.Width)
                 : _editorCore.CanvasSize.Width / 2;
