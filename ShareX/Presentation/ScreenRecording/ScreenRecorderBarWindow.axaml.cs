@@ -109,12 +109,6 @@ internal partial class ScreenRecorderBarWindow : Window
         Deactivated += (_, _) => ClosePanel();
         Opened += (_, _) =>
         {
-            IntPtr handle = TryGetPlatformHandle()?.Handle ?? IntPtr.Zero;
-            if (handle != IntPtr.Zero)
-            {
-                WindowInfo info = new(handle);
-                info.ExStyle |= WindowStyles.WS_EX_TOOLWINDOW;
-            }
             ShowRegion();
             Dispatcher.UIThread.Post(PositionNearRegion, DispatcherPriority.Loaded);
         };
@@ -448,14 +442,6 @@ internal partial class ScreenRecorderBarWindow : Window
         _regionWindow ??= new ScrollingCaptureRegionWindow(RecordingRegion) { Title = Title };
         _regionWindow.FindControl<RecordingRegionBorder>("RegionBorder")!.AccentBrush = Brushes.Goldenrod;
         _regionWindow.Show();
-        // Keep the outline behind the interactive bar when the windows overlap.
-        IntPtr barHandle = TryGetPlatformHandle()?.Handle ?? IntPtr.Zero;
-        IntPtr regionHandle = _regionWindow.TryGetPlatformHandle()?.Handle ?? IntPtr.Zero;
-        if (barHandle != IntPtr.Zero && regionHandle != IntPtr.Zero)
-        {
-            NativeMethods.SetWindowPos(regionHandle, barHandle, 0, 0, 0, 0,
-                SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOACTIVATE);
-        }
     }
 
     private void ShowPanel(string id, string title, Func<Control> build)

@@ -64,9 +64,6 @@ namespace ShareX.HelpersLib
         [Browsable(false), JsonIgnore]
         public bool CreateWeeklyBackup { get; set; }
 
-        [Browsable(false), JsonIgnore]
-        public bool SupportDPAPIEncryption { get; set; }
-
         public bool IsUpgradeFrom(string version)
         {
             return IsUpgrade && Helpers.CompareVersion(ApplicationVersion, version) <= 0;
@@ -109,12 +106,12 @@ namespace ShareX.HelpersLib
             SaveAsync(FilePath);
         }
 
-        public MemoryStream SaveToMemoryStream(bool supportDPAPIEncryption = false)
+        public MemoryStream SaveToMemoryStream(bool encryptSecrets = false)
         {
             ApplicationVersion = Helpers.GetApplicationVersion();
 
             MemoryStream ms = new MemoryStream();
-            SaveToStream(ms, supportDPAPIEncryption, true);
+            SaveToStream(ms, encryptSecrets, true);
             return ms;
         }
 
@@ -135,9 +132,12 @@ namespace ShareX.HelpersLib
 
                         string tempFilePath = filePath + ".temp";
 
+                        // Serialize before touching the disk: a secret that can't be encrypted throws here,
+                        // and the settings file, its backup and any leftover temp file stay as they were.
+                        using (MemoryStream memoryStream = SaveToMemoryStream(true))
                         using (FileStream fileStream = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, FileOptions.WriteThrough))
                         {
-                            SaveToStream(fileStream, SupportDPAPIEncryption);
+                            memoryStream.WriteTo(fileStream);
                         }
 
                         if (!JsonHelpers.QuickVerifyJsonFile(tempFilePath))
@@ -187,16 +187,16 @@ namespace ShareX.HelpersLib
             return isSuccess;
         }
 
-        private void SaveToStream(Stream stream, bool supportDPAPIEncryption = false, bool leaveOpen = false)
+        private void SaveToStream(Stream stream, bool encryptSecrets = false, bool leaveOpen = false)
         {
             using (StreamWriter streamWriter = new StreamWriter(stream, new UTF8Encoding(false, true), 1024, leaveOpen))
             using (JsonTextWriter jsonWriter = new JsonTextWriter(streamWriter))
             {
                 JsonSerializer serializer = new JsonSerializer();
 
-                if (supportDPAPIEncryption)
+                if (encryptSecrets)
                 {
-                    serializer.ContractResolver = new DPAPIEncryptedStringPropertyResolver();
+                    serializer.ContractResolver = new EncryptedStringPropertyResolver();
                 }
                 else
                 {
@@ -268,7 +268,7 @@ namespace ShareX.HelpersLib
                             using (JsonTextReader jsonReader = new JsonTextReader(streamReader))
                             {
                                 JsonSerializer serializer = new JsonSerializer();
-                                serializer.ContractResolver = new DPAPIEncryptedStringPropertyResolver();
+                                serializer.ContractResolver = new EncryptedStringPropertyResolver();
                                 serializer.Converters.Add(new StringEnumConverter());
                                 serializer.DateTimeZoneHandling = DateTimeZoneHandling.Local;
                                 serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
