@@ -22,10 +22,10 @@ User-facing features in the checklist (section 5.1), by label:
 
 | Label | Rows |
 |---|---|
-| `READY` | 35 |
-| `UNVERIFIED` | 53 |
-| `SWAP` | 36 |
-| `REWRITE` | 18 |
+| `READY` | 36 |
+| `UNVERIFIED` | 59 |
+| `SWAP` | 30 |
+| `REWRITE` | 17 |
 | `LIMITED` | 33 |
 | `DROP` | 8 |
 | **Total** | **183** |
@@ -540,7 +540,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | TaskbarManager | `Native/TaskbarManager.cs:44-73,164-168`; `TaskManager.cs:345,351`; `WorkerTask.cs:391` | ITaskbarList4 COM | SWAP | `com.canonical.Unity.LauncherEntry.Update`; needs installed `.desktop`; only Normal and NoProgress used | S | Med-High |
 | Toast window | `NotificationWindow.axaml:8-10`; `NotificationWindow.cs:320,332,410`; `TaskManager.cs:282`; `TaskHelpers.cs:2770` | GetCursorPos | UNVERIFIED | Keep under XWayland; pointer events for hover; `KWin.activeOutputName` for screen | S | Med |
 | Native notifications (optional) | same call sites | None | SWAP | org.freedesktop.Notifications; loses placement, hover, per-button click actions | M | Med-High |
-| GetCursorPos helper | `CaptureHelpers.cs:91`; callers `QuickTaskMenu.cs:94`, `ActionsToolbarWindow.axaml.cs:271`, `MouseHighlighterService.cs:65` | Done in M4 | LIMITED | KWin script, `workspace.cursorPos`, converted to X11. Each call loads a script (a few ms), blocking the caller, and returns (0,0) with a log entry if KWin fails. Callers that own the pointer should use pointer events | M | Med |
+| GetCursorPos helper | `CaptureHelpers.cs:91`; callers `QuickTaskMenu.cs:94`, `ActionsToolbarWindow.axaml.cs:271`, `MouseHighlighterService.cs:65` | Done in M4 | LIMITED | KWin script, `workspace.cursorPos`, converted to X11. Each call loads a script (a few ms), blocking the caller, and returns (0,0) with a log entry if KWin fails, so it must never be polled: the notification's 40 ms hover check now uses `IsPointerOver`. Callers that own the pointer should use pointer events | M | Med |
 | Direct GetCursorPos | `ScreenColorPickerWindow.axaml.cs:132`; `EditorView.ImageInsert.cs:422`; `MonitorTestWindow.axaml.cs:53`; `VideoPlayerWindow.axaml.cs:142`; `EmojiPicker.cs:43` guarded | user32. M3: replaced with `Screens.ScreenFromVisual` or pointer events; not run | UNVERIFIED | Pointer events or `Screens.Primary` | S | Med-High |
 | SetCursorPos, ClipCursor | `CaptureHelpers.SetCursorPosition` deleted in M4; `ClipCursor` call removed | None | LIMITED | Loses warp and confinement; arrow keys move an internal point | S | Med-High |
 | CursorData (cursor in captures) | Deleted in M4 | None | LIMITED | `spectacle -p` (M4, virtual session only) | M | Med-Low |

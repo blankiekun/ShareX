@@ -404,12 +404,8 @@ public partial class NotificationWindow : Window
             return;
         }
 
-        PixelPoint topLeft = NotificationCard.PointToScreen(default);
-        PixelPoint bottomRight = NotificationCard.PointToScreen(
-            new Point(NotificationCard.Bounds.Width, NotificationCard.Bounds.Height));
-        System.Drawing.Point cursor = CaptureHelpers.GetCursorPosition();
-        bool isInside = cursor.X >= topLeft.X && cursor.X < bottomRight.X &&
-            cursor.Y >= topLeft.Y && cursor.Y < bottomRight.Y;
+        // Not GetCursorPosition: this runs every 40 ms, and that loads a KWin script per call.
+        bool isInside = NotificationCard.IsPointerOver;
 
         if (isInside == _pointerInside)
         {
