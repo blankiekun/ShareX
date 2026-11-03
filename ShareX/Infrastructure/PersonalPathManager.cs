@@ -39,7 +39,7 @@ internal static class PersonalPathManager
     private const string ConfigFileName = "PersonalPath.cfg";
     private static readonly string CurrentConfigFilePath = Path.Combine(AppPaths.DefaultPersonalFolder, ConfigFileName);
     private static readonly string PreviousConfigFilePath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ApplicationInfo.Name, ConfigFileName);
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.DoNotVerify), ApplicationInfo.Name, ConfigFileName);
 
     internal static string CustomPersonalPath { get; private set; } = string.Empty;
     internal static string? DetectionMethod { get; private set; }

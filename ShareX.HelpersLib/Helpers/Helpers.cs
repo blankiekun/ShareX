@@ -60,7 +60,8 @@ namespace ShareX.HelpersLib
         public const string Base58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"; // https://en.wikipedia.org/wiki/Base58
         public const string Base56 = "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz"; // A variant, Base56, excludes 1 (one) and o (lowercase o) compared to Base 58.
 
-        public static readonly Version OSVersion = Environment.OSVersion.Version;
+        // 0.0 off Windows, so every IsWindows* gate is false instead of comparing against the Linux kernel version.
+        public static readonly Version OSVersion = OperatingSystem.IsWindows() ? Environment.OSVersion.Version : new Version();
 
         public static string AddZeroes(string input, int digits = 2)
         {
