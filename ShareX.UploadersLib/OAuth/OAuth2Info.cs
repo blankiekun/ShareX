@@ -23,14 +23,24 @@
 
 #endregion License Information (GPL v3)
 
+using Newtonsoft.Json;
+using ShareX.HelpersLib;
+
 namespace ShareX.UploadersLib
 {
     public class OAuth2Info
     {
         public string Client_ID { get; set; }
+        [JsonEncrypt]
         public string Client_Secret { get; set; }
         public OAuth2Token Token { get; set; }
         public OAuth2ProofKey Proof { get; set; }
+
+        // Json.NET would otherwise pass Client_Secret through the other constructor, skipping decryption.
+        [JsonConstructor]
+        private OAuth2Info()
+        {
+        }
 
         public OAuth2Info(string client_id, string client_secret)
         {
