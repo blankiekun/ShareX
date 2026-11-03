@@ -23,18 +23,20 @@
 
 #endregion License Information (GPL v3)
 
-using ShareX.ScreenRecordingLib.Audio;
-using ShareX.ScreenRecordingLib.Encoding;
-using ShareX.ScreenRecordingLib.Native;
-using ShareX.ScreenRecordingLib.Video;
+using ShareX.ScreenRecordingLib.Gsr;
 using System.Drawing;
-using Vortice.MediaFoundation;
 
 namespace ShareX.ScreenRecordingLib;
 
-/// <summary>A single native recording session. Prepare during a countdown to remove setup from StartAsync.</summary>
+/// <summary>
+/// A single recording session driving the host's gpu-screen-recorder. Prepare checks the host and reserves the output
+/// during a countdown. The process only starts in StartAsync, because gpu-screen-recorder has no armed state.
+/// </summary>
 public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
 {
+    // Measured: a silent microphone averaged 6 bytes per AAC packet, real audio 400 or more.
+    private const double EmptyTrackBytesPerPacket = 32;
+
     private readonly RecordingOptions options;
     private readonly RecordingClock clock = new();
     private readonly object sync = new();
@@ -46,16 +48,16 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
     private readonly TaskCompletionSource<RecordingResult> completed = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private Thread? worker;
     private bool startRequested, disposed, resumeRequested;
-    private Rectangle? resumeRegion;
     private int recording, aborted;
 
     public Task<RecordingResult> Completion => completed.Task;
     public VideoEncoderInfo? Encoder { get; private set; }
-    public CameraCaptureInfo? Camera { get; private set; }
-    /// <summary>Nonfatal camera errors; screen and audio recording continue.</summary>
+    /// <summary>Always null: the camera overlay isn't available with gpu-screen-recorder yet.</summary>
+    public CameraCaptureInfo? Camera => null;
+    /// <summary>The rectangle actually recorded: Region rounded up to even, moved back one pixel if that would leave the monitor.</summary>
+    public Rectangle CapturedRegion { get; private set; }
+    /// <summary>Things that don't stop the recording but that the user may want to know, such as an empty microphone track.</summary>
     public event Action<string>? Diagnostic;
-    /// <summary>GIF encoding progress after capture has stopped, from 0 to 100.</summary>
-    public event Action<int>? EncodingProgressChanged;
     public bool IsRecording => Volatile.Read(ref recording) != 0;
     public bool IsPaused => clock.IsPaused;
     public TimeSpan Elapsed => TimeSpan.FromTicks(clock.Elapsed);
@@ -75,11 +77,11 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
             if (worker == null)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                worker = new Thread(Run) { IsBackground = true, Name = "ShareX native recording" };
+                worker = new Thread(Run) { IsBackground = true, Name = "ShareX recording" };
                 worker.Start();
             }
         }
-        // Cancellation stops this session, including its capture threads and partially created output.
+        // Cancellation stops this session, including its process and partially created output.
         using CancellationTokenRegistration registration = cancellationToken.Register(RequestStop);
         await prepared.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
@@ -104,30 +106,29 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
         {
             if (disposed) return;
             resumeRequested = false;
-            resumeRegion = null;
             clock.Pause();
             changed.Set();
         }
     }
 
-    public void Resume() => RequestResume(null);
+    public void Resume() => RequestResume();
 
-    /// <summary>Resume desktop capture at a new position, keeping the recording's output dimensions.</summary>
+    /// <summary>gpu-screen-recorder can't move a running capture, so a different position is logged and recording resumes where it was.</summary>
     public void Resume(Rectangle region)
     {
         if (options.WindowHandle != 0) throw new InvalidOperationException("Window capture follows its target window rather than a desktop region.");
-        int sizeMask = options.IsGif ? -1 : ~1;
-        if ((region.Width & sizeMask) != (options.Region.Width & sizeMask) || (region.Height & sizeMask) != (options.Region.Height & sizeMask))
+        if ((region.Width & ~1) != (options.Region.Width & ~1) || (region.Height & ~1) != (options.Region.Height & ~1))
             throw new ArgumentException("Moving the recording region cannot change its output dimensions.", nameof(region));
-        RequestResume(region);
+        if (region.Location != options.Region.Location)
+            ReportDiagnostic($"The recording region can't move while recording, so it stays at {options.Region.X},{options.Region.Y}.");
+        RequestResume();
     }
 
-    private void RequestResume(Rectangle? region)
+    private void RequestResume()
     {
         lock (sync)
         {
             if (disposed || !clock.IsPaused) return;
-            resumeRegion = region;
             resumeRequested = true;
             changed.Set();
         }
@@ -139,7 +140,7 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
         lock (sync) { if (!disposed) stop.Set(); }
     }
 
-    /// <summary>Discard this recording and cancel any pending GIF encoding.</summary>
+    /// <summary>Discard this recording.</summary>
     public void RequestAbort()
     {
         Interlocked.Exchange(ref aborted, 1);
@@ -156,199 +157,65 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
         return Completion;
     }
 
-    private unsafe void Run()
+    private void Run()
     {
-        bool com = false, mediaFoundation = false, ownsOutput = false;
+        string directory = Path.GetDirectoryName(options.OutputPath)!;
+        // gsr silently overwrites its output, so it writes to a private name and the result moves without clobbering.
+        string temporary = Path.Combine(directory, $".{Path.GetFileNameWithoutExtension(options.OutputPath)}-{Guid.NewGuid():N}.mp4");
+        string firstFrameFile = temporary + ".ts";
+        string socketPath = Path.Combine(Environment.GetEnvironmentVariable("XDG_RUNTIME_DIR") is { Length: > 0 } runtime ? runtime : Path.GetTempPath(), $"sharex-gsr-{Guid.NewGuid():N}.sock");
+        GsrSession? session = null;
+        bool ownsOutput = false, keepTemporary = false;
         try
         {
-            NativeMethods.CoInitializeEx(null, COINIT.COINIT_MULTITHREADED).ThrowOnFailure();
-            com = true;
-            if (!options.IsGif || options.CaptureCamera)
-            {
-                MediaFactory.MFStartup(true).CheckError();
-                mediaFoundation = true;
-            }
-            List<GraphicsCapture.Target> targets = GraphicsCapture.GetTargets(options, out int width, out int height);
-            Directory.CreateDirectory(Path.GetDirectoryName(options.OutputPath)!);
+            if (options.WindowHandle != 0)
+                throw new PlatformNotSupportedException("Recording a single window isn't available on Wayland. Select the window's area as a region instead.");
+            string recorder = HostTools.RequireRecorder();
+            CapturedRegion = GsrCommand.PlanRegion(options.Region, HostTools.GetMonitors());
+            Encoder = new VideoEncoderInfo("gpu-screen-recorder h264", options.RequireHardwareEncoder, false);
+            ReportIgnoredOptions();
+
+            Directory.CreateDirectory(directory);
             // Reserve the name atomically. Never overwrite or delete a pre-existing user file.
             using (new FileStream(options.OutputPath, FileMode.CreateNew, FileAccess.Write, FileShare.None)) { }
             ownsOutput = true;
-            using GraphicsDevice graphics = new(targets[0].Monitor);
-            using GpuVideoProcessor processor = new(graphics, width, height, options.FramesPerSecond, !options.IsGif);
-            using MediaFoundationWriter? writer = options.IsGif ? null : new(graphics, options, width, height);
-            using GifWriter? gifWriter = options.IsGif ? new(graphics, options, width, height) : null;
-            Encoder = writer?.Encoder ?? GifWriter.Encoder;
-            using VideoTexturePool? textures = writer == null ? null : new(graphics, processor, writer.EncoderBindFlags);
-            using GraphicsCapture capture = new(graphics, processor, targets, options.IncludeCursor, options.FramesPerSecond);
-            using CameraCapture? camera = options.CaptureCamera ? new(graphics, options) : null;
-            Camera = camera?.Info;
-            using CameraOverlay? cameraOverlay = camera == null ? null : new(graphics, camera.Info, camera.Subtype,
-                camera.Stride, camera.YuvMatrix, camera.NominalRange, options, width, height);
-            AudioMixer mixer = new(clock);
-            using WasapiCapture? audio = options.HasAudio ? new(options, mixer) : null;
             prepared.TrySetResult();
             if (WaitHandle.WaitAny([stop, begin]) == 0) throw new OperationCanceledException("Recording stopped before capture began.");
-            camera?.Start();
-            audio?.Start();
-            capture.Start();
-            long waitStart = RecordingClock.Now;
-            while (!capture.HasFrame)
-            {
-                if (stop.WaitOne(5)) throw new OperationCanceledException("Recording stopped before the first video frame.");
-                if (audio?.Failure is Exception audioFailure) throw new IOException("Windows audio capture failed.", audioFailure);
-                capture.Update();
-                if (capture.HasEnded) throw new IOException("The capture target closed or changed size before recording started.");
-                if (RecordingClock.Now - waitStart > TimeSpan.FromSeconds(10).Ticks)
-                    throw new TimeoutException("Windows did not deliver a capture frame. The window may be minimized, protected, or unavailable.");
-            }
-            clock.Start(capture.LatestTimestamp);
+
+            session = new GsrSession(recorder, GsrCommand.BuildArguments(options, CapturedRegion, temporary, socketPath), socketPath, firstFrameFile);
+            session.WaitForFirstFrame(stop);
+            clock.Start(RecordingClock.Now);
             Volatile.Write(ref recording, 1);
-            long nextFrame = 0, written = 0, dropped = 0, audioFrame = 0;
-            bool discontinuity = false;
-            bool cameraDisabled = false;
-            long nextCameraFrame = 0, lastCameraFrame = 0;
-            short[] audioBlock = new short[480 * 2]; // 10 ms, 48 kHz stereo
-            using FrameTimer timer = new();
-            WaitHandle[] waits = [stop, changed, timer];
-            long duration = 0;
-            Rectangle currentRegion = options.Region;
-            long resumeWaitStart = 0;
-            while (!stop.WaitOne(0))
-            {
-                if (capture.HasEnded) break;
-                if (audio?.Failure is Exception audioFailure) throw new IOException("Windows audio capture failed (the endpoint may have changed or been disconnected).", audioFailure);
-                if (clock.IsPaused)
-                {
-                    Rectangle? requestedRegion;
-                    lock (sync) requestedRegion = resumeRequested ? resumeRegion : null;
-                    if (requestedRegion is Rectangle region && region != currentRegion)
-                    {
-                        // Only the capture sessions change. Keep the GPU, encoder, camera, audio and
-                        // media timeline alive, including when the region moves onto another display.
-                        List<GraphicsCapture.Target> movedTargets = GraphicsCapture.GetTargets(options with { Region = region }, out _, out _);
-                        capture.Retarget(movedTargets);
-                        currentRegion = region;
-                        resumeWaitStart = RecordingClock.Now;
-                    }
-                    // Drain WGC so resume never displays frames retained during the pause.
-                    capture.Update();
-                    if (capture.HasEnded) break;
-                    if (!capture.HasFrame && RecordingClock.Now - resumeWaitStart > TimeSpan.FromSeconds(10).Ticks)
-                        throw new TimeoutException("Windows did not deliver a frame for the moved recording region.");
-                    WriteAudioUntil(writer, mixer, audioBlock, ref audioFrame, clock.Elapsed, options.HasAudio);
-                    lock (sync)
-                    {
-                        // Keep media time paused until the new region has a frame. A later pause or
-                        // resume request supersedes this one without briefly recording an old target.
-                        if (resumeRequested && resumeRegion == requestedRegion && capture.HasFrame)
-                        {
-                            clock.Resume();
-                            resumeRequested = false;
-                            resumeRegion = null;
-                        }
-                    }
-                    discontinuity = true;
-                    if (!clock.IsPaused) continue;
-                    timer.Arm(TimeSpan.FromMilliseconds(20).Ticks);
-                    if (WaitHandle.WaitAny(waits) == 0) break;
-                    continue;
-                }
-                long elapsed = clock.Elapsed;
-                if (options.Duration > TimeSpan.Zero && elapsed >= options.Duration.Ticks) break;
-                long frameTime = nextFrame * TimeSpan.TicksPerSecond / options.FramesPerSecond;
-                if (elapsed >= frameTime)
-                {
-                    // Skip overdue frame slots. Never accelerate playback or queue a catch-up burst.
-                    long dueFrame = elapsed * options.FramesPerSecond / TimeSpan.TicksPerSecond;
-                    if (written > 0 && dueFrame > nextFrame)
-                    {
-                        dropped += dueFrame - nextFrame;
-                        nextFrame = dueFrame;
-                        discontinuity = true;
-                    }
-                    capture.Update();
-                    long timestamp = nextFrame * TimeSpan.TicksPerSecond / options.FramesPerSecond;
-                    if (capture.HasEnded) break;
-                    long end = (nextFrame + 1) * TimeSpan.TicksPerSecond / options.FramesPerSecond;
-                    VideoTexturePool.Slot? slot = null;
-                    if (textures == null || textures.TryRent(out slot))
-                    {
-                        if (camera != null && !cameraDisabled)
-                        {
-                            try
-                            {
-                                if (camera.Failure is Exception cameraFailure) throw cameraFailure;
-                                // The camera has its own cadence. At high screen FPS, reuse its existing tile.
-                                if (elapsed >= nextCameraFrame)
-                                {
-                                    IMFSample? cameraFrame = camera.TakeLatestFrame();
-                                    if (cameraFrame != null)
-                                    {
-                                        cameraOverlay!.Update(cameraFrame);
-                                        lastCameraFrame = elapsed;
-                                    }
-                                    // Align to media-clock slots so a late update does not keep
-                                    // pushing the camera deadline onto the following screen frame.
-                                    long nextCameraSlot = elapsed * options.CameraFramesPerSecond / TimeSpan.TicksPerSecond + 1;
-                                    nextCameraFrame = (nextCameraSlot * TimeSpan.TicksPerSecond + options.CameraFramesPerSecond - 1) / options.CameraFramesPerSecond;
-                                }
-                                if (elapsed - lastCameraFrame > TimeSpan.FromSeconds(10).Ticks)
-                                    throw new TimeoutException("The camera did not deliver a new frame for ten seconds.");
-                            }
-                            catch (Exception ex)
-                            {
-                                cameraDisabled = true;
-                                cameraOverlay!.Disable();
-                                ReportDiagnostic($"Camera overlay disabled; screen and audio recording continue. {ex}");
-                                camera.Dispose();
-                            }
-                        }
-                        if (gifWriter != null)
-                        {
-                            if (!gifWriter.TryWriteVideo(processor.GetBgraFrame(cameraOverlay), timestamp))
-                            {
-                                dropped++;
-                                nextFrame++;
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            try { processor.Convert(slot!.View, (uint)nextFrame, cameraOverlay); }
-                            catch { textures!.Return(slot!); throw; }
-                            using var sample = textures!.CreateSample(slot!);
-                            writer!.WriteVideo(sample, timestamp, end - timestamp, discontinuity);
-                        }
-                        written++;
-                        duration = end;
-                        discontinuity = false;
-                        started.TrySetResult();
-                    }
-                    else { dropped++; discontinuity = true; }
-                    nextFrame++;
-                }
-                // Allow 50 ms for WASAPI packets to arrive; timestamps remain aligned with video.
-                WriteAudioUntil(writer, mixer, audioBlock, ref audioFrame, Math.Max(0, clock.Elapsed - TimeSpan.FromMilliseconds(50).Ticks), options.HasAudio);
-                long remaining = nextFrame * TimeSpan.TicksPerSecond / options.FramesPerSecond - clock.Elapsed;
-                timer.Arm(remaining);
-                if (WaitHandle.WaitAny(waits) == 0) break;
-            }
-            // Stop and drain capture before writing the final audio blocks and finalizing the container.
-            audio?.Dispose();
+            started.TrySetResult();
+
+            RunUntilStopped(session);
+
             clock.Stop();
             Volatile.Write(ref recording, 0);
-            duration = Math.Max(duration, options.Duration > TimeSpan.Zero ? Math.Min(clock.Elapsed, options.Duration.Ticks) : clock.Elapsed);
+            session.Stop();
             if (Volatile.Read(ref aborted) != 0) throw new OperationCanceledException("Recording aborted.");
-            WriteAudioUntil(writer, mixer, audioBlock, ref audioFrame, duration, options.HasAudio, true);
-            if (written == 0) throw new IOException("No video frames were accepted by the encoder.");
-            writer?.Finish();
-            if (gifWriter != null)
+            if (session.GetFailure() is Exception failure) throw failure;
+            if (session.EncoderName is string encoderName)
+                Encoder = new VideoEncoderInfo(encoderName, encoderName is not ("libx264" or "libopenh264"), false);
+
+            RecordingResult result = InspectOutput(temporary);
+            ownsOutput = false;
+            try
             {
-                capture.Dispose();
-                camera?.Dispose();
-                gifWriter.Finish(duration, ReportEncodingProgress, () => Volatile.Read(ref aborted) != 0);
+                // Only the empty reservation may go. Anything else at that name now belongs to someone else.
+                if (File.Exists(options.OutputPath))
+                {
+                    if (new FileInfo(options.OutputPath).Length != 0) throw new IOException($"'{options.OutputPath}' appeared while recording.");
+                    File.Delete(options.OutputPath);
+                }
+                File.Move(temporary, options.OutputPath, overwrite: false);
             }
-            completed.TrySetResult(new(options.OutputPath, TimeSpan.FromTicks(duration), written, dropped, mixer.Discontinuities, Encoder));
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                keepTemporary = true;
+                throw new IOException($"The recording finished, but it couldn't be moved to '{options.OutputPath}'. The completed recording is available at '{temporary}'.", ex);
+            }
+            completed.TrySetResult(result);
         }
         catch (Exception ex)
         {
@@ -363,36 +230,91 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
         {
             clock.Stop();
             Volatile.Write(ref recording, 0);
-            if (mediaFoundation) MediaFactory.MFShutdown();
-            if (com) NativeMethods.CoUninitialize();
+            session?.Dispose();
+            if (!keepTemporary) TryDelete(temporary);
+            TryDelete(firstFrameFile);
+            TryDelete(socketPath);
         }
+    }
+
+    /// <summary>Returns when a stop was requested, gsr exited by itself, a black video was detected or the fixed duration ran out.</summary>
+    private void RunUntilStopped(GsrSession session)
+    {
+        bool paused = false;
+        WaitHandle[] waits = [stop, changed, session.Exited];
+        while (true)
+        {
+            int signaled = WaitHandle.WaitAny(waits, 50);
+            if (signaled is 0 or 2 || session.HasCaptureFailure) return;
+            if (options.Duration > TimeSpan.Zero && clock.Elapsed >= options.Duration.Ticks) return;
+
+            bool wantPaused;
+            lock (sync) wantPaused = clock.IsPaused && !resumeRequested;
+            if (wantPaused != paused)
+            {
+                if (session.SetPaused(wantPaused) is string error)
+                    ReportDiagnostic($"gpu-screen-recorder didn't {(wantPaused ? "pause" : "resume")}: {error}");
+                paused = wantPaused;
+            }
+            // Media time stays paused until gsr has actually resumed. A later Pause supersedes this request.
+            lock (sync)
+            {
+                if (resumeRequested && !paused)
+                {
+                    clock.Resume();
+                    resumeRequested = false;
+                }
+            }
+        }
+    }
+
+    /// <summary>A clean exit doesn't prove there's a usable file, so check it before it replaces the reserved name.</summary>
+    private RecordingResult InspectOutput(string path)
+    {
+        FileInfo file = new(path);
+        if (!file.Exists || file.Length == 0) throw new IOException("gpu-screen-recorder exited normally but wrote no video.");
+        VideoEncoderInfo encoder = Encoder!;
+
+        RecordingProbe? probe = HostTools.ProbeRecording(path);
+        if (probe == null)
+        {
+            ReportDiagnostic("ffprobe isn't installed, so the frame count and microphone track weren't checked.");
+            return new RecordingResult(options.OutputPath, Elapsed, -1, -1, -1, encoder);
+        }
+        if (!probe.IsReadable) throw new IOException($"gpu-screen-recorder wrote a file that can't be read: {probe.Error}");
+        if (probe.VideoFrames == 0) throw new IOException("gpu-screen-recorder wrote a file with no video frames.");
+        if (options.CaptureMicrophone) ReportEmptyMicrophone(probe);
+        return new RecordingResult(options.OutputPath, probe.Duration ?? Elapsed, probe.VideoFrames ?? -1, -1, -1, encoder);
+    }
+
+    private void ReportEmptyMicrophone(RecordingProbe probe)
+    {
+        int track = options.CaptureSystemAudio ? 1 : 0;
+        if (track >= probe.AudioBytesPerPacket.Count)
+            ReportDiagnostic("The recording has no microphone track, so the microphone wasn't recorded.");
+        else if (probe.AudioBytesPerPacket[track] is not double bytes)
+            ReportDiagnostic("Couldn't tell whether the microphone track has sound: ffprobe didn't report its size.");
+        else if (bytes < EmptyTrackBytesPerPacket)
+            ReportDiagnostic($"The microphone track looks empty ({bytes:0} bytes per packet), so the microphone may be silent. Check the input device in the recording settings.");
+    }
+
+    private void ReportIgnoredOptions()
+    {
+        if (options.CaptureCamera) ReportDiagnostic("The camera overlay isn't available yet, so recording continues without the camera.");
+        if (options.CaptureSystemAudio && options.SystemAudioGain != 1) ReportDiagnostic("gpu-screen-recorder has no gain option, so the system audio gain is ignored.");
+        if (options.CaptureMicrophone && options.MicrophoneGain != 1) ReportDiagnostic("gpu-screen-recorder has no gain option, so the microphone gain is ignored.");
+    }
+
+    private void TryDelete(string path)
+    {
+        try { File.Delete(path); }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { ReportDiagnostic($"Couldn't remove '{path}': {ex.Message}"); }
     }
 
     private void ReportDiagnostic(string message)
     {
         try { Diagnostic?.Invoke(message); }
         catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
-    }
-
-    private void ReportEncodingProgress(int progress)
-    {
-        try { EncodingProgressChanged?.Invoke(progress); }
-        catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
-    }
-
-    private static void WriteAudioUntil(MediaFoundationWriter? writer, AudioMixer mixer, short[] block,
-        ref long firstFrame, long until, bool enabled, bool partial = false)
-    {
-        if (!enabled || writer == null) return;
-        long endFrame = (long)((Int128)until * AudioMixer.SampleRate / TimeSpan.TicksPerSecond);
-        while (firstFrame + block.Length / 2 <= endFrame || (partial && firstFrame < endFrame))
-        {
-            int count = (int)Math.Min(block.Length / 2, endFrame - firstFrame);
-            Span<short> output = block.AsSpan(0, count * 2);
-            mixer.Read(firstFrame, output);
-            writer.WriteAudio(output, firstFrame);
-            firstFrame += count;
-        }
     }
 
     public void Dispose()

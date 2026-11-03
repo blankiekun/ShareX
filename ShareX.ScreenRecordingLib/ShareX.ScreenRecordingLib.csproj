@@ -2,16 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Description>Windows-native GPU screen recording and WASAPI audio capture</Description>
+    <Description>Screen recording through the host's gpu-screen-recorder</Description>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Vortice.Direct3D11" />
-    <PackageReference Include="Vortice.MediaFoundation" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ShareX.HelpersLib\ShareX.HelpersLib.csproj" />
-  </ItemGroup>
 </Project>

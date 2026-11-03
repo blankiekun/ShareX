@@ -255,7 +255,8 @@ namespace ShareX.ScreenCaptureLib
             }
         }
 
-        public bool FFmpegEncodeAsGIF(string input, string output)
+        /// <param name="crop">Keep only this part of the input, in input pixels. Video from gpu-screen-recorder is always even-sized, so an odd-sized GIF is cut from it here.</param>
+        public bool FFmpegEncodeAsGIF(string input, string output, Rectangle? crop = null)
         {
             FileHelpers.CreateDirectoryFromFilePath(output);
 
@@ -268,10 +269,18 @@ namespace ShareX.ScreenCaptureLib
                 args.Append($"-i \"{input}\" ");
 
                 // https://ffmpeg.org/ffmpeg-filters.html#palettegen-1
-                args.Append($"-lavfi \"palettegen=stats_mode={Options.FFmpeg.GIFStatsMode}[palette],");
+                if (crop is Rectangle area)
+                {
+                    // Crop in RGB: on 4:2:0 video the crop filter rounds odd sizes and offsets down to even.
+                    args.Append($"-lavfi \"[0:v]format=rgb24,crop={area.Width}:{area.Height}:{area.X}:{area.Y},split[source][stats];[stats]palettegen=stats_mode={Options.FFmpeg.GIFStatsMode}[palette];");
+                }
+                else
+                {
+                    args.Append($"-lavfi \"palettegen=stats_mode={Options.FFmpeg.GIFStatsMode}[palette],");
+                }
 
                 // https://ffmpeg.org/ffmpeg-filters.html#paletteuse
-                args.Append($"[0:v][palette]paletteuse=dither={Options.FFmpeg.GIFDither}");
+                args.Append($"{(crop == null ? "[0:v]" : "[source]")}[palette]paletteuse=dither={Options.FFmpeg.GIFDither}");
 
                 if (Options.FFmpeg.GIFDither == FFmpegPaletteUseDither.bayer)
                 {

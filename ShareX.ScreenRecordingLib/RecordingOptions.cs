@@ -27,24 +27,28 @@ using System.Drawing;
 
 namespace ShareX.ScreenRecordingLib;
 
-/// <summary>Native H.264/AAC MP4 or adaptive GIF recording. Coordinates are physical desktop pixels.</summary>
+/// <summary>H.264/AAC MP4 recording through gpu-screen-recorder. Coordinates are physical desktop pixels.</summary>
 public sealed record RecordingOptions
 {
-    /// <summary>The .mp4 or .gif extension selects the output format.</summary>
+    /// <summary>Must end in .mp4. A GIF is encoded from the finished file afterwards, see ScreenRecordManager.</summary>
     public required string OutputPath { get; init; }
+    /// <summary>Must fit inside one monitor. An odd width or height rounds up to even, see ScreenRecorder.CapturedRegion.</summary>
     public Rectangle Region { get; init; }
-    /// <summary>When nonzero, capture this window (including when occluded) instead of Region.</summary>
+    /// <summary>Not available on Wayland: a nonzero handle is refused. Record the window's rectangle as a Region instead.</summary>
     public nint WindowHandle { get; init; }
     public int FramesPerSecond { get; init; } = 30;
+    /// <summary>Force a constant frame rate. Off by default because it can collapse under heavy GPU load.</summary>
+    public bool ConstantFrameRate { get; init; }
     public int VideoBitrate { get; init; } = 8_000_000;
     public int AudioBitrate { get; init; } = 192_000;
     public bool IncludeCursor { get; init; } = true;
     public bool CaptureSystemAudio { get; init; } = true;
     public bool CaptureMicrophone { get; init; }
-    /// <summary>WASAPI endpoint ID; null selects the default multimedia render endpoint.</summary>
+    /// <summary>Monitor source name from AudioCaptureDevices; null selects the default output.</summary>
     public string? SystemAudioDeviceId { get; init; }
-    /// <summary>WASAPI endpoint ID; null selects the default communications capture endpoint.</summary>
+    /// <summary>Source name from AudioCaptureDevices; null selects the default input.</summary>
     public string? MicrophoneDeviceId { get; init; }
+    /// <summary>Not available yet: logged through Diagnostic, and recording continues without the camera.</summary>
     public bool CaptureCamera { get; init; }
     /// <summary>Camera symbolic link; null selects the first available camera.</summary>
     public string? CameraDeviceId { get; init; }
@@ -58,26 +62,26 @@ public sealed record RecordingOptions
     public int CameraWidthPercent { get; init; } = 20;
     /// <summary>Distance from the recording's corner in physical pixels, clamped to fit.</summary>
     public int CameraMargin { get; init; } = 16;
+    /// <summary>gpu-screen-recorder has no gain option: anything but 1 is logged through Diagnostic and ignored.</summary>
     public float SystemAudioGain { get; init; } = 1;
+    /// <summary>gpu-screen-recorder has no gain option: anything but 1 is logged through Diagnostic and ignored.</summary>
     public float MicrophoneGain { get; init; } = 1;
-    /// <summary>For MP4, reject a software video encoder rather than silently increasing CPU usage.</summary>
+    /// <summary>When false, gpu-screen-recorder may fall back to CPU encoding if the GPU encoder is unavailable.</summary>
     public bool RequireHardwareEncoder { get; init; } = true;
     public TimeSpan Duration { get; init; }
 
-    internal bool IsGif => Path.GetExtension(OutputPath).Equals(".gif", StringComparison.OrdinalIgnoreCase);
-    internal bool HasAudio => !IsGif && (CaptureSystemAudio || CaptureMicrophone);
+    internal bool HasAudio => CaptureSystemAudio || CaptureMicrophone;
 
     internal void Validate()
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(OutputPath);
-        if (!IsGif && !Path.GetExtension(OutputPath).Equals(".mp4", StringComparison.OrdinalIgnoreCase))
-            throw new ArgumentException("Native recording writes H.264/AAC MP4 or adaptive GIF files.", nameof(OutputPath));
+        if (!Path.GetExtension(OutputPath).Equals(".mp4", StringComparison.OrdinalIgnoreCase))
+            throw new ArgumentException("Recording writes H.264/AAC MP4 files.", nameof(OutputPath));
         if (WindowHandle == 0 && (Region.Width < 2 || Region.Height < 2))
-            throw new ArgumentException("Select a window or a region of at least 2 × 2 pixels.", nameof(Region));
+            throw new ArgumentException("Select a region of at least 2 × 2 pixels.", nameof(Region));
         if (FramesPerSecond is < 1 or > 240) throw new ArgumentOutOfRangeException(nameof(FramesPerSecond));
-        if (IsGif && FramesPerSecond > 100) throw new ArgumentOutOfRangeException(nameof(FramesPerSecond), "GIF frames have a minimum duration of 10 ms.");
-        if (!IsGif && VideoBitrate is < 100_000 or > 200_000_000) throw new ArgumentOutOfRangeException(nameof(VideoBitrate));
-        if (!IsGif && AudioBitrate is not (96_000 or 128_000 or 160_000 or 192_000)) throw new ArgumentOutOfRangeException(nameof(AudioBitrate));
+        if (VideoBitrate is < 100_000 or > 200_000_000) throw new ArgumentOutOfRangeException(nameof(VideoBitrate));
+        if (AudioBitrate is not (96_000 or 128_000 or 160_000 or 192_000)) throw new ArgumentOutOfRangeException(nameof(AudioBitrate));
         if (Duration < TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(Duration));
         if (!Enum.IsDefined(CameraResolution)) throw new ArgumentOutOfRangeException(nameof(CameraResolution));
         if (!Enum.IsDefined(CameraPosition)) throw new ArgumentOutOfRangeException(nameof(CameraPosition));
@@ -90,7 +94,9 @@ public sealed record RecordingOptions
     }
 }
 
+/// <summary>IsD3D11Aware is always false here; it stays so existing readers of this record keep compiling.</summary>
 public sealed record VideoEncoderInfo(string Name, bool IsHardwareAccelerated, bool IsD3D11Aware);
 
+/// <summary>VideoFrames is -1 when ffprobe couldn't count them. gpu-screen-recorder reports neither dropped frames nor audio discontinuities, so those two are always -1.</summary>
 public sealed record RecordingResult(string OutputPath, TimeSpan Duration, long VideoFrames,
     long DroppedVideoFrames, long AudioDiscontinuities, VideoEncoderInfo Encoder);

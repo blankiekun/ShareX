@@ -69,7 +69,7 @@ The other tables overlap with the checklist, so their rows aren't added to these
    screenshot, and a KWin script for window lists and snapping. This is the core of the app and the biggest design risk.
 5. **Desktop integration:** KGlobalAccel hotkeys, tray, single instance, `.desktop` file, icons, MIME types, autostart,
    service menu, then an AppImage.
-6. **Recording:** try `gpu-screen-recorder` first; otherwise portal ScreenCast into PipeWire into `ffmpeg` with NVENC.
+6. **Recording:** M6 drives the host's `gpu-screen-recorder` as a process; nothing has run on real captures yet. Window recording stays LIMITED and needs the portal later.
 7. **Remaining tools:** Tesseract OCR, ONNX on CUDA, `libmpv` video player, printing, notifications.
 8. **Migration from Windows:** settings import, path rewriting, history. In scope: the owner has an install to move.
 
@@ -85,9 +85,12 @@ appears, and the overlay's own pointer events do the hit-testing.
 GlobalShortcuts portal can only hint a trigger and has the user confirm in a dialog; it's the fallback for Flatpak. Don't
 assume a requested key became active.
 
-**Recording.** `/usr/bin/ffmpeg` here has no PipeWire input and VA-API encoding fails, while NVENC works. So a bridge is
-needed, for example `gst-launch-1.0 pipewiresrc` (`gst-plugin-pipewire` isn't installed). Crop in C# and pipe frames to
-`ffmpeg`. ShareX can't pass its own rectangle to the portal, so region recording means cropping a monitor stream.
+**Recording.** Owner decision (2026-11-03): build on `gpu-screen-recorder` (gsr) as a host dependency, accepting its `cap_sys_admin` helper and capture with no consent prompt. `ScreenRecorder` keeps its public surface and spawns gsr with an argument list, clearing `LD_LIBRARY_PATH`. It checks the helper with `getcap` first and treats `no drm found` or `drmfb handle is NULL` on stderr as failure even with exit 0, because that case is a valid all-black MP4. It controls gsr through `-ipc` and uses the socket plus `-write-first-frame-ts` as the started signal. gsr writes to a hidden temporary name, which then moves over the empty `CreateNew` reservation without clobbering anything else.
+- **Spanning regions are refused, not clipped.** gsr gives wrong pixels for them, and clipping would silently drop part of the selection. The refusal explains why before anything starts. Monitor bounds come from `kscreen-doctor -j`.
+- **Two audio tracks when both sources are on.** A silent microphone can only be detected on its own track (ffprobe bytes per packet, logged through `Diagnostic`). The cost: players that only play the first track won't play the microphone, where the Windows mixer made one track.
+- **GIF:** `RecordNativeAsync` records a constant-frame-rate MP4, then calls `FFmpegEncodeAsGIF` with a crop, because gsr rounds odd sizes up to even. The crop runs in RGB: on 4:2:0 video `crop` silently rounds odd sizes and offsets down (run). `GifWriter` is deleted, so GIF quality now starts from 4:2:0 H.264 (colored text edges are the likely loss, not viewed yet).
+- **Frame rate:** MP4 stays variable, because the man page warns `-fm cfr` can collapse to 1 to 2 fps under heavy GPU load.
+- **Depends on M3:** `FFmpegOptions.FFmpegPath` and `FFmpegCLIManager.Run` still require `ffmpeg.exe`, so GIF encoding can't succeed in the app until M3 lands. The finished MP4 is kept and named in the error until then.
 
 **Where reports disagreed:** subsystem tables win over the checklist in 5.1, whose rows are best guesses. Specifically:
 wallpaper is read-only, so nothing sets a wallpaper (the checklist's "Plasma wallpaper API" means reading it). OCR is a `SWAP`
@@ -189,17 +192,17 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| ScreenRecorder | TH:157 | Owner recording: Graphics Capture, Media Foundation, WASAPI | REWRITE | Portal ScreenCast (V), PipeWire (A), ffmpeg (V) | L | Med |
-| ScreenRecorderActiveWindow | TH:160; ShareX/ScreenRecordManager.cs:172 | Owner recording: GetForegroundWindow | LIMITED: portal chooser replaces silent selection | Portal ScreenCast (V) | L | Med |
-| ScreenRecorderCustomRegion | TH:163 | Owner recording | REWRITE | Record then crop (A) | L | Med |
-| StartScreenRecorder | TH:166 | Owner recording | REWRITE | As ScreenRecorder | L | Med |
-| ScreenRecorderGIF | TH:169 | Owner recording: GifWriter | REWRITE | ScreenCast plus GIF encoding (A) | L | Med |
-| ScreenRecorderGIFActiveWindow | TH:172 | Owner recording | LIMITED: as active window | Portal ScreenCast (V) | L | Med |
-| ScreenRecorderGIFCustomRegion | TH:175 | Owner recording | REWRITE | As GIF recorder | L | Med |
-| StartScreenRecorderGIF | TH:178 | Owner recording | REWRITE | As GIF recorder | L | Med |
-| StopScreenRecording | TH:181; TH:821 | Owner recording | REWRITE | With new recorder | S | Med |
-| PauseScreenRecording | TH:184; TH:826 | Owner recording | REWRITE | With new recorder | S | Med |
-| AbortScreenRecording | TH:187; TH:831 | Owner recording | REWRITE | With new recorder | S | Med |
+| ScreenRecorder | TH:157; `ShareX/ScreenRecordManager.cs:495` | Owner recording, now host `gpu-screen-recorder` | UNVERIFIED | Done in M6, run against a fake recorder only; see 5.5 | S | Med |
+| ScreenRecorderActiveWindow | TH:160; ShareX/ScreenRecordManager.cs:172 | Owner recording: GetForegroundWindow | LIMITED: refused with a clear error when a window handle is passed; gsr has no window capture on Wayland | Portal ScreenCast later (V) | L | Med |
+| ScreenRecorderCustomRegion | TH:163 | Owner recording | UNVERIFIED | Done in M6: `-w WxH+X+Y`, must fit one monitor | S | Med |
+| StartScreenRecorder | TH:166 | Owner recording | UNVERIFIED | As ScreenRecorder | S | Med |
+| ScreenRecorderGIF | TH:169 | Owner recording, `FFmpegEncodeAsGIF` | UNVERIFIED | Done in M6: record MP4, then FFmpeg; needs M3's FFmpeg path fix to work in the app | S | Med |
+| ScreenRecorderGIFActiveWindow | TH:172 | Owner recording | LIMITED: as active window | Portal ScreenCast later (V) | L | Med |
+| ScreenRecorderGIFCustomRegion | TH:175 | Owner recording | UNVERIFIED | As GIF recorder | S | Med |
+| StartScreenRecorderGIF | TH:178 | Owner recording | UNVERIFIED | As GIF recorder | S | Med |
+| StopScreenRecording | TH:181; TH:821 | Owner recording | UNVERIFIED | Done in M6: IPC `stop`, then SIGINT | S | Med |
+| PauseScreenRecording | TH:184; TH:826 | Owner recording | UNVERIFIED | Done in M6: IPC `set-paused` | S | Med |
+| AbortScreenRecording | TH:187; TH:831 | Owner recording | UNVERIFIED | Done in M6: stops gsr and discards the file | S | Med |
 
 
 #### HotkeyType: Tools (43)
@@ -385,7 +388,7 @@ The only table whose rows were really run; see its evidence column.
 | HelpersLib | `WindowsDesktop.App` removed; `System.Drawing.Common`, `System.Management`, `System.Security.Cryptography.ProtectedData`, `System.Windows.Extensions` added at 10.0.13; 0 errors. Compile only | SWAP | Keep the packages to compile only; replace Registry, printing and DPAPI behind interfaces | M | High |
 | HistoryLib, ImageEffectsLib, UploadersLib, ScreenCaptureLib | 0 errors in the M1 build; `History.db` is created at start-up | UNVERIFIED | Compile only; CA1416 misses P/Invoke, so behaviour is untested | M | Medium |
 | SQLite | `libe_sqlite3.so` shipped, `History.db` created; `Directory.Packages.props:7` is an 11.0 RC | READY | Consider a stable version | S | High |
-| ScreenRecordingLib | 0 errors: `GraphicsCapture` is a stub that throws `PlatformNotSupportedException` and the WinRT part of `GraphicsDevice` is gone; 16 files reference Vortice | REWRITE | Portal ScreenCast, PipeWire, FFmpeg | L | Medium |
+| ScreenRecordingLib | 0 errors. M6 replaced the D3D and Media Foundation pipeline with a `gpu-screen-recorder` wrapper; no package or project references remain | UNVERIFIED | Confirm on real captures | S | Medium |
 | ShareX.Tools OCR | 0 errors: `OCRHelper.cs` is a stub, `IsSupported` is false and calls throw `InvalidOperationException` | SWAP | Tesseract (not tested) | M | High |
 | ONNX provider | `BackgroundRemovalService.cs:163` uses DML; compiles, but `runtimes/linux-x64` has no onnxruntime library | SWAP | `Microsoft.ML.OnnxRuntime`, CPU first | S | Medium |
 | Vortice.Direct2D1 | Only `WindowsEmojiBitmapRenderer.cs`; guarded by `IsWindows` at lines 56 and 159; compiles | SWAP | Skia with Noto Color Emoji | S | Medium |
@@ -403,7 +406,7 @@ The only table whose rows were really run; see its evidence column.
 | `Scripts/` | PowerShell only, not called from any csproj; `pwsh` not installed here | UNVERIFIED | Optional developer tools; not needed to build | S | Medium |
 | FFmpeg | `VideoTrimmerWindow.axaml.cs:40`, `FFmpegDownloader.cs:61` hardcode `ffmpeg.exe` | SWAP | Use system `ffmpeg` as a package dependency | S | High |
 | PKGBUILD/AUR | Not written. Depends: `dotnet-runtime`, `ffmpeg`, `libx11`, `libxcursor`, `libxi`, `libxrandr`, `libice`, `libsm`, `fontconfig` (from `ldd` and mapped libraries) | UNVERIFIED | Framework-dependent `-r linux-x64` | M | Medium |
-| AppImage | Not built. The self-contained editor publish ran: 114 MB against 737 MB for the unpublished Debug output of all RIDs | UNVERIFIED | Use that publish as the payload | M | Medium |
+| AppImage | Not built. The self-contained editor publish ran: 114 MB against 737 MB for the unpublished Debug output of all RIDs. **Must declare host dependencies for recording:** `gpu-screen-recorder` (the capped `gsr-kms-server` can't run from the AppImage's `nosuid` mount, so neither is bundled), plus `ffmpeg` with `ffprobe`, `kscreen-doctor`, `pactl` and `getcap` | UNVERIFIED | Use that publish as the payload; document the host packages | M | Medium |
 | Flatpak | Not built | UNVERIFIED | X11 socket, portals, .NET extension | L | Low |
 | `.desktop`, icons | None in the repo; only `.ico` and Store PNGs; `WM_CLASS` is `ShareX` | REWRITE | Add a `.desktop` with `StartupWMClass=ShareX`, hicolor PNGs, MIME types | S | High |
 
@@ -476,26 +479,28 @@ Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screen
 
 ### 5.5 Screen recording
 
-Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `HL` = `ShareX.HelpersLib`, `SX` = `ShareX`. Bare file names are in `ShareX.ScreenRecordingLib`. `GraphicsCapture.cs` and `GraphicsDevice.cs` were stubbed in M1, so their line numbers refer to the code before that change.
+Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `HL` = `ShareX.HelpersLib`, `SX` = `ShareX`. M6 built this on the host's `gpu-screen-recorder` (gsr); see the design note in section 4. **Nothing here has run on real gsr, so no row is READY.** "Stub" means proven against a fake recorder that acts out each measured behaviour; measured gsr behaviour comes from the M6 spike.
 
-| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
+| Feature | Evidence (file:line) | Dependency | Label | State on KDE Wayland | Effort | Confidence |
 |---|---|---|---|---|---|---|
-| Build, GPU, COM plumbing | SRL csproj:3,13; `GraphicsDevice.cs:47`; `VideoTexturePool.cs:55`; `GpuVideoProcessor.cs:59`; `Native/NativeMethods.cs:32` | TFM, D3D11, COM | DROP | Retarget; delete | S | High |
-| Monitor capture | `GraphicsCapture.cs:66,154` | WGC | SWAP | Portal monitor stream, PipeWire | L | Med |
-| Region, custom, last | `ScreenRecordManager.cs:153,177`; `GraphicsCapture.cs:93,247` | WGC crop | LIMITED: prompt or token; no app-supplied rectangle | Crop monitor stream; spanning needs `multiple` | M | Med |
-| Move region on resume | `ScreenRecorder.cs:224` | WGC retarget | LIMITED: other monitor needs new session | Change crop offset | S | Med |
-| Window, active window | `ScreenRecordManager.cs:162-176`; `GraphicsCapture.cs:69` | HWND, foreground | LIMITED: user picks; no auto-targeting | Portal window source | M | Med |
-| Cursor | `GraphicsCapture.cs:162` | WGC flag | SWAP | `cursor_mode` | S | High |
-| MP4, hardware encode | `MediaFoundationWriter.cs:43,65`; `RecordingOptions.cs:64` | Media Foundation, D3D11 NV12 | SWAP | ffmpeg stdin, `h264_nvenc`, libx264 fallback (x264 not run); CPU copy | M | High |
-| Session loop, timer | `ScreenRecorder.cs:164,211,284`; `FrameTimer.cs:35` | COM, MF, waitable timer | SWAP | Keep loop; managed timer | M | Med |
-| GIF input | `GifWriter.cs:82-103` | D3D staging | SWAP | Copy frame bytes | S | High |
-| GIF encode | `GifWriter.cs:110-289`; `HL/GIF/AnimatedGifCreator.cs:26` | None found | READY | Keep; HL needs retargeting | S | Med |
-| System audio, mic | `WasapiCapture.cs:80,106,153` | WASAPI, MMCSS | SWAP | `pw-record` stdout into mixer | M | Med |
-| Audio device lists | `AudioCaptureDevices.cs:68`; `ScreenRecorderBarWindow.axaml.cs:82` | MMDevice | SWAP | `pactl`; saved Windows IDs invalid | S | High |
-| Mixer, clock | `AudioMixer.cs:29`; `RecordingClock.cs:37` | None found | READY | Keep; PipeWire timestamps assumed monotonic | S | Med |
-| Webcam capture | `CameraCapture.cs:55-74`; `CameraCaptureDevices.cs:45`; `Native/SourceReaderCallback.cs:46` | MF | SWAP | ffmpeg `v4l2` to raw pipe | M | Low |
-| Webcam overlay | `CameraOverlay.cs:71`; `CameraCircleShader.cs:63,138`; `Native/D3DCompiler.cs:33` | D3D11, HLSL | REWRITE | SkiaSharp composite | M | Med |
-| Recording controls | `ScreenRecordWindow.axaml.cs:697,705,885`; `ScreenRecorderBarWindow.axaml.cs:116,456` | Display affinity, GDI region | LIMITED: no capture exclusion found; placement unconfirmed | Keep controls outside crop | M | Low |
+| Build, GPU, COM plumbing | `Audio/`, `Encoding/`, `Native/`, `Video/` deleted; SRL csproj | None | DROP | Deleted; Vortice stays only for other projects | S | High |
+| Region, custom, last | `SRL/Gsr/GsrCommand.cs`; `SX/ScreenRecordManager.cs` | gsr KMS capture, `kscreen-doctor` | LIMITED: must fit one monitor, spanning or overhanging regions are refused before starting; scale other than 1 is refused (not tested) | `-w WxH+X+Y`; stub for arguments and refusals | S | Med |
+| Monitor capture | `SRL/Gsr/GsrCommand.cs` | gsr | UNVERIFIED | A whole monitor is a region that fits it; stub | S | Med |
+| Move region on resume | `SRL/ScreenRecorder.cs` `Resume(Rectangle)`; `SCL/Presentation/ScreenRecording/ScreenRecordWindow.axaml.cs` | gsr has no such request | LIMITED: can't move while recording; frame drag is off during a pause, and a moved rectangle is logged and ignored | None; stub | S | High |
+| Window, active window | `SRL/ScreenRecorder.cs`; `SX/ScreenRecordManager.cs:162-176` | gsr: `-w focused` exits 2 on Wayland | LIMITED: a window handle is refused with a clear error; client-area mode records the rectangle | Portal later, needs an owner-agreed session | M | Med |
+| Cursor | `SRL/Gsr/GsrCommand.cs` | gsr `-cursor` | UNVERIFIED | Flag measured working in the spike; stub for the mapping | S | High |
+| MP4, hardware encode | `SRL/Gsr/GsrCommand.cs`; `SRL/RecordingOptions.cs` | gsr `-k h264`, `-bm cbr -q`, `-ac aac`, NVENC | UNVERIFIED | `RequireHardwareEncoder=false` adds `-fallback-cpu-encoding yes` (not run) | S | High |
+| No-overwrite output | `SRL/ScreenRecorder.cs` | gsr overwrites silently | UNVERIFIED | Temporary name, then move; stub, including a name taken mid-recording | S | High |
+| Session, timer, duration | `SRL/ScreenRecorder.cs`; `SRL/Gsr/GsrSession.cs`; `SRL/RecordingClock.cs` | gsr `-ipc`, no duration flag | UNVERIFIED | No armed state, so Prepare checks and reserves and Start spawns; ShareX's timer sends the stop; stub | S | Med |
+| Failure handling | `SRL/Gsr/GsrSession.cs`; `SRL/Gsr/HostTools.cs` | Exit codes 0, 1, 2, 50, 51, 126; black video markers; SIGKILL | UNVERIFIED | Each path run on the stub, plus the recorder ignoring every stop | S | High |
+| Frame and drop counts | `SRL/RecordingOptions.cs` | gsr reports none; ffprobe | LIMITED: dropped frames and audio discontinuities are always -1 | Frames from ffprobe; -1 without it | S | High |
+| GIF input | `SX/ScreenRecordManager.cs` `RecordNativeAsync` | gsr, `-fm cfr` | UNVERIFIED | MP4 first, because gsr has no raw frames; `GifWriter` deleted | S | Med |
+| GIF encode | `SCL/ScreenRecording/ScreenRecorder.cs` `FFmpegEncodeAsGIF`; `SX/ScreenRecordManager.cs` `EncodeNativeGif` | FFmpeg; `.exe` guards in `FFmpegCLIManager.cs:89` and `FFmpegOptions.cs:78` | LIMITED: quality starts from 4:2:0 H.264 instead of lossless BGRA | ShareX's method run on real FFmpeg with generated clips; 801x601 output and crop offset measured. Blocked in the app until M3 removes the guards | S | Med |
+| System audio, mic | `SRL/Gsr/GsrCommand.cs`; `SRL/ScreenRecorder.cs` | gsr `-a` | LIMITED: two tracks when both are on, so first-track players miss the microphone | Empty track logged through `Diagnostic`, not shown in the UI; stub with generated silent AAC (6 bytes per packet, as measured on the Blue mic) | S | Med |
+| Audio gain | `SRL/RecordingOptions.cs` | gsr has no option | LIMITED: gain settings are ignored and logged | None | S | High |
+| Audio device lists | `SRL/AudioCaptureDevices.cs`; `SX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:82` | `pactl -f json` | UNVERIFIED | JSON shape from memory, run only against a fake `pactl`; saved Windows IDs fail with exit 50 and a clear error | S | Med |
+| Webcam capture, overlay | `SRL/CameraCaptureDevices.cs`; `SRL/ScreenRecorder.cs` | gsr can overlay rectangles only (READ, not run) | LIMITED: no camera for now; the device list is empty and the option is logged and ignored; circle shape has no gsr equivalent | `-w "monitor\|v4l2:/dev/video0"` could be wired later | M | Low |
+| Recording controls | `SCL/Presentation/ScreenRecording/ScreenRecordWindow.axaml.cs`; `SX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:116,456` | Win32 styles and GDI region removed, they threw `DllNotFoundException` on open (run) | LIMITED: no capture exclusion; the hole in the frame is see-through but no longer click-through | Virtual session: window opens, hole transparent, frame and toolbar outside the rectangle. Not on real monitors | M | Med |
 | Mouse highlighter | `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterMouseHook.cs:74` | Global hook | LIMITED: no global hook | Disable initially | S | Med |
 | Legacy FFmpeg capture | `ScreenRecordingOptions.cs:56,100-196`; `TaskSettings.cs:403` | gdigrab, ddagrab, dshow | DROP | Remove these sources | S | High |
 | Legacy encode args, two-pass, concat | `ScreenRecordingOptions.cs:208-338`; `SCL/ScreenRecording/ScreenRecorder.cs:258`; `FFmpegCLIManager.cs:282` | None found | UNVERIFIED | Keep; AMF/QSV need review | S | Med |
@@ -592,9 +597,9 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | Placement restore | `ShareX.HistoryLib/Views/HistoryWindow.axaml.cs:190`; `ImageHistoryWindow.axaml.cs:162`; `ShareX/Presentation/ActionsToolbar/ActionsToolbarWindow.axaml.cs:264` | None | LIMITED | Expected on X11; native loses it | S | Medium |
 | Topmost windows | `ScreenColorPickerWindow.axaml:7`; `ShareX.Tools/Tools/PinToScreen/PinToScreenWindow.axaml.cs:109` | None | LIMITED | X11 atom; native needs KWin rule or layer-shell helper | M | Medium |
 | Transparency | `ScreenColorPickerWindow.axaml:8`; `ShareX.ScreenCaptureLib/Presentation/ScreenRecording/ScreenRecordWindow.axaml:20` | None | UNVERIFIED | X11 hint; native `SetTransparencyLevelHint` is a no-op | S | Medium |
-| Click-through, shaped regions | `ScrollingCaptureRegionWindow.axaml.cs:104`; `ScreenRecordWindow.axaml.cs:717-742` | `WS_EX_TRANSPARENT`, GDI regions | REWRITE | XShape input region on the XID; no Avalonia native API | M | Medium |
-| Tool-window style, Z-order | `ScreenRecordWindow.axaml.cs:696`; `ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:116,456` | `WS_EX_TOOLWINDOW`, `SetWindowPos` | SWAP | `ShowInTaskbar=False`, owned windows; native taskbar hint is a no-op (`WindowImpl.cs:285`) | S | Medium |
-| Exclude from capture | `ScreenRecordWindow.axaml.cs:697` | `SetWindowDisplayAffinity` | LIMITED | No known equivalent; controls may appear in recordings | M | Low |
+| Click-through, shaped regions | `ScrollingCaptureRegionWindow.axaml.cs:104`; `ScreenRecordWindow` GDI region removed in M6 | `WS_EX_TRANSPARENT`, GDI regions | REWRITE | XShape input region on the XID; no Avalonia native API | M | Medium |
+| Tool-window style, Z-order | `ScreenRecordWindow` style call removed in M6; `ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:116,456` | `WS_EX_TOOLWINDOW`, `SetWindowPos` | SWAP | `ShowInTaskbar=False`, owned windows; native taskbar hint is a no-op (`WindowImpl.cs:285`) | S | Medium |
+| Exclude from capture | Removed from `ScreenRecordWindow` in M6 | `SetWindowDisplayAffinity` | LIMITED | No known equivalent; controls may appear in recordings | M | Low |
 | Taskbar flash | `ShareX.HelpersLib/Presentation/UpdateChecker/UpdateMessageWindow.axaml.cs:163` | `FlashWindowEx` | SWAP | Guard; X11 urgency hint or tray notification | S | Medium |
 | Cursor lock, HWND move | `ShareX.HelpersLib/Helpers/Helpers.cs:919,937` | `ClipCursor`, `SetWindowPos` | LIMITED | Guarded no-ops; cursor confinement lost | S | Medium |
 | Foreign-window tools | `ShareX.Tools/Tools/InspectWindow/InspectWindowWindow.axaml.cs:56`; `ShareX.Tools/Tools/BorderlessWindow/BorderlessWindowWindow.axaml.cs:57`; `ShareX.ScreenCaptureLib/Presentation/RegionCapture/RegionCaptureWindow.axaml.cs:519` | HWND enumeration and control | DROP | No client API; region capture needs its own window-detection plan | L | Medium |

@@ -127,7 +127,7 @@ namespace ShareX
                 DebugHelper.WriteLine("Starting screen recording. Video encoder: \"{0}\", Audio encoder: \"{1}\", FPS: {2}",
                     taskSettings.CaptureSettings.FFmpegOptions.VideoCodec.GetDescription(), taskSettings.CaptureSettings.FFmpegOptions.AudioCodec.GetDescription(), fps);
 
-            if (!useNative && !TaskHelpers.CheckFFmpeg(taskSettings))
+            if ((!useNative || isGif) && !TaskHelpers.CheckFFmpeg(taskSettings))
             {
                 return;
             }
@@ -248,7 +248,6 @@ namespace ShareX
                 ShowRecordingButtonLabels = taskSettings.CaptureSettings.ScreenRecordShowButtonLabels
             };
             recordForm.UseInProcessPause = useNative;
-            recordForm.ExcludeFromCapture = useNative;
             recordForm.PauseRequested += () => nativeRecorder?.Pause();
             recordForm.ResumeRequested += () =>
             {
@@ -488,16 +487,19 @@ namespace ShareX
         {
             // HandleExistsFile has already applied the user's overwrite policy. Commit a completed
             // recording afterward so aborts, restarts and startup errors preserve an existing file.
-            string recordingPath = Path.Combine(Path.GetDirectoryName(path), $"{Path.GetFileNameWithoutExtension(path)}-recording-{Guid.NewGuid():N}{Path.GetExtension(path)}");
+            // A GIF is encoded from a finished MP4, because gpu-screen-recorder only writes encoded video.
+            string recordingPath = Path.Combine(Path.GetDirectoryName(path), $"{Path.GetFileNameWithoutExtension(path)}-recording-{Guid.NewGuid():N}{(isGif ? ".mp4" : Path.GetExtension(path))}");
             while (true)
             {
                 bool completed = false;
+                Rectangle gifCrop = Rectangle.Empty;
                 NativeRecordingOptions options = new()
                 {
                     OutputPath = recordingPath,
                     Region = recordForm.RecordingRegion,
                     WindowHandle = captureWindow,
                     FramesPerSecond = isGif ? settings.CaptureSettings.GIFFPS : settings.CaptureSettings.ScreenRecordFPS,
+                    ConstantFrameRate = isGif,
                     VideoBitrate = settings.CaptureSettings.ScreenRecordVideoBitrate * 1000,
                     CaptureSystemAudio = !isGif && settings.CaptureSettings.ScreenRecordSystemAudio,
                     SystemAudioDeviceId = settings.CaptureSettings.ScreenRecordSystemAudioDeviceId,
@@ -521,7 +523,7 @@ namespace ShareX
                 try
                 {
                     recordForm.ChangeState(ScreenRecordState.BeforeStart);
-                    // Initialize the GPU, codecs and audio endpoints before the countdown.
+                    // Check the recorder, the region and the output name before the countdown.
                     // Prepare does not start video or audio capture.
                     await nativeRecorder.PrepareAsync();
                     int delay = settings.CaptureSettings.ScreenRecordStartDelayEnabled
@@ -538,17 +540,14 @@ namespace ShareX
                     if (captureWindow == IntPtr.Zero && options.Region != recordForm.RecordingRegion)
                     {
                         await nativeRecorder.DisposeAsync();
-                        nativeRecorder = CreateNativeRecorder(options with { Region = recordForm.RecordingRegion });
+                        options = options with { Region = recordForm.RecordingRegion };
+                        nativeRecorder = CreateNativeRecorder(options);
                         await nativeRecorder.PrepareAsync();
                     }
                     recordForm.ChangeState(ScreenRecordState.AfterStart);
                     using (IDisposable highlighter = settings.CaptureSettings.ScreenRecordMouseHighlighter
                         ? await MouseHighlighterManager.BeginRecordingAsync(settings.ToolsSettings.MouseHighlighterOptions) : null)
                     {
-                        nativeRecorder.EncodingProgressChanged += progress =>
-                        {
-                            if (progress == 0) highlighter?.Dispose();
-                        };
                         await nativeRecorder.StartAsync();
                         if (recordForm.Status == ScreenRecordingStatus.Aborted || recordForm.RestartRequested)
                             nativeRecorder.RequestAbort();
@@ -557,6 +556,8 @@ namespace ShareX
                         else ScreenRecorder_RecordingStarted();
                         var result = await nativeRecorder.Completion;
                         completed = true;
+                        Rectangle region = nativeRecorder.CapturedRegion;
+                        gifCrop = new Rectangle(options.Region.X - region.X, options.Region.Y - region.Y, options.Region.Width, options.Region.Height);
                         DebugHelper.WriteLine("Native screen recording completed. Encoder: {0}, hardware: {1}, frames: {2}, dropped: {3}, audio discontinuities: {4}",
                             result.Encoder.Name, result.Encoder.IsHardwareAccelerated, result.VideoFrames, result.DroppedVideoFrames, result.AudioDiscontinuities);
                     }
@@ -579,6 +580,12 @@ namespace ShareX
                 TaskHelpers.PlayNotificationSoundAsync(NotificationSound.ActionCompleted, settings);
                 bool aborted = recordForm.Status == ScreenRecordingStatus.Aborted;
                 if (aborted) FileHelpers.DeleteFile(recordingPath);
+                if (!aborted && completed && isGif)
+                {
+                    recordingPath = EncodeNativeGif(recordingPath, gifCrop, settings);
+                    aborted = recordForm.Status == ScreenRecordingStatus.Aborted;
+                    if (aborted) FileHelpers.DeleteFile(recordingPath);
+                }
                 if (!aborted && completed)
                 {
                     try { File.Move(recordingPath, path, replaceExisting); }
@@ -595,16 +602,45 @@ namespace ShareX
         {
             NativeScreenRecorder recorder = new(options);
             recorder.Diagnostic += message => DebugHelper.WriteLine("Native recorder: " + message);
-            recorder.EncodingProgressChanged += progress =>
-            {
-                if (progress == 0)
-                {
-                    recordForm.ChangeState(ScreenRecordState.RecordingEnd);
-                    recordForm.ChangeState(ScreenRecordState.Encoding);
-                }
-                ScreenRecorder_EncodingProgressChanged(progress);
-            };
             return recorder;
+        }
+
+        /// <summary>Turns a finished MP4 into a GIF beside it and returns the GIF's path. The MP4 is kept if encoding fails, so the recording isn't lost.</summary>
+        private static string EncodeNativeGif(string input, Rectangle crop, TaskSettings settings)
+        {
+            string output = Path.ChangeExtension(input, "gif");
+            recordForm.ChangeState(ScreenRecordState.Encoding);
+            ScreenRecordingOptions options = new ScreenRecordingOptions
+            {
+                FFmpeg = settings.CaptureSettings.FFmpegOptions,
+                FPS = settings.CaptureSettings.GIFFPS,
+                OutputPath = output
+            };
+            bool encoded;
+            // Kept in the shared field so that StopRecording can cancel the encode.
+            screenRecorder = new ScreenRecorder(ScreenRecordOutput.FFmpeg, options, null, crop);
+            try
+            {
+                screenRecorder.EncodingProgressChanged += ScreenRecorder_EncodingProgressChanged;
+                encoded = screenRecorder.FFmpegEncodeAsGIF(input, output, crop);
+            }
+            finally
+            {
+                screenRecorder.Dispose();
+                screenRecorder = null;
+            }
+            if (recordForm.Status == ScreenRecordingStatus.Aborted)
+            {
+                FileHelpers.DeleteFile(input);
+                return output;
+            }
+            if (!encoded)
+            {
+                FileHelpers.DeleteFile(output);
+                throw new IOException($"The recording finished, but FFmpeg couldn't encode the GIF. The completed recording is available at '{input}'.");
+            }
+            FileHelpers.DeleteFile(input);
+            return output;
         }
 
         private static void ScreenRecorder_RecordingStarted()
