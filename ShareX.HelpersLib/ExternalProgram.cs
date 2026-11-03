@@ -119,7 +119,7 @@ namespace ShareX.HelpersLib
                         {
                             DebugHelper.WriteLine($"Action output: \"{outputPath}\" [{FileHelpers.GetFileSizeReadable(outputPath)}]");
 
-                            if (DeleteInputFile && !inputPath.Equals(outputPath, StringComparison.OrdinalIgnoreCase))
+                            if (DeleteInputFile && !inputPath.Equals(outputPath, StringComparison.Ordinal))
                             {
                                 pendingInputFilePath = inputPath;
                             }

@@ -86,11 +86,6 @@ namespace ShareX.HelpersLib
 
         protected bool Run(string path, string args)
         {
-            if (!string.Equals(Path.GetExtension(path), ".exe", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-
             StopRequested = false;
             int errorCode = Open(path, args);
             IsEncoding = false;
@@ -188,7 +183,7 @@ namespace ShareX.HelpersLib
             VideoInfo videoInfo = new VideoInfo();
             videoInfo.FilePath = videoPath;
 
-            Run($"-i \"{videoPath}\"");
+            Run($"-i {Helpers.EscapeCLIText(videoPath)}");
             string output = Output.ToString();
 
             Match matchInput = Regex.Match(output, @"Duration: (?<Duration>\d{2}:\d{2}:\d{2}\.\d{2}),.+?start: (?<Start>\d+\.\d+),.+?bitrate: (?<Bitrate>\d+) kb/s",

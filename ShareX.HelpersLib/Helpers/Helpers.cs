@@ -666,7 +666,8 @@ namespace ShareX.HelpersLib
 
         public static string EscapeCLIText(string text)
         {
-            string escapedText = text.Replace("\\", "\\\\").Replace("\"", "\\\"");
+            // Only backslashes in front of a quote are special when the argument string is parsed.
+            string escapedText = Regex.Replace(text, @"(\\*)(""|$)", match => match.Groups[1].Value + match.Groups[1].Value + (match.Groups[2].Length > 0 ? "\\\"" : ""));
             return $"\"{escapedText}\"";
         }
 
