@@ -52,8 +52,8 @@ namespace ShareX.Tools
             sbHtmlIndex.AppendLine(HtmlHelper.EndTag("head"));
             sbHtmlIndex.AppendLine(HtmlHelper.StartTag("body"));
 
-            folderPath = Path.GetFullPath(folderPath).TrimEnd('\\');
-            prePathTrim = folderPath.LastIndexOf(@"\") + 1;
+            folderPath = Path.TrimEndingDirectorySeparator(Path.GetFullPath(folderPath));
+            prePathTrim = folderPath.LastIndexOf(Path.DirectorySeparatorChar) + 1;
 
             FolderInfo folderInfo = GetFolderInfo(folderPath);
             folderInfo.Update();

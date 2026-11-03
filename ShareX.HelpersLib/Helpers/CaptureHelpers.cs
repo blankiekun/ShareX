@@ -88,13 +88,9 @@ namespace ShareX.HelpersLib
             return new Rectangle(ClientToScreen(r.Location), r.Size);
         }
 
+        // shortcut: Wayland has no global cursor query, so callers get the first screen's corner until a KWin script provides it.
         public static Point GetCursorPosition()
         {
-            if (NativeMethods.GetCursorPos(out POINT point))
-            {
-                return (Point)point;
-            }
-
             return Point.Empty;
         }
 

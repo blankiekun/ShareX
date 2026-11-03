@@ -50,8 +50,8 @@ namespace ShareX.ImageEffectsLib
             fullFolderPath = Path.TrimEndingDirectorySeparator(fullFolderPath);
             fullPath = Path.TrimEndingDirectorySeparator(fullPath);
 
-            return fullPath.Equals(fullFolderPath, StringComparison.OrdinalIgnoreCase) ||
-                fullPath.StartsWith(fullFolderPath + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+            return fullPath.Equals(fullFolderPath, StringComparison.Ordinal) ||
+                fullPath.StartsWith(fullFolderPath + Path.DirectorySeparatorChar, StringComparison.Ordinal);
         }
 
         private static bool TryGetSafeLocalPath(string path, bool isFolder, out string safePath)
