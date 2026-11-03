@@ -26,6 +26,7 @@
 using ShareX.HelpersLib;
 using ShareX.Localization;
 using System;
+using System.Linq;
 using MessageBox = ShareX.AvaloniaUI.MessageBox;
 using MessageBoxButtons = ShareX.AvaloniaUI.MessageBoxButtons;
 using MessageBoxIcon = ShareX.AvaloniaUI.MessageBoxIcon;
@@ -40,15 +41,15 @@ namespace ShareX
 
             if (!string.IsNullOrEmpty(windowTitle))
             {
-                IntPtr hWnd = NativeMethods.SearchWindow(windowTitle);
+                KWinWindow window = KWinDesktop.Query().Windows.FirstOrDefault(x => x.Caption.Contains(windowTitle, StringComparison.OrdinalIgnoreCase));
 
-                if (hWnd == IntPtr.Zero)
+                if (window == null)
                 {
                     MessageBox.Show(Strings.UnableToFindAWindowWithSpecifiedWindowTitle, "ShareX", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    WindowHandle = hWnd;
+                    WindowId = window.Id;
 
                     return base.Execute(taskSettings);
                 }

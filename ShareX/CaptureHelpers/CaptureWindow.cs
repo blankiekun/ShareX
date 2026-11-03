@@ -25,53 +25,36 @@
 
 using ShareX.HelpersLib;
 using System;
-using System.Threading;
+using System.Linq;
 
 namespace ShareX
 {
     public class CaptureWindow : CaptureBase
     {
-        public IntPtr WindowHandle { get; protected set; }
+        public string WindowId { get; protected set; }
 
         public CaptureWindow()
         {
         }
 
-        public CaptureWindow(IntPtr windowHandle)
+        public CaptureWindow(KWinWindow window)
         {
-            WindowHandle = windowHandle;
-
-            IntPtr mainWindowHandle = MainWindowIntegration.WindowHandle;
-            AllowAutoHideForm = mainWindowHandle == IntPtr.Zero || WindowHandle != mainWindowHandle;
+            WindowId = window.Id;
+            AllowAutoHideForm = window.Pid != Environment.ProcessId;
         }
 
         protected override TaskMetadata Execute(TaskSettings taskSettings)
         {
-            WindowInfo windowInfo = new WindowInfo(WindowHandle);
+            KWinWindow window = KWinDesktop.Query().Windows.FirstOrDefault(x => x.Id == WindowId);
 
-            if (windowInfo.IsMinimized)
+            if (window == null)
             {
-                windowInfo.Restore();
-                Thread.Sleep(250);
-            }
-
-            if (!windowInfo.IsActive)
-            {
-                windowInfo.Activate();
-                Thread.Sleep(100);
+                return null;
             }
 
             TaskMetadata metadata = new TaskMetadata();
-            metadata.UpdateInfo(windowInfo);
-
-            if (taskSettings.CaptureSettings.CaptureTransparent && !taskSettings.CaptureSettings.CaptureClientArea)
-            {
-                metadata.Image = TaskHelpers.GetScreenshot(taskSettings).CaptureWindowTransparent(WindowHandle);
-            }
-            else
-            {
-                metadata.Image = TaskHelpers.GetScreenshot(taskSettings).CaptureWindow(WindowHandle);
-            }
+            metadata.UpdateInfo(window);
+            metadata.Image = TaskHelpers.GetScreenshot(taskSettings).CaptureWindow(WindowId);
 
             return metadata;
         }

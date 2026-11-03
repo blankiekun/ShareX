@@ -22,10 +22,10 @@ User-facing features in the checklist (section 5.1), by label:
 
 | Label | Rows |
 |---|---|
-| `READY` | 35 |
-| `UNVERIFIED` | 53 |
-| `SWAP` | 36 |
-| `REWRITE` | 18 |
+| `READY` | 36 |
+| `UNVERIFIED` | 59 |
+| `SWAP` | 30 |
+| `REWRITE` | 17 |
 | `LIMITED` | 33 |
 | `DROP` | 8 |
 | **Total** | **183** |
@@ -76,11 +76,21 @@ The other tables overlap with the checklist, so their rows aren't added to these
 
 ## 4. Design notes and open decisions
 
-**Region overlay.** Today one borderless window spans all monitors with one render scale. Recommended: one window per
-screen, each showing a crop of the frozen screenshot, sharing selection state in global coordinates. Still to test: dragging
-across monitors, stacking above panels, keyboard focus when triggered by a hotkey, and mixed scaling. Fallback is a
-layer-shell surface per output (large). Window snapping: a KWin script reads `workspace.stackingOrder` and geometry before the overlay
-appears, and the overlay's own pointer events do the hit-testing.
+**Region overlay.** Built in M4 (route A: `spectacle` plus a KWin script, owner decision): one window per output, each showing a
+crop of the frozen screenshot, sharing a selection in image pixels. Run in a virtual session only. Layer-shell was not needed. Window
+snapping uses a KWin script that reads `workspace.stackingOrder` and geometry before the overlay appears.
+
+Three coordinate spaces (`DesktopCoordinates`), measured in the M4 spike and checked again through ShareX's menu:
+
+| Space | Value | Used by |
+|---|---|---|
+| KWin logical | As KWin reports it | KWin scripts, window data |
+| X11 | logical × largest output scale, or logical × 1 with `[KScreen] XwaylandClientsScale=false` in `kdeglobals` | ShareX's own windows, Avalonia `Screens`, `DesktopScreen`, public rectangles |
+| Image | (logical − origin) × pixels per logical, measured from the image | The frozen screenshot and the selection |
+
+`spectacle -f` in mixed scale is logical × the largest scale on every monitor, so a low-DPI monitor is upscaled and can't be captured
+natively that way (`-m` is native). ShareX crops it as it is, so a selection on that monitor comes out upscaled. Direct ScreenShot2 could
+fix this later. `xdotool` positions reach KWin as logical at every scale, unlike what an X11 client reads back.
 
 **Hotkeys.** Use KGlobalAccel on KDE: it supports press-any-key capture and per-key register and unregister. The
 GlobalShortcuts portal can only hint a trigger and has the user confirm in a dialog; it's the fallback for Flatpak. Don't
@@ -146,14 +156,14 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| Fullscreen | ShareX/CaptureHelpers/CaptureFullscreen.cs:35 | Owner capture: Win32 screen grab | SWAP | Portal Screenshot (V); KWin ScreenShot2 (A) | M | Med |
-| Monitor | ShareX/Presentation/MainWindow/MainMenuBuilder.cs:200 | Owner capture: grab by bounds | SWAP | KWin ScreenShot2 (A) | M | Med |
-| ActiveMonitor | ShareX/CaptureHelpers/CaptureActiveMonitor.cs:35 | Owner capture: cursor-derived screen | SWAP | KWin active-screen capture (A) | M | Med |
-| Window | ShareX/CaptureHelpers/CaptureWindow.cs:50; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:159 | Owner capture: HWND list | LIMITED: no client-side window list or handles | KWin scripting (A) | L | Med |
-| ActiveWindow | ShareX/CaptureHelpers/CaptureBase.cs:167 | Owner capture: GetForegroundWindow | SWAP | KWin active-window capture (A) | M | Med |
-| Region | ShareX/CaptureHelpers/CaptureRegion.cs:55 | Owner capture: overlay, window snapping | LIMITED: window snapping needs KWin data | Frozen screenshot plus Avalonia overlay (A) | L | Med |
-| CustomRegion | TH:136 | Owner capture: fixed rectangle | SWAP | Crop a screenshot (A) | S | Med |
-| LastRegion | TH:142 | Owner capture: stored rectangle | SWAP | Crop a screenshot (A) | S | Med |
+| Fullscreen | ShareX/CaptureHelpers/CaptureFullscreen.cs:35 | Done in M4 | UNVERIFIED | `spectacle -f`. Pixels match KWin geometry on both outputs (M4, virtual session only) | M | Med |
+| Monitor | ShareX/Presentation/MainWindow/MainMenuBuilder.cs:185 | Done in M4 | UNVERIFIED | `spectacle -f`, cropped. Spectacle can't name a monitor (M4, virtual session only) | M | Med |
+| ActiveMonitor | ShareX/CaptureHelpers/CaptureActiveMonitor.cs:35 | Done in M4; new item in the Capture menu | UNVERIFIED | `spectacle -m`, which follows the active window's output, not the cursor (M4, virtual session only) | M | Med |
+| Window | ShareX/CaptureHelpers/CaptureWindow.cs:47; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:156 | Done in M4 | LIMITED: spectacle only captures the active window, so the window is activated first. Minimized windows aren't listed, and entries have no icon | KWin script list, `spectacle -a` (M4, virtual session only) | L | Med |
+| ActiveWindow | ShareX/CaptureHelpers/CaptureActiveWindow.cs:33 | Done in M4; new item in the Capture menu | UNVERIFIED | `spectacle -a`, or `-a -S`, `-a -e -S` by setting. From the menu it captures the window KWin activates when ShareX hides, and KWin stayed on ShareX's monitor in tests (M4, virtual session only) | M | Med |
+| Region | ShareX/CaptureHelpers/CaptureRegion.cs:46 | Done in M4 | LIMITED: annotations are per monitor; cursor is drawn into the frozen image | One overlay per output over a frozen `spectacle -f` (M4, virtual session only); see 5.4 | L | Med |
+| CustomRegion | TH:136 | Done in M4: same code as LastRegion, not run itself | UNVERIFIED | `spectacle -f`, cropped | S | Med |
+| LastRegion | TH:142 | Done in M4 | UNVERIFIED | `spectacle -f`, cropped (M4, virtual session only) | S | Med |
 
 
 #### HotkeyType: Upload (9)
@@ -177,13 +187,13 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 |---|---|---|---|---|---|---|
 | PrintScreen | TH:123 | Owner capture | SWAP | As Fullscreen | M | Med |
 | ActiveWindow | TH:126 | Owner capture | SWAP | As ActiveWindow type | M | Med |
-| CustomWindow | TH:138; ShareX/CaptureHelpers/CaptureCustomWindow.cs:43 | Owner capture: SearchWindow by title | LIMITED: no client-side title lookup | KWin scripting (A) | L | Med |
+| CustomWindow | TH:138; ShareX/CaptureHelpers/CaptureCustomWindow.cs:43 | Done in M4, not run: title search over the KWin script list | LIMITED: as Window | KWin script, `spectacle -a` | L | Med |
 | ActiveMonitor | TH:129 | Owner capture | SWAP | As ActiveMonitor type | M | Med |
 | RectangleRegion | TH:132 | Owner capture | LIMITED: as Region | As Region | L | Med |
 | CustomRegion | TH:135 | Owner capture | SWAP | As CustomRegion type | S | Med |
 | LastRegion | TH:141 | Owner capture | SWAP | As LastRegion type | S | Med |
 | ScrollingCapture | TH:144; ShareX.ScreenCaptureLib/ScrollingCaptureManager.cs:1 | Owner capture: scroll injection, window access | LIMITED: consent required; target-window automation weaker | Portal RemoteDesktop (V) | L | Low |
-| AutoCapture | TH:147 | Owner capture | LIMITED: portal may prompt per shot | KWin ScreenShot2 with restricted-interface grant (A) | M | Med |
+| AutoCapture | TH:147 | Owner capture | LIMITED: `spectacle` per shot, 150 ms or more each | M4 capture path; timer not run | M | Med |
 | StartAutoCapture | TH:150 | Owner capture | LIMITED: as AutoCapture | As AutoCapture | M | Med |
 | StopAutoCapture | TH:153 | Owner capture: timer | READY | None | S | Med |
 
@@ -421,9 +431,9 @@ The only table whose rows were really run; see its evidence column.
 | Primitives (49 files) | ShareX.HelpersLib/Helpers/CaptureHelpers.cs:27 | None from these types; assembly present [V] | READY | Keep | S | High |
 | Icon (4 files) | ShareX.HelpersLib/Native/WindowInfo.cs:167 | Common absent [V]; only `WindowInfo.Icon` live | SWAP | Delete dead code; return SKBitmap | S | High |
 | WindowInfo | ShareX.HelpersLib/Native/WindowInfo.cs:34 | HWND model | LIMITED | KWin `getWindowInfo`, scripting [V]. Lost: portable enumeration, styles | L | Medium |
-| CaptureHelpers | ShareX.HelpersLib/Helpers/CaptureHelpers.cs:93 | Cursor, foreground window; geometry is clean | LIMITED | KWin script [A]; `PickColor` portal [V]. Lost: global cursor warp | M | Medium |
+| CaptureHelpers | ShareX.HelpersLib/Helpers/CaptureHelpers.cs:91 | Cursor and active window moved to KWin in M4; `GetPixelColor` still GDI | LIMITED | KWin script, in X11 coordinates; `PickColor` portal [V]. Lost: global cursor warp | M | Medium |
 | WindowsImageInterop | ShareX.HelpersLib/Helpers/WindowsImageInterop.cs:78 | GDI capture | REWRITE | KWin `ScreenShot2` (restricted; Spectacle's desktop file declares it [V]) or Screenshot portal [V] | M | Medium |
-| CursorData | ShareX.HelpersLib/CursorData.cs:58 | Cursor handles, registry | LIMITED | Compositor-included cursor [A]. Lost: separate cursor bitmap | M | Medium |
+| CursorData | Deleted in M4 | None | LIMITED | `spectacle -p`. Lost: separate cursor bitmap | M | Medium |
 | WindowsNativeWindow | ShareX.HelpersLib/Native/WindowsNativeWindow.cs:48 | Layered Win32 overlays; throws off Windows | LIMITED | Avalonia transparent window [A]. Lost: absolute placement, z-order | L | Medium |
 | DWMManager | ShareX.HelpersLib/DWMManager.cs:30 | dwmapi; 0 callers. M3: deleted | DROP | Delete | S | High |
 | OS version gates | ShareX.HelpersLib/Helpers/Helpers.cs:64 | Fixed in M2: `OSVersion` is 0.0 off Windows, so all 10 `IsWindows*` return false (run on kernel 7.2). `CaptureHelpers.cs:304` still reaches `IsZoomed`, because it tests `!IsWindows10OrGreater()` | READY | None | S | High |
@@ -452,27 +462,27 @@ Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screen
 
 | Feature | Evidence | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
 |---|---|---|---|---|---|---|
-| Build | `S`ShareX.ScreenCaptureLib.csproj:3,8 | net10.0-windows, Vortice | SWAP | net10.0; isolate Windows code | M | High |
-| Fullscreen, rectangle, custom, last region | `Scr`:43-59,158-166; ShareX/CaptureHelpers/CaptureCustomRegion.cs:36; CaptureLastRegion.cs:48 | GDI | SWAP | ScreenShot2 `CaptureWorkspace`/`CaptureArea`; fallback `spectacle -b -n -o` or portal plus crop | M | Medium |
-| Active monitor | `Scr`:106; `H`Helpers/CaptureHelpers.cs:50 | GetCursorPos | SWAP | `CaptureActiveScreen` | S | Medium |
-| Active window, by handle | `Scr`:61-104 | HWND, GetForegroundWindow | SWAP | `CaptureActiveWindow`; `CaptureWindow(string)` replaces IntPtr | M | Medium |
-| Client area | `Scr`:67-69 | GetClientRect | LIMITED | `include-decoration`; apps drawing their own titlebars keep them | S | Medium |
-| Auto-hide taskbar | `Scr`:82 | SetTaskbarVisibility | DROP | None | S | High |
-| Transparent window | `S`Screenshot_Transparent.cs:74-99,148,210 | Z-ordered backdrop, DwmFlush, Win11 trim | REWRITE | Direct window capture with `include-shadow`; alpha untested | M | Low |
-| Cursor capture | `H`CursorData.cs:58-68; ShareX/CaptureHelpers/CaptureRegion.cs:69-80 | GetCursorInfo, icons | LIMITED | `include-cursor` or `spectacle -p`; movable cursor annotation lost | M | Medium |
-| HDR | `S`HDRScreenCapture.cs:58,142,183,190,672 | DXGI, D3D11, WIC, DisplayConfig | DROP | Use KWin output; tone-mapping unknown | S | Low |
-| Overlay window | `R`:114,465,1719-1736; RegionCaptureWindow.axaml:10 | Spanning window, Win32 DPI assumptions | REWRITE | See design answer | L | Medium |
-| Selection, dimming | `R`:708-798; `S`Presentation/RegionCapture/RegionSelectionOverlay.cs | None | UNVERIFIED | Keep; move to global coordinates | S | Medium |
-| Initial pointer, arrow-key nudge | `R`:257,483 | Get/SetCursorPos | LIMITED | First pointer event or KWin script; nudge a virtual point; real warp unreliable | M | Medium |
-| Active-monitor cursor lock | `H`Helpers/Helpers.cs:937; `R`:129 | ClipCursor, gated | LIMITED | Overlay one monitor; pointer can leave | S | Medium |
-| Magnifier | `R`:1293,1322; MagnifierPixelGrid.cs | None | READY | Reads the frozen image | S | High |
-| Annotation | `R`:468; ShareX.ImageEditor/Presentation/Rendering/WindowsCursorBitmapRenderer.cs:81,391 | Gated cursor renderer | UNVERIFIED | Keep; check cursor fallback | S | Medium |
-| Window snapping | `S`Helpers/WindowsRectangleList.cs:67,116-158; `R`:519-531,1076 | EnumWindows, DWM rects | REWRITE | KWin script | M | Medium |
-| Control snapping | `S`Helpers/WindowsRectangleList.cs:180 | EnumChildWindows | DROP | None; `clientGeometry` covers client rectangles | S | High |
-| Window under cursor (8ed375c7b) | `R`:1658-1670; `S`Helpers/SimpleWindowInfo.cs:38-42 | WindowInfo(HWND) | SWAP | Logic ports; DTO with UUID, caption, class. Needs stack order and global `_lastPointerPoint` | M | Medium |
-| Monitor HUD clamp (627ceb477) | `R`:1250,1459 | None; Avalonia Screens | UNVERIFIED | Works in a spanning window; trivial per monitor. One-scale math breaks mixed DPI | S | Medium |
-| Window list menu | `S`Helpers/WindowsList.cs:54; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:154 | EnumWindows | SWAP | Same KWin script | S | Medium |
-| Scrolling input | `S`ScrollingCaptureManager.cs:104-147,232 | SendInput, SendMessage, GetScrollInfo | LIMITED | RemoteDesktop portal or XTest, with possible consent prompt; scroll-message method and scrollbar query lost | L | Low |
+| Build | `S`ShareX.ScreenCaptureLib.csproj | Done: net10.0; Vortice removed in M4 with `HDRScreenCapture.cs` | READY | None | M | High |
+| Fullscreen, rectangle, custom, last region | `Scr`; ShareX/CaptureHelpers/CaptureCustomRegion.cs:36; CaptureLastRegion.cs:48 | Done in M4 | UNVERIFIED | `spectacle -b -n -f -o`, in `S`SpectacleCapture.cs, the only place that spawns it. Rectangles crop the image. Fast path for later: ScreenShot2 accepted a plain process on 6.8.1 (spike), so it is not limited to authorized apps. (M4, virtual session only) | M | Medium |
+| Active monitor | `Scr`; `H`Helpers/CaptureHelpers.cs:50 | Done in M4 | UNVERIFIED | `spectacle -m`, active window's output. The PNG's `screen` text chunk says which (M4, virtual session only) | S | Medium |
+| Active window, by handle | `Scr` | Done in M4 | UNVERIFIED | `spectacle -a`; `CaptureWindow(string)` replaces IntPtr and activates through a KWin script first (M4, virtual session only) | M | Medium |
+| Client area | `Scr` | Done in M4 | LIMITED | `-a -e -S`, 420x294 for a 420x294 client (M4, virtual session only); apps drawing their own titlebars keep them | S | Medium |
+| Auto-hide taskbar | Removed from `Scr` in M4; setting left in place | None | DROP | None | S | High |
+| Transparent window | `Screenshot_Transparent.cs` deleted in M4 | None | UNVERIFIED | `spectacle -a` is RGBA with the shadow; the setting no longer changes anything. Alpha over a real desktop not checked (M4, virtual session only) | M | Low |
+| Cursor capture | ShareX/TaskHelpers.cs; ShareX/CaptureHelpers/CaptureRegion.cs | Done in M4 | LIMITED | `spectacle -p`: drawn at the pointer only with `-p`, measured with an EI pointer (M4, virtual session only). Movable cursor annotation lost: in region capture it is part of the frozen image | M | Medium |
+| HDR | `HDRScreenCapture.cs` deleted in M4; setting left in place | None | DROP | Use KWin output; tone-mapping unknown | S | Low |
+| Overlay window | `R`; `S`Presentation/RegionCapture/RegionCaptureSession.cs | Done in M4 | UNVERIFIED | One Topmost window per output, sized in X11 pixels. Above a real Plasma panel, at full output size and active (M4, virtual session only, plasmashell inside it). Real monitors not seen yet | L | Medium |
+| Selection, dimming | `R`; `S`Presentation/RegionCapture/RegionSelectionOverlay.cs | Done in M4 | UNVERIFIED | Selection is global, in image pixels, and each window draws its part. Dragging and moving across outputs work by the X11 implicit grab, driven with `xdotool` (M4, virtual session only) | S | Medium |
+| Initial pointer, arrow-key nudge | `R` | Done in M4 | LIMITED | Start point from the KWin script. Arrow keys move a virtual point (HUD, hover, selection being created): the real cursor doesn't move, and it wasn't run | M | Medium |
+| Active-monitor cursor lock | Removed in M4 | None | LIMITED | One overlay on the output `-m` captured (M4, virtual session only); pointer can leave it | S | Medium |
+| Magnifier | `R`; MagnifierPixelGrid.cs | Reads each monitor's frozen crop | UNVERIFIED | Shown on the monitor with the pointer, and samples across monitors (M4, virtual session only). Was READY; the code changed and the owner hasn't seen it | S | High |
+| Annotation | `R`; ShareX.ImageEditor/Presentation/Rendering/WindowsCursorBitmapRenderer.cs:81,391 | One editor per monitor, composed on completion | LIMITED | Each monitor has its own toolbar, tool and undo, and a shape can't cross monitors. One shape in a two-monitor selection checked (M4, virtual session only); the other tools not run | S | Medium |
+| Window snapping | `H`Helpers/KWinDesktop.cs; `S`Presentation/RegionCapture/RegionCaptureSession.cs | Done in M4; `WindowsRectangleList.cs` deleted | UNVERIFIED | KWin script before the overlay opens. Skips minimized, other desktops, closing windows, pid -1 (M4, virtual session only) | M | Medium |
+| Control snapping | Deleted in M4 | None | DROP | None; only frames are snapped, and the `DetectControls` setting does nothing | S | High |
+| Window under cursor (8ed375c7b) | `S`Presentation/RegionCapture/RegionCaptureSession.cs | Done in M4 | UNVERIFIED | Same logic over `KWinWindow`. File names pick up the process name from `/proc` (M4, virtual session only) | M | Medium |
+| Monitor HUD clamp (627ceb477) | `R` | Done in M4 | UNVERIFIED | Each window clamps to itself. In mixed scale the toolbar can be wider than a small monitor and is cut off, and it can cover the magnifier at the top (M4, virtual session only) | S | Medium |
+| Window list menu | ShareX/Presentation/MainWindow/MainMenuBuilder.cs:156 | Done in M4; `WindowsList.cs` deleted | UNVERIFIED | Same KWin script, normal windows that aren't skip-taskbar (M4, virtual session only) | S | Medium |
+| Scrolling input | `S`ScrollingCaptureManager.cs:104-147,232 | SendInput, SendMessage, GetScrollInfo | LIMITED | RemoteDesktop portal or XTest. XTest from XWayland does prompt: KWin's "Remote Control" dialog, seen in the M4 spike unless `XwaylandEisNoPrompt` is set. Scroll-message method and scrollbar query lost. Since M4, selecting a window here returns none, because it still needs an HWND | L | Low |
 | Scrolling frame | `S`Presentation/ScrollingCapture/ScrollingCaptureRegionWindow.axaml.cs | M2 removed ExStyle and SetWindowRgn so it opens under X11. Lost: click-through, the hole in the frame and the tool-window style, so the window now sits over the region and takes its clicks | LIMITED | X11 shape region; exact position only under XWayland | M | Low |
 | Scrolling UI | `S`Presentation/ScrollingCapture/ScrollingCaptureWindow.axaml.cs | None found | UNVERIFIED | Keep; its capture and selection depend on rows above | S | Medium |
 
@@ -518,7 +528,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | Hotkey host | `WindowsHotkeyHost.cs:89,97,114` (unused since M1; `NullHotkeyHost` runs instead); `IHotkeyHost.cs:36-37`; `WindowsNativeWindow.cs:48` | RegisterHotKey, atoms, HWND, WM_HOTKEY | SWAP | KGlobalAccel: `doRegister`, `setShortcut`, `unregister`, `globalShortcutPressed`; remove `Handle`, `NativeMessageReceived` from the interface | M | Med-High |
 | Default hotkeys | `HotkeyManager.cs:227-231` | Assumes PrintScreen is free | LIMITED | Print and Shift+Print belong to Spectacle here: 2 of 5 defaults conflict; prompt or remap | S | High |
 | Press-any-key UI | `HotkeySettingsWindow.axaml.cs:165-208`; `HotkeySettingsAvaloniaService.cs:151-182,247` | PrintScreen KeyUp workaround | LIMITED | Keep with KGlobalAccel; KWin may swallow bound keys; `blockGlobalShortcuts` exists, untested | M | Med |
-| Repeat limit, fullscreen suppression | `WindowsHotkeyHost.cs:155-163`; `HotkeyManager.cs:59`; `CaptureHelpers.cs:324` | GetForegroundWindow | SWAP | Keep limiter; KWin script for `activeWindow.fullScreen` | M | Med-Low |
+| Repeat limit, fullscreen suppression | `WindowsHotkeyHost.cs:155-163`; `HotkeyManager.cs:59`; `CaptureHelpers.cs` | M4 moved the check to KWin's `fullScreen`; limiter is M5 | SWAP | Keep limiter | M | Med-Low |
 | Session end | `MainForm.cs:102-113` | QUERYENDSESSION, RegisterApplicationRestart | SWAP | Avalonia lifetime shutdown; session restore not investigated | S | Med |
 | Low-level mouse hook | `MouseHighlighterMouseHook.cs:74,140` | WH_MOUSE_LL (only hook in repo) | LIMITED | No passive global hook; evdev gives clicks (needs `input` group), no position; polling needs KWin script; maybe KWin mouse-click effect (assumed) | L | Med |
 | Highlighter overlay | `MouseHighlighterOverlayWindow.cs:53,91,225` | WindowsNativeWindow, HWND topmost | REWRITE | Avalonia transparent window under XWayland; click-through untested | M | Low |
@@ -534,10 +544,10 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | TaskbarManager | `Native/TaskbarManager.cs:44-73,164-168`; `TaskManager.cs:345,351`; `WorkerTask.cs:391` | ITaskbarList4 COM | SWAP | `com.canonical.Unity.LauncherEntry.Update`; needs installed `.desktop`; only Normal and NoProgress used | S | Med-High |
 | Toast window | `NotificationWindow.axaml:8-10`; `NotificationWindow.cs:320,332,410`; `TaskManager.cs:282`; `TaskHelpers.cs:2770` | GetCursorPos | UNVERIFIED | Keep under XWayland; pointer events for hover; `KWin.activeOutputName` for screen | S | Med |
 | Native notifications (optional) | same call sites | None | SWAP | org.freedesktop.Notifications; loses placement, hover, per-button click actions | M | Med-High |
-| GetCursorPos helper | `CaptureHelpers.cs:52,57,93,113`; callers `QuickTaskMenu.cs:94`, `ActionsToolbarWindow.axaml.cs:271`, `RegionCaptureWindow.axaml.cs:483`, `MouseHighlighterService.cs:65` | user32, no guard. M3: no longer throws; returns (0,0) until a KWin script provides the position | LIMITED | Pointer events where the window owns the pointer, else KWin script (`workspace.cursorPos`, assumed); async only | M | Med |
+| GetCursorPos helper | `CaptureHelpers.cs:91`; callers `QuickTaskMenu.cs:94`, `ActionsToolbarWindow.axaml.cs:271`, `MouseHighlighterService.cs:65` | Done in M4 | LIMITED | KWin script, `workspace.cursorPos`, converted to X11. Each call loads a script (a few ms), blocking the caller, and returns (0,0) with a log entry if KWin fails, so it must never be polled: the notification's 40 ms hover check now uses `IsPointerOver`. Callers that own the pointer should use pointer events | M | Med |
 | Direct GetCursorPos | `ScreenColorPickerWindow.axaml.cs:132`; `EditorView.ImageInsert.cs:422`; `MonitorTestWindow.axaml.cs:53`; `VideoPlayerWindow.axaml.cs:142`; `EmojiPicker.cs:43` guarded | user32. M3: replaced with `Screens.ScreenFromVisual` or pointer events; not run | UNVERIFIED | Pointer events or `Screens.Primary` | S | Med-High |
-| SetCursorPos, ClipCursor | `RegionCaptureWindow.axaml.cs:257`; `CaptureHelpers.cs:103`; `Helpers.cs:947` guarded | user32 | LIMITED | Loses warp and confinement; move an internal crosshair for arrow nudging | S | Med-High |
-| CursorData (cursor in captures) | `CursorData.cs:58,68,72,112,133,148`; `Screenshot.cs:143,162`; `Screenshot_Transparent.cs:66`; `CaptureRegion.cs:71` | GetCursorInfo, HICON, registry, GDI | REWRITE | Capture API embeds the cursor (assumed) | M | Med-Low |
+| SetCursorPos, ClipCursor | `CaptureHelpers.SetCursorPosition` deleted in M4; `ClipCursor` call removed | None | LIMITED | Loses warp and confinement; arrow keys move an internal point | S | Med-High |
+| CursorData (cursor in captures) | Deleted in M4 | None | LIMITED | `spectacle -p` (M4, virtual session only) | M | Med-Low |
 | CursorAssetLoader, `.cur` assets | `ShareX.Avalonia/Input/CursorAssetLoader.cs:113-135`; `ShareX.Avalonia/Assets/*.cur` | None, managed parser | UNVERIFIED | Keep | S | Med-High |
 | Annotation cursor renderer | `WindowsCursorBitmapRenderer.cs:81,160,341` | user32/gdi32 fallback, guarded | UNVERIFIED | Bundled `.cur` only; `:100` path not traced | S | Med |
 

@@ -38,7 +38,7 @@ namespace ShareX
                 return await ExecuteRegionCaptureAvaloniaAsync(taskSettings);
             }
 
-            return Execute(taskSettings);
+            return await Task.Run(() => Execute(taskSettings));
         }
 
         protected override TaskMetadata Execute(TaskSettings taskSettings)

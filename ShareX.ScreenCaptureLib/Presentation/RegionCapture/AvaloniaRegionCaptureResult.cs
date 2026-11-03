@@ -34,5 +34,5 @@ namespace ShareX.ScreenCaptureLib.Presentation.RegionCapture;
 public sealed record AvaloniaRegionCaptureResult(
     SKBitmap Image,
     Rectangle ScreenRectangle,
-    WindowInfo? WindowInfo,
+    KWinWindow? WindowInfo,
     bool ImageModified);

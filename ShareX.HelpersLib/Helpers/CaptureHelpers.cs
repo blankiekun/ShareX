@@ -88,20 +88,19 @@ namespace ShareX.HelpersLib
             return new Rectangle(ClientToScreen(r.Location), r.Size);
         }
 
-        // shortcut: Wayland has no global cursor query, so callers get the first screen's corner until a KWin script provides it.
+        /// <summary>The cursor in X11 coordinates. XWayland can't see the global cursor, so this asks KWin.</summary>
         public static Point GetCursorPosition()
         {
-            return Point.Empty;
-        }
-
-        public static void SetCursorPosition(int x, int y)
-        {
-            NativeMethods.SetCursorPos(x, y);
-        }
-
-        public static void SetCursorPosition(Point position)
-        {
-            SetCursorPosition(position.X, position.Y);
+            try
+            {
+                KWinDesktop desktop = KWinDesktop.Query();
+                return desktop.Coordinates.LogicalToX11(desktop.Cursor);
+            }
+            catch (KWinScriptException e)
+            {
+                DebugHelper.WriteException(e);
+                return Point.Empty;
+            }
         }
 
         public static Color GetPixelColor()
@@ -307,35 +306,42 @@ namespace ShareX.HelpersLib
 
         public static Rectangle GetActiveWindowRectangle()
         {
-            IntPtr handle = NativeMethods.GetForegroundWindow();
-            return GetWindowRectangle(handle);
+            return GetActiveWindowRectangle(false);
         }
 
         public static Rectangle GetActiveWindowClientRectangle()
         {
-            IntPtr handle = NativeMethods.GetForegroundWindow();
-            return NativeMethods.GetClientRect(handle);
+            return GetActiveWindowRectangle(true);
+        }
+
+        private static Rectangle GetActiveWindowRectangle(bool clientArea)
+        {
+            try
+            {
+                KWinDesktop desktop = KWinDesktop.Query();
+                KWinWindow window = desktop.ActiveWindow;
+
+                return window == null ? Rectangle.Empty :
+                    desktop.Coordinates.LogicalToX11(clientArea ? window.ClientGeometry : window.FrameGeometry);
+            }
+            catch (KWinScriptException e)
+            {
+                DebugHelper.WriteException(e);
+                return Rectangle.Empty;
+            }
         }
 
         public static bool IsActiveWindowFullscreen()
         {
-            IntPtr handle = NativeMethods.GetForegroundWindow();
-
-            if (handle.ToInt32() > 0)
+            try
             {
-                WindowInfo windowInfo = new WindowInfo(handle);
-                string className = windowInfo.ClassName;
-                string[] ignoreList = new string[] { "Progman", "WorkerW" };
-
-                if (ignoreList.All(ignore => !className.Equals(ignore, StringComparison.OrdinalIgnoreCase)))
-                {
-                    Rectangle windowRectangle = windowInfo.Rectangle;
-                    Rectangle monitorRectangle = DesktopScreen.FromRectangle(windowRectangle).Bounds;
-                    return windowRectangle.Contains(monitorRectangle);
-                }
+                return KWinDesktop.Query().ActiveWindow?.IsFullscreen == true;
             }
-
-            return false;
+            catch (KWinScriptException e)
+            {
+                DebugHelper.WriteException(e);
+                return false;
+            }
         }
 
         public static Rectangle EvenRectangleSize(Rectangle rect)

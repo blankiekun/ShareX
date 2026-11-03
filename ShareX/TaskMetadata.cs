@@ -72,6 +72,15 @@ namespace ShareX
             Image = image;
         }
 
+        public void UpdateInfo(KWinWindow window)
+        {
+            if (window != null)
+            {
+                WindowTitle = window.Caption;
+                ProcessName = window.ProcessName;
+            }
+        }
+
         public void UpdateInfo(WindowInfo windowInfo)
         {
             if (windowInfo != null)

@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using ShareX.HelpersLib;
+using ShareX.ScreenCaptureLib;
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -51,7 +52,8 @@ namespace ShareX
 
         protected virtual Task<TaskMetadata> ExecuteAsync(TaskSettings taskSettings)
         {
-            return Task.FromResult(Execute(taskSettings));
+            // Spectacle takes a few hundred ms and up to its watchdog's timeout, so not on the UI thread.
+            return Task.Run(() => Execute(taskSettings));
         }
 
         private async Task CaptureAsync(TaskSettings taskSettings, bool autoHideForm)
@@ -103,6 +105,7 @@ namespace ShareX
             }
 
             TaskMetadata metadata = null;
+            Exception captureError = null;
 
             try
             {
@@ -112,6 +115,7 @@ namespace ShareX
             catch (Exception ex)
             {
                 DebugHelper.WriteException(ex);
+                captureError = ex;
             }
             finally
             {
@@ -126,6 +130,12 @@ namespace ShareX
                 }
 
                 AfterCapture(metadata, taskSettings);
+            }
+
+            // After the main window is back, so that the message has something to return to.
+            if (captureError is ScreenCaptureException or KWinScriptException)
+            {
+                captureError.ShowError(false);
             }
         }
 
@@ -152,25 +162,28 @@ namespace ShareX
 
         protected TaskMetadata CreateMetadata()
         {
-            return CreateMetadata(Rectangle.Empty, null);
+            return CreateMetadata(Rectangle.Empty);
         }
 
+        /// <summary>Uses the active window for the file name, if it contains <paramref name="insideRect"/>.</summary>
         protected TaskMetadata CreateMetadata(Rectangle insideRect)
-        {
-            return CreateMetadata(insideRect, "explorer");
-        }
-
-        protected TaskMetadata CreateMetadata(Rectangle insideRect, string ignoreProcess)
         {
             TaskMetadata metadata = new TaskMetadata();
 
-            IntPtr handle = NativeMethods.GetForegroundWindow();
-            WindowInfo windowInfo = new WindowInfo(handle);
-
-            if ((ignoreProcess == null || !windowInfo.ProcessName.Equals(ignoreProcess, StringComparison.OrdinalIgnoreCase)) &&
-                (insideRect.IsEmpty || windowInfo.Rectangle.Contains(insideRect)))
+            try
             {
-                metadata.UpdateInfo(windowInfo);
+                KWinDesktop desktop = KWinDesktop.Query();
+                KWinWindow window = desktop.ActiveWindow;
+
+                if (window != null && (insideRect.IsEmpty || desktop.Coordinates.LogicalToX11(window.FrameGeometry).Contains(insideRect)))
+                {
+                    metadata.UpdateInfo(window);
+                }
+            }
+            catch (KWinScriptException e)
+            {
+                // Only the file name's window title is lost, so the capture goes on.
+                DebugHelper.WriteException(e);
             }
 
             return metadata;

@@ -24,145 +24,69 @@
 #endregion License Information (GPL v3)
 
 using ShareX.HelpersLib;
-using System;
+using SkiaSharp;
 using System.Drawing;
+using System.Linq;
+using System.Threading;
 using Bitmap = SkiaSharp.SKBitmap;
 
 namespace ShareX.ScreenCaptureLib
 {
-    public partial class Screenshot
+    /// <summary>Takes screenshots through <see cref="SpectacleCapture"/>. Rectangles are in X11 coordinates, like DesktopScreen's.</summary>
+    public class Screenshot
     {
         public bool CaptureCursor { get; set; } = false;
         public bool CaptureClientArea { get; set; } = false;
-        public bool RemoveOutsideScreenArea { get; set; } = true;
         public bool CaptureShadow { get; set; } = false;
-        public int ShadowOffset { get; set; } = 20;
-        public bool AutoHideTaskbar { get; set; } = false;
-        public bool HDRScreenshotColorCorrection { get; set; } = false;
 
         public Bitmap CaptureRectangle(Rectangle rect)
         {
-            if (RemoveOutsideScreenArea)
-            {
-                Rectangle bounds = CaptureHelpers.GetScreenBounds();
-                rect = Rectangle.Intersect(bounds, rect);
-            }
+            KWinDesktop desktop = KWinDesktop.Query();
 
-            return CaptureRectangleNative(rect, CaptureCursor);
+            using Bitmap image = CaptureFullscreen();
+            DesktopCoordinates coordinates = desktop.Coordinates.ForImage(desktop.Outputs, new Size(image.Width, image.Height));
+            Rectangle crop = Rectangle.Intersect(coordinates.X11ToImage(rect), new Rectangle(0, 0, image.Width, image.Height));
+
+            return crop.IsEmpty ? null : Crop(image, crop);
         }
 
         public Bitmap CaptureFullscreen()
         {
-            Rectangle bounds = CaptureHelpers.GetScreenBounds();
-
-            return CaptureRectangle(bounds);
-        }
-
-        public Bitmap CaptureWindow(IntPtr handle)
-        {
-            if (handle.ToInt32() > 0)
-            {
-                Rectangle rect;
-
-                if (CaptureClientArea)
-                {
-                    rect = NativeMethods.GetClientRect(handle);
-                }
-                else
-                {
-                    rect = CaptureHelpers.GetWindowRectangle(handle);
-                }
-
-                bool isTaskbarHide = false;
-
-                try
-                {
-                    if (AutoHideTaskbar)
-                    {
-                        isTaskbarHide = NativeMethods.SetTaskbarVisibilityIfIntersect(false, rect);
-                    }
-
-                    return CaptureRectangle(rect);
-                }
-                finally
-                {
-                    if (isTaskbarHide)
-                    {
-                        NativeMethods.SetTaskbarVisibility(true);
-                    }
-                }
-            }
-
-            return null;
+            return SpectacleCapture.Capture(SpectacleMode.AllMonitors, CaptureCursor).Bitmap;
         }
 
         public Bitmap CaptureActiveWindow()
         {
-            IntPtr handle = NativeMethods.GetForegroundWindow();
+            SpectacleMode mode = CaptureClientArea ? SpectacleMode.ActiveWindowClientArea :
+                CaptureShadow ? SpectacleMode.ActiveWindow : SpectacleMode.ActiveWindowNoShadow;
 
-            return CaptureWindow(handle);
+            return SpectacleCapture.Capture(mode, CaptureCursor).Bitmap;
         }
 
-        public Bitmap CaptureActiveMonitor()
+        /// <summary>Captures a window by making it active first. Spectacle can only capture the active window.</summary>
+        public Bitmap CaptureWindow(string windowId)
         {
-            Rectangle bounds = CaptureHelpers.GetActiveScreenBounds();
-
-            return CaptureRectangle(bounds);
-        }
-
-        private Bitmap CaptureRectangleNative(Rectangle rect, bool captureCursor = false)
-        {
-            IntPtr handle = NativeMethods.GetDesktopWindow();
-            return CaptureRectangleNative(handle, rect, captureCursor);
-        }
-
-        private Bitmap CaptureRectangleNative(IntPtr handle, Rectangle rect, bool captureCursor = false)
-        {
-            if (rect.Width == 0 || rect.Height == 0)
+            if (!KWinDesktop.ActivateWindow(windowId))
             {
                 return null;
             }
 
-            if (HDRScreenshotColorCorrection)
-            {
-                Bitmap bitmap = CaptureRectangleGDI(handle, rect, false);
+            Thread.Sleep(100);
 
-                try
-                {
-                    HDRScreenCapture.ApplyColorCorrection(bitmap, rect);
-                }
-                catch (Exception e)
-                {
-                    DebugHelper.WriteException(e, "HDR screenshot color correction failed.");
-                }
-
-                if (captureCursor)
-                {
-                    try
-                    {
-                        CursorData cursorData = new CursorData();
-                        cursorData.DrawCursor(bitmap, rect.Location);
-                    }
-                    catch (Exception e)
-                    {
-                        DebugHelper.WriteException(e, "Cursor capture failed.");
-                    }
-                }
-
-                return bitmap;
-            }
-
-            return CaptureRectangleGDI(handle, rect, captureCursor);
+            return CaptureActiveWindow();
         }
 
-        private Bitmap CaptureRectangleGDI(IntPtr handle, Rectangle rect, bool captureCursor)
+        /// <summary>Captures the monitor with the active window, which is not always the one with the cursor.</summary>
+        public Bitmap CaptureActiveMonitor()
         {
-            return WindowsImageInterop.Capture(rect, captureCursor ? dc =>
-            {
-                try { new CursorData().DrawCursor(dc, rect.Location); }
-                catch (Exception exception) { DebugHelper.WriteException(exception, "Cursor capture failed."); }
-            }
-            : null, handle);
+            return SpectacleCapture.Capture(SpectacleMode.ActiveMonitor, CaptureCursor).Bitmap;
+        }
+
+        internal static Bitmap Crop(Bitmap image, Rectangle rectangle)
+        {
+            using Bitmap subset = new Bitmap();
+            image.ExtractSubset(subset, new SKRectI(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom));
+            return subset.Copy();
         }
     }
 }

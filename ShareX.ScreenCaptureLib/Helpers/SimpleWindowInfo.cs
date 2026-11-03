@@ -24,34 +24,12 @@
 #endregion License Information (GPL v3)
 
 using ShareX.HelpersLib;
-using System;
 using System.Drawing;
 
 namespace ShareX.ScreenCaptureLib
 {
-    public class SimpleWindowInfo
-    {
-        public IntPtr Handle { get; set; }
-        public Rectangle Rectangle { get; set; }
-        public bool IsWindow { get; set; }
-
-        public WindowInfo WindowInfo
-        {
-            get
-            {
-                return new WindowInfo(Handle);
-            }
-        }
-
-        public SimpleWindowInfo(IntPtr handle)
-        {
-            Handle = handle;
-        }
-
-        public SimpleWindowInfo(IntPtr handle, Rectangle rect)
-        {
-            Handle = handle;
-            Rectangle = rect;
-        }
-    }
+    /// <summary>A window region capture can snap to.</summary>
+    /// <param name="Window">The window, in KWin logical coordinates.</param>
+    /// <param name="Rectangle">Its frame in the frozen screenshot's pixels.</param>
+    public sealed record SimpleWindowInfo(KWinWindow Window, Rectangle Rectangle);
 }

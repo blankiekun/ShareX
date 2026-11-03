@@ -1374,7 +1374,7 @@ namespace ShareX
                 }
             };
 
-            worker.Start(ApartmentState.STA);
+            worker.Start();
         }
 
         public static Bitmap AnnotateImage(Bitmap bmp, string filePath, TaskSettings taskSettings, bool taskMode = false)
@@ -1563,7 +1563,7 @@ namespace ShareX
                     }
                 };
 
-                worker.Start(ApartmentState.STA);
+                worker.Start();
             }
         }
 
@@ -2399,11 +2399,7 @@ namespace ShareX
             {
                 CaptureCursor = taskSettings.CaptureSettings.ShowCursor,
                 CaptureClientArea = taskSettings.CaptureSettings.CaptureClientArea,
-                RemoveOutsideScreenArea = true,
-                CaptureShadow = taskSettings.CaptureSettings.CaptureShadow,
-                ShadowOffset = taskSettings.CaptureSettings.CaptureShadowOffset,
-                AutoHideTaskbar = taskSettings.CaptureSettings.CaptureAutoHideTaskbar,
-                HDRScreenshotColorCorrection = taskSettings.CaptureSettings.HDRScreenshotColorCorrection
+                CaptureShadow = taskSettings.CaptureSettings.CaptureShadow
             };
 
             return screenshot;

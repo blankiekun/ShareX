@@ -25,29 +25,34 @@
 
 #nullable enable
 
+using ShareX.HelpersLib;
 using ShareX.ImageEditor.Integration;
 using SkiaSharp;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace ShareX.ScreenCaptureLib.Presentation.RegionCapture;
 
 public sealed class AvaloniaRegionCaptureRequest
 {
-    /// <summary>Frozen screenshot. Ownership transfers to the capture window.</summary>
+    /// <summary>Frozen screenshot. Ownership transfers to the capture session.</summary>
     public required SKBitmap Screenshot { get; init; }
 
-    /// <summary>Physical-pixel desktop bounds represented by <see cref="Screenshot"/>.</summary>
-    public required Rectangle ScreenBounds { get; init; }
+    /// <summary>Converts <see cref="Screenshot"/>'s pixels to and from the desktop.</summary>
+    public required DesktopCoordinates Coordinates { get; init; }
+
+    /// <summary>The monitors <see cref="Screenshot"/> covers. Each gets an overlay window.</summary>
+    public required IReadOnlyList<KWinOutput> Outputs { get; init; }
+
+    /// <summary>Windows to snap to, top of the stack first.</summary>
+    public required IReadOnlyList<KWinWindow> Windows { get; init; }
+
+    /// <summary>Cursor position in KWin logical coordinates.</summary>
+    public required Point Cursor { get; init; }
 
     public required RegionCaptureOptions RegionCaptureOptions { get; init; }
 
     public required ImageEditorOptions ImageEditorOptions { get; init; }
 
     public bool EnableAnnotations { get; init; } = true;
-
-    /// <summary>Optional captured cursor bitmap. Ownership transfers to the capture window.</summary>
-    public SKBitmap? CursorBitmap { get; init; }
-
-    /// <summary>Cursor draw position in screenshot pixel coordinates.</summary>
-    public Point CursorPosition { get; init; }
 }

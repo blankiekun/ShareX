@@ -50,7 +50,6 @@ public static class RegionCaptureIntegration
         catch (Exception ex)
         {
             request.Screenshot.Dispose();
-            request.CursorBitmap?.Dispose();
             return Task.FromException<AvaloniaRegionCaptureResult?>(ex);
         }
 
@@ -59,23 +58,18 @@ public static class RegionCaptureIntegration
 
         Dispatcher.UIThread.Post(async () =>
         {
-            RegionCaptureWindow? window = null;
-
             try
             {
                 ImageEditorIntegration.Initialize();
-                window = new RegionCaptureWindow(request);
-                completion.TrySetResult(await window.CaptureAsync());
+                completion.TrySetResult(await new RegionCaptureSession(request).RunAsync());
             }
             catch (Exception ex)
             {
-                if (window == null || !window.IsVisible)
-                {
-                    request.Screenshot.Dispose();
-                    request.CursorBitmap?.Dispose();
-                }
-
                 completion.TrySetException(ex);
+            }
+            finally
+            {
+                request.Screenshot.Dispose();
             }
         });
 

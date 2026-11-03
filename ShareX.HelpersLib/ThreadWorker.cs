@@ -41,13 +41,12 @@ namespace ShareX.HelpersLib
             context = SynchronizationContext.Current ?? new SynchronizationContext();
         }
 
-        public void Start(ApartmentState state = ApartmentState.MTA)
+        public void Start()
         {
             if (thread == null)
             {
                 thread = new Thread(WorkThread);
                 thread.IsBackground = true;
-                thread.SetApartmentState(state);
                 thread.Start();
             }
         }
