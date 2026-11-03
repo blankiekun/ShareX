@@ -27,7 +27,7 @@ using ShareX.HelpersLib;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Text;
+using System.IO;
 using System.Threading;
 using Image = SkiaSharp.SKBitmap;
 
@@ -260,43 +260,48 @@ namespace ShareX.ScreenCaptureLib
         {
             FileHelpers.CreateDirectoryFromFilePath(output);
 
+            // Crop in RGB: on 4:2:0 video the crop filter rounds odd sizes and offsets down to even.
+            string cropFilter = crop is Rectangle area ? $"[0:v]format=rgb24,crop={area.Width}:{area.Height}:{area.X}:{area.Y}[cropped];" : "";
+            string source = crop == null ? "[0:v]" : "[cropped]";
+
+            // https://ffmpeg.org/ffmpeg-filters.html#paletteuse
+            string paletteUse = $"paletteuse=dither={Options.FFmpeg.GIFDither}";
+
+            if (Options.FFmpeg.GIFDither == FFmpegPaletteUseDither.bayer)
+            {
+                paletteUse += $":bayer_scale={Options.FFmpeg.GIFBayerScale}";
+            }
+
             try
             {
-                ffmpeg.TrackEncodeProgress = true;
-
-                StringBuilder args = new StringBuilder();
-
-                args.Append($"-i \"{input}\" ");
-
                 // https://ffmpeg.org/ffmpeg-filters.html#palettegen-1
-                if (crop is Rectangle area)
-                {
-                    // Crop in RGB: on 4:2:0 video the crop filter rounds odd sizes and offsets down to even.
-                    args.Append($"-lavfi \"[0:v]format=rgb24,crop={area.Width}:{area.Height}:{area.X}:{area.Y},split[source][stats];[stats]palettegen=stats_mode={Options.FFmpeg.GIFStatsMode}[palette];");
-                }
-                else
-                {
-                    args.Append($"-lavfi \"palettegen=stats_mode={Options.FFmpeg.GIFStatsMode}[palette],");
-                }
-
-                // https://ffmpeg.org/ffmpeg-filters.html#paletteuse
-                args.Append($"{(crop == null ? "[0:v]" : "[source]")}[palette]paletteuse=dither={Options.FFmpeg.GIFDither}");
-
-                if (Options.FFmpeg.GIFDither == FFmpegPaletteUseDither.bayer)
-                {
-                    args.Append($":bayer_scale={Options.FFmpeg.GIFBayerScale}");
-                }
-
+                // stats_mode=single makes a palette for each frame, so it can't use a palette file. It doesn't hold frames back either, so one run is fine.
                 if (Options.FFmpeg.GIFStatsMode == FFmpegPaletteGenStatsMode.single)
                 {
-                    args.Append(":new=1");
+                    ffmpeg.TrackEncodeProgress = true;
+
+                    return ffmpeg.Run($"-i \"{input}\" -lavfi \"{cropFilter}{source}split[source][stats];[stats]palettegen=stats_mode=single[palette];[source][palette]{paletteUse}:new=1\" -y \"{output}\"");
                 }
 
-                args.Append("\" ");
-                args.Append("-y ");
-                args.Append($"\"{output}\"");
+                // The other modes make their palette when the input ends, so a single run would hold every frame in memory until then.
+                string palettePath = Path.Combine(Path.GetTempPath(), $"ShareX-palette-{Guid.NewGuid():N}.png");
 
-                return ffmpeg.Run(args.ToString());
+                try
+                {
+                    // Progress follows the second run only, so it can't reach 100% and then start again. It stays at 0 while the palette is made.
+                    if (!ffmpeg.Run($"-i \"{input}\" -lavfi \"{cropFilter}{source}palettegen=stats_mode={Options.FFmpeg.GIFStatsMode}\" -frames:v 1 -update 1 -y \"{palettePath}\"") || ffmpeg.StopRequested)
+                    {
+                        return false;
+                    }
+
+                    ffmpeg.TrackEncodeProgress = true;
+
+                    return ffmpeg.Run($"-i \"{input}\" -i \"{palettePath}\" -lavfi \"{cropFilter}{source}[1:v]{paletteUse}\" -y \"{output}\"");
+                }
+                finally
+                {
+                    FileHelpers.DeleteFile(palettePath);
+                }
             }
             finally
             {
