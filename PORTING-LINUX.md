@@ -275,7 +275,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | OpenImageHistory | TH:403; TH:894 | Thumbnail COM fallback | UNVERIFIED | See Part 2 | S | Med |
 | ToggleActionsToolbar | TH:406; TH:2629 | Toolbar position, cursor | LIMITED: see Presentation scan | X11 backend on XWayland (A) | M | Low |
 | ToggleTrayMenu | TH:409; TH:2773 | Owner shell: Windows tray | LIMITED: programmatic tray-menu popup not expected | Avalonia TrayIcon path (A) | M | Low |
-| ExitShareX | TH:412 | None found | READY | None | S | Med |
+| ExitShareX | TH:412 | None found | UNVERIFIED | While recording it asks first, and Yes stops and saves the recording instead of discarding it. Run on the stub through the main window's close, which reaches the same code. The tray menu click itself wasn't run | S | Med |
 
 
 #### AfterCaptureTasks (21)
@@ -372,7 +372,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| Recorder bar window | ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:110,444 | M2 removed the `user32` calls so it opens under X11. Lost: tool-window style and keeping the outline behind the bar | REWRITE | KWin rule or layer-shell (A) | M | High |
+| Recorder bar window | ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:110,444 | M2 removed the `user32` calls so it opens under X11. Lost: tool-window style and keeping the outline behind the bar. The outline and the recording frame take clicks inside the region (run in the virtual session under Xwayland), so windows and dialogs below them can't be clicked there | REWRITE | KWin rule or layer-shell (A) | M | High |
 | Main window thumbnails | ShareX/Presentation/MainWindow/ThumbnailItemViewModel.cs:268 | Shell thumbnail COM | SWAP | ffmpeg, ~/.cache/thumbnails (V) | S | High |
 | Main window menus and position | ShareX/Presentation/MainWindow/MainWindow.axaml.cs:217,2111 | GetCursorPos; Position | LIMITED: global cursor anchoring lost | Pointer-event anchors (A) | S | Med |
 | Actions toolbar | ShareX/Presentation/ActionsToolbar/ActionsToolbarWindow.axaml.cs:54,266,271 | Topmost, Position, GetCursorPos | LIMITED: placement is compositor-dependent | KWin rule (A) | M | Med |
@@ -502,7 +502,7 @@ Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `
 | MP4, hardware encode | `SRL/Gsr/GsrCommand.cs`; `SRL/RecordingOptions.cs` | gsr `-k h264`, `-bm cbr -q`, `-ac aac`, NVENC | UNVERIFIED | `RequireHardwareEncoder=false` adds `-fallback-cpu-encoding yes` (not run) | S | High |
 | No-overwrite output | `SRL/ScreenRecorder.cs` | gsr overwrites silently | UNVERIFIED | Temporary name, then move; stub, including a name taken mid-recording | S | High |
 | Session, timer, duration | `SRL/ScreenRecorder.cs`; `SRL/Gsr/GsrSession.cs`; `SRL/RecordingClock.cs` | gsr `-ipc`, no duration flag | UNVERIFIED | No armed state, so Prepare checks and reserves and Start spawns; ShareX's timer sends the stop; stub | S | Med |
-| Failure handling | `SRL/Gsr/GsrSession.cs`; `SRL/Gsr/HostTools.cs` | Exit codes 0, 1, 2, 50, 51, 126; black video markers; SIGKILL | UNVERIFIED | Each path run on the stub, plus the recorder ignoring every stop. Started through `setpriv --pdeathsig INT`, so it stops if ShareX dies, leaving its hidden temp file behind | S | High |
+| Failure handling | `SRL/Gsr/GsrSession.cs`; `SRL/Gsr/HostTools.cs` | Exit codes 0, 1, 2, 50, 51, 126; black video markers; SIGKILL | UNVERIFIED | Each path run on the stub, plus the recorder ignoring every stop. Started through `setpriv --pdeathsig INT`, so it stops if ShareX dies, leaving its hidden temp file behind. Run on the stub with SIGTERM, SIGHUP, SIGKILL and a group SIGINT: the finished video stays in that hidden file beside an empty placeholder, nothing logs it and nothing recovers it | S | High |
 | Frame and drop counts | `SRL/RecordingOptions.cs` | gsr reports none; ffprobe | LIMITED: dropped frames and audio discontinuities are always -1 | Frames from ffprobe; -1 without it | S | High |
 | GIF input | `SX/ScreenRecordManager.cs` `RecordNativeAsync` | gsr, `-fm cfr` | READY | MP4 first, because gsr has no raw frames; `GifWriter` deleted; owner confirmed on the real desktop, 2026-11-03 | S | Med |
 | GIF encode | `SCL/ScreenRecording/ScreenRecorder.cs` `FFmpegEncodeAsGIF`; `SX/ScreenRecordManager.cs` `EncodeNativeGif` | FFmpeg | LIMITED: quality starts from 4:2:0 H.264 instead of lossless BGRA | ShareX's method run on real FFmpeg with generated clips; 801x601 output and crop offset measured. | S | Med |
