@@ -1,0 +1,671 @@
+# ShareX Linux port: what needs porting
+
+Target: KDE Plasma 6 on Wayland. Inventory taken 2026-11-03 at `8ed375c7b`, on Plasma 6.8.1, .NET SDK 10.0.113, Avalonia 12.1.4.
+
+**Where it stands:** the UI is already Avalonia, so this is not a UI rewrite. A temporary patched build reached the full
+main window on this machine, using four packages, two stubbed WinRT classes and a null hotkey host (patches reverted).
+Nothing else works yet: capture, recording, OCR and global hotkeys all need real work. The hard part is at runtime, and
+most of it won't show up as compile errors.
+
+## Labels
+
+| Label | Meaning | What to do |
+|---|---|---|
+| `READY` | No OS coupling found, or run and confirmed | Keep. Still blocked by the build work in section 2 |
+| `UNVERIFIED` | Should work, has not been run | Run it, then mark `READY` or relabel |
+| `SWAP` | Same feature, different API | Replace the API |
+| `REWRITE` | Must be re-implemented | Build it again for Linux |
+| `LIMITED` | Wayland can't fully match Windows; the row says what is lost | Port what's possible, and accept or redesign the rest |
+| `DROP` | Doesn't apply on Linux | Exclude or delete |
+
+User-facing features in the checklist (section 5.1), by label:
+
+| Label | Rows |
+|---|---|
+| `READY` | 30 |
+| `UNVERIFIED` | 52 |
+| `SWAP` | 42 |
+| `REWRITE` | 18 |
+| `LIMITED` | 33 |
+| `DROP` | 8 |
+| **Total** | **183** |
+
+The other tables overlap with the checklist, so their rows aren't added to these totals.
+
+## 1. Facts that shape the port
+
+- **ShareX runs through XWayland by default.** Both apps call `UsePlatformDetect`, and `Avalonia.Desktop` 12.1.4 depends
+  on `Avalonia.X11`. The build ran with no `libwayland` loaded. A separate `Avalonia.Wayland` package exists and is described
+  as experimental. Reading its source, window move, always-on-top and transparency are no-ops, so XWayland is the practical
+  start. Keep the window code isolated in case native Wayland matures.
+- **An XWayland app can't see the real screen or the global cursor**, so capture must go through KWin or the portals.
+- **Window handles are a trap.** Under X11 the handle is a non-zero XID, so `handle != IntPtr.Zero` guards pass and the
+  code reaches `user32`, which should throw `DllNotFoundException`. Windows version checks have a similar problem:
+  `Helpers.IsWindows7OrGreater` is true on Linux because it only compares version numbers. Use `OperatingSystem.IsWindows()`.
+- **The default hotkeys clash with KDE.** Print and Shift+Print belong to Spectacle on this machine.
+
+## 2. Fix these first
+
+| # | Item | Where | Why |
+|---|---|---|---|
+| 1 | Secrets can be written in plaintext | `ShareX.HelpersLib/Settings/DPAPIEncryptedStringValueProvider.cs` (`GetValue`) | An empty `catch` returns the plain value when encryption fails, which is expected on Linux. Covers `UploadersConfig.json` and AI API keys. **Fix before any Linux build saves settings** |
+| 2 | Props files aren't imported on Linux | `Directory.build.props`, `Directory.build.targets` | MSBuild looks for `Directory.Build.*` and Linux is case-sensitive, so the build gets version 1.0.0. Rename them, update `build.yml:43`, and make the RID `linux-x64` in the same change, or x64 builds produce a `win-x64` `.exe` |
+| 3 | Resource path casing | `ShareX.UploadersLib/Properties/Resources.resx:17` | Points to `..\resources\oauthcallbackpage.html`; the file is `Resources/OAuthCallbackPage.html` |
+| 4 | Windows-only targets | 10 projects; `ShareX.HelpersLib.csproj` references `Microsoft.WindowsDesktop.App` | `NETSDK1100` on Linux |
+| 5 | Hotkey host crashes start-up | `ShareX/Forms/MainForm.cs:47`, `ShareX.HelpersLib/Input/WindowsHotkeyHost.cs:55` | First hard crash; the ctor throws off Windows before the tray exists |
+| 6 | Portable mode collides with the binary | `ShareX/Infrastructure/AppPaths.cs:42` | The folder `ShareX` has the same name as the `ShareX` apphost. In the test, the run fell back to `~/Documents/ShareX` and crashed with "Avalonia is already initialized" |
+
+## 3. Suggested order
+
+1. **Build:** items 2 to 5 above, plus stubs for `OCRHelper.cs`, `GraphicsCapture.cs` and the WinRT part of `GraphicsDevice.cs`.
+   Remove `ShareX.Steam` and `ShareX.Setup`. Add the 4 compile-time packages
+   (`System.Drawing.Common`, `System.Security.Cryptography.ProtectedData`, `System.Windows.Extensions`, `System.Management`).
+   Result: the main window runs from a real branch. The rename has only been tested on the editor, not full ShareX.
+2. **Safety:** the plaintext secrets fix, the version and handle guards, the portable folder.
+3. **Cheap shared fixes:** the `.exe` check in `FFmpegCLIManager.cs:89`, folder opening in `FileHelpers.cs:294,337`, path
+   and separator handling. Together these unlock about a dozen tools. Delete dead code too: 77 of the 159 `NativeMethods.cs`
+   P/Invokes have no callers.
+4. **Capture:** screenshots through KWin `ScreenShot2` or `spectacle`, one overlay window per screen over a frozen
+   screenshot, and a KWin script for window lists and snapping. This is the core of the app and the biggest design risk.
+5. **Desktop integration:** KGlobalAccel hotkeys, tray, single instance, `.desktop` file, icons, MIME types, autostart,
+   service menu, then an AppImage.
+6. **Recording:** try `gpu-screen-recorder` first; otherwise portal ScreenCast into PipeWire into `ffmpeg` with NVENC.
+7. **Remaining tools:** Tesseract OCR, ONNX on CUDA, `libmpv` video player, printing, notifications.
+8. **Migration from Windows:** settings import, path rewriting, history. In scope: the owner has an install to move.
+
+## 4. Design notes and open decisions
+
+**Region overlay.** Today one borderless window spans all monitors with one render scale. Recommended: one window per
+screen, each showing a crop of the frozen screenshot, sharing selection state in global coordinates. Still to test: dragging
+across monitors, stacking above panels, keyboard focus when triggered by a hotkey, and mixed scaling. Fallback is a
+layer-shell surface per output (large). Window snapping: a KWin script reads `workspace.stackingOrder` and geometry before the overlay
+appears, and the overlay's own pointer events do the hit-testing.
+
+**Hotkeys.** Use KGlobalAccel on KDE: it supports press-any-key capture and per-key register and unregister. The
+GlobalShortcuts portal can only hint a trigger and has the user confirm in a dialog; it's the fallback for Flatpak. Don't
+assume a requested key became active.
+
+**Recording.** `/usr/bin/ffmpeg` here has no PipeWire input and VA-API encoding fails, while NVENC works. So a bridge is
+needed, for example `gst-launch-1.0 pipewiresrc` (`gst-plugin-pipewire` isn't installed). Crop in C# and pipe frames to
+`ffmpeg`. ShareX can't pass its own rectangle to the portal, so region recording means cropping a monitor stream.
+
+**Where reports disagreed:** subsystem tables win over the checklist in 5.1, whose rows are best guesses. Specifically:
+wallpaper is read-only, so nothing sets a wallpaper (the checklist's "Plasma wallpaper API" means reading it). OCR is a `SWAP`
+to Tesseract. Foreign-window tools are `LIMITED` through KWin scripts, not `DROP`. Two items stay open: single instance
+(`flock` plus a Unix socket, or `PipeOptions.CurrentUserOnly`) and updates (`DROP` if packages handle them, `REWRITE` otherwise).
+
+**Owner decisions (2026-11-03):**
+- Windows is dropped: retarget to `net10.0` and delete Windows code as it gets replaced. Any `multi-target` wording below is superseded.
+- Secrets: Secret Service (`org.freedesktop.secrets`, served here by `ksecretd`). Fail closed when it is unavailable.
+- Packaging: AppImage, so no sandbox and KGlobalAccel stays. PKGBUILD and Flatpak rows below are not planned.
+- Migrating an existing Windows install is in scope. DPAPI blobs can't be decrypted on Linux, so they must be kept intact, never blanked,
+  until M8 decides how they cross over (for example, decrypting on the Windows side before the move).
+
+**Still open:** how to sync from upstream. The fork has no upstream remote, and dropping Windows makes merges harder.
+
+**Not testable on the current PC:** HDR (off on both outputs), mixed DPI (both at scale 1), webcam (no `/dev/video*`),
+real printing (CUPS inactive). `~/.local/share/fonts/ms-fonts` makes Segoe and Consolas resolve here, so hide it when testing font
+and emoji fallbacks.
+
+**How far to trust this.** Only the build, editor launch and main window were really run, along with some host checks such as NVENC
+encoding and Tesseract. No real capture, portal session, KWin script or global shortcut was exercised, so every proposed replacement
+is a design choice until someone runs it. Lead-checked against the code or package metadata: items 1, 3, 5 and 6
+above, the Avalonia dependency, `IsWindows7OrGreater`, and the backup import skipping `History.db`. The rest are agent findings: treat them as leads.
+
+## 5. Inventory
+
+File:line references were accurate at the commit above and will drift.
+
+### 5.1 Feature checklist, uploaders, history
+
+Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = `ShareX/WorkerTask.cs`. (V) = seen on this host, never exercised; (A) = assumed. "Owner capture" and similar mean the details are in that subsystem's table below.
+
+
+#### UploadersLib and HistoryLib
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| Secrets (DPAPI) | ShareX.HelpersLib/Settings/DPAPIEncryptedStringValueProvider.cs:48-54,66-74 | Failed load silently nulls copied secrets; failed save silently writes plaintext | REWRITE | KWallet or Secret Service (V) | M | High |
+| OAuth, browser | ShareX.UploadersLib/OAuth/OAuthListener.cs:70,84; ShareX.HelpersLib/Helpers/URLHelpers.cs:66-70 | Managed HttpListener; migrated `chrome.exe` BrowserPath breaks launch | SWAP | xdg-open (V) | S | Med |
+| FTP/FTPS, SFTP | ShareX.UploadersLib/FileUploaders/FTP.cs:143,148; ShareX.UploadersLib/FileUploaders/SFTP.cs:213 | Packages have portable TFMs (V); Windows key paths; FTPS accepts invalid certificates on every OS | UNVERIFIED | User re-selects files | S | Med |
+| Shared Folder | ShareX.UploadersLib/FileUploaders/LocalhostAccount.cs:75,190 | UNC root becomes a literal relative filename | LIMITED: UNC paths lost | mount.cifs (V), kio-fuse (A) | S | High |
+| `.sxcu`, `.sxie` association | ShareX/IntegrationHelpers.cs:57-73; ShareX/Program.cs:103 | Registry, called at startup | SWAP | xdg-mime, update-desktop-database (V) | S | High |
+| Microsoft.Data.Sqlite | ShareX.HistoryLib/Managers/HistoryManagerSQLite.cs:48 | Forced RID only; linux-x64 `libe_sqlite3.so` cached (V) | UNVERIFIED | Bundled native | S | Med |
+| HistoryLib System.Drawing | ShareX.HistoryLib/Models/ImageHistorySettings.cs:27; ShareX.HistoryLib/Models/ImageHistoryModels.cs:40 | Primitives only; `DrawingBitmap` aliases SKBitmap | READY | None | S | High |
+| History thumbnails | ShareX.HistoryLib/Models/ImageHistoryModels.cs:244,260 | Shell COM fails per item, caught; videos get none | SWAP | ffmpeg, ~/.cache/thumbnails (V) | S | Med |
+| Serialized paths | ShareX.HelpersLib/Helpers/FileHelpers.cs:440; ShareX/Infrastructure/AppPaths.cs:79; ShareX/Infrastructure/PersonalPathManager.cs:89 | `%MyDocuments%\ShareX` expands with mixed separators, creating backslash-named entries | REWRITE | Import-time normaliser (A) | M | High |
+| Open folder | ShareX.HelpersLib/Helpers/FileHelpers.cs:294-297 | Appends `\` to the path | SWAP | FileManager1 (V) | S | High |
+| History file paths | ShareX.HistoryLib/Views/ImageHistoryWindow.axaml.cs:298; ShareX.HistoryLib/Views/HistoryWindow.axaml.cs:999 | Stored `C:\` paths fail File.Exists | LIMITED: old local files unresolved | SQL path rewrite (A) | M | High |
+| Settings migration | ShareX/SettingManager.cs:287,440,484 | No Windows-to-Linux migration. `.sxb` export holds plaintext secrets, the only route preserving them; import skips History.db | REWRITE | Import wizard (A) | M | High |
+
+
+#### Capture types (8)
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| Fullscreen | ShareX/CaptureHelpers/CaptureFullscreen.cs:35 | Owner capture: Win32 screen grab | SWAP | Portal Screenshot (V); KWin ScreenShot2 (A) | M | Med |
+| Monitor | ShareX/Presentation/MainWindow/MainMenuBuilder.cs:200 | Owner capture: grab by bounds | SWAP | KWin ScreenShot2 (A) | M | Med |
+| ActiveMonitor | ShareX/CaptureHelpers/CaptureActiveMonitor.cs:35 | Owner capture: cursor-derived screen | SWAP | KWin active-screen capture (A) | M | Med |
+| Window | ShareX/CaptureHelpers/CaptureWindow.cs:50; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:159 | Owner capture: HWND list | LIMITED: no client-side window list or handles | KWin scripting (A) | L | Med |
+| ActiveWindow | ShareX/CaptureHelpers/CaptureBase.cs:167 | Owner capture: GetForegroundWindow | SWAP | KWin active-window capture (A) | M | Med |
+| Region | ShareX/CaptureHelpers/CaptureRegion.cs:55 | Owner capture: overlay, window snapping | LIMITED: window snapping needs KWin data | Frozen screenshot plus Avalonia overlay (A) | L | Med |
+| CustomRegion | TH:136 | Owner capture: fixed rectangle | SWAP | Crop a screenshot (A) | S | Med |
+| LastRegion | TH:142 | Owner capture: stored rectangle | SWAP | Crop a screenshot (A) | S | Med |
+
+
+#### HotkeyType: Upload (9)
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| FileUpload | TH:88; UM:48 | None in path | UNVERIFIED | Avalonia picker, portal FileChooser (V) | S | Med |
+| FolderUpload | TH:98; UM:108 | None in path | UNVERIFIED | Same as FileUpload | S | Med |
+| ClipboardUpload | TH:101; UM:187 | Owner clipboard: Avalonia clipboard | UNVERIFIED | wl-copy, wl-paste as fallback (V) | S | Med |
+| ClipboardUploadWithContentViewer | TH:104; UM:237 | Owner clipboard | UNVERIFIED | Same as ClipboardUpload | S | Med |
+| UploadText | TH:107; UM:259 | None found | READY | None | S | Med |
+| UploadURL | TH:110; UM:289 | Clipboard prefill only | UNVERIFIED | None | S | Med |
+| DragDropUpload | TH:113; ShareX/Presentation/DragDropUpload/DragDropUploadWindow.axaml.cs:107 | Sets Position, Topmost | UNVERIFIED | X11 backend on XWayland (A) | S | Low |
+| ShortenURL | TH:116; UM:310 | None found | READY | None | S | Med |
+| StopUploads | TH:119; ShareX/TaskManager.cs:119 | None found | READY | None | S | High |
+
+
+#### HotkeyType: Screen capture (11)
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| PrintScreen | TH:123 | Owner capture | SWAP | As Fullscreen | M | Med |
+| ActiveWindow | TH:126 | Owner capture | SWAP | As ActiveWindow type | M | Med |
+| CustomWindow | TH:138; ShareX/CaptureHelpers/CaptureCustomWindow.cs:43 | Owner capture: SearchWindow by title | LIMITED: no client-side title lookup | KWin scripting (A) | L | Med |
+| ActiveMonitor | TH:129 | Owner capture | SWAP | As ActiveMonitor type | M | Med |
+| RectangleRegion | TH:132 | Owner capture | LIMITED: as Region | As Region | L | Med |
+| CustomRegion | TH:135 | Owner capture | SWAP | As CustomRegion type | S | Med |
+| LastRegion | TH:141 | Owner capture | SWAP | As LastRegion type | S | Med |
+| ScrollingCapture | TH:144; ShareX.ScreenCaptureLib/ScrollingCaptureManager.cs:1 | Owner capture: scroll injection, window access | LIMITED: consent required; target-window automation weaker | Portal RemoteDesktop (V) | L | Low |
+| AutoCapture | TH:147 | Owner capture | LIMITED: portal may prompt per shot | KWin ScreenShot2 with restricted-interface grant (A) | M | Med |
+| StartAutoCapture | TH:150 | Owner capture | LIMITED: as AutoCapture | As AutoCapture | M | Med |
+| StopAutoCapture | TH:153 | Owner capture: timer | READY | None | S | Med |
+
+
+#### HotkeyType: Screen record (11)
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| ScreenRecorder | TH:157 | Owner recording: Graphics Capture, Media Foundation, WASAPI | REWRITE | Portal ScreenCast (V), PipeWire (A), ffmpeg (V) | L | Med |
+| ScreenRecorderActiveWindow | TH:160; ShareX/ScreenRecordManager.cs:172 | Owner recording: GetForegroundWindow | LIMITED: portal chooser replaces silent selection | Portal ScreenCast (V) | L | Med |
+| ScreenRecorderCustomRegion | TH:163 | Owner recording | REWRITE | Record then crop (A) | L | Med |
+| StartScreenRecorder | TH:166 | Owner recording | REWRITE | As ScreenRecorder | L | Med |
+| ScreenRecorderGIF | TH:169 | Owner recording: GifWriter | REWRITE | ScreenCast plus GIF encoding (A) | L | Med |
+| ScreenRecorderGIFActiveWindow | TH:172 | Owner recording | LIMITED: as active window | Portal ScreenCast (V) | L | Med |
+| ScreenRecorderGIFCustomRegion | TH:175 | Owner recording | REWRITE | As GIF recorder | L | Med |
+| StartScreenRecorderGIF | TH:178 | Owner recording | REWRITE | As GIF recorder | L | Med |
+| StopScreenRecording | TH:181; TH:821 | Owner recording | REWRITE | With new recorder | S | Med |
+| PauseScreenRecording | TH:184; TH:826 | Owner recording | REWRITE | With new recorder | S | Med |
+| AbortScreenRecording | TH:187; TH:831 | Owner recording | REWRITE | With new recorder | S | Med |
+
+
+#### HotkeyType: Tools (43)
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| ColorPicker | TH:191; TH:924 | Owner tools: dialog only | UNVERIFIED | None | S | Med |
+| ScreenColorPicker | TH:194; ShareX.Avalonia/Windows/ScreenColorPickerWindow.axaml.cs:460 | Owner tools: user32, gdi32 | SWAP | Portal Screenshot color pick (V interface file; method A) | M | Med |
+| Ruler | TH:197; ShareX.Tools/Tools/Ruler/ScreenPixelBuffer.cs:1 | Owner tools: screen pixels | LIMITED: frozen image rather than live screen | Screenshot plus overlay (A) | M | Med |
+| MouseHighlighter | TH:200; ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterManager.cs:60 | Owner tools: global mouse hook, overlay | LIMITED: no global hook | KWin effect or script (A) | L | Med |
+| PinToScreen | TH:203; TH:2028 | Owner tools: overlay window | LIMITED: stacking and click-through depend on compositor | KWin rules (A) | M | Med |
+| PinToScreenFromScreen | TH:213; TH:2097 | Owner tools plus capture | LIMITED: as PinToScreen and Region | As above | M | Med |
+| PinToScreenFromClipboard | TH:216; TH:2108 | Owner tools plus clipboard | LIMITED: as PinToScreen | As above | S | Med |
+| PinToScreenFromFile | TH:219; TH:2122 | Owner tools | LIMITED: as PinToScreen | As above | S | Med |
+| PinToScreenCloseAll | TH:229; TH:2132 | None found | READY | None | S | Med |
+| ImageEditor | TH:232; ShareX.ImageEditor/Integration/WindowsDesktopWallpaperService.cs:1 | Owner editors: wallpaper, emoji, cursor renderers | SWAP | Plasma wallpaper API, Skia rendering (A) | M | Med |
+| PhotoEditor | TH:242; ShareX.PhotoEditor/Core/ImageIO.cs:208 | Owner editors: TIFF export Windows-only | SWAP | Non-WIC TIFF encoder (A) | M | Med |
+| ImageBeautifier | TH:245; TH:1533 | Owner tools: Skia | UNVERIFIED | None | S | Med |
+| ImageEffects | TH:255; TH:1589 | Owner editors: Skia | UNVERIFIED | None | S | Med |
+| ImageViewer | TH:265; TH:1653 | Owner tools; implementation not read | UNVERIFIED | None | S | Low |
+| BackgroundRemover | TH:275; ShareX.Tools/Tools/BackgroundRemover/BackgroundRemovalService.cs:140 | Owner tools: DirectML package ships Windows runtimes only (V) | SWAP | `Microsoft.ML.OnnxRuntime` linux-x64 (V) | M | High |
+| ImageComparer | TH:278; TH:1089 | None found | READY | None | S | Med |
+| IconConverter | TH:281; TH:1094 | None found | READY | None | S | Med |
+| ImageCombiner | TH:284; TH:1038 | None found | READY | None | S | Med |
+| ImageSplitter | TH:287; TH:1121 | None found | READY | None | S | Med |
+| ImageResizer | TH:290; TH:1138 | None found | READY | None | S | Med |
+| ImageConverter | TH:293; TH:1143 | None found | READY | None | S | Med |
+| ImageWatermark | TH:296; TH:1148 | None found | READY | None | S | Med |
+| ImageThumbnailer | TH:299; TH:1153 | None found | READY | None | S | Med |
+| VideoConverter | TH:302; TH:1204; ShareX.HelpersLib/Media/FFmpegCLIManager.cs:89 | Owner tools: `.exe` guard makes Run return false | SWAP | /usr/bin/ffmpeg (V) | S | High |
+| VideoTrimmer | TH:312; ShareX.Tools/Controls/Media/WindowsMediaPlayer.cs:48; ShareX.Tools/Tools/VideoTrimmer/VideoTrimmerWindow.axaml.cs:40 | Owner tools: native player and thumbnails | REWRITE | libmpv or GStreamer (A); ffmpeg (V) | L | High |
+| AnimatedGifTrimmer | TH:315; TH:1131 | Owner tools: only grep hit is portable `ICommand` | UNVERIFIED | None | S | Med |
+| VideoThumbnailer | TH:318; ShareX.Tools/Tools/VideoThumbnailer/VideoThumbnailer.cs:53 | Owner tools: `.exe` guard | SWAP | /usr/bin/ffmpeg (V) | S | High |
+| AnalyzeImage | TH:321; TH:1872 | Owner tools: HTTP AI; `[JsonEncrypt]` options at ShareX.Tools/Tools/AnalyzeImage/AIOptions.cs:44 | UNVERIFIED | None | S | Med |
+| OCR | TH:324; ShareX.Tools/Tools/OCR/OCRHelper.cs:28-29 | Owner tools: `Windows.Media.Ocr` | REWRITE | tesseract (V) | M | High |
+| QRCode | TH:334; TH:1730 | Owner tools: ZXing, Skia | UNVERIFIED | None | S | Med |
+| QRCodeDecodeFromScreen | TH:344; TH:1749 | Owner tools plus capture | SWAP | Portal Screenshot (V) | S | Med |
+| QRCodeScanRegion | TH:347; TH:1754 | Owner tools plus capture | LIMITED: as Region | As Region | S | Med |
+| HashCheck | TH:350; TH:960 | None found | READY | None | S | Med |
+| Metadata | TH:353; TH:984 | None found | READY | None | S | Med |
+| StripMetadata | TH:356; TH:1002 | None found | READY | None | S | Med |
+| IndexFolder | TH:366; UM:538 | None found | READY | None | S | Med |
+| ClipboardViewer | TH:369; TH:1332 | Owner clipboard | UNVERIFIED | wl-paste as fallback (V) | S | Med |
+| BorderlessWindow | TH:372; ShareX.Tools/Tools/BorderlessWindow/BorderlessWindowManager.cs:1 | Owner tools: edits other windows' Win32 styles | LIMITED: clients cannot edit foreign windows | KWin script or window rule (A) | M | Med |
+| ActiveWindowBorderless | TH:375; TH:1290 | Owner tools: GetForegroundWindow | LIMITED: as BorderlessWindow | KWin script (A) | M | Med |
+| ActiveWindowTopMost | TH:378; TH:1311 | Owner tools: GetForegroundWindow | LIMITED: as BorderlessWindow | KWin script (A) | M | Med |
+| InspectWindow | TH:381; ShareX.Tools/Tools/InspectWindow/InspectWindowService.cs:1 | Owner tools: Win32 handles, child windows | LIMITED: compositor-level metadata only | KWin D-Bus query (A) | M | Med |
+| NetworkMonitor | TH:384; ShareX.Tools/Tools/NetworkMonitor/NetworkMonitorProbe.cs:83 | Owner tools: Ping | UNVERIFIED | None; ICMP permissions not tested | S | Med |
+| MonitorTest | TH:387; ShareX.Tools/Tools/MonitorTest/MonitorTestWindow.axaml.cs:53 | Owner tools: GetCursorPos | SWAP | Avalonia screen selection (A) | S | High |
+
+
+#### HotkeyType: Other (8)
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| DisableHotkeys | TH:391; TH:2174 | Owner hotkeys | SWAP | Portal GlobalShortcuts (V), KGlobalAccel (A) | S | Med |
+| OpenMainWindow | TH:394 | Window activation | LIMITED: focus-stealing prevention may block raising | XDG activation (A) | S | Low |
+| OpenScreenshotsFolder | TH:397; TH:864; ShareX.HelpersLib/Helpers/FileHelpers.cs:294 | Trailing-backslash bug | SWAP | xdg-open (V) | S | High |
+| OpenHistory | TH:400; TH:878 | Owner this report: HistoryLib | UNVERIFIED | None | S | Med |
+| OpenImageHistory | TH:403; TH:894 | Thumbnail COM fallback | UNVERIFIED | See Part 2 | S | Med |
+| ToggleActionsToolbar | TH:406; TH:2629 | Toolbar position, cursor | LIMITED: see Presentation scan | X11 backend on XWayland (A) | M | Low |
+| ToggleTrayMenu | TH:409; TH:2773 | Owner shell: Windows tray | LIMITED: programmatic tray-menu popup not expected | Avalonia TrayIcon path (A) | M | Low |
+| ExitShareX | TH:412 | None found | READY | None | S | Med |
+
+
+#### AfterCaptureTasks (21)
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| ShowQuickTaskMenu | UM:343; ShareX/QuickTaskMenu.cs:94 | Win32 cursor via `CaptureHelpers.cs:93` | LIMITED: cursor anchoring lost | Center or window-relative menu (A) | S | High |
+| ShowAfterCaptureWindow | TH:667 | Topmost window | UNVERIFIED | None | S | Med |
+| BeautifyImage | WT:568 | Skia | UNVERIFIED | None | S | Med |
+| AddImageEffects | WT:578; TH:706 | Skia | UNVERIFIED | None | S | Med |
+| AnnotateImage | WT:589 | Owner editors | SWAP | See ImageEditor | M | Med |
+| CopyImageToClipboard | WT:599 | Owner clipboard; DIB branch Windows-gated | UNVERIFIED | wl-copy fallback (V) | S | Med |
+| PinToScreen | WT:605 | Owner tools | LIMITED: as PinToScreen hotkey | KWin rules (A) | M | Med |
+| SendImageToPrinter | WT:611; TH:687; ShareX.HelpersLib/Printer/PrintHelper.cs:74 | PrintDocument is Windows-gated | REWRITE | Portal Print (V); no `lp` on this host | M | High |
+| SaveImageToFile | WT:625 | Serialized path risk, see Part 2 | UNVERIFIED | None | S | Med |
+| SaveImageToFileWithDialog | WT:638 | Avalonia picker | UNVERIFIED | Portal FileChooser (V) | S | Med |
+| SaveThumbnailImageToFile | WT:657; TH:454 | Skia | READY | None | S | Med |
+| PerformActions | WT:688; ShareX.HelpersLib/ExternalProgram.cs:67 | `.exe` presets; requires full path | UNVERIFIED | Reconfigure with Linux paths (A) | S | Med |
+| CopyFileToClipboard | WT:736 | Owner clipboard | UNVERIFIED | wl-copy fallback (V) | S | Med |
+| CopyFilePathToClipboard | WT:740 | Owner clipboard | UNVERIFIED | None | S | High |
+| CopyFolderPathToClipboard | WT:744 | Owner clipboard | UNVERIFIED | None | S | High |
+| ShowInExplorer | WT:749; ShareX.HelpersLib/Native/NativeMethods_Helpers.cs:482 | SHOpenFolderAndSelectItems | SWAP | org.freedesktop.FileManager1 (V) | S | High |
+| AnalyzeImage | WT:754 | HTTP AI | UNVERIFIED | None | S | Med |
+| ScanQRCode | WT:759 | ZXing | UNVERIFIED | None | S | Med |
+| DoOCR | WT:548 | Windows.Media.Ocr | REWRITE | tesseract (V) | M | High |
+| ShowBeforeUploadWindow | WT:395 | Topmost window | UNVERIFIED | None | S | Med |
+| UploadImageToHost | WT:618; ShareX/SettingManager.cs:246 | Secrets dependency, see Part 2 | UNVERIFIED | None | S | Med |
+| DeleteFile | WT:339 | None found | READY | None | S | High |
+
+
+#### AfterUploadTasks (6)
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| ShowAfterUploadWindow | ShareX/TaskManager.cs:284 | None found | UNVERIFIED | None | S | Med |
+| UseURLShortener | WT:803 | None; HTTP | READY | None | S | High |
+| ShareURL | WT:815 | None; HTTP, SMTP or browser | UNVERIFIED | xdg-open (V) | S | High |
+| CopyURLToClipboard | WT:830 | Owner clipboard | UNVERIFIED | None | S | High |
+| OpenURL | WT:849 | Shell execute; BrowserPath | SWAP | xdg-open (V) | S | Med |
+| ShowQRCode | WT:865 | ZXing | UNVERIFIED | None | S | Med |
+
+
+#### Other tools and README features
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| Animated GIF maker | TH:1126 | None found | READY | None | S | Med |
+| Remote storage browser | TH:1684 | None found; uses FTP, SFTP, S3 providers | READY | None | S | Med |
+| Video player | TH:1232; ShareX.Tools/Tools/VideoPlayer/VideoPlayerViewModel.cs:34 | WindowsMediaPlayer | REWRITE | libmpv or GStreamer (A) | L | High |
+| Region annotation tools | ShareX.ScreenCaptureLib/Presentation/RegionCapture/RegionCaptureWindow.axaml.cs:1 | Owner capture | LIMITED: as Region | As Region | L | Med |
+| Blur, pixelate, smart eraser | README.md:49 | Owner capture and editors | UNVERIFIED | None | M | Low |
+| Image uploaders (8) | ShareX.UploadersLib/Enums.cs:32 | None; HTTP | READY | None | S | High |
+| Text uploaders (12) | ShareX.UploadersLib/Enums.cs:51 | None; HTTP | READY | None | S | High |
+| File uploaders (31) | ShareX.UploadersLib/Enums.cs:78 | FTP, SFTP and Shared Folder exceptions in Part 2 | UNVERIFIED | See Part 2 | S | Med |
+| URL shorteners (14) | ShareX.UploadersLib/Enums.cs:142 | None; HTTP | READY | None | S | High |
+| URL sharing services (13) | ShareX.UploadersLib/Enums.cs:174 | None; browser or SMTP | UNVERIFIED | xdg-open (V) | S | High |
+| Email uploader and sharing | ShareX.UploadersLib/FileUploaders/Email.cs:114 | None; SmtpClient | UNVERIFIED | None | S | Med |
+| Custom uploaders, import | TH:2412; ShareX/ShareXCLIManager.cs:103 | Association only | SWAP | See Part 2 | S | High |
+| Image effect import | TH:2509; ShareX/ShareXCLIManager.cs:118 | Association only | SWAP | See Part 2 | S | High |
+| Destination settings | ShareX.UploadersLib/Presentation/DestinationSettings/DestinationSettingsAccounts.cs:427 | Browser and secrets | UNVERIFIED | See Part 2 | S | Med |
+| Task and hotkey workflows | ShareX/CaptureHelpers/CaptureBase.cs:138; TH:77 | Owner hotkeys for trigger | UNVERIFIED | Portal GlobalShortcuts (V) | M | Med |
+| Actions presets | TH:748-761 | Registry program search | SWAP | `.desktop` lookup (A) | S | High |
+| Command line | ShareX/ShareXCLIManager.cs:58; ShareX.HelpersLib/CLI/CLIManager.cs:63 | `-` switches, safe for Unix paths | READY | None | S | High |
+| Watch folders | ShareX/WatchFolder.cs:58 | FileSystemWatcher | UNVERIFIED | None | S | Med |
+| Download and upload URL | UM:518 | None found | READY | None | S | Med |
+| History window, stats | TH:878; TH:910; ShareX.HistoryLib/Integration/HistoryIntegration.cs:39,53 | None found | UNVERIFIED | None | S | Med |
+| Debug log | TH:916 | None found | READY | None | S | Med |
+| Backup export and import | ShareX/SettingManager.cs:427,476 | Import skips History.db | SWAP | Fix filter, add path normaliser (A) | S | High |
+| Portable and sandbox modes | ShareX/Infrastructure/PersonalPathManager.cs:58,64 | None found | UNVERIFIED | None | S | Med |
+| Policy options | ShareX/SystemOptions.cs:51 | HKLM and HKCU registry | SWAP | System config file (A) | S | High |
+| Start on login | ShareX/StartupManager.cs:62 | Startup shortcut, registry | SWAP | XDG autostart (A); portal Background (V) | S | High |
+| Shell context menu | ShareX/IntegrationHelpers.cs:42 | Registry | SWAP | KIO service menu; /usr/share/kio/servicemenus seen (V) | S | High |
+| Edit with ShareX | ShareX/IntegrationHelpers.cs:51 | Registry | SWAP | KIO service menu (V) | S | High |
+| Send To | ShareX/Presentation/ApplicationSettings/ApplicationSettingsViewModel.cs:388 | Explorer Send To | DROP | Service menu covers it (A) | S | Med |
+| Browser extension hosts | ShareX/IntegrationHelpers.cs:75-78; ShareX.NativeMessagingHost/Program.cs:52 | Registry; hard-coded `ShareX.exe` | SWAP | Per-browser manifest folders (A) | M | High |
+| Tray icon | ShareX/Presentation/MainWindow/TrayIconService.cs:77-85 | Windows path branched | UNVERIFIED | Avalonia TrayIcon on SNI (A) | S | Med |
+| Toast notifications, 12 click actions | ShareX/Enums.cs:373; ShareX/Presentation/Notification/NotificationWindow.cs:564 | Custom positioned window | LIMITED: see Presentation scan | notify-send (V); notification portal (V) | M | Med |
+| Thumbnail click actions (7) | ShareX/Enums.cs:389 | Open-folder and thumbnail dependencies | UNVERIFIED | See Part 2 | S | Med |
+| File exists prompt (4 actions) | ShareX/Enums.cs:400; TH:782 | None found | UNVERIFIED | None | S | Med |
+| Notification sounds | TH:2220; ShareX.HelpersLib/Helpers/Helpers.cs:387 | SoundPlayer | SWAP | PipeWire or Pulse player (A) | S | High |
+| Taskbar progress | WT:391; ShareX.HelpersLib/Native/TaskbarManager.cs:42 | Taskbar COM | SWAP | Unity LauncherEntry (A) | S | Low |
+| Hide desktop icons | ShareX/CaptureHelpers/CaptureBase.cs:86; ShareX.HelpersLib/DesktopIconManager.cs:30 | Explorer desktop | DROP | None | S | High |
+| Hide taskbar during capture | ShareX/Presentation/TaskSettings/TaskSettingsPageBuilder.cs:458 | Windows taskbar | DROP | None | S | High |
+| Restart after Windows update | ShareX/Forms/MainForm.cs:107 | RegisterApplicationRestart | DROP | None | S | High |
+| Auto-update, dev builds | ShareX.HelpersLib/UpdateChecker/GitHubUpdateChecker.cs:174; TH:2634 | Setup `.exe` assets | DROP | Distribution packaging (A) | S | High |
+| Steam build | ShareX/Presentation/ApplicationSettings/ApplicationSettingsViewModel.cs:162 | Windows launcher | DROP | None | S | Med |
+| Microsoft Store build | ShareX/Enums.cs:30-31 | Windows.ApplicationModel | DROP | None | S | High |
+| Installer | ShareX.Setup/ShareX.Setup.csproj:3 | Windows setup | DROP | Distribution packaging (A) | M | High |
+| Translations (29 languages incl. Automatic) | ShareX/Enums.cs:52; ShareX/ShareX.csproj | NLS flag has no Linux effect (A) | UNVERIFIED | libicu present (V) | S | Med |
+| Clicker easter egg | ShareX/EasterEggs/ShareXClicker/ShareXClickerControl.cs:188 | SoundPlayer only | UNVERIFIED | As sounds | S | Med |
+
+
+#### Presentation windows scan
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
+|---|---|---|---|---|---|---|
+| Recorder bar window | ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:456,501 | SetWindowPos z-order | REWRITE | KWin rule or layer-shell (A) | M | High |
+| Main window thumbnails | ShareX/Presentation/MainWindow/ThumbnailItemViewModel.cs:268 | Shell thumbnail COM | SWAP | ffmpeg, ~/.cache/thumbnails (V) | S | High |
+| Main window menus and position | ShareX/Presentation/MainWindow/MainWindow.axaml.cs:217,2111 | GetCursorPos; Position | LIMITED: global cursor anchoring lost | Pointer-event anchors (A) | S | Med |
+| Actions toolbar | ShareX/Presentation/ActionsToolbar/ActionsToolbarWindow.axaml.cs:54,266,271 | Topmost, Position, GetCursorPos | LIMITED: placement is compositor-dependent | KWin rule (A) | M | Med |
+| Notification window | ShareX/Presentation/Notification/NotificationWindow.cs:320,332,410 | GetCursorPos; Position | LIMITED: active-monitor placement and hover logic degraded | notify-send (V) | M | Med |
+| Quick task menu | ShareX/QuickTaskMenu.cs:94,107 | GetCursorPos; Topmost | LIMITED: cursor anchoring lost | Center placement (A) | S | High |
+| Topmost dialogs | ShareX/Presentation/AfterCapture/AfterCaptureWindow.axaml:13; ShareX/Presentation/BeforeUpload/BeforeUploadWindow.axaml:13; ShareX/Presentation/FileExist/FileExistWindow.axaml:11; ShareX/Presentation/UploadConfirmation/LargeFileUploadWarningWindow.axaml:12; ShareX/Presentation/UploadConfirmation/MultiUploadConfirmationWindow.axaml:12 | Topmost | UNVERIFIED | X11 backend on XWayland (A) | S | Low |
+| Application settings integrations | ShareX/Presentation/ApplicationSettings/ApplicationSettingsViewModel.cs:222,342,364-424,560 | Registry, shortcuts, Windows print text | SWAP | Linux integrations above; relabel options | M | High |
+| Failed-save message | ShareX/SettingManager.cs:168 | Windows-specific error text | SWAP | Linux wording | S | High |
+
+
+### 5.2 Build and packaging
+
+The only table whose rows were really run; see its evidence column.
+
+| Item | Evidence | Label | KDE Wayland/Linux replacement | Effort | Confidence |
+|---|---|---|---|---|---|
+| Props filename casing | `Directory.build.props` and `.targets` are not imported on Linux. Evaluated `Version=1.0.0`; window title "ShareX 1.0 Dev" | SWAP | Rename to `Directory.Build.*`; update `build.yml:43` | S | High |
+| RID mapping | `Directory.build.props:13-20`: with the rename, `Platform=x64` gives `win-x64` and a PE32+ `.exe` | SWAP | Add an OS condition for `linux-x64`. Passing `-r linux-x64` also worked | S | High |
+| ShareX.ImageEditor.App | 0 errors with no RID override (only because of the casing bug); window "ShareX - Image Editor - 800x600"; `WinExe` and `app.manifest` are harmless | READY | None needed | S | High |
+| Windowing backend | `libX11`, `libXi`, `libXrandr`, `libGLX_nvidia` mapped, no `libwayland`; only `avalonia.x11` restored | LIMITED | XWayland only: no native Wayland window. Effects on capture and scaling not tested | L | High |
+| Resx casing | `ShareX.UploadersLib/Properties/Resources.resx:17`: `MSB3103 ... resources/oauthcallbackpage.html` | SWAP | Correct the path casing | S | High |
+| Windows TFMs | `NETSDK1100` on all 10 projects in the full solution build | SWAP | Move to `net10.0` | M | High |
+| HelpersLib | `WindowsDesktop.App` gives `NETSDK1100`; without it 28 errors (`Icon`, printing, `DataProtectionScope`); with 3 packages 6 (`SoundPlayer`); with a 4th, 0 errors, 137 CA1416 | SWAP | Keep the packages to compile only; replace Registry, printing and DPAPI behind interfaces | M | High |
+| HistoryLib, ImageEffectsLib, UploadersLib, ScreenCaptureLib | 0 errors, 0 CA1416 each | UNVERIFIED | Compile only; CA1416 misses P/Invoke, so behaviour is untested | M | Medium |
+| SQLite | `libe_sqlite3.so` shipped, `History.db` created; `Directory.Packages.props:7` is an 11.0 RC | READY | Consider a stable version | S | High |
+| ScreenRecordingLib | 14 errors (WinRT capture), 9 after removing usings, 0 once `GraphicsCapture` is stubbed and `GraphicsDevice` patched, 2 CA1416; 16 files reference Vortice | REWRITE | Portal ScreenCast, PipeWire, FFmpeg | L | Medium |
+| ShareX.Tools OCR | 4 errors, then 11 in `OCRHelper.cs`, plus 5 callers in `ShareX`; 5 CA1416 | SWAP | Tesseract (not tested) | M | High |
+| ONNX provider | `BackgroundRemovalService.cs:163` uses DML; compiles, but `runtimes/linux-x64` has no onnxruntime library | SWAP | `Microsoft.ML.OnnxRuntime`, CPU first | S | Medium |
+| Vortice.Direct2D1 | Only `WindowsEmojiBitmapRenderer.cs`; guarded by `IsWindows` at lines 56 and 159; compiles | SWAP | Skia with Noto Color Emoji | S | Medium |
+| PhotoEditor, NativeMessagingHost | 0 errors; CA1416 6 (`ImageIO.cs`) and 0; `host-manifest-firefox.json:4` names an `.exe` | SWAP | Linux manifest with an absolute path, installed in browser native-messaging folders | S | Medium |
+| ShareX project | 5 errors, all `OCRHelper` callers; 6 CA1416; `Windows.ApplicationModel` is behind `#if MicrosoftStore` | SWAP | Exclude or stub OCR | S | High |
+| `UseNls` | `ShareX.csproj:59`; present in the runtime config and the app still ran | READY | Remove on Linux for tidiness | S | Medium |
+| Global hotkeys | First hard crash: `WindowsHotkeyHost.cs:56`, "Global hotkeys require a backend" | LIMITED | KGlobalAccel or the GlobalShortcuts portal; no free key grabbing | L | High |
+| Registry, pipe ACL | Logged `PlatformNotSupportedException` from `RegistryHelpers.cs:81` and `SingleInstanceManager.cs:96`, not fatal | SWAP | Config files; plain pipe or D-Bus. Second-instance arguments stay broken until then | M | High |
+| Portable mode | `AppPaths.cs:42`: folder `ShareX` collides with the `ShareX` apphost; run fell back to `~/Documents/ShareX` and crashed with "Avalonia is already initialized" | SWAP | Rename the folder | S | High |
+| Tray icon | `TrayIconService.cs:85` uses Avalonia `TrayIcon` | UNVERIFIED | Status Notifier; I did not confirm our item registered | S | Medium |
+| ShareX.Setup | Compiles, but hardcodes `win-x64` (`.csproj:6`), ISCC and makeappx (`Program.cs:91-93`) | DROP | Packaging script | S | High |
+| ShareX.Steam | `net48`/`x86`, `steam_api.dll`; builds to a useless `.exe` on Linux | DROP | Remove from the repo | S | High |
+| Steam, MicrosoftStore configs | `Directory.build.props:21-33`; the `.sln` maps them for all projects | DROP | Leave out of the Linux build matrix | S | High |
+| CI | `build.yml:17` and `pr.yml:14` are `windows-latest`; FFmpeg, signing and artifact steps are Windows-specific | SWAP | Move `pr.yml` to `ubuntu-latest`; remove the Windows release pipeline | M | High |
+| `Scripts/` | PowerShell only, not called from any csproj; `pwsh` not installed here | UNVERIFIED | Optional developer tools; not needed to build | S | Medium |
+| FFmpeg | `VideoTrimmerWindow.axaml.cs:40`, `FFmpegDownloader.cs:61` hardcode `ffmpeg.exe` | SWAP | Use system `ffmpeg` as a package dependency | S | High |
+| PKGBUILD/AUR | Not written. Depends: `dotnet-runtime`, `ffmpeg`, `libx11`, `libxcursor`, `libxi`, `libxrandr`, `libice`, `libsm`, `fontconfig` (from `ldd` and mapped libraries) | UNVERIFIED | Framework-dependent `-r linux-x64` | M | Medium |
+| AppImage | Not built. The self-contained editor publish ran: 114 MB against 737 MB for the unpublished Debug output of all RIDs | UNVERIFIED | Use that publish as the payload | M | Medium |
+| Flatpak | Not built | UNVERIFIED | X11 socket, portals, .NET extension | L | Low |
+| `.desktop`, icons | None in the repo; only `.ico` and Store PNGs; `WM_CLASS` is `ShareX` | REWRITE | Add a `.desktop` with `StartupWMClass=ShareX`, hicolor PNGs, MIME types | S | High |
+
+
+### 5.3 HelpersLib platform core
+
+[V] = binary or D-Bus interface confirmed here, not exercised; [A] = assumed.
+
+| Item | Evidence (file:line) | Windows dependency | Label | KDE Wayland/Linux replacement | Effort | Confidence |
+|---|---|---|---|---|---|---|
+| Project target | ShareX.HelpersLib/ShareX.HelpersLib.csproj:3 | `net10.0-windows`, WindowsDesktop framework (absent here [V]) | SWAP | `net10.0`; isolate Windows code | M | High |
+| Primitives (49 files) | ShareX.HelpersLib/Helpers/CaptureHelpers.cs:27 | None from these types; assembly present [V] | READY | Keep | S | High |
+| Icon (4 files) | ShareX.HelpersLib/Native/WindowInfo.cs:167 | Common absent [V]; only `WindowInfo.Icon` live | SWAP | Delete dead code; return SKBitmap | S | High |
+| WindowInfo | ShareX.HelpersLib/Native/WindowInfo.cs:34 | HWND model | LIMITED | KWin `getWindowInfo`, scripting [V]. Lost: portable enumeration, styles | L | Medium |
+| CaptureHelpers | ShareX.HelpersLib/Helpers/CaptureHelpers.cs:93 | Cursor, foreground window; geometry is clean | LIMITED | KWin script [A]; `PickColor` portal [V]. Lost: global cursor warp | M | Medium |
+| WindowsImageInterop | ShareX.HelpersLib/Helpers/WindowsImageInterop.cs:78 | GDI capture | REWRITE | KWin `ScreenShot2` (restricted; Spectacle's desktop file declares it [V]) or Screenshot portal [V] | M | Medium |
+| CursorData | ShareX.HelpersLib/CursorData.cs:58 | Cursor handles, registry | LIMITED | Compositor-included cursor [A]. Lost: separate cursor bitmap | M | Medium |
+| WindowsNativeWindow | ShareX.HelpersLib/Native/WindowsNativeWindow.cs:48 | Layered Win32 overlays; throws off Windows | LIMITED | Avalonia transparent window [A]. Lost: absolute placement, z-order | L | Medium |
+| DWMManager | ShareX.HelpersLib/DWMManager.cs:30 | dwmapi; 0 callers | DROP | Delete | S | High |
+| OS version gates | ShareX.HelpersLib/Helpers/Helpers.cs:321 | Kernel 7.x would pass the Vista check [A], so `IsDWMEnabled` hits dwmapi | SWAP | `OperatingSystem.IsWindows()` | S | Medium |
+| Helpers misc | ShareX.HelpersLib/Helpers/Helpers.cs:565 | WindowsIdentity, registry; `IsTabletMode`, wallpaper path have 0 callers | SWAP | `Environment.IsPrivilegedProcess`, `/etc/os-release` [A] | S | Medium |
+| Cursor lock, window move | ShareX.HelpersLib/Helpers/Helpers.cs:919 | Win32; no-op elsewhere | LIMITED | Pointer constraints [A]. Lost: arbitrary positioning | M | Medium |
+| Authenticode, updater | ShareX.HelpersLib/Helpers/AuthenticodeSignatureVerifier.cs:65 | wintrust, setup.exe, `runas` | DROP | Package updates; if kept, checksum or gpg [V] | S | High |
+| FileHelpers open/reveal | ShareX.HelpersLib/Helpers/FileHelpers.cs:337 | shell32; `UseShellExecute` is portable | SWAP | `FileManager1.ShowItems` [V], `xdg-open` [V] | S | High |
+| FileHelpers paths | ShareX.HelpersLib/Helpers/FileHelpers.cs:412 | Empty SpecialFolder likely aborts `Replace` [A]; `:\` root at :211; locks advisory at :470 | SWAP | Guard empties, XDG paths | S | Medium |
+| RegistryHelpers | ShareX.HelpersLib/Helpers/RegistryHelpers.cs:41 | Registry stub [A]; callers IntegrationHelpers, ScreenRecordingOptions, SystemOptions, Setup, others | REWRITE | `.desktop`, `xdg-mime`, `kbuildsycoca6` [V]; JSON | M | High |
+| DPAPI | ShareX.HelpersLib/Settings/DPAPIEncryptedStringValueProvider.cs:50 | ProtectedData absent [V] | SWAP | Secret Service [V], `secret-tool` [V] | M | High |
+| WshShell, ShortcutHelpers | ShareX.HelpersLib/Helpers/ShortcutHelpers.cs:104 | COM `.lnk` | SWAP | `.desktop`, `~/.config/autostart` [A] | S | High |
+| MutexManager | ShareX.HelpersLib/MutexManager.cs:43 | None visible; .NET named mutex | UNVERIFIED | Keep; test cross-process | S | Medium |
+| SingleInstanceManager | ShareX.HelpersLib/SingleInstanceManager.cs:96 | Pipe ACL; failure stops the listener (:136) | SWAP | `PipeOptions.CurrentUserOnly` [A] | S | Medium |
+| DesktopIconManager | ShareX.HelpersLib/DesktopIconManager.cs:55 | Explorer windows; caller `ShareX/CaptureHelpers/CaptureBase.cs:86` | DROP | None known. Lost: auto-hide icons | S | Medium |
+| FontSafe, ImageFont | ShareX.HelpersLib/ImageFont.cs:64 | None; saved Windows fonts may substitute | UNVERIFIED | Skia with fontconfig [A] | S | High |
+| InputManager | ShareX.HelpersLib/Input/InputManager.cs:49 | SendInput; scrolling capture | LIMITED | RemoteDesktop portal [A]; `ydotool` active here [V]. Lost: silent injection | M | Medium |
+| FFmpegCLIManager | ShareX.HelpersLib/Media/FFmpegCLIManager.cs:89 | Rejects non-`.exe`, so ffmpeg never runs | SWAP | Remove check; `ffmpeg` [V] | S | High |
+| TaskbarManager | ShareX.HelpersLib/Native/TaskbarManager.cs:168 | COM; support check uses the version gate | SWAP | Unity LauncherEntry signal [A] | S | Low |
+| Thumbnails, restart, display affinity | ShareX.HelpersLib/Native/NativeMethods_Helpers.cs:549 | Shell thumbnails, RegisterApplicationRestart, SetWindowDisplayAffinity | LIMITED | Freedesktop thumbnail cache [A]. Lost: capture exclusion, restart | M | Medium |
+| Dead classes | ShareX.HelpersLib/SevenZipManager.cs:33 | Also TimerResolutionManager, FFmpeg downloaders; 0 callers | DROP | Delete | S | High |
+
+
+### 5.4 Screenshot and region capture
+
+Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screenshot.cs`, `R` = `ShareX.ScreenCaptureLib/Presentation/RegionCapture/RegionCaptureWindow.axaml.cs`, `H` = `ShareX.HelpersLib/`.
+
+| Feature | Evidence | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
+|---|---|---|---|---|---|---|
+| Build | `S`ShareX.ScreenCaptureLib.csproj:3,8 | net10.0-windows, Vortice | SWAP | net10.0; isolate Windows code | M | High |
+| Fullscreen, rectangle, custom, last region | `Scr`:43-59,158-166; ShareX/CaptureHelpers/CaptureCustomRegion.cs:36; CaptureLastRegion.cs:48 | GDI | SWAP | ScreenShot2 `CaptureWorkspace`/`CaptureArea`; fallback `spectacle -b -n -o` or portal plus crop | M | Medium |
+| Active monitor | `Scr`:106; `H`Helpers/CaptureHelpers.cs:50 | GetCursorPos | SWAP | `CaptureActiveScreen` | S | Medium |
+| Active window, by handle | `Scr`:61-104 | HWND, GetForegroundWindow | SWAP | `CaptureActiveWindow`; `CaptureWindow(string)` replaces IntPtr | M | Medium |
+| Client area | `Scr`:67-69 | GetClientRect | LIMITED | `include-decoration`; apps drawing their own titlebars keep them | S | Medium |
+| Auto-hide taskbar | `Scr`:82 | SetTaskbarVisibility | DROP | None | S | High |
+| Transparent window | `S`Screenshot_Transparent.cs:74-99,148,210 | Z-ordered backdrop, DwmFlush, Win11 trim | REWRITE | Direct window capture with `include-shadow`; alpha untested | M | Low |
+| Cursor capture | `H`CursorData.cs:58-68; ShareX/CaptureHelpers/CaptureRegion.cs:69-80 | GetCursorInfo, icons | LIMITED | `include-cursor` or `spectacle -p`; movable cursor annotation lost | M | Medium |
+| HDR | `S`HDRScreenCapture.cs:58,142,183,190,672 | DXGI, D3D11, WIC, DisplayConfig | DROP | Use KWin output; tone-mapping unknown | S | Low |
+| Overlay window | `R`:114,465,1719-1736; RegionCaptureWindow.axaml:10 | Spanning window, Win32 DPI assumptions | REWRITE | See design answer | L | Medium |
+| Selection, dimming | `R`:708-798; `S`Presentation/RegionCapture/RegionSelectionOverlay.cs | None | UNVERIFIED | Keep; move to global coordinates | S | Medium |
+| Initial pointer, arrow-key nudge | `R`:257,483 | Get/SetCursorPos | LIMITED | First pointer event or KWin script; nudge a virtual point; real warp unreliable | M | Medium |
+| Active-monitor cursor lock | `H`Helpers/Helpers.cs:937; `R`:129 | ClipCursor, gated | LIMITED | Overlay one monitor; pointer can leave | S | Medium |
+| Magnifier | `R`:1293,1322; MagnifierPixelGrid.cs | None | READY | Reads the frozen image | S | High |
+| Annotation | `R`:468; ShareX.ImageEditor/Presentation/Rendering/WindowsCursorBitmapRenderer.cs:81,391 | Gated cursor renderer | UNVERIFIED | Keep; check cursor fallback | S | Medium |
+| Window snapping | `S`Helpers/WindowsRectangleList.cs:67,116-158; `R`:519-531,1076 | EnumWindows, DWM rects | REWRITE | KWin script | M | Medium |
+| Control snapping | `S`Helpers/WindowsRectangleList.cs:180 | EnumChildWindows | DROP | None; `clientGeometry` covers client rectangles | S | High |
+| Window under cursor (8ed375c7b) | `R`:1658-1670; `S`Helpers/SimpleWindowInfo.cs:38-42 | WindowInfo(HWND) | SWAP | Logic ports; DTO with UUID, caption, class. Needs stack order and global `_lastPointerPoint` | M | Medium |
+| Monitor HUD clamp (627ceb477) | `R`:1250,1459 | None; Avalonia Screens | UNVERIFIED | Works in a spanning window; trivial per monitor. One-scale math breaks mixed DPI | S | Medium |
+| Window list menu | `S`Helpers/WindowsList.cs:54; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:154 | EnumWindows | SWAP | Same KWin script | S | Medium |
+| Scrolling input | `S`ScrollingCaptureManager.cs:104-147,232 | SendInput, SendMessage, GetScrollInfo | LIMITED | RemoteDesktop portal or XTest, with possible consent prompt; scroll-message method and scrollbar query lost | L | Low |
+| Scrolling frame | `S`Presentation/ScrollingCapture/ScrollingCaptureRegionWindow.axaml.cs:63,97-132 | ExStyle, SetWindowRgn | LIMITED | X11 shape region; exact position only under XWayland | M | Low |
+| Scrolling UI | `S`Presentation/ScrollingCapture/ScrollingCaptureWindow.axaml.cs | None found | UNVERIFIED | Keep; its capture and selection depend on rows above | S | Medium |
+
+
+### 5.5 Screen recording
+
+Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `HL` = `ShareX.HelpersLib`, `SX` = `ShareX`. Bare file names are in `ShareX.ScreenRecordingLib`.
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
+|---|---|---|---|---|---|---|
+| Build, GPU, COM plumbing | SRL csproj:3,13; `GraphicsDevice.cs:47`; `VideoTexturePool.cs:55`; `GpuVideoProcessor.cs:59`; `Native/NativeMethods.cs:32` | TFM, D3D11, COM | DROP | Retarget; delete | S | High |
+| Monitor capture | `GraphicsCapture.cs:66,154` | WGC | SWAP | Portal monitor stream, PipeWire | L | Med |
+| Region, custom, last | `ScreenRecordManager.cs:153,177`; `GraphicsCapture.cs:93,247` | WGC crop | LIMITED: prompt or token; no app-supplied rectangle | Crop monitor stream; spanning needs `multiple` | M | Med |
+| Move region on resume | `ScreenRecorder.cs:224` | WGC retarget | LIMITED: other monitor needs new session | Change crop offset | S | Med |
+| Window, active window | `ScreenRecordManager.cs:162-176`; `GraphicsCapture.cs:69` | HWND, foreground | LIMITED: user picks; no auto-targeting | Portal window source | M | Med |
+| Cursor | `GraphicsCapture.cs:162` | WGC flag | SWAP | `cursor_mode` | S | High |
+| MP4, hardware encode | `MediaFoundationWriter.cs:43,65`; `RecordingOptions.cs:64` | Media Foundation, D3D11 NV12 | SWAP | ffmpeg stdin, `h264_nvenc`, libx264 fallback (x264 not run); CPU copy | M | High |
+| Session loop, timer | `ScreenRecorder.cs:164,211,284`; `FrameTimer.cs:35` | COM, MF, waitable timer | SWAP | Keep loop; managed timer | M | Med |
+| GIF input | `GifWriter.cs:82-103` | D3D staging | SWAP | Copy frame bytes | S | High |
+| GIF encode | `GifWriter.cs:110-289`; `HL/GIF/AnimatedGifCreator.cs:26` | None found | READY | Keep; HL needs retargeting | S | Med |
+| System audio, mic | `WasapiCapture.cs:80,106,153` | WASAPI, MMCSS | SWAP | `pw-record` stdout into mixer | M | Med |
+| Audio device lists | `AudioCaptureDevices.cs:68`; `ScreenRecorderBarWindow.axaml.cs:82` | MMDevice | SWAP | `pactl`; saved Windows IDs invalid | S | High |
+| Mixer, clock | `AudioMixer.cs:29`; `RecordingClock.cs:37` | None found | READY | Keep; PipeWire timestamps assumed monotonic | S | Med |
+| Webcam capture | `CameraCapture.cs:55-74`; `CameraCaptureDevices.cs:45`; `Native/SourceReaderCallback.cs:46` | MF | SWAP | ffmpeg `v4l2` to raw pipe | M | Low |
+| Webcam overlay | `CameraOverlay.cs:71`; `CameraCircleShader.cs:63,138`; `Native/D3DCompiler.cs:33` | D3D11, HLSL | REWRITE | SkiaSharp composite | M | Med |
+| Recording controls | `ScreenRecordWindow.axaml.cs:697,705,885`; `ScreenRecorderBarWindow.axaml.cs:116,456` | Display affinity, GDI region | LIMITED: no capture exclusion found; placement unconfirmed | Keep controls outside crop | M | Low |
+| Mouse highlighter | `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterMouseHook.cs:74` | Global hook | LIMITED: no global hook | Disable initially | S | Med |
+| Legacy FFmpeg capture | `ScreenRecordingOptions.cs:56,100-196`; `TaskSettings.cs:403` | gdigrab, ddagrab, dshow | DROP | Remove these sources | S | High |
+| Legacy encode args, two-pass, concat | `ScreenRecordingOptions.cs:208-338`; `SCL/ScreenRecording/ScreenRecorder.cs:258`; `FFmpegCLIManager.cs:282` | None found | UNVERIFIED | Keep; AMF/QSV need review | S | Med |
+| FFmpeg path | `FFmpegCLIManager.cs:89`; `FFmpegOptions.cs:78`; `FFmpegOptionsWindow.axaml.cs:483`; `TaskHelpers.cs:2209` | `.exe` guard blocks Linux | SWAP | Resolve `ffmpeg`; remove guard | S | High |
+| FFmpeg device list | `FFmpegCLIManager.cs:229`; `DirectShowDevices.cs:30` | dshow | DROP | Reuse `pactl` list | S | High |
+| FFmpeg download | `FFmpegDownloader.cs:40,61`; `FFmpegGitHubDownloader.cs:37,54`; `FFmpegUpdateChecker.cs:38,64` | Windows zips, `ffmpeg.exe` | DROP | Package dependency | S | High |
+
+
+### 5.6 Hotkeys, input, tray, taskbar
+
+| Feature | Evidence | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
+|---|---|---|---|---|---|---|
+| Hotkey data model | `HelpersLib/Input/HotkeyInfo.cs:33-70`, `InputKey.cs`, `InputMouseButton.cs` | VK-style values | READY | Add InputKey to Qt key mapping in the backend | S | High |
+| HotkeyManager | `ShareX/HotkeyManager.cs:57-68,100-129` | Via `IHotkeyHost`, `IsActiveWindowFullscreen` | READY | Keep | S | High |
+| Hotkey host | `WindowsHotkeyHost.cs:89,97,114`; `IHotkeyHost.cs:36-37`; `WindowsNativeWindow.cs:48` | RegisterHotKey, atoms, HWND, WM_HOTKEY | SWAP | KGlobalAccel: `doRegister`, `setShortcut`, `unregister`, `globalShortcutPressed`; remove `Handle`, `NativeMessageReceived` from the interface | M | Med-High |
+| Default hotkeys | `HotkeyManager.cs:227-231` | Assumes PrintScreen is free | LIMITED | Print and Shift+Print belong to Spectacle here: 2 of 5 defaults conflict; prompt or remap | S | High |
+| Press-any-key UI | `HotkeySettingsWindow.axaml.cs:165-208`; `HotkeySettingsAvaloniaService.cs:151-182,247` | PrintScreen KeyUp workaround | LIMITED | Keep with KGlobalAccel; KWin may swallow bound keys; `blockGlobalShortcuts` exists, untested | M | Med |
+| Repeat limit, fullscreen suppression | `WindowsHotkeyHost.cs:155-163`; `HotkeyManager.cs:59`; `CaptureHelpers.cs:324` | GetForegroundWindow | SWAP | Keep limiter; KWin script for `activeWindow.fullScreen` | M | Med-Low |
+| Session end | `MainForm.cs:102-113` | QUERYENDSESSION, RegisterApplicationRestart | SWAP | Avalonia lifetime shutdown; session restore not investigated | S | Med |
+| Low-level mouse hook | `MouseHighlighterMouseHook.cs:74,140` | WH_MOUSE_LL (only hook in repo) | LIMITED | No passive global hook; evdev gives clicks (needs `input` group), no position; polling needs KWin script; maybe KWin mouse-click effect (assumed) | L | Med |
+| Highlighter overlay | `MouseHighlighterOverlayWindow.cs:53,91,225` | WindowsNativeWindow, HWND topmost | REWRITE | Avalonia transparent window under XWayland; click-through untested | M | Low |
+| Synthetic input | `InputManager.cs:49`; `InputHelpers.cs:32-117` | SendInput, GetSystemMetrics | SWAP | RemoteDesktop portal with libei or `Notify*`; uinput fallback | M | Med |
+| Scrolling capture input | `ScrollingCaptureManager.cs:104,110,133,138,142` | SendInput, window activation | LIMITED | Goes to focused/hovered surface; loses reliable window targeting; consent prompt expected | M | Med |
+| ScrollMessage | `ScrollingCaptureManager.cs:111,147` | SendMessage WM_VSCROLL | DROP | Hide the option | S | High |
+| Paste/keybd_event/mouse_event | no hits or callers | None | DROP | Nothing to port; `SendKeyPressText` unused | S | High |
+| "Auto Clicker" | `EasterEggs/ShareXClicker/ShareXClickerGame.cs:43` | None (game upgrade) | READY | Keep | S | High |
+| Tray icon and menu | `TrayIconService.cs:83-91,156-186` | Non-Windows path uses Avalonia | UNVERIFIED | Avalonia `DBusTrayIconImpl` (SNI); check `Menu.Opening` rebuilds over DBusMenu | S | Med |
+| Tray mouse actions | `TrayIconService.cs:86,105-109,136` | WindowsTrayIcon button events | LIMITED | Only `Clicked` wired: TrayMiddleClickAction and right-click custom menu lost; double-click via timer needs testing | S | High |
+| WindowsTrayIcon | `Native/WindowsTrayIcon.cs:35,48` | Shell_NotifyIcon | DROP | Gated by `TrayIconService.cs:77` | S | High |
+| LucideTrayIcon | `LucideTrayIcon.cs:87,102,110,205` | Registry, metrics, gated | UNVERIFIED | Falls back to Avalonia theme, 16px; check HiDPI | S | Med |
+| TaskbarManager | `Native/TaskbarManager.cs:44-73,164-168`; `TaskManager.cs:345,351`; `WorkerTask.cs:391` | ITaskbarList4 COM | SWAP | `com.canonical.Unity.LauncherEntry.Update`; needs installed `.desktop`; only Normal and NoProgress used | S | Med-High |
+| Toast window | `NotificationWindow.axaml:8-10`; `NotificationWindow.cs:320,332,410`; `TaskManager.cs:282`; `TaskHelpers.cs:2770` | GetCursorPos | UNVERIFIED | Keep under XWayland; pointer events for hover; `KWin.activeOutputName` for screen | S | Med |
+| Native notifications (optional) | same call sites | None | SWAP | org.freedesktop.Notifications; loses placement, hover, per-button click actions | M | Med-High |
+| GetCursorPos helper | `CaptureHelpers.cs:52,57,93,113`; callers `QuickTaskMenu.cs:94`, `ActionsToolbarWindow.axaml.cs:271`, `RegionCaptureWindow.axaml.cs:483`, `MouseHighlighterService.cs:65` | user32, no guard | LIMITED | Pointer events where the window owns the pointer, else KWin script (`workspace.cursorPos`, assumed); async only | M | Med |
+| Direct GetCursorPos | `ScreenColorPickerWindow.axaml.cs:132`; `EditorView.ImageInsert.cs:422`; `MonitorTestWindow.axaml.cs:53`; `VideoPlayerWindow.axaml.cs:142`; `EmojiPicker.cs:43` guarded | user32 | SWAP | Pointer events or `Screens.Primary` | S | Med-High |
+| SetCursorPos, ClipCursor | `RegionCaptureWindow.axaml.cs:257`; `CaptureHelpers.cs:103`; `Helpers.cs:947` guarded | user32 | LIMITED | Loses warp and confinement; move an internal crosshair for arrow nudging | S | Med-High |
+| CursorData (cursor in captures) | `CursorData.cs:58,68,72,112,133,148`; `Screenshot.cs:143,162`; `Screenshot_Transparent.cs:66`; `CaptureRegion.cs:71` | GetCursorInfo, HICON, registry, GDI | REWRITE | Capture API embeds the cursor (assumed) | M | Med-Low |
+| CursorAssetLoader, `.cur` assets | `ShareX.Avalonia/Input/CursorAssetLoader.cs:113-135`; `ShareX.Avalonia/Assets/*.cur` | None, managed parser | UNVERIFIED | Keep | S | Med-High |
+| Annotation cursor renderer | `WindowsCursorBitmapRenderer.cs:81,160,341` | user32/gdi32 fallback, guarded | UNVERIFIED | Bundled `.cur` only; `:100` path not traced | S | Med |
+
+
+### 5.7 Shell integration and app lifecycle
+
+| Feature | Evidence | Windows dependency | Label | KDE Wayland replacement | Effort | Conf. |
+|---|---|---|---|---|---|---|
+| Build targets (blocks all rows) | `ShareX/ShareX.csproj:3`, `Directory.build.props:15,19`, `ShareX.HelpersLib/ShareX.HelpersLib.csproj:14` | `net10.0-windows`, win RIDs, WindowsDesktop | SWAP | `net10.0`, `linux-x64` | L | H |
+| Start-up sequence | `ShareX/Program.cs:47-119` | None direct | UNVERIFIED | None | S | M |
+| UseNls | `ShareX/ShareX.csproj:59` | NLS | DROP | ICU, sort order may differ | S | H |
+| Personal folder, portable | `ShareX/Infrastructure/AppPaths.cs:41-44`, `PersonalPathManager.cs:42,118` | SpecialFolder; case-insensitive compare | UNVERIFIED | Keep; portable needs writable app dir | S | M |
+| Policy registry | `ShareX/SystemOptions.cs:34,51-86` | HKLM/HKCU | SWAP | `/etc/xdg/ShareX`, then `~/.config/ShareX` | S | H |
+| Autostart, shortcuts | `ShareX/StartupManager.cs:40,62-98`, `ShareX.HelpersLib/Helpers/ShortcutHelpers.cs:104` | `.lnk`, StartupApproved, WshShell, StartupTask | SWAP | `~/.config/autostart/*.desktop`, `Exec=… -silent`, `Hidden=true` as disabled | S | H |
+| Context menu | `ShareX/IntegrationHelpers.cs:42-55,115-176` | HKCU shell verbs | SWAP | `~/.local/share/kio/servicemenus`; Dolphin/KIO only | M | H |
+| Send To | `ShareX/IntegrationHelpers.cs:368-376` | SendTo `.lnk` | LIMITED | Service-menu action; no separate Send To folder | S | M |
+| `.sxcu`, `.sxie` | `ShareX/IntegrationHelpers.cs:57-73,213-278`, `ShareX/Infrastructure/FileTypeRegistration.cs:38-46` | HKCU Classes, SHChangeNotify, `.ico` | SWAP | MIME XML, `update-mime-database`, `.desktop`, `update-desktop-database`, `xdg-mime`, PNG icons | M | H |
+| Browser manifests | `ShareX/IntegrationHelpers.cs:75-78,280-366`, `ShareX/host-manifest-*.json:4` | Registry; relative `.exe` path | SWAP | Generate absolute-path manifests per browser | M | M |
+| Native messaging host | `ShareX.HelpersLib/NativeMessagingHost.cs:38-68`, `ShareX.NativeMessagingHost/Program.cs:52,56` | `ShareX.exe`, CreateProcess | SWAP | Keep protocol; `Process.Start` | S | H |
+| Single instance | `ShareX.HelpersLib/SingleInstanceManager.cs:96-103,136-138`, `MutexManager.cs:43` | WindowsIdentity, PipeSecurity, named Mutex | SWAP | `flock` + 0600 Unix socket in `$XDG_RUNTIME_DIR` | M | H |
+| CLI parsing | `ShareX.HelpersLib/CLI/CLIManager.cs:55-95`, `ShareX/ShareXCLIManager.cs:161` | None; relative paths resolve to app dir | READY | Resolve against caller's cwd | S | H |
+| Window activation | `ShareX/Infrastructure/ApplicationCommandLine.cs:77-86` | Assumes foreground raise works | LIMITED | Forward `XDG_ACTIVATION_TOKEN`; may become an attention request | M | M |
+| Restart, elevation | `ShareX/Infrastructure/ApplicationLifecycle.cs:112-124`, `ShareX/Presentation/MainWindow/MainMenuBuilder.cs:111`, `ShareX.HelpersLib/Helpers/Helpers.cs:565-597` | `runas`, WindowsPrincipal | DROP | Plain restart stays; remove admin item | S | H |
+| Update check | `ShareX.HelpersLib/UpdateChecker/GitHubUpdateChecker.cs:153-186` | Windows asset names | SWAP | Match Linux assets; no match reports failure hourly | S | H |
+| Installer, signature | `ShareX.HelpersLib/Presentation/UpdateChecker/DownloaderWindow.axaml.cs:137,303-312`, `AuthenticodeSignatureVerifier.cs:89` | wintrust, `/UPDATE`, `runas` | REWRITE | Package-manager notice or signed archive check; never stub as trusted | M | H |
+| ShareX.Setup | `ShareX.Setup/Program.cs:67-93,255` | Inno, makeappx, `C:\`, registry | REWRITE | PKGBUILD/AppImage/Flatpak installing `.desktop`, MIME, icons, manifests | L | M |
+| ShareX.Steam, Store | `ShareX.Steam/Launcher.cs:208-259`, `ShareX.Steam.csproj:3`, `ShareX/Program.cs:97-99` | WMI, WinExec, `cmd.exe`, net48, WinRT | DROP | Exclude from Linux build | S | H |
+| External programs | `ShareX.HelpersLib/ExternalProgram.cs:59,67,102-107`, `ShareX/TaskHelpers.cs:748-761`, `RegistryHelpers.cs:115-169` | Registry discovery; `File.Exists` rejects bare commands | SWAP | PATH lookup, `.desktop` discovery | M | M |
+| Open file, URL | `FileHelpers.cs:262-265`, `URLHelpers.cs:65-71` | ShellExecute | UNVERIFIED | Explicit `xdg-open` avoids running executable files | S | M |
+| Open, show folder | `FileHelpers.cs:294-296,337`, `Native/NativeMethods_Helpers.cs:482-488` | Appends `\`; SHOpenFolderAndSelectItems | SWAP | `FileManager1.ShowItems`, fallback `xdg-open` parent; repo has no D-Bus client | S | H |
+| MimeTypes | `ShareX.HelpersLib/MimeTypes.cs:70` | HKCR fallback after static table | SWAP | shared-mime-info globs, or remove | S | H |
+| Folder variables | `FileHelpers.cs:201-203,438-443` | `%SpecialFolder%`, `%VAR%`, imported `C:\` | SWAP | Reject empty expansions; migrate settings | M | M |
+| Filename, path rules | `FileHelpers.cs:92,211,223`, `ShareX.Tools/Tools/DirectoryIndexer/IndexerHtml.cs:55-56`, `ShareX.ImageEffectsLib/ImageEffectPathHelpers.cs:53-54` | `\`, `:\`, case-insensitive containment | SWAP | Separator-aware helpers, platform comparer | M | H |
+| Hard-coded `.exe` tools | `FFmpegCLIManager.cs:89`, `ShareX.ScreenCaptureLib/ScreenRecording/FFmpegOptions.cs:78`, `ShareX.Tools/Tools/VideoTrimmer/VideoTrimmerWindow.axaml.cs:40`, `SevenZipManager.cs:39` | `.exe` gate makes FFmpeg `Run` return false | SWAP | PATH resolution; remove gate | S | H |
+
+
+### 5.8 Clipboard, printing, dialogs, windowing
+
+| Feature | Evidence | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
+|---|---|---|---|---|---|---|
+| Build target | `ShareX.HelpersLib/ShareX.HelpersLib.csproj:3,14`; `Directory.build.props:15,19` | `net10.0-windows`, WindowsDesktop.App, win RIDs | SWAP | `net10.0`, linux-x64 | M | High |
+| Backend selection | `AvaloniaBootstrapper.cs:164` | None | UNVERIFIED | Keep X11 now; trial `UseWaylandWithFallback` | S | High |
+| Text and file clipboard | `ShareX.HelpersLib/Helpers/AvaloniaClipboard.cs:55` | None | UNVERIFIED | Avalonia offers only `text/uri-list`; add `x-special/gnome-copied-files` for GNOME apps | S | Medium |
+| Image copy | `AvaloniaClipboard.cs:75,79`; `WindowsClipboard.cs:37` (a comment, not a WinForms reference) | Win32 clipboard, Windows branch only | SWAP | Existing PNG path | S | Medium |
+| Background and exit persistence | `ShareX.Avalonia/Integration/DesktopServices.cs:52`; `WaylandDataDevice.cs:61-83`; `X11ClipboardImpl.cs:54-56` | None | LIMITED | `wl-copy` fallback; loses multi-MIME offers (one `-t` per run) | M | Medium |
+| `ClipboardFormat`, `ClipboardDataFormats` | `ShareX.HelpersLib/ClipboardFormat.cs:28`; `ClipboardData.cs:41` | Windows-style names only | READY | None | S | High |
+| Printing | `ShareX.HelpersLib/Printer/PrintHelper.cs:76,129`; `PrintTextHelper.cs:45` | `System.Drawing.Printing`; non-Windows throws | REWRITE | Skia PDF to portal Print | L | Medium |
+| Page transfer, print dialog | `ShareX.HelpersLib/Native/WindowsPrintInterop.cs:39`; `ShareX.HelpersLib/Printer/WindowsPrintDialog.cs:41,88` | `StretchDIBits`, `PrintDlgExW` | REWRITE | Portal `PreparePrint`/`Print`; `lp -d` for silent printing | M | Medium |
+| File dialogs | `ShareX.HelpersLib/Helpers/FileDialogHelpers.cs:41,56,74`; `X11Window.cs:290-300` | None | UNVERIFIED | Avalonia's portal FileChooser (default); no custom code | S | High |
+| `DesktopServices` | `DesktopServices.cs:52` | None | UNVERIFIED | Test hidden service window | S | Medium |
+| Screen colour picker | `ShareX.Avalonia/Windows/ScreenColorPickerWindow.axaml.cs:92,123,460-489` | 10 P/Invokes confirmed | LIMITED | Portal `PickColor`; loses live magnifier, hover preview, position. Line 92 calls `GetDC` before the OS guard | M | High |
+| Colour picker dialog | `ShareX.HelpersLib/Presentation/ColorPicker/ColorPickerWindowIntegration.cs:64,102` | Unguarded `ReleaseCapture` | SWAP | Guard or remove | S | High |
+| Dark mode, accent | `ShareX.Avalonia/Theming/ThemeManager.cs:123-124` | None | UNVERIFIED | Avalonia reads the portal keys (`DBusPlatformSettings.cs:48,67`) | S | High |
+| Tray theme | `ShareX.HelpersLib/Helpers/LucideTrayIcon.cs:46,110` | Registry | SWAP | `PlatformSettings` | S | Medium |
+| DWM, uxtheme, Mica | `ShareX.HelpersLib/Native/NativeMethods.cs:476-512,763`; `DWMManager.cs:30` | DWM | DROP | None; no Mica hits and no theming callers found | S | Medium |
+| Custom title bar | `ShareX/Presentation/MainWindow/MainWindow.axaml:13-14`; `WindowImpl.cs:398` | None | SWAP | Height hint is a no-op; server decorations may double the bar. Use `WindowDecorations="None"` or `ForceDrawnDecorations` | M | Medium |
+| Placement restore | `ShareX.HistoryLib/Views/HistoryWindow.axaml.cs:190`; `ImageHistoryWindow.axaml.cs:162`; `ShareX/Presentation/ActionsToolbar/ActionsToolbarWindow.axaml.cs:264` | None | LIMITED | Expected on X11; native loses it | S | Medium |
+| Topmost windows | `ScreenColorPickerWindow.axaml:7`; `ShareX.Tools/Tools/PinToScreen/PinToScreenWindow.axaml.cs:109` | None | LIMITED | X11 atom; native needs KWin rule or layer-shell helper | M | Medium |
+| Transparency | `ScreenColorPickerWindow.axaml:8`; `ShareX.ScreenCaptureLib/Presentation/ScreenRecording/ScreenRecordWindow.axaml:20` | None | UNVERIFIED | X11 hint; native `SetTransparencyLevelHint` is a no-op | S | Medium |
+| Click-through, shaped regions | `ScrollingCaptureRegionWindow.axaml.cs:104`; `ScreenRecordWindow.axaml.cs:717-742` | `WS_EX_TRANSPARENT`, GDI regions | REWRITE | XShape input region on the XID; no Avalonia native API | M | Medium |
+| Tool-window style, Z-order | `ScreenRecordWindow.axaml.cs:696`; `ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:116,456` | `WS_EX_TOOLWINDOW`, `SetWindowPos` | SWAP | `ShowInTaskbar=False`, owned windows; native taskbar hint is a no-op (`WindowImpl.cs:285`) | S | Medium |
+| Exclude from capture | `ScreenRecordWindow.axaml.cs:697` | `SetWindowDisplayAffinity` | LIMITED | No known equivalent; controls may appear in recordings | M | Low |
+| Taskbar flash | `ShareX.HelpersLib/Presentation/UpdateChecker/UpdateMessageWindow.axaml.cs:163` | `FlashWindowEx` | SWAP | Guard; X11 urgency hint or tray notification | S | Medium |
+| Cursor lock, HWND move | `ShareX.HelpersLib/Helpers/Helpers.cs:919,937` | `ClipCursor`, `SetWindowPos` | LIMITED | Guarded no-ops; cursor confinement lost | S | Medium |
+| Foreign-window tools | `ShareX.Tools/Tools/InspectWindow/InspectWindowWindow.axaml.cs:56`; `ShareX.Tools/Tools/BorderlessWindow/BorderlessWindowWindow.axaml.cs:57`; `ShareX.ScreenCaptureLib/Presentation/RegionCapture/RegionCaptureWindow.axaml.cs:519` | HWND enumeration and control | DROP | No client API; region capture needs its own window-detection plan | L | Medium |
+| Mouse highlighter overlay | `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterOverlayWindow.cs:54` | Native layered window | LIMITED | No global cursor for clients; loses system-wide tracking | L | Medium |
+
+
+### 5.9 ShareX.Tools
+
+"Fix A" = folder opening in `FileHelpers.cs:337`. "Fix B" = the `.exe` check in `FFmpegCLIManager.cs:89`.
+
+| Tool | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
+|---|---|---|---|---|---|---|
+| AnalyzeImage | `ShareX.Tools/Tools/AnalyzeImage/AIOptions.cs:44` | DPAPI; failure is swallowed, so API keys save as plaintext | SWAP | Secret Service/KWallet | S | M |
+| AnimatedGifMaker | `ShareX.Tools/Tools/AnimatedGifMaker/AnimatedGifMakerViewModel.cs:239` | Fix A | SWAP | FileManager1 | S | H |
+| AnimatedGifTrimmer | `ShareX.Tools/Tools/AnimatedGifTrimmer/AnimatedGifTrimmerViewModel.cs:314` | Fix A | SWAP | FileManager1 | S | H |
+| BackgroundRemover | `ShareX.Tools/Tools/BackgroundRemover/BackgroundRemovalService.cs:163`, `:215` | DirectML, DXGI | SWAP | ONNX Runtime CUDA 1.27+; existing CPU fallback | S | M |
+| BorderlessWindow | `ShareX.Tools/Tools/BorderlessWindow/BorderlessWindowManager.cs:43`, `:89` | Win32 styles on other apps' windows | LIMITED | KWin script only (`noBorder`, `frameGeometry`). Lost: direct control | M | M |
+| ClipboardViewer | `ShareX.Tools/Tools/ClipboardViewer/ClipboardViewerData.cs:93` | DIB branches only | UNVERIFIED | Avalonia clipboard; MIME names | S | M |
+| DirectoryIndexer | `ShareX.Tools/Tools/DirectoryIndexer/Indexer.cs:78` | None | READY | None needed | S | H |
+| HashChecker | `ShareX/TaskHelpers.cs:964` | None in tool; handler unaudited | UNVERIFIED | None needed | S | M |
+| IconConverter | `ShareX.Tools/Tools/IconConverter/IconConverterWindow.axaml.cs:80` | None (ICO is only the output format) | READY | None needed | S | H |
+| ImageCombiner | `ShareX/TaskHelpers.cs:1045` | None in tool; services unaudited | UNVERIFIED | None needed | S | M |
+| ImageComparer | `ShareX.Tools/Tools/ImageComparer/ImageComparisonService.cs:79` | None (Skia) | READY | None needed | S | H |
+| ImageConverter | `ShareX.Tools/Tools/ImageConverter/ImageConverterViewModel.cs:277` | Fix A | SWAP | FileManager1 | S | H |
+| ImageResizer | `ShareX.Tools/Tools/ImageResizer/ImageResizerViewModel.cs:214` | Fix A | SWAP | FileManager1 | S | H |
+| ImageSplitter | `ShareX.Tools/Tools/ImageSplitter/ImageSplitterViewModel.cs:117` | Fix A | SWAP | FileManager1 | S | H |
+| ImageThumbnailer | `ShareX.Tools/Tools/ImageThumbnailer/ImageThumbnailerViewModel.cs:162` | Fix A | SWAP | FileManager1 | S | H |
+| ImageWatermark | `ShareX.Tools/Tools/ImageWatermark/ImageWatermarkViewModel.cs:272` | Fix A | SWAP | FileManager1 | S | H |
+| InspectWindow | `ShareX.Tools/Tools/InspectWindow/InspectWindowService.cs:74`, `:149` | EnumWindows, WindowFromPoint, styles | LIMITED | KWin `getWindowInfo`, `queryWindowInfo`, script. Lost: child controls, Win32 styles | L | M |
+| Metadata | `ShareX.Tools/Tools/Metadata/MetadataViewModel.cs:223` | None (managed parsers) | READY | None needed | S | H |
+| MonitorTest | `ShareX.Tools/Tools/MonitorTest/MonitorTestWindow.axaml.cs:53` | `GetCursorPos`, uncaught | SWAP | `Screens` API | S | H |
+| MouseHighlighter | `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterMouseHook.cs:74`; `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterOverlayWindow.cs:54` | Global hook, layered overlay | LIMITED | KWin `mouseclick`/`trackmouse`. Lost: ripple, crosshairs, custom options unless a custom effect is written | M | M |
+| NetworkMonitor | `ShareX.Tools/Tools/NetworkMonitor/NetworkMonitorProbe.cs:83` | None | READY | None needed | S | H |
+| OCR | `ShareX.Tools/Tools/OCR/OCRHelper.cs:29`, `:83` | `Windows.Media.Ocr` | SWAP | Tesseract CLI; map language tags, add language packs | S | H |
+| PinToScreen | `ShareX.Tools/Tools/PinToScreen/PinToScreenWindow.axaml.cs:101`, `:109` | `GetCursorPos`, uncaught | LIMITED | XWayland `Topmost`; no KWin rule or layer-shell. Lost: reliable cursor-monitor placement | S | M |
+| QRCode | `ShareX/TaskHelpers.cs:1792` | Screen capture in main app | SWAP | Spectacle or portal for scan modes | S | M |
+| RemoteStorageBrowser | `ShareX/TaskHelpers.cs:1724` | None in tool; providers unaudited | UNVERIFIED | None needed | S | M |
+| Ruler | `ShareX.Tools/Tools/Ruler/ScreenPixelBuffer.cs:54` | BitBlt; single spanning window | SWAP | `spectacle -b -n -f -o`; one overlay per output | M | M |
+| VideoConverter | `ShareX/TaskHelpers.cs:1212` | Fix B | SWAP | System FFmpeg; hide AMF/QSV | S | H |
+| VideoPlayer | `ShareX.Tools/Controls/Media/WindowsMediaPlayer.cs:48`; `ShareX.Tools/Tools/VideoPlayer/VideoPlayerWindow.axaml.cs:142` | Media Foundation, child HWND | REWRITE | libmpv render API | M | M |
+| VideoThumbnailer | `ShareX.Tools/Tools/VideoThumbnailer/VideoThumbnailer.cs:53` | Fix B makes duration 0, silent null; Fix A | SWAP | FFmpeg; ffmpegthumbnailer unnecessary | S | H |
+| VideoTrimmer | `ShareX.Tools/Tools/VideoTrimmer/VideoTrimmerViewModel.cs:61`, `:180` | Player, filmstrip, Fix A | SWAP | New player; FFmpeg frames | M | M |
+
+
+### 5.10 Editors and image effects
+
+Paths: `IE/` = `ShareX.ImageEditor`, `IE.App/` = `ShareX.ImageEditor.App`, `PE/` = `ShareX.PhotoEditor`, `FX/` = `ShareX.ImageEffectsLib`, `HL/` = `ShareX.HelpersLib`, `P/` = `ShareX.ImageEditor/Presentation`.
+
+| Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
+|---|---|---|---|---|---|---|
+| Build props | `Directory.build.props:15`; SDK `Microsoft.Common.props:27` | Lowercase name likely not imported on Linux; if renamed, x64 forces `win-x64` | SWAP | Rename; condition RID | S | Med |
+| HL dependency (blocks PE, FX) | `HL/ShareX.HelpersLib.csproj:3,14` | `net10.0-windows`, WindowsDesktop.App | SWAP | Move Skia, font and clipboard helpers to a `net10.0` library | M | Med |
+| PE target | `PE/ShareX.PhotoEditor.csproj:3,20` | HL only | SWAP | Retarget `net10.0` | S | High |
+| FX target | `FX/ShareX.ImageEffectsLib.csproj:3`; `FX/Drawings/DrawText.cs:135` | HL only | READY | Retarget after HL; drop unused `UseSystemDrawing` | S | High |
+| Annotation tools (shapes, arrow, freehand, text, balloon, step, image, clone, blur, pixelate, highlight, magnify, spotlight, smart eraser) | `IE/Core/Editor/EditorTool.cs:31` | None found | READY | None | S | High |
+| Crop, cut-out, undo | `IE/Core/Annotations/Shapes/CropAnnotation.cs:34`; `IE/Core/History/EditorHistory.cs` | None found | READY | None | S | High |
+| Image effects (235 files) | `P/Effects/ImageEffectCatalog.cs:32` | Font names only | READY | See Fonts | S | High |
+| PE layers and tools | `PE/Core/Compositor.cs:32`; `PE/Tools/ToolManager.cs:55` | HL only | READY | None | S | Med |
+| Emoji | `P/Emoji/WindowsEmojiBitmapRenderer.cs:142,184,202`; `IE/ShareX.ImageEditor.csproj:52` | D2D path; fallback asks for Segoe, unshaped `DrawText` (ZWJ and flags likely split) | SWAP | fontconfig emoji match (Noto), HarfBuzz shaping; drop Vortice | M | Med |
+| Cursor annotation | `P/Rendering/WindowsCursorBitmapRenderer.cs:81,174`; `P/Controllers/EditorInputController.cs:379` | 15 stock cursors need user32/gdi32; tool silently aborts on Linux | SWAP | Read XCursor theme or bundle images | M | High |
+| Cursor-relative placement | `P/Views/EditorView.ImageInsert.cs:242,396,422`; `P/Views/EditorView.axaml.cs:1704` | Unguarded `GetCursorPos` throws `DllNotFoundException`; paste fails, emoji insert may crash | SWAP | Last pointer event plus Avalonia `Screens` | S | High |
+| Screen colour picker | `P/Controls/ColorPickerPanel.axaml.cs:117`; `ShareX.Avalonia/Windows/ScreenColorPickerWindow.axaml.cs:92,123,278` | GDI capture; `GetDC` runs in the constructor when magnifier is on (default unchecked) | LIMITED | Portal `Screenshot.PickColor`; loses live magnifier and custom UI | M | Med |
+| Wallpaper background | `IE/Integration/LinuxDesktopWallpaperService.cs:256,426`; `P/ViewModels/MainViewModel.BackgroundState.cs:257` | None; KDE parser takes the first containment and rejects KPackage directories | SWAP | `org.kde.PlasmaShell.wallpaper(u)`, resolve package images | S | High |
+| Fonts | `P/ViewModels/MainViewModel.ToolOptions.cs:1281`; `PE/Tools/TypeTools.cs:39`; `HL/FontSafe.cs:28`; `IE/Core/Annotations/Text/TextAnnotation.cs:54`; `IE/Core/ImageEffects/Filters/ASCIIArtImageEffect.cs:79` | Defaults Segoe and Consolas; enumeration is portable | SWAP | fontconfig aliases (sans, monospace) | S | Med |
+| PNG, JPEG, WebP, GIF, BMP, ICO | `IE.App/App.axaml.cs:41`; `P/Views/EditorView.axaml.cs:2345`; `HL/Helpers/SkiaImageHelpers.cs:285` | None; WIC appears only in emoji | UNVERIFIED | Skia. `IE/Core/ImageEffects/Helpers/ImageHelpers.cs:168-170` bypasses HL's GIF/BMP encoders; likely cross-platform failure | S | Med |
+| TIFF | `PE/Core/ImageIO.cs:45,112,208` | GDI+; open fails, save throws | SWAP | LibTiff.NET or libtiff | M | High |
+| HEIC, HEIF, AVIF (PE open only) | `PE/Core/ImageIO.cs:47,105` | None real; Skia decoder apparently absent, GDI+ fallback is Windows-only | REWRITE | libheif and libavif bindings | M | Med |
+| Skia natives | `~/.nuget/packages/avalonia.skia/12.1.4/avalonia.skia.nuspec` | None | READY | `SkiaSharp.NativeAssets.Linux` 3.119.4, HarfBuzz 8.3.1.3 | S | High |
+| GPU, shaders | `P/EasterEggs/ShaderEasterEggOverlay.cs:194,262` | None; SkSL easter egg only, no `GRContext` or D3D | READY | None | S | High |
+| Paste, copy | `P/Views/EditorView.ClipboardHandler.cs:127,137`; `P/Views/EditorView.axaml.cs:2278`; `PE/UI/Commands/EditorCommands.File.cs:121` | None; paste blocked by the placement row | UNVERIFIED | Avalonia X11 clipboard via XWayland | S | Med |
+| Drag-in | `P/Views/EditorView.axaml.cs:193,1749`; `PE/UI/PhotoEditorWindow.cs:213`; `FX/Presentation/ImageEffectsWindow.axaml.cs:57` | None | UNVERIFIED | Avalonia XDND via XWayland | S | Med |
+| File dialogs | `P/Views/EditorView.axaml.cs:2321`; `PE/UI/PhotoEditorWindow.Lifetime.cs:47` | None | UNVERIFIED | Avalonia StorageProvider | S | Med |
+| Host, windowing | `IE.App/Program.cs:44`; `PE/UI/PhotoEditorWindow.Lifetime.cs:129-132` | None | LIMITED | XWayland client: no native Wayland surface; position restore relies on X11 semantics | S | Med |
+
