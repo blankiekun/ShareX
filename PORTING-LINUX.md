@@ -242,7 +242,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | ImageConverter | TH:293; TH:1143 | None found | READY | None | S | Med |
 | ImageWatermark | TH:296; TH:1148 | None found | READY | None | S | Med |
 | ImageThumbnailer | TH:299; TH:1153 | None found | READY | None | S | Med |
-| VideoConverter | TH:302; TH:1204; ShareX.HelpersLib/Media/FFmpegCLIManager.cs:89 | Owner tools: `.exe` guard makes Run return false. M3: guard removed; ran end to end in a virtual KWin session | READY | /usr/bin/ffmpeg (V) | S | High |
+| VideoConverter | TH:302; TH:1204; ShareX.HelpersLib/Media/FFmpegCLIManager.cs:89 | Owner tools: `.exe` guard makes Run return false. M3: guard removed; ran end to end in a virtual KWin session. GIF now makes its palette in a separate FFmpeg run (peak RSS 311 MB to 105 MB on 640x360, 200 frames); that path ran through the view model and real handler with host FFmpeg, not through the window | READY | /usr/bin/ffmpeg (V) | S | High |
 | VideoTrimmer | TH:312; ShareX.Tools/Controls/Media/WindowsMediaPlayer.cs:48; ShareX.Tools/Tools/VideoTrimmer/VideoTrimmerWindow.axaml.cs:40 | Owner tools: native player and thumbnails | REWRITE | libmpv or GStreamer (A); ffmpeg (V) | L | High |
 | AnimatedGifTrimmer | TH:315; TH:1131 | Owner tools: only grep hit is portable `ICommand` | UNVERIFIED | None | S | Med |
 | VideoThumbnailer | TH:318; ShareX.Tools/Tools/VideoThumbnailer/VideoThumbnailer.cs:53 | Owner tools: `.exe` guard. M3: ran end to end in a virtual KWin session | READY | /usr/bin/ffmpeg (V) | S | High |
@@ -654,7 +654,7 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | QRCode | `ShareX/TaskHelpers.cs:1792` | Screen capture in main app | SWAP | Spectacle or portal for scan modes | S | M |
 | RemoteStorageBrowser | `ShareX/TaskHelpers.cs:1724` | None in tool; providers unaudited | UNVERIFIED | None needed | S | M |
 | Ruler | `ShareX.Tools/Tools/Ruler/ScreenPixelBuffer.cs:54` | BitBlt; single spanning window | SWAP | `spectacle -b -n -f -o`; one overlay per output | M | M |
-| VideoConverter | `ShareX/TaskHelpers.cs:1212` | Fix B. M3: Fix B done; ran end to end in a virtual KWin session | READY | System FFmpeg; hide AMF/QSV | S | H |
+| VideoConverter | `ShareX/TaskHelpers.cs:1212` | Fix B. M3: Fix B done; ran end to end in a virtual KWin session. GIF two-run palette not yet run through the window | READY | System FFmpeg; hide AMF/QSV | S | H |
 | VideoPlayer | `ShareX.Tools/Controls/Media/WindowsMediaPlayer.cs:48`; `ShareX.Tools/Tools/VideoPlayer/VideoPlayerWindow.axaml.cs:142` | Media Foundation, child HWND | REWRITE | libmpv render API | M | M |
 | VideoThumbnailer | `ShareX.Tools/Tools/VideoThumbnailer/VideoThumbnailer.cs:53` | Fix B makes duration 0, silent null; Fix A. M3: ran end to end in a virtual KWin session, including a `"` in the file name | READY | FFmpeg; ffmpegthumbnailer unnecessary | S | H |
 | VideoTrimmer | `ShareX.Tools/Tools/VideoTrimmer/VideoTrimmerViewModel.cs:61`, `:180` | Player, filmstrip, Fix A | SWAP | New player; FFmpeg frames | M | M |
