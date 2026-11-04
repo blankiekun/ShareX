@@ -298,12 +298,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         set { if (value != null) SetSetting(Settings.TrayLeftClickAction, value.Value, x => Settings.TrayLeftClickAction = x); }
     }
 
-    public EnumOption<HotkeyType>? SelectedTrayMiddleClickAction
-    {
-        get => Find(HotkeyTypeOptions, Settings.TrayMiddleClickAction);
-        set { if (value != null) SetSetting(Settings.TrayMiddleClickAction, value.Value, x => Settings.TrayMiddleClickAction = x); }
-    }
-
     public bool AutoCheckUpdate
     {
         get => Settings.AutoCheckUpdate;

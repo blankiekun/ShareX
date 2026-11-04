@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>บน ไอคอนถาดระบบ คลิกซ้าย:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>เมื่อคลิกกลางไอคอนถาดระบบ:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>บันทึกเฉพาะเมื่อ URL ไม่ว่างเปล่า</value>
   </data>
@@ -1549,9 +1546,6 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>เบราว์เซอร์จัดเก็บข้อมูลระยะไกล...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>เริ่มใหม่ในฐานะผู้ดูแลระบบ</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>ไม้บรรทัด...</value>

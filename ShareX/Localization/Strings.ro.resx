@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Pe pictograma din bară faceți clic stânga:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Faceți clic în mijloc pe pictograma din bară:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Salvați numai dacă URL-ul nu este gol</value>
   </data>
@@ -1549,9 +1546,6 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Browser de stocare la distanță...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Repornește ca administrator</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Riglă</value>

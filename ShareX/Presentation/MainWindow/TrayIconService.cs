@@ -34,13 +34,12 @@ namespace ShareX;
 
 internal interface ITrayIconService : IDisposable
 {
-    event Action? RightButtonDown;
-    event Action? RightButtonUp;
-
     bool Visible { get; set; }
     string ToolTipText { get; set; }
 
     void SetIcon(byte[] iconBytes);
+
+    void RefreshMenu();
 }
 
 /// <summary>Desktop tray adapter over Avalonia's tray icon.</summary>
@@ -51,10 +50,6 @@ internal sealed class DesktopTrayIconService : ITrayIconService
     private readonly Avalonia.Threading.DispatcherTimer _singleClickTimer;
     private int _leftClickCount;
     private bool _disposed;
-
-    // The tray host shows the menu on a right click and doesn't tell the program, so these never fire here.
-    public event Action? RightButtonDown { add { } remove { } }
-    public event Action? RightButtonUp { add { } remove { } }
 
     public bool Visible
     {
@@ -76,7 +71,6 @@ internal sealed class DesktopTrayIconService : ITrayIconService
         _singleClickTimer.Tick += OnSingleClickTimerTick;
         _avaloniaIcon = new Avalonia.Controls.TrayIcon { Menu = new Avalonia.Controls.NativeMenu(), IsVisible = false };
         _avaloniaIcon.Clicked += OnAvaloniaClick;
-        _avaloniaIcon.Menu.Opening += (_, _) => BuildNativeMenu(_avaloniaIcon.Menu, new MainMenuBuilder(true).BuildTrayMenu());
         ToolTipText = text;
         SetIcon(icon);
         _avaloniaIconRegistration = DesktopServices.RegisterTrayIcon(_avaloniaIcon);
@@ -123,37 +117,64 @@ internal sealed class DesktopTrayIconService : ITrayIconService
         }
     }
 
-    private static void BuildNativeMenu(Avalonia.Controls.NativeMenu menu, System.Collections.Generic.IReadOnlyList<MainMenuEntry> entries)
+    // Avalonia's DBusMenu exporter never raises Menu.Opening (AboutToShow only answers false) and greys out a submenu with no items,
+    // so the whole tree is built ahead of time, and again whenever what it shows changes.
+    public void RefreshMenu()
+    {
+        if (!_disposed) BuildNativeMenu(_avaloniaIcon.Menu!, new MainMenuBuilder(true, nativeTrayMenu: true).BuildTrayMenu());
+    }
+
+    private void BuildNativeMenu(Avalonia.Controls.NativeMenu menu, System.Collections.Generic.IReadOnlyList<MainMenuEntry> entries)
     {
         menu.Items.Clear();
         foreach (MainMenuEntry entry in entries)
         {
             if (!entry.IsVisible) continue;
             if (entry.IsSeparator) { menu.Items.Add(new Avalonia.Controls.NativeMenuItemSeparator()); continue; }
-            Avalonia.Controls.NativeMenuItem item = new(entry.Header) { IsEnabled = entry.IsEnabled, IsChecked = entry.IsChecked };
+            Avalonia.Controls.NativeMenuItem item = new(EscapeLabel(entry.Header))
+            {
+                IsEnabled = entry.IsEnabled,
+                IsChecked = entry.IsChecked,
+                ToggleType = entry.ToggleType switch
+                {
+                    MainMenuToggleType.CheckBox => Avalonia.Controls.MenuItemToggleType.CheckBox,
+                    MainMenuToggleType.Radio => Avalonia.Controls.MenuItemToggleType.Radio,
+                    _ => Avalonia.Controls.MenuItemToggleType.None
+                }
+            };
             if (entry.CreateChildren != null)
             {
                 item.Menu = new Avalonia.Controls.NativeMenu();
-                item.Menu.Opening += (_, _) => BuildNativeMenu(item.Menu, entry.CreateChildren());
+                BuildNativeMenu(item.Menu, entry.CreateChildren());
             }
             else if (entry.CreateCategories != null)
             {
                 item.Menu = new Avalonia.Controls.NativeMenu();
-                item.Menu.Opening += (_, _) =>
+                foreach (MainMenuCategory category in entry.CreateCategories())
                 {
-                    item.Menu.Items.Clear();
-                    foreach (MainMenuCategory category in entry.CreateCategories())
-                    {
-                        Avalonia.Controls.NativeMenuItem categoryItem = new(category.Header) { Menu = new Avalonia.Controls.NativeMenu() };
-                        BuildNativeMenu(categoryItem.Menu, category.Entries);
-                        item.Menu.Items.Add(categoryItem);
-                    }
-                };
+                    Avalonia.Controls.NativeMenuItem categoryItem = new(EscapeLabel(category.Header)) { Menu = new Avalonia.Controls.NativeMenu() };
+                    BuildNativeMenu(categoryItem.Menu, category.Entries);
+                    item.Menu.Items.Add(categoryItem);
+                }
             }
-            else item.Click += async (_, _) => { if (entry.ExecuteAsync != null) await entry.ExecuteAsync(); };
+            else item.Click += async (_, _) =>
+            {
+                try
+                {
+                    if (entry.ExecuteAsync != null) await entry.ExecuteAsync();
+                    RefreshMenu();
+                }
+                catch (Exception e)
+                {
+                    DebugHelper.WriteException(e);
+                }
+            };
             menu.Items.Add(item);
         }
     }
+
+    // A single underscore in a DBusMenu label marks a mnemonic and is not drawn, which would eat it from a file name.
+    private static string EscapeLabel(string label) => label.Replace("_", "__");
 
     public void Dispose()
     {

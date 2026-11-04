@@ -651,15 +651,6 @@ namespace ShareX.Localization {
         /// </summary>
         
         /// <summary>
-        ///   Looks up a localized string similar to Restart as administrator.
-        /// </summary>
-        public static string MainMenuBuilder_RestartAsAdministrator {
-            get {
-                return ResourceManager.GetString("MainMenuBuilder_RestartAsAdministrator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Ruler....
         /// </summary>
         public static string MainMenuBuilder_Ruler {
@@ -1618,11 +1609,6 @@ namespace ShareX.Localization {
         public static string ApplicationSettingsWindow_OnTrayIconLeftClickLabel {
             get {
                 return ResourceManager.GetString("ApplicationSettingsWindow_OnTrayIconLeftClickLabel", resourceCulture);
-            }
-        }
-        public static string ApplicationSettingsWindow_OnTrayIconMiddleClickLabel {
-            get {
-                return ResourceManager.GetString("ApplicationSettingsWindow_OnTrayIconMiddleClickLabel", resourceCulture);
             }
         }
         public static string ApplicationSettingsWindow_EditQuickTaskMenu {

@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>לחיצה שמאלית על סמל המגש:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>לחיצה אמצעית על סמל המגש:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>שמור רק אם הקישור אינו ריק</value>
   </data>
@@ -1549,9 +1546,6 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>דפדפן אחסון מרוחק...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>הפעל מחדש כמנהל מערכת</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>סרגל</value>

@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>ट्रे आइकन पर बायाँ क्लिक:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>ट्रे आइकन पर मध्य क्लिक:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>URL खाली न हो तभी सहेजें</value>
   </data>
@@ -1549,9 +1546,6 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>रिमोट स्टोरेज ब्राउज़र...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>व्यवस्थापक के रूप में पुनः आरंभ करें</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>मापनी...</value>
