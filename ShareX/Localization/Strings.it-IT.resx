@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Al clic sinistro sull'icona:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Al clic centrale sull'icona:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Salva solo se l'URL non è vuoto</value>
   </data>
@@ -1549,9 +1546,6 @@ Selezione una scorciatoia diversa o chiudi l'applicazione che crea conflitto e r
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Browser di archiviazione remota...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Riavvia come amministratore</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Righello</value>

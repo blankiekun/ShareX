@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Клик левой кнопкой по иконке в трее:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Клик средней кнопкой по иконке в трее:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Сохранять только если ссылка не пуста</value>
   </data>
@@ -1549,9 +1546,6 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Браузер удаленного хранилища...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Перезапустить от имени администратора</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Линейка</value>

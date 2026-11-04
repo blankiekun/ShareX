@@ -835,9 +835,9 @@ namespace ShareX.HelpersLib
         public static byte[] GetProgressIconBytes(int percentage, Color color)
         {
             percentage = percentage.Clamp(0, 100);
-            Size size = OperatingSystem.IsWindows()
-                ? new Size(NativeMethods.GetSystemMetrics(SystemMetric.SM_CXSMICON), NativeMethods.GetSystemMetrics(SystemMetric.SM_CYSMICON))
-                : new Size(16, 16);
+            // The tray scales this to whatever size it draws at, 22 or more on Plasma, and only ever scales a 16 pixel image up.
+            const int scale = 4;
+            Size size = new(16 * scale, 16 * scale);
             using SKBitmap bitmap = SkiaImageHelpers.CreateBitmap(size.Width, size.Height);
             using SKCanvas canvas = new(bitmap);
             canvas.Clear(new SKColor(39, 39, 39));
@@ -846,20 +846,21 @@ namespace ShareX.HelpersLib
             canvas.DrawRect(0, size.Height - height, size.Width, height, fill);
             if (height > 0 && height < size.Height)
             {
-                using SKPaint line = SkiaDrawing.Stroke(ColorHelpers.LighterColor(color, 0.3f));
+                using SKPaint line = SkiaDrawing.Stroke(ColorHelpers.LighterColor(color, 0.3f), scale);
                 canvas.DrawLine(0, size.Height - height, size.Width - 1, size.Height - height, line);
             }
-            using ImageFont settings = new("Arial", 10);
+            using ImageFont settings = new("Arial", 10 * scale);
             using SKFont font = settings.CreateFont();
             using SKPaint text = new() { Color = SKColors.White, IsAntialias = true };
             string label = Math.Min(percentage, 99).ToString();
             font.MeasureText(label, out SKRect bounds);
             canvas.DrawText(label, (size.Width - bounds.Width) / 2 - bounds.Left,
                 (size.Height - bounds.Height) / 2 - bounds.Top, font, text);
-            bitmap.SetPixel(0, 0, SKColors.Transparent);
-            bitmap.SetPixel(size.Width - 1, 0, SKColors.Transparent);
-            bitmap.SetPixel(0, size.Height - 1, SKColors.Transparent);
-            bitmap.SetPixel(size.Width - 1, size.Height - 1, SKColors.Transparent);
+            using SKPaint corner = new() { BlendMode = SKBlendMode.Clear };
+            foreach ((int x, int y) in new[] { (0, 0), (size.Width - scale, 0), (0, size.Height - scale), (size.Width - scale, size.Height - scale) })
+            {
+                canvas.DrawRect(x, y, scale, scale, corner);
+            }
             return bitmap.GetIconBytes();
         }
 

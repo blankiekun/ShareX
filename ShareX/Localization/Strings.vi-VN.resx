@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Khi nhấn chuột trái vào biểu tượng ở khay hệ thống:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Khi nhấn chuột giữa vào biểu tượng ở khay hệ thống:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Chỉ lưu lại nếu URL không để trống</value>
   </data>
@@ -1549,9 +1546,6 @@ Vui lòng chọn phím tắt khác hoặc thoát ứng dụng đang gây lỗi v
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Trình duyệt lưu trữ từ xa...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Khởi động lại với quyền quản trị viên</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Thước đo</value>

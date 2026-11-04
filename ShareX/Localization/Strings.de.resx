@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Bei linkem Klick auf das Symbol:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Bei mittlerem Klick auf das Symbol:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Nur speichern, wenn die URL nicht leer ist</value>
   </data>
@@ -1549,9 +1546,6 @@ Bitte wähle ein anderes Tastenkürzel aus oder beende das widersprüchliche Pro
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Remote-Speicherbrowser...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Als Administrator neu starten</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Lineal</value>

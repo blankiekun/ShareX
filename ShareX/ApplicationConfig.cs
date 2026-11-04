@@ -68,7 +68,6 @@ namespace ShareX
 
         public HotkeyType TrayLeftClickAction = HotkeyType.RectangleRegion;
         public HotkeyType TrayLeftDoubleClickAction = HotkeyType.OpenMainWindow;
-        public HotkeyType TrayMiddleClickAction = HotkeyType.ClipboardUploadWithContentViewer;
 
         public bool AutoCheckUpdate = true;
         public UpdateChannel UpdateChannel = UpdateChannel.Release;

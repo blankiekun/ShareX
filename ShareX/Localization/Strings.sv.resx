@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Vid klick med vänster musknapp på meddelandefältsikonen:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Vid klick med mellersta musknappen på meddelandefältsikonen:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Spara endast om URL:en inte är tom</value>
   </data>
@@ -1549,9 +1546,6 @@ Välj en annan snabbtangent eller avsluta programmet som orsakar konflikten och 
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Webbläsare för fjärrlagring...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Starta om som administratör</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Linjal...</value>

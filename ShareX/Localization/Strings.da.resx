@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Ved klik med venstre museknap på meddelelsesområdeikonet:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Ved klik med midterste museknap på meddelelsesområdeikonet:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Gem kun, hvis URL'en ikke er tom</value>
   </data>
@@ -1549,9 +1546,6 @@ Vælg en anden genvejstast, eller afslut det program, der forårsager konflikten
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Fjernlagringsbrowser...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Genstart som administrator</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Lineal...</value>

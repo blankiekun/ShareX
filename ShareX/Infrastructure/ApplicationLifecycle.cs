@@ -51,7 +51,6 @@ internal static class ApplicationLifecycle
     private static int _hostClosed;
     private static int _closeSequenceStarted;
     private static bool _restartRequested;
-    private static bool _restartAsAdmin;
 
     internal static bool IsClosing => Volatile.Read(ref _exitStarted) != 0 || Volatile.Read(ref _closeSequenceStarted) != 0;
 
@@ -134,10 +133,9 @@ internal static class ApplicationLifecycle
         DebugHelper.WriteLine("ShareX closed.");
     }
 
-    internal static void Restart(bool asAdmin = false)
+    internal static void Restart()
     {
         _restartRequested = true;
-        _restartAsAdmin = asAdmin;
         Exit();
     }
 
@@ -157,12 +155,6 @@ internal static class ApplicationLifecycle
             FileName = executablePath,
             UseShellExecute = true
         };
-
-        if (_restartAsAdmin)
-        {
-            startInfo.Arguments = "-silent";
-            startInfo.Verb = "runas";
-        }
 
         Process.Start(startInfo);
     }
