@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using ShareX.HelpersLib;
 using System.Text;
 
 namespace ShareX.Tools;
@@ -79,11 +80,7 @@ internal sealed class NetworkMonitorEventLog
             await _fileLock.WaitAsync(cancellationToken);
             try
             {
-                string? directory = Path.GetDirectoryName(_filePath);
-                if (!string.IsNullOrWhiteSpace(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
+                EnsureFileExists();
                 await File.WriteAllTextAsync(_filePath, string.Empty, Utf8NoBom, cancellationToken);
                 return true;
             }
@@ -117,9 +114,18 @@ internal sealed class NetworkMonitorEventLog
             {
                 Directory.CreateDirectory(directory);
             }
-            if (!File.Exists(_filePath))
+            if (File.Exists(_filePath))
             {
-                File.WriteAllText(_filePath, string.Empty, Utf8NoBom);
+                FileHelpers.TryMakePrivate(_filePath);
+            }
+            else
+            {
+                using FileStream _ = new(_filePath, new FileStreamOptions
+                {
+                    Mode = FileMode.OpenOrCreate,
+                    Access = FileAccess.Write,
+                    UnixCreateMode = FileHelpers.PrivateFileMode
+                });
             }
             return true;
         }

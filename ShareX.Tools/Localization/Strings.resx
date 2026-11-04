@@ -1457,6 +1457,9 @@
   <data name="MouseHighlighter_PrimaryReleaseCrosshairs" xml:space="preserve">
     <value>Show crosshairs on primary button release</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Highlights the pointer, and also in recordings when the mouse highlighter option is on in Task settings → Capture → Screen recorder. Clicks can't be highlighted: Wayland doesn't let apps see them.</value>
+  </data>
   <data name="MouseHighlighter_Radius" xml:space="preserve">
     <value>Radius (px):</value>
   </data>

@@ -60,6 +60,12 @@ namespace ShareX.HelpersLib
                 FileWrite = true;
                 LogFilePath = logFilePath;
                 FileHelpers.CreateDirectoryFromFilePath(LogFilePath);
+
+                // Logs name files, destinations and URLs. A new file gets this mode where it is written.
+                if (File.Exists(LogFilePath))
+                {
+                    FileHelpers.TryMakePrivate(LogFilePath);
+                }
             }
         }
 
@@ -88,7 +94,15 @@ namespace ShareX.HelpersLib
                     {
                         try
                         {
-                            File.AppendAllText(LogFilePath, message, Encoding.UTF8);
+                            using StreamWriter writer = new StreamWriter(new FileStream(LogFilePath, new FileStreamOptions
+                            {
+                                Mode = FileMode.Append,
+                                Access = FileAccess.Write,
+                                Share = FileShare.Read,
+                                UnixCreateMode = FileHelpers.PrivateFileMode
+                            }), Encoding.UTF8);
+
+                            writer.Write(message);
                         }
                         catch (Exception e)
                         {

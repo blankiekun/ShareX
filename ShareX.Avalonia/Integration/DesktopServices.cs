@@ -43,8 +43,9 @@ public static class DesktopServices
         if (owner != null) return owner;
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            // The mouse highlighter's overlay can be visible all day, and can't be a parent for anything.
             Window? window = desktop.Windows.FirstOrDefault(x => x.IsActive) ??
-                desktop.Windows.FirstOrDefault(x => x.IsVisible);
+                desktop.Windows.FirstOrDefault(x => x.IsVisible && x.IsHitTestVisible);
             if (window != null) return window;
         }
         if (_serviceWindow == null)

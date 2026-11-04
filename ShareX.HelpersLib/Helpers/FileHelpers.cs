@@ -40,6 +40,10 @@ namespace ShareX.HelpersLib
 {
     public static class FileHelpers
     {
+        // For anything holding secrets or deletion URLs, which other local users must not read.
+        public const UnixFileMode PrivateFileMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
+        public const UnixFileMode PrivateFolderMode = PrivateFileMode | UnixFileMode.UserExecute;
+
         public static readonly string[] ImageFileExtensions = new string[] { "jpg", "jpeg", "png", "gif", "bmp", "ico" };
         public static readonly string[] TextFileExtensions = new string[] { "txt", "log", "nfo", "c", "cpp", "cc", "cxx", "h", "hpp", "hxx", "cs", "vb",
             "html", "htm", "xhtml", "xht", "xml", "css", "js", "php", "bat", "java", "lua", "py", "pl", "cfg", "ini", "dart", "go", "gohtml" };
@@ -576,6 +580,19 @@ namespace ShareX.HelpersLib
                     MessageBox.Show(Localization.Strings.Helpers_CreateDirectoryIfNotExist_Create_failed_ + "\r\n\r\n" + e, "ShareX - " + Localization.Strings.Error,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        // A filesystem without Unix modes, such as FAT, refuses this, and that must not cost the user their save.
+        public static void TryMakePrivate(string path, UnixFileMode mode = PrivateFileMode)
+        {
+            try
+            {
+                File.SetUnixFileMode(path, mode);
+            }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+            {
+                DebugHelper.WriteException(e, $"Could not restrict access to {path}");
             }
         }
 

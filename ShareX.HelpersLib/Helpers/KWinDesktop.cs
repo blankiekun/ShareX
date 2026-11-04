@@ -93,7 +93,7 @@ public sealed class KWinDesktop
             windows.push({
                 id: String(w.internalId), caption: w.caption, resourceClass: w.resourceClass, pid: w.pid,
                 frame: rect(w.frameGeometry), client: rect(w.clientGeometry),
-                normal: (w.normalWindow || w.dialog) && !w.skipTaskbar, fullscreen: w.fullScreen, keepAbove: w.keepAbove
+                normal: (w.normalWindow || w.dialog) && !w.skipTaskbar && w.managed, fullscreen: w.fullScreen, keepAbove: w.keepAbove
             });
         }
         report(JSON.stringify({
