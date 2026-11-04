@@ -13,9 +13,9 @@
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
-    <PackageReference Include="Microsoft.ML.OnnxRuntime.DirectML" />
+    <!-- The package's build props only copy onnxruntime.dll for Windows; the Linux library comes from its runtimes folder. -->
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" ExcludeAssets="build" />
     <PackageReference Include="SkiaSharp" />
-    <PackageReference Include="Vortice.DXGI" VersionOverride="3.8.3" />
   </ItemGroup>
 
   <ItemGroup>
