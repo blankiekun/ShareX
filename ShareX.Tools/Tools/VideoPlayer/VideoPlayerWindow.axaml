@@ -19,7 +19,7 @@
             </Style>
         </Border.Styles>
         <Grid>
-            <local:WindowsMediaPlayer x:Name="Player" IsVisible="{Binding HasVideo}"
+            <local:MpvPlayer x:Name="Player" IsVisible="{Binding HasVideo}"
                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <StackPanel IsVisible="{Binding !HasVideo}" HorizontalAlignment="Center" VerticalAlignment="Center"
                         Spacing="16" Margin="32,32,32,100" MaxWidth="640">
@@ -28,7 +28,7 @@
                 <ProgressBar IsVisible="{Binding IsLoading}" IsIndeterminate="True" Height="4" Width="160"/>
             </StackPanel>
 
-            <!-- A native popup can draw above the child HWND used by Media Foundation. -->
+            <!-- A native popup can draw above the child X11 window mpv draws in. -->
             <Popup x:Name="ControlsPopup" PlacementTarget="{Binding #VideoViewport}"
                    Placement="AnchorAndGravity" PlacementAnchor="Bottom" PlacementGravity="Top"
                    PlacementConstraintAdjustment="None"

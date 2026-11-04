@@ -30,9 +30,11 @@ using System.Text;
 
 namespace ShareX.Tools;
 
-/// <summary>Cancellable FFmpeg exports. Preview, metadata and playback use Windows Media Foundation.</summary>
+/// <summary>Cancellable FFmpeg exports and filmstrip frames. Preview, metadata and playback use mpv.</summary>
 internal sealed class VideoTrimmerService(string ffmpegPath)
 {
+    private const int ThumbnailCount = 12;
+
     public string FFmpegPath { get; set; } = ffmpegPath;
     internal static string Timestamp(double seconds) => seconds.ToString("0.######", CultureInfo.InvariantCulture);
 
@@ -52,6 +54,66 @@ internal sealed class VideoTrimmerService(string ffmpegPath)
 
         args.AddRange(["-progress", "pipe:1", "-nostats", "-n", output]);
         return args.ToArray();
+    }
+
+    internal static string[] BuildThumbnailArguments(string input, double position) =>
+    [
+        "-hide_banner", "-nostdin", "-v", "error", "-ss", Timestamp(position), "-i", input, "-map", "0:V:0", "-frames:v", "1",
+        "-vf", "scale=160:90:force_original_aspect_ratio=decrease:force_divisible_by=2", "-c:v", "png", "-f", "image2pipe", "pipe:1"
+    ];
+
+    /// <summary>One FFmpeg run per frame: seeking to a keyframe stays fast on long files, where a single run would decode them whole.</summary>
+    public async Task<IReadOnlyList<VideoTrimmerThumbnail>> CreateThumbnailsAsync(string input, double duration, CancellationToken token)
+    {
+        List<VideoTrimmerThumbnail> thumbnails = [];
+        try
+        {
+            for (int i = 0; i < ThumbnailCount; i++)
+            {
+                double position = duration * i / ThumbnailCount;
+                byte[] image = await ReadFrameAsync(input, position, token);
+                if (image.Length == 0) continue; // Nothing decodes at this position, as past a truncated end.
+                using MemoryStream stream = new(image);
+                thumbnails.Add(new(position, new Avalonia.Media.Imaging.Bitmap(stream)));
+            }
+            return thumbnails;
+        }
+        catch
+        {
+            foreach (var thumbnail in thumbnails) thumbnail.Image.Dispose();
+            throw;
+        }
+    }
+
+    private async Task<byte[]> ReadFrameAsync(string input, double position, CancellationToken token)
+    {
+        using Process process = new();
+        process.StartInfo = new ProcessStartInfo(FFmpegPath)
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
+        };
+        foreach (string arg in BuildThumbnailArguments(input, position)) process.StartInfo.ArgumentList.Add(arg);
+        process.Start();
+        using CancellationTokenRegistration registration = token.Register(() =>
+        {
+            try { process.Kill(entireProcessTree: true); }
+            catch (InvalidOperationException) { }
+            catch (System.ComponentModel.Win32Exception) { }
+        });
+        // Disposing a Process leaves its streams open until the finalizers run, 24 pipes per filmstrip otherwise.
+        using StreamReader standardOutput = process.StandardOutput;
+        using StreamReader standardError = process.StandardError;
+        using MemoryStream image = new();
+        Task<string> errors = standardError.ReadToEndAsync(CancellationToken.None);
+        await standardOutput.BaseStream.CopyToAsync(image, CancellationToken.None);
+        await errors;
+        await process.WaitForExitAsync(CancellationToken.None);
+        token.ThrowIfCancellationRequested();
+        if (process.ExitCode != 0) throw new InvalidOperationException(errors.Result.Trim());
+        return image.ToArray();
     }
 
     public async Task TrimAsync(string input, string output, double start, double end, double duration,
