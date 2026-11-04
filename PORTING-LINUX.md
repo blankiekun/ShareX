@@ -22,15 +22,17 @@ User-facing features in the checklist (section 5.1), by label:
 
 | Label | Rows |
 |---|---|
-| `READY` | 39 |
-| `UNVERIFIED` | 61 |
-| `SWAP` | 25 |
-| `REWRITE` | 17 |
+| `READY` | 38 |
+| `UNVERIFIED` | 79 |
+| `SWAP` | 20 |
+| `REWRITE` | 5 |
 | `LIMITED` | 33 |
 | `DROP` | 8 |
 | **Total** | **183** |
 
 The other tables overlap with the checklist, so their rows aren't added to these totals.
+
+To recount, where a `LIMITED` cell also says what is lost: `awk -F'|' '/^### 5\.1 /{on=1} /^### 5\.2 /{on=0} on && /^\|/ && $5 !~ /Label|---/ {split($5,a,":"); gsub(/ /,"",a[1]); n[a[1]]++} END {for (l in n) print l, n[l]}' PORTING-LINUX.md`
 
 ## 1. Facts that shape the port
 
