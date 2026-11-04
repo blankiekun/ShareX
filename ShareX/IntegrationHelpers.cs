@@ -26,6 +26,9 @@
 using ShareX.HelpersLib;
 using ShareX.Localization;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using MessageBox = ShareX.AvaloniaUI.MessageBox;
 using MessageBoxButtons = ShareX.AvaloniaUI.MessageBoxButtons;
@@ -35,42 +38,24 @@ namespace ShareX
 {
     public static class IntegrationHelpers
     {
-        private static readonly string ApplicationPath = $"\"{Environment.ProcessPath}\"";
-        private static readonly string FileIconPath = $"\"{FileHelpers.GetAbsolutePath("ShareX_File_Icon.ico")}\"";
+        public const string DesktopFileId = "ShareX.desktop";
+        private const string CustomUploaderDesktopFile = "ShareX-custom-uploader.desktop";
+        private const string ImageEffectDesktopFile = "ShareX-image-effect.desktop";
+        private const string CustomUploaderMimeType = "application/x-sharex-custom-uploader";
+        private const string ImageEffectMimeType = "application/x-sharex-image-effect";
+        private const string IconName = "ShareX";
 
-        private static readonly string ShellExtMenuName = "ShareX";
-        private static readonly string ShellExtMenuFiles = $@"Software\Classes\*\shell\{ShellExtMenuName}";
-        private static readonly string ShellExtMenuFilesCmd = $@"{ShellExtMenuFiles}\command";
-        private static readonly string ShellExtMenuDirectory = $@"Software\Classes\Directory\shell\{ShellExtMenuName}";
-        private static readonly string ShellExtMenuDirectoryCmd = $@"{ShellExtMenuDirectory}\command";
-        private static readonly string ShellExtDesc = Strings.IntegrationHelpers_UploadWithShareX;
-        private static readonly string ShellExtIcon = $"{ApplicationPath},0";
-        private static readonly string ShellExtPath = $"{ApplicationPath} \"%1\"";
+        private static readonly string ApplicationExec = DesktopEntryHelpers.QuoteExecArgument(Environment.ProcessPath);
+        private static readonly string UploadMenuExec = $"{ApplicationExec} %F";
+        private static readonly string EditMenuExec = $"{ApplicationExec} -ImageEditor %f";
 
-        private static readonly string ShellExtEditName = "ShareXImageEditor";
-        private static readonly string ShellExtEditImage = $@"Software\Classes\SystemFileAssociations\image\shell\{ShellExtEditName}";
-        private static readonly string ShellExtEditImageCmd = $@"{ShellExtEditImage}\command";
-        private static readonly string ShellExtEditDesc = Strings.IntegrationHelpers_EditWithShareX;
-        private static readonly string ShellExtEditIcon = $"{ApplicationPath},0";
-        private static readonly string ShellExtEditPath = $"{ApplicationPath} -ImageEditor \"%1\"";
-
-        private static readonly string ShellCustomUploaderExtensionPath = @"Software\Classes\.sxcu";
-        private static readonly string ShellCustomUploaderExtensionValue = "ShareX.sxcu";
-        private static readonly string ShellCustomUploaderAssociatePath = $@"Software\Classes\{ShellCustomUploaderExtensionValue}";
-        private static readonly string ShellCustomUploaderAssociateValue = "ShareX custom uploader";
-        private static readonly string ShellCustomUploaderIconPath = $@"{ShellCustomUploaderAssociatePath}\DefaultIcon";
-        private static readonly string ShellCustomUploaderIconValue = $"{FileIconPath}";
-        private static readonly string ShellCustomUploaderCommandPath = $@"{ShellCustomUploaderAssociatePath}\shell\open\command";
-        private static readonly string ShellCustomUploaderCommandValue = $"{ApplicationPath} -CustomUploader \"%1\"";
-
-        private static readonly string ShellImageEffectExtensionPath = @"Software\Classes\.sxie";
-        private static readonly string ShellImageEffectExtensionValue = "ShareX.sxie";
-        private static readonly string ShellImageEffectAssociatePath = $@"Software\Classes\{ShellImageEffectExtensionValue}";
-        private static readonly string ShellImageEffectAssociateValue = "ShareX image effect";
-        private static readonly string ShellImageEffectIconPath = $@"{ShellImageEffectAssociatePath}\DefaultIcon";
-        private static readonly string ShellImageEffectIconValue = $"{FileIconPath}";
-        private static readonly string ShellImageEffectCommandPath = $@"{ShellImageEffectAssociatePath}\shell\open\command";
-        private static readonly string ShellImageEffectCommandValue = $"{ApplicationPath} -ImageEffect \"%1\"";
+        private static string DataHome => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.DoNotVerify);
+        private static string ApplicationsFolder => Path.Combine(DataHome, "applications");
+        private static string MimeFolder => Path.Combine(DataHome, "mime");
+        private static string InstalledIconsFolder => Path.Combine(DataHome, "icons", "hicolor");
+        private static string BundledIconsFolder => FileHelpers.GetAbsolutePath("icons/hicolor");
+        private static string UploadMenuPath => Path.Combine(DataHome, "kio", "servicemenus", "ShareX-upload.desktop");
+        private static string EditMenuPath => Path.Combine(DataHome, "kio", "servicemenus", "ShareX-edit.desktop");
 
         private static readonly string ChromeNativeMessagingHosts = @"SOFTWARE\Google\Chrome\NativeMessagingHosts\com.getsharex.sharex";
         private static readonly string FirefoxNativeMessagingHosts = @"SOFTWARE\Mozilla\NativeMessagingHosts\ShareX";
@@ -79,83 +64,31 @@ namespace ShareX
 
         public static bool CheckShellContextMenuButton()
         {
-            try
-            {
-                return RegistryHelpers.CheckStringValue(ShellExtMenuFilesCmd, null, ShellExtPath) &&
-                    RegistryHelpers.CheckStringValue(ShellExtMenuDirectoryCmd, null, ShellExtPath);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-
-            return false;
+            return DesktopEntryHelpers.HasExecLine(UploadMenuPath, UploadMenuExec);
         }
 
         public static void CreateShellContextMenuButton(bool create)
         {
             try
             {
-                if (create)
-                {
-                    UnregisterShellContextMenuButton();
-                    RegisterShellContextMenuButton();
-                }
-                else
-                {
-                    UnregisterShellContextMenuButton();
-                }
+                SetUploadMenu(create);
             }
             catch (Exception e)
             {
                 DebugHelper.WriteException(e);
             }
-        }
-
-        private static void RegisterShellContextMenuButton()
-        {
-            RegistryHelpers.CreateRegistry(ShellExtMenuFiles, ShellExtDesc);
-            RegistryHelpers.CreateRegistry(ShellExtMenuFiles, "Icon", ShellExtIcon);
-            RegistryHelpers.CreateRegistry(ShellExtMenuFilesCmd, ShellExtPath);
-
-            RegistryHelpers.CreateRegistry(ShellExtMenuDirectory, ShellExtDesc);
-            RegistryHelpers.CreateRegistry(ShellExtMenuDirectory, "Icon", ShellExtIcon);
-            RegistryHelpers.CreateRegistry(ShellExtMenuDirectoryCmd, ShellExtPath);
-        }
-
-        private static void UnregisterShellContextMenuButton()
-        {
-            RegistryHelpers.RemoveRegistry(ShellExtMenuFiles);
-            RegistryHelpers.RemoveRegistry(ShellExtMenuDirectory);
         }
 
         public static bool CheckEditShellContextMenuButton()
         {
-            try
-            {
-                return RegistryHelpers.CheckStringValue(ShellExtEditImageCmd, null, ShellExtEditPath);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-
-            return false;
+            return DesktopEntryHelpers.HasExecLine(EditMenuPath, EditMenuExec);
         }
 
         public static void CreateEditShellContextMenuButton(bool create)
         {
             try
             {
-                if (create)
-                {
-                    UnregisterEditShellContextMenuButton();
-                    RegisterEditShellContextMenuButton();
-                }
-                else
-                {
-                    UnregisterEditShellContextMenuButton();
-                }
+                SetEditMenu(create);
             }
             catch (Exception e)
             {
@@ -163,118 +96,127 @@ namespace ShareX
             }
         }
 
-        private static void RegisterEditShellContextMenuButton()
+        private static void SetUploadMenu(bool create)
         {
-            RegistryHelpers.CreateRegistry(ShellExtEditImage, ShellExtEditDesc);
-            RegistryHelpers.CreateRegistry(ShellExtEditImage, "Icon", ShellExtEditIcon);
-            RegistryHelpers.CreateRegistry(ShellExtEditImageCmd, ShellExtEditPath);
+            SetServiceMenu(create, UploadMenuPath, "all/all", Strings.IntegrationHelpers_UploadWithShareX, UploadMenuExec);
         }
 
-        private static void UnregisterEditShellContextMenuButton()
+        private static void SetEditMenu(bool create)
         {
-            RegistryHelpers.RemoveRegistry(ShellExtEditImage);
+            SetServiceMenu(create, EditMenuPath, "image/*", Strings.IntegrationHelpers_EditWithShareX, EditMenuExec);
         }
 
-        public static bool CheckCustomUploaderExtension()
+        private static void SetServiceMenu(bool create, string path, string mimeType, string name, string exec)
+        {
+            if (create)
+            {
+                // KIO ignores a service menu in the user's folder unless it is executable.
+                DesktopEntryHelpers.Write(path, DesktopEntryHelpers.Format(
+                    "[Desktop Entry]",
+                    "Type=Service",
+                    $"MimeType={mimeType};",
+                    "Actions=ShareX;",
+                    "X-KDE-Priority=TopLevel",
+                    "",
+                    "[Desktop Action ShareX]",
+                    $"Name={name}",
+                    $"Icon={IconName}",
+                    $"Exec={exec}"), executable: true);
+            }
+            else
+            {
+                File.Delete(path);
+            }
+        }
+
+        /// <summary>
+        /// The <c>-install</c> command: places the launcher, file types, icons and context menu entries in the user's XDG folders,
+        /// pointing at this binary. Autostart stays the settings toggle's job, off until the user asks for it.
+        /// </summary>
+        public static void Install()
+        {
+            // The main entry claims no file types: opening a .sxcu must import it, and a plain %F argument would upload it.
+            DesktopEntryHelpers.Write(Path.Combine(ApplicationsFolder, DesktopFileId), DesktopEntryHelpers.Format(
+                "[Desktop Entry]",
+                "Type=Application",
+                "Name=ShareX",
+                "GenericName=Screenshot Tool",
+                "Comment=Screen capture, file sharing and productivity tool",
+                $"Exec={ApplicationExec} %F",
+                $"Icon={IconName}",
+                "Terminal=false",
+                "StartupWMClass=ShareX",
+                "Categories=Utility;",
+                "Keywords=screenshot;screen capture;screen recording;upload;"));
+            WriteFileTypeEntry(CustomUploaderDesktopFile, CustomUploaderMimeType, "-CustomUploader");
+            WriteFileTypeEntry(ImageEffectDesktopFile, ImageEffectMimeType, "-ImageEffect");
+
+            DesktopEntryHelpers.Write(Path.Combine(MimeFolder, "packages", "ShareX.xml"), DesktopEntryHelpers.Format(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+                "<mime-info xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\">",
+                $"  <mime-type type=\"{CustomUploaderMimeType}\">",
+                "    <comment>ShareX custom uploader</comment>",
+                "    <sub-class-of type=\"application/json\"/>",
+                "    <icon name=\"ShareX-file\"/>",
+                "    <glob pattern=\"*.sxcu\"/>",
+                "  </mime-type>",
+                $"  <mime-type type=\"{ImageEffectMimeType}\">",
+                "    <comment>ShareX image effect</comment>",
+                "    <sub-class-of type=\"application/zip\"/>",
+                "    <icon name=\"ShareX-file\"/>",
+                "    <glob pattern=\"*.sxie\"/>",
+                "  </mime-type>",
+                "</mime-info>"));
+
+            foreach (string icon in BundledIcons())
+            {
+                string target = Path.Combine(InstalledIconsFolder, Path.GetRelativePath(BundledIconsFolder, icon));
+                Directory.CreateDirectory(Path.GetDirectoryName(target));
+                File.Copy(icon, target, true);
+            }
+
+            SetUploadMenu(true);
+            SetEditMenu(true);
+            RefreshDatabases();
+        }
+
+        private static void WriteFileTypeEntry(string fileName, string mimeType, string command)
+        {
+            // No StartupWMClass here: KWin gives a window the first entry claiming its class, and the window must resolve to the main entry.
+            DesktopEntryHelpers.Write(Path.Combine(ApplicationsFolder, fileName), DesktopEntryHelpers.Format(
+                "[Desktop Entry]",
+                "Type=Application",
+                "Name=ShareX",
+                $"Exec={ApplicationExec} {command} %f",
+                $"Icon={IconName}",
+                "Terminal=false",
+                "NoDisplay=true",
+                $"MimeType={mimeType};"));
+        }
+
+        private static IEnumerable<string> BundledIcons()
+        {
+            return Directory.EnumerateFiles(BundledIconsFolder, "*.png", SearchOption.AllDirectories);
+        }
+
+        private static void RefreshDatabases()
+        {
+            RunTool("update-mime-database", MimeFolder);
+            RunTool("update-desktop-database", ApplicationsFolder);
+        }
+
+        private static void RunTool(string tool, string folder)
         {
             try
             {
-                return RegistryHelpers.CheckStringValue(ShellCustomUploaderExtensionPath, null, ShellCustomUploaderExtensionValue) &&
-                    RegistryHelpers.CheckStringValue(ShellCustomUploaderCommandPath, null, ShellCustomUploaderCommandValue);
+                using Process process = Process.Start(new ProcessStartInfo(tool) { ArgumentList = { folder }, UseShellExecute = false });
+                process.WaitForExit();
             }
-            catch (Exception e)
+            catch (Win32Exception e)
             {
-                DebugHelper.WriteException(e);
+                // Not fatal: the files are in place, and a desktop that needs the database can build it later.
+                Console.Error.WriteLine($"{tool} could not run: {e.Message}");
             }
-
-            return false;
-        }
-
-        public static void CreateCustomUploaderExtension(bool create)
-        {
-            try
-            {
-                if (create)
-                {
-                    UnregisterCustomUploaderExtension();
-                    RegisterCustomUploaderExtension();
-                }
-                else
-                {
-                    UnregisterCustomUploaderExtension();
-                }
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-        }
-
-        private static void RegisterCustomUploaderExtension()
-        {
-            RegistryHelpers.CreateRegistry(ShellCustomUploaderExtensionPath, ShellCustomUploaderExtensionValue);
-            RegistryHelpers.CreateRegistry(ShellCustomUploaderAssociatePath, ShellCustomUploaderAssociateValue);
-            RegistryHelpers.CreateRegistry(ShellCustomUploaderIconPath, ShellCustomUploaderIconValue);
-            RegistryHelpers.CreateRegistry(ShellCustomUploaderCommandPath, ShellCustomUploaderCommandValue);
-
-            NativeMethods.SHChangeNotify(HChangeNotifyEventID.SHCNE_ASSOCCHANGED, HChangeNotifyFlags.SHCNF_FLUSH, IntPtr.Zero, IntPtr.Zero);
-        }
-
-        private static void UnregisterCustomUploaderExtension()
-        {
-            RegistryHelpers.RemoveRegistry(ShellCustomUploaderExtensionPath);
-            RegistryHelpers.RemoveRegistry(ShellCustomUploaderAssociatePath);
-        }
-
-        public static bool CheckImageEffectExtension()
-        {
-            try
-            {
-                return RegistryHelpers.CheckStringValue(ShellImageEffectExtensionPath, null, ShellImageEffectExtensionValue) &&
-                    RegistryHelpers.CheckStringValue(ShellImageEffectCommandPath, null, ShellImageEffectCommandValue);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-
-            return false;
-        }
-
-        public static void CreateImageEffectExtension(bool create)
-        {
-            try
-            {
-                if (create)
-                {
-                    UnregisterImageEffectExtension();
-                    RegisterImageEffectExtension();
-                }
-                else
-                {
-                    UnregisterImageEffectExtension();
-                }
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-        }
-
-        private static void RegisterImageEffectExtension()
-        {
-            RegistryHelpers.CreateRegistry(ShellImageEffectExtensionPath, ShellImageEffectExtensionValue);
-            RegistryHelpers.CreateRegistry(ShellImageEffectAssociatePath, ShellImageEffectAssociateValue);
-            RegistryHelpers.CreateRegistry(ShellImageEffectIconPath, ShellImageEffectIconValue);
-            RegistryHelpers.CreateRegistry(ShellImageEffectCommandPath, ShellImageEffectCommandValue);
-
-            NativeMethods.SHChangeNotify(HChangeNotifyEventID.SHCNE_ASSOCCHANGED, HChangeNotifyFlags.SHCNF_FLUSH, IntPtr.Zero, IntPtr.Zero);
-        }
-
-        private static void UnregisterImageEffectExtension()
-        {
-            RegistryHelpers.RemoveRegistry(ShellImageEffectExtensionPath);
-            RegistryHelpers.RemoveRegistry(ShellImageEffectAssociatePath);
         }
 
         public static bool CheckChromeExtensionSupport()
@@ -365,16 +307,6 @@ namespace ShareX
             RegistryHelpers.RemoveRegistry(FirefoxNativeMessagingHosts);
         }
 
-        public static bool CheckSendToMenuButton()
-        {
-            return ShortcutHelpers.CheckShortcut(Environment.SpecialFolder.SendTo, "ShareX", Environment.ProcessPath);
-        }
-
-        public static bool CreateSendToMenuButton(bool create)
-        {
-            return ShortcutHelpers.SetShortcut(create, Environment.SpecialFolder.SendTo, "ShareX", Environment.ProcessPath);
-        }
-
         public static bool CheckSteamShowInApp()
         {
             return File.Exists(AppPaths.SteamInAppFilePath);
@@ -409,13 +341,19 @@ namespace ShareX
         public static void Uninstall()
         {
             StartupManager.State = StartupState.Disabled;
-            CreateShellContextMenuButton(false);
-            CreateEditShellContextMenuButton(false);
-            CreateCustomUploaderExtension(false);
-            CreateImageEffectExtension(false);
-            CreateSendToMenuButton(false);
-            UnregisterChromeExtensionSupport();
-            UnregisterFirefoxAddonSupport();
+            SetUploadMenu(false);
+            SetEditMenu(false);
+            File.Delete(Path.Combine(ApplicationsFolder, DesktopFileId));
+            File.Delete(Path.Combine(ApplicationsFolder, CustomUploaderDesktopFile));
+            File.Delete(Path.Combine(ApplicationsFolder, ImageEffectDesktopFile));
+            File.Delete(Path.Combine(MimeFolder, "packages", "ShareX.xml"));
+
+            foreach (string icon in BundledIcons())
+            {
+                File.Delete(Path.Combine(InstalledIconsFolder, Path.GetRelativePath(BundledIconsFolder, icon)));
+            }
+
+            RefreshDatabases();
         }
     }
 }

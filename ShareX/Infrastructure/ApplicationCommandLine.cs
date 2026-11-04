@@ -46,19 +46,26 @@ internal static class ApplicationCommandLine
 
     internal static bool IsCommandPresent(params string[] commands) => Initial.IsCommandExist(commands);
 
-    internal static bool TryHandleUninstall()
+    internal static bool TryHandleInstall() => TryHandleCommand("install", IntegrationHelpers.Install);
+
+    internal static bool TryHandleUninstall() => TryHandleCommand("uninstall", IntegrationHelpers.Uninstall);
+
+    // Both run before the single-instance check, so a running ShareX is not asked to do them.
+    private static bool TryHandleCommand(string command, Action action)
     {
-        if (!IsCommandPresent("uninstall"))
+        if (!IsCommandPresent(command))
         {
             return false;
         }
 
         try
         {
-            IntegrationHelpers.Uninstall();
+            action();
         }
-        catch
+        catch (Exception e)
         {
+            Console.Error.WriteLine($"ShareX -{command} failed: {e.Message}");
+            Environment.ExitCode = 1;
         }
 
         return true;
