@@ -78,10 +78,9 @@ internal static class AvaloniaClipboard
         // Bytes only, no DataFormat.Bitmap. Avalonia's X11 clipboard maps Bitmap to image/png too, so offering both lists
         // image/png twice, and Electron on Wayland then pastes two files. Also, TryGetDataAsync returns this same transfer
         // while we own the selection and its callers dispose it, which would dispose a Bitmap held here.
+        // No text/html either: it only names the file, and a browser engine pastes it in place of the image, as a broken one.
         DataTransferItem item = new();
         item.Set(DataFormat.CreateBytesPlatformFormat("image/png"), png);
-        if (!string.IsNullOrEmpty(html))
-            item.Set(DataFormat.CreateStringPlatformFormat("text/html"), html);
         DataTransfer transfer = new();
         transfer.Add(item);
         await Clipboard.SetDataAsync(transfer);
