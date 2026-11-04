@@ -66,6 +66,7 @@ internal partial class ScreenRecorderBarWindow : Window
     public ScreenRecorderBarWindow(TaskSettings settings, DrawingRectangle region, IntPtr window, bool gif = false)
     {
         InitializeComponent();
+        X11WindowState.SkipSwitcher(this);
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
         _draft = new(settings);
         _gif = gif;
@@ -448,7 +449,11 @@ internal partial class ScreenRecorderBarWindow : Window
     private void ShowRegion()
     {
         if (_closed) return;
-        _regionWindow ??= new ScrollingCaptureRegionWindow(RecordingRegion) { Title = Title };
+        if (_regionWindow == null)
+        {
+            _regionWindow = new ScrollingCaptureRegionWindow(RecordingRegion) { Title = Title };
+            X11WindowState.SkipSwitcher(_regionWindow);
+        }
         _regionWindow.FindControl<RecordingRegionBorder>("RegionBorder")!.AccentBrush = Brushes.Goldenrod;
         _regionWindow.Show();
         // The outline only marks the area, so what is under it stays usable while the recording is set up.

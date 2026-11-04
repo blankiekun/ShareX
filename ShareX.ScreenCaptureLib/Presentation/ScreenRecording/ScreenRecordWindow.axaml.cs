@@ -186,6 +186,7 @@ public partial class ScreenRecordWindow : Window, IDisposable
         _initialPosition = new PixelPoint(regionRectangle.X - BorderPixels, regionRectangle.Y - BorderPixels);
 
         InitializeComponent();
+        X11WindowState.SkipSwitcher(this);
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
         Position = _initialPosition;
 
