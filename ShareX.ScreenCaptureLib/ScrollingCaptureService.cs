@@ -36,6 +36,14 @@ public sealed class ScrollingCaptureService : IDisposable
     public ScrollingCaptureOptions Options { get; }
     public Bitmap Result => _manager.Result;
     public bool IsCapturing => _manager.IsCapturing;
+    public System.Drawing.Rectangle SelectedRectangle => _manager.SelectedRectangle;
+
+    /// <summary>True when frames overlap the stitched image again, false when they stopped.</summary>
+    public event Action<bool> OverlapChanged
+    {
+        add => _manager.OverlapChanged += value;
+        remove => _manager.OverlapChanged -= value;
+    }
 
     public ScrollingCaptureService(ScrollingCaptureOptions options)
     {

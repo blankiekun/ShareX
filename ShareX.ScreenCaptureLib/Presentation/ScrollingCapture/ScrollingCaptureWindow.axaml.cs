@@ -42,6 +42,8 @@ namespace ShareX.ScreenCaptureLib;
 
 public partial class ScrollingCaptureWindow : Window
 {
+    private const double CompactWidth = 480;
+
     private static readonly Cursor PanCursor = new(StandardCursorType.SizeAll);
 
     private readonly ScrollingCaptureService _service;
@@ -49,8 +51,11 @@ public partial class ScrollingCaptureWindow : Window
     private readonly Action? _playNotificationSound;
     private AvaloniaBitmap? _previewBitmap;
     private bool _captureOperation;
+    private bool _areaSelected;
     private bool _closeRequested;
     private bool _isPanning;
+    private Size _normalSize;
+    private PixelPoint _normalPosition;
     private Point _panStart;
     private Vector _panStartOffset;
 
@@ -70,12 +75,12 @@ public partial class ScrollingCaptureWindow : Window
 
         InitializeComponent();
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
-        ScrollMethodInput.ItemsSource = Helpers.GetLocalizedEnumDescriptions<ScrollMethod>();
         WindowState = Avalonia.Controls.WindowState.Minimized;
 
         Opened += OnOpened;
-        Activated += OnActivated;
         Closing += OnClosing;
+        Resized += OnResized;
+        _service.OverlapChanged += OnOverlapChanged;
         Closed += OnClosed;
     }
 
@@ -88,7 +93,16 @@ public partial class ScrollingCaptureWindow : Window
             return;
         }
 
-        if (!_captureOperation)
+        if (_captureOperation)
+        {
+            return;
+        }
+
+        if (_areaSelected)
+        {
+            await CaptureSelectedWindowAsync();
+        }
+        else
         {
             await SelectWindowAsync();
         }
@@ -98,15 +112,6 @@ public partial class ScrollingCaptureWindow : Window
     {
         Opened -= OnOpened;
         await StartStopAsync();
-    }
-
-    private void OnActivated(object? sender, EventArgs e)
-    {
-        if (_service.IsCapturing)
-        {
-            StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Stopping_capture;
-            _service.StopCapture();
-        }
     }
 
     private void OnClosing(object? sender, WindowClosingEventArgs e)
@@ -137,7 +142,14 @@ public partial class ScrollingCaptureWindow : Window
 
             if (await _service.SelectWindowAsync())
             {
-                await CaptureSelectedWindowAsync();
+                _areaSelected = true;
+                StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Press_start;
+                CaptureButtonText.Text = Localization.Strings.ScreenRecordWindow_Start;
+                SetCompact(true);
+                RestoreAndActivate();
+                // The size of the title bar is only known once KWin has the window back on screen.
+                await Task.Delay(200);
+                PlaceBesideArea();
             }
             else
             {
@@ -161,12 +173,14 @@ public partial class ScrollingCaptureWindow : Window
 
     private async Task CaptureSelectedWindowAsync()
     {
+        _areaSelected = false;
         SetCaptureControlsEnabled(false);
         ResultSizeText.Text = string.Empty;
         ResetPreview();
-        StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Capturing;
+        StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Scroll_now;
         StatusIcon.Text = LucideIcons.loader_circle;
         StatusIcon.Foreground = Brushes.DodgerBlue;
+        CaptureButtonText.Text = Localization.Strings.ScrollingCaptureWindow_Stop;
 
         try
         {
@@ -183,6 +197,8 @@ public partial class ScrollingCaptureWindow : Window
         }
         finally
         {
+            CaptureButtonText.Text = Localization.Strings.ScrollingCaptureWindow_Capture;
+            SetCompact(false);
             SetCaptureControlsEnabled(true);
             LoadImage(_service.Result);
             RestoreAndActivate();
@@ -199,9 +215,76 @@ public partial class ScrollingCaptureWindow : Window
         }
     }
 
+    private void OnOverlapChanged(bool overlaps)
+    {
+        StatusText.Text = overlaps ? Localization.Strings.ScrollingCaptureWindow_Scroll_now : Localization.Strings.ScrollingCaptureWindow_Scroll_back;
+    }
+
+    /// <summary>Only the button and the message, on top and beside the area, so the wheel keeps reaching what is scrolled.</summary>
+    private void SetCompact(bool compact)
+    {
+        UploadButton.IsVisible = !compact;
+        CopyButton.IsVisible = !compact;
+        OptionsButton.IsVisible = !compact;
+        HelpButton.IsVisible = !compact;
+        PreviewPanel.IsVisible = !compact;
+        ResultSizeText.IsVisible = !compact;
+        Topmost = compact;
+
+        if (compact)
+        {
+            _normalSize = new Size(Width, Height);
+            _normalPosition = Position;
+            MinWidth = 0;
+            MinHeight = 0;
+            Width = CompactWidth;
+            SizeToContent = SizeToContent.Height;
+        }
+        else
+        {
+            SizeToContent = SizeToContent.Manual;
+            MinWidth = 620;
+            MinHeight = 440;
+            Width = _normalSize.Width;
+            Height = _normalSize.Height;
+            Position = _normalPosition;
+        }
+    }
+
+    // The new size arrives some time after asking for it, and the place depends on it.
+    private void OnResized(object? sender, WindowResizedEventArgs e)
+    {
+        if (SizeToContent != SizeToContent.Manual)
+        {
+            PlaceBesideArea();
+        }
+    }
+
+    private void PlaceBesideArea()
+    {
+        System.Drawing.Rectangle area = _service.SelectedRectangle;
+        var screen = Screens.ScreenFromBounds(new PixelRect(area.X, area.Y, area.Width, area.Height)) ?? Screens.Primary;
+
+        if (screen == null)
+        {
+            return;
+        }
+
+        PixelRect work = screen.WorkingArea;
+        Size frame = FrameSize ?? ClientSize;
+        int width = (int)Math.Ceiling(frame.Width * screen.Scaling);
+        int height = (int)Math.Ceiling(frame.Height * screen.Scaling);
+        int gap = (int)Math.Ceiling(8 * screen.Scaling);
+
+        // Above, otherwise below. An area that leaves room for neither gets the bar over its top, which a capture doesn't show.
+        int top = area.Top - height - gap >= work.Y ? area.Top - height - gap :
+            area.Bottom + gap + height <= work.Bottom ? area.Bottom + gap : work.Y;
+
+        Position = new PixelPoint(Math.Clamp(area.Left, work.X, Math.Max(work.X, work.Right - width)), top);
+    }
+
     private void SetCaptureControlsEnabled(bool enabled)
     {
-        CaptureButton.IsEnabled = enabled;
         OptionsButton.IsEnabled = enabled;
         UploadButton.IsEnabled = enabled && _service.Result != null;
         CopyButton.IsEnabled = enabled && _service.Result != null;
@@ -225,6 +308,11 @@ public partial class ScrollingCaptureWindow : Window
                 StatusIcon.Text = LucideIcons.circle_check;
                 StatusIcon.Foreground = Brushes.MediumSeaGreen;
                 StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Capture_successful;
+                break;
+            case ScrollingCaptureStatus.HeightLimitReached:
+                StatusIcon.Text = LucideIcons.triangle_alert;
+                StatusIcon.Foreground = Brushes.Goldenrod;
+                StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Height_limit_reached;
                 break;
         }
     }
@@ -312,10 +400,6 @@ public partial class ScrollingCaptureWindow : Window
     {
         ScrollingCaptureOptions options = _service.Options;
         options.StartDelay = Value(StartDelayInput);
-        options.AutoScrollTop = AutoScrollTopInput.IsChecked == true;
-        options.ScrollDelay = Value(ScrollDelayInput);
-        options.ScrollMethod = (ScrollMethod)Math.Max(0, ScrollMethodInput.SelectedIndex);
-        options.ScrollAmount = Value(ScrollAmountInput);
         options.AutoUpload = AutoUploadInput.IsChecked == true;
         options.ShowRegion = ShowRegionInput.IsChecked == true;
         options.AutoIgnoreBottomEdge = AutoIgnoreBottomEdgeInput.IsChecked == true;
@@ -326,24 +410,9 @@ public partial class ScrollingCaptureWindow : Window
     {
         ScrollingCaptureOptions options = _service.Options;
         StartDelayInput.Value = options.StartDelay;
-        AutoScrollTopInput.IsChecked = options.AutoScrollTop;
-        ScrollDelayInput.Value = options.ScrollDelay;
-        ScrollMethodInput.SelectedIndex = (int)options.ScrollMethod;
-        ScrollAmountInput.Value = options.ScrollAmount;
         AutoUploadInput.IsChecked = options.AutoUpload;
         ShowRegionInput.IsChecked = options.ShowRegion;
         AutoIgnoreBottomEdgeInput.IsChecked = options.AutoIgnoreBottomEdge;
-        UpdateScrollAmountVisibility();
-    }
-
-    private void OnScrollMethodChanged(object? sender, SelectionChangedEventArgs e) => UpdateScrollAmountVisibility();
-
-    private void UpdateScrollAmountVisibility()
-    {
-        bool isVisible = (ScrollMethod)ScrollMethodInput.SelectedIndex != ScrollMethod.PageDown;
-        ScrollAmountLabel.IsVisible = isVisible;
-        ScrollAmountInput.IsVisible = isVisible;
-        ScrollAmountHint.IsVisible = isVisible;
     }
 
     private static int Value(NumericUpDown input) => (int)(input.Value ?? 0);

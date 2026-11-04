@@ -272,6 +272,21 @@ namespace ShareX.ScreenCaptureLib.Localization {
         public static string ScrollingCaptureWindow_Auto_ignore_bottom_edge {
             get { return ResourceManager.GetString("ScrollingCaptureWindow_Auto_ignore_bottom_edge", resourceCulture); }
         }
+        public static string ScrollingCaptureWindow_Press_start {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Press_start", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Scroll_now {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Scroll_now", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Scroll_back {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Scroll_back", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Stop {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Stop", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Height_limit_reached {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Height_limit_reached", resourceCulture); }
+        }
         public static string ScrollingCaptureWindow_Show_capture_region {
             get { return ResourceManager.GetString("ScrollingCaptureWindow_Show_capture_region", resourceCulture); }
         }

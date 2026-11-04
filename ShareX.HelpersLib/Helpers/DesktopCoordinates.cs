@@ -97,6 +97,11 @@ public sealed class DesktopCoordinates
         return new Point((int)Math.Round(logical.X * X11Scale), (int)Math.Round(logical.Y * X11Scale));
     }
 
+    public Rectangle X11ToLogical(Rectangle x11)
+    {
+        return FromEdges(x11.Left / X11Scale, x11.Top / X11Scale, x11.Right / X11Scale, x11.Bottom / X11Scale);
+    }
+
     public Rectangle X11ToImage(Rectangle x11)
     {
         return FromEdges(

@@ -36,7 +36,7 @@
                                 Click="OnCaptureClick">
                             <StackPanel Orientation="Horizontal" Spacing="7">
                                 <TextBlock Classes="icon" Text="{x:Static theming:LucideIcons.scan_line}"/>
-                                <TextBlock Text="{x:Static localization:Strings.ScrollingCaptureWindow_Capture}"/>
+                                <TextBlock x:Name="CaptureButtonText" Text="{x:Static localization:Strings.ScrollingCaptureWindow_Capture}"/>
                             </StackPanel>
                         </Button>
                         <Button x:Name="UploadButton"
@@ -68,7 +68,8 @@
                                 <TextBlock Text="{x:Static localization:Strings.ScrollingCaptureWindow_Options}"/>
                             </StackPanel>
                         </Button>
-                        <Button Grid.Column="5"
+                        <Button x:Name="HelpButton"
+                                Grid.Column="5"
                                 Width="34"
                                 Height="34"
                                 MinWidth="34"
@@ -80,7 +81,7 @@
                     </Grid>
                 </Border>
 
-                <Border Grid.Row="1" Classes="tool-panel" Padding="1">
+                <Border x:Name="PreviewPanel" Grid.Row="1" Classes="tool-panel" Padding="1">
                     <Grid>
                         <ScrollViewer x:Name="PreviewScrollViewer"
                                       HorizontalScrollBarVisibility="Auto"
@@ -121,6 +122,7 @@
                     <TextBlock x:Name="StatusText"
                                Grid.Column="1"
                                Text="{x:Static localization:Strings.ScrollingCaptureWindow_Ready}"
+                               TextWrapping="Wrap"
                                FontWeight="Normal"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"/>
@@ -157,7 +159,6 @@
 
                             <Grid Grid.Row="1"
                                   ColumnDefinitions="170,*,Auto"
-                                  RowDefinitions="Auto,Auto,Auto,Auto"
                                   RowSpacing="9"
                                   ColumnSpacing="8">
                                 <TextBlock Classes="option-label" Text="{x:Static localization:Strings.ScrollingCaptureWindow_Start_delay}"/>
@@ -168,44 +169,9 @@
                                                Increment="100"
                                                FormatString="0"/>
                                 <TextBlock Grid.Column="2" Classes="option-hint" Text="{x:Static localization:Strings.ScrollingCaptureWindow_Milliseconds}"/>
-
-                                <TextBlock Grid.Row="1" Classes="option-label" Text="{x:Static localization:Strings.ScrollingCaptureWindow_Scroll_delay}"/>
-                                <NumericUpDown x:Name="ScrollDelayInput"
-                                               Grid.Row="1"
-                                               Grid.Column="1"
-                                               Minimum="100"
-                                               Maximum="5000"
-                                               Increment="100"
-                                               FormatString="0"/>
-                                <TextBlock Grid.Row="1" Grid.Column="2" Classes="option-hint" Text="{x:Static localization:Strings.ScrollingCaptureWindow_Milliseconds}"/>
-
-                                <TextBlock Grid.Row="2" Classes="option-label" Text="{x:Static localization:Strings.ScrollingCaptureWindow_Scroll_method}"/>
-                                <ComboBox x:Name="ScrollMethodInput"
-                                          Grid.Row="2"
-                                          Grid.Column="1"
-                                          Grid.ColumnSpan="2"
-                                          SelectionChanged="OnScrollMethodChanged"/>
-
-                                <TextBlock x:Name="ScrollAmountLabel"
-                                           Grid.Row="3"
-                                           Classes="option-label"
-                                           Text="{x:Static localization:Strings.ScrollingCaptureWindow_Scroll_amount}"/>
-                                <NumericUpDown x:Name="ScrollAmountInput"
-                                               Grid.Row="3"
-                                               Grid.Column="1"
-                                               Minimum="1"
-                                               Maximum="6"
-                                               Increment="1"
-                                               FormatString="0"/>
-                                <TextBlock x:Name="ScrollAmountHint"
-                                           Grid.Row="3"
-                                           Grid.Column="2"
-                                           Classes="option-hint"
-                                           Text="{x:Static localization:Strings.ScrollingCaptureWindow_Times}"/>
                             </Grid>
 
                             <StackPanel Grid.Row="2" Spacing="8">
-                                <CheckBox x:Name="AutoScrollTopInput" Content="{x:Static localization:Strings.ScrollingCaptureWindow_Automatically_scroll_to_top}"/>
                                 <CheckBox x:Name="AutoIgnoreBottomEdgeInput" Content="{x:Static localization:Strings.ScrollingCaptureWindow_Auto_ignore_bottom_edge}"/>
                                 <CheckBox x:Name="ShowRegionInput" Content="{x:Static localization:Strings.ScrollingCaptureWindow_Show_capture_region}"/>
                                 <CheckBox x:Name="AutoUploadInput" Content="{x:Static localization:Strings.ScrollingCaptureWindow_Automatically_upload_save}"/>
