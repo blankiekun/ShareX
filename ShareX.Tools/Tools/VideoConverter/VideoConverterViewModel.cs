@@ -252,8 +252,7 @@ public sealed partial class VideoConverterViewModel : ViewModelBase, IDisposable
 
         try
         {
-            VideoConversionRequest request = new(BuildArguments(), OutputFilePath, AutoOpenFolder);
-            VideoConversionResult result = await _conversionHandler(request, progress, _cancellationTokenSource.Token);
+            VideoConversionResult result = await RunConversionAsync(progress, _cancellationTokenSource.Token);
 
             if (result.Succeeded && !result.WasCancelled)
             {
@@ -333,7 +332,36 @@ public sealed partial class VideoConverterViewModel : ViewModelBase, IDisposable
         _options.AutoOpenFolder = AutoOpenFolder;
     }
 
-    private string BuildArguments()
+    private async Task<VideoConversionResult> RunConversionAsync(IProgress<double> progress, CancellationToken cancellationToken)
+    {
+        if (SelectedCodec.Codec != VideoConverterCodec.Gif)
+        {
+            return await _conversionHandler(new VideoConversionRequest(BuildArguments(), OutputFilePath, AutoOpenFolder), progress, cancellationToken);
+        }
+
+        // palettegen makes its palette when the input ends, so a single run would hold every frame in memory until then.
+        string palettePath = Path.Combine(Path.GetTempPath(), $"ShareX-palette-{Guid.NewGuid():N}.png");
+
+        try
+        {
+            // Progress follows the second run only, so it can't reach 100% and then start again. It stays at 0 while the palette is made.
+            string paletteArguments = $"-i {Helpers.EscapeCLIText(InputFilePath)} -lavfi \"palettegen=stats_mode=full\" -frames:v 1 -update 1 -y {Helpers.EscapeCLIText(palettePath)}";
+            VideoConversionResult paletteResult = await _conversionHandler(new VideoConversionRequest(paletteArguments, palettePath, false), new Progress<double>(), cancellationToken);
+
+            if (!paletteResult.Succeeded || paletteResult.WasCancelled)
+            {
+                return paletteResult;
+            }
+
+            return await _conversionHandler(new VideoConversionRequest(BuildArguments(palettePath), OutputFilePath, AutoOpenFolder), progress, cancellationToken);
+        }
+        finally
+        {
+            FileHelpers.DeleteFile(palettePath);
+        }
+    }
+
+    private string BuildArguments(string? palettePath = null)
     {
         StringBuilder args = new();
         args.Append($"-i {Helpers.EscapeCLIText(InputFilePath)} ");
@@ -386,7 +414,7 @@ public sealed partial class VideoConverterViewModel : ViewModelBase, IDisposable
                 args.Append(UseBitrate ? $"-b:v {bitrate}k " : $"-q:v {quality} ");
                 break;
             case VideoConverterCodec.Gif:
-                args.Append("-lavfi \"palettegen=stats_mode=full[palette],[0:v][palette]paletteuse=dither=sierra2_4a\" ");
+                args.Append($"-i {Helpers.EscapeCLIText(palettePath!)} -lavfi \"[0:v][1:v]paletteuse=dither=sierra2_4a\" ");
                 break;
             case VideoConverterCodec.Webp:
                 args.Append("-c:v libwebp -lossless 0 -preset default -loop 0 ");
