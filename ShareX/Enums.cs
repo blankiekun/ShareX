@@ -280,6 +280,8 @@ namespace ShareX
         [Category(EnumExtensions.HotkeyType_Category_Tools)]
         PinToScreenCloseAll,
         [Category(EnumExtensions.HotkeyType_Category_Tools)]
+        PinToScreenToggleClickThrough,
+        [Category(EnumExtensions.HotkeyType_Category_Tools)]
         ImageEditor,
         [Category(EnumExtensions.HotkeyType_Category_Tools)]
         PhotoEditor,

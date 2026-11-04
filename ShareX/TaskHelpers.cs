@@ -229,6 +229,9 @@ namespace ShareX
                 case HotkeyType.PinToScreenCloseAll:
                     PinToScreenCloseAll(safeTaskSettings);
                     break;
+                case HotkeyType.PinToScreenToggleClickThrough:
+                    PinToScreenToggleClickThrough(safeTaskSettings);
+                    break;
                 case HotkeyType.ImageEditor:
                     if (!string.IsNullOrEmpty(filePath))
                     {
@@ -2141,6 +2144,20 @@ namespace ShareX
             PlayNotificationSoundAsync(NotificationSound.ActionCompleted, taskSettings);
         }
 
+        public static void PinToScreenToggleClickThrough(TaskSettings taskSettings = null)
+        {
+            if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
+
+            bool clickThrough = ToolsIntegration.TogglePinnedImagesClickThrough();
+
+            PlayNotificationSoundAsync(NotificationSound.ActionCompleted, taskSettings);
+
+            if (taskSettings.GeneralSettings.ShowToastNotificationAfterTaskCompleted)
+            {
+                ShowNotificationTip(clickThrough ? Strings.TaskHelpers_PinToScreenToggleClickThrough_On : Strings.TaskHelpers_PinToScreenToggleClickThrough_Off);
+            }
+        }
+
         private static PinToScreenSource CreatePinToScreenSource(Image image, Point? location = null)
         {
             if (image == null)
@@ -2346,6 +2363,7 @@ namespace ShareX
                 HotkeyType.PinToScreenFromClipboard => LucideIcons.clipboard,
                 HotkeyType.PinToScreenFromFile => LucideIcons.file_image,
                 HotkeyType.PinToScreenCloseAll => LucideIcons.pin_off,
+                HotkeyType.PinToScreenToggleClickThrough => LucideIcons.mouse_pointer_2_off,
                 HotkeyType.ImageEditor => LucideIcons.image,
                 HotkeyType.PhotoEditor => LucideIcons.layers,
                 HotkeyType.ImageBeautifier => LucideIcons.sparkles,

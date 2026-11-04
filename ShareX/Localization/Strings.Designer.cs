@@ -617,6 +617,15 @@ namespace ShareX.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Toggle click-through on pinned images.
+        /// </summary>
+        public static string MainMenuBuilder_PinToScreenToggleClickThrough {
+            get {
+                return ResourceManager.GetString("MainMenuBuilder_PinToScreenToggleClickThrough", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to QR code....
         /// </summary>
         public static string MainMenuBuilder_QRCode {
@@ -5478,6 +5487,16 @@ namespace ShareX.Localization {
         public static string IntegrationHelpers_UploadWithShareX {
             get {
                 return ResourceManager.GetString("IntegrationHelpers_UploadWithShareX", resourceCulture);
+            }
+        }
+        public static string TaskHelpers_PinToScreenToggleClickThrough_Off {
+            get {
+                return ResourceManager.GetString("TaskHelpers_PinToScreenToggleClickThrough_Off", resourceCulture);
+            }
+        }
+        public static string TaskHelpers_PinToScreenToggleClickThrough_On {
+            get {
+                return ResourceManager.GetString("TaskHelpers_PinToScreenToggleClickThrough_On", resourceCulture);
             }
         }
         public static string TaskHelpers_ToggleHotkeys_Hotkeys_disabled_ {

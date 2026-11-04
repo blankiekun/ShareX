@@ -51,7 +51,13 @@ public static class X11InputShape
         Apply(window, []);
     }
 
-    private static void Apply(Window window, XRectangle[] rectangles)
+    /// <summary>The window takes input everywhere again, also after a later resize. A failure leaves the shape as it was, and is only logged too.</summary>
+    public static void Reset(Window window)
+    {
+        Apply(window, null);
+    }
+
+    private static void Apply(Window window, XRectangle[]? rectangles)
     {
         if (window.TryGetPlatformHandle() is not { HandleDescriptor: "XID" } handle) return;
         try
@@ -59,7 +65,15 @@ public static class X11InputShape
             // Avalonia keeps its own connection private. XCloseDisplay flushes this one's single request.
             IntPtr display = XOpenDisplay(IntPtr.Zero);
             if (display == IntPtr.Zero) return;
-            XShapeCombineRectangles(display, handle.Handle, ShapeInput, 0, 0, rectangles, rectangles.Length, ShapeSet, Unsorted);
+            if (rectangles == null)
+            {
+                // Setting no mask removes the shape, which is different from an empty one.
+                XShapeCombineMask(display, handle.Handle, ShapeInput, 0, 0, IntPtr.Zero, ShapeSet);
+            }
+            else
+            {
+                XShapeCombineRectangles(display, handle.Handle, ShapeInput, 0, 0, rectangles, rectangles.Length, ShapeSet, Unsorted);
+            }
             XCloseDisplay(display);
         }
         catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
@@ -79,4 +93,7 @@ public static class X11InputShape
 
     [DllImport("libXext.so.6")]
     private static extern void XShapeCombineRectangles(IntPtr display, IntPtr window, int kind, int xOffset, int yOffset, XRectangle[] rectangles, int count, int operation, int ordering);
+
+    [DllImport("libXext.so.6")]
+    private static extern void XShapeCombineMask(IntPtr display, IntPtr window, int kind, int xOffset, int yOffset, IntPtr pixmap, int operation);
 }

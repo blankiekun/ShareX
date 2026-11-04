@@ -50,6 +50,7 @@ public partial class PinToScreenWindow : Window
     private int _imageOpacity;
     private bool _minimized;
     private bool _opened;
+    private bool _clickThrough;
 
     public PinToScreenOptions Options { get; }
 
@@ -131,6 +132,23 @@ public partial class PinToScreenWindow : Window
         }
 
         Position = new PixelPoint(location.X, location.Y);
+    }
+
+    /// <summary>The pin draws the same, but every click and hover reaches what is under it, so its toolbar has to go too.</summary>
+    public void SetClickThrough(bool clickThrough)
+    {
+        _clickThrough = clickThrough;
+
+        if (clickThrough)
+        {
+            X11InputShape.SetEmpty(this);
+        }
+        else
+        {
+            X11InputShape.Reset(this);
+        }
+
+        UpdateToolbarVisibility(false);
     }
 
     private void ApplyOptions(bool resize = true)
@@ -233,7 +251,7 @@ public partial class PinToScreenWindow : Window
 
     private void UpdateToolbarVisibility(bool pointerInside)
     {
-        _toolbar.IsVisible = pointerInside && Width >= 155 && Height >= 55;
+        _toolbar.IsVisible = !_clickThrough && pointerInside && Width >= 155 && Height >= 55;
     }
 
     private void OnPointerEntered(object? sender, PointerEventArgs e) => UpdateToolbarVisibility(true);

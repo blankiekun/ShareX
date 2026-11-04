@@ -853,6 +853,9 @@ namespace ShareX.HelpersLib.Localization {
         public static string HotkeyType_PinToScreenFromScreen {
             get { return ResourceManager.GetString("HotkeyType_PinToScreenFromScreen", resourceCulture); }
         }
+        public static string HotkeyType_PinToScreenToggleClickThrough {
+            get { return ResourceManager.GetString("HotkeyType_PinToScreenToggleClickThrough", resourceCulture); }
+        }
         public static string HotkeyType_PrintScreen {
             get { return ResourceManager.GetString("HotkeyType_PrintScreen", resourceCulture); }
         }
