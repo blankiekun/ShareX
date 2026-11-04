@@ -26,8 +26,6 @@
 using System;
 using System.IO;
 using System.IO.Pipes;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,6 +43,7 @@ namespace ShareX.HelpersLib
 
         private const int MaxArgumentsLength = 100;
         private const int ConnectTimeout = 5000;
+        private const int ReadTimeout = 5000;
 
         private readonly MutexManager mutex;
         private CancellationTokenSource cts;
@@ -87,57 +86,90 @@ namespace ShareX.HelpersLib
 
         private async Task ListenForConnectionsAsync()
         {
-            while (!cts.IsCancellationRequested)
+            CancellationToken token = cts.Token;
+
+            try
             {
-                bool namedPipeServerCreated = false;
+                NamedPipeServerStream server = CreatePipeServer();
 
-                try
+                while (!token.IsCancellationRequested)
                 {
-                    PipeSecurity pipeSecurity = new PipeSecurity();
+                    bool connected = false;
 
-                    using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+                    try
                     {
-                        pipeSecurity.AddAccessRule(new PipeAccessRule(identity.User, PipeAccessRights.ReadWrite, AccessControlType.Allow));
+                        await server.WaitForConnectionAsync(token).ConfigureAwait(false);
+                        connected = true;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        server.Dispose();
+                        return;
+                    }
+                    catch (Exception e)
+                    {
+                        // Includes a client of another user, which CurrentUserOnly refuses here.
+                        DebugHelper.WriteException(e);
                     }
 
-                    using (NamedPipeServerStream namedPipeServer = NamedPipeServerStreamAcl.Create(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous, 0, 0, pipeSecurity))
+                    // The socket closes with its last server, dropping every client still queued on it, so the next server comes first.
+                    NamedPipeServerStream accepted = server;
+                    server = CreatePipeServer();
+
+                    if (connected)
                     {
-                        namedPipeServerCreated = true;
-
-                        await namedPipeServer.WaitForConnectionAsync(cts.Token).ConfigureAwait(false);
-
-                        using (BinaryReader reader = new BinaryReader(namedPipeServer, Encoding.UTF8))
-                        {
-                            int length = reader.ReadInt32();
-
-                            if (length < 0 || length > MaxArgumentsLength)
-                            {
-                                throw new Exception("Invalid length: " + length);
-                            }
-
-                            string[] args = new string[length];
-
-                            for (int i = 0; i < length; i++)
-                            {
-                                args[i] = reader.ReadString();
-                            }
-
-                            OnArgumentsReceived(args);
-                        }
+                        _ = Task.Run(() => ReadArguments(accepted));
+                    }
+                    else
+                    {
+                        accepted.Dispose();
                     }
                 }
-                catch (OperationCanceledException)
-                {
-                }
-                catch (Exception e)
-                {
-                    DebugHelper.WriteException(e);
 
-                    if (!namedPipeServerCreated)
+                server.Dispose();
+            }
+            catch (Exception e)
+            {
+                // Only creating a server gets here, which a client can't cause and a retry wouldn't fix.
+                DebugHelper.WriteException(e);
+            }
+        }
+
+        private NamedPipeServerStream CreatePipeServer()
+        {
+            return new NamedPipeServerStream(PipeName, PipeDirection.In, NamedPipeServerStream.MaxAllowedServerInstances,
+                PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+        }
+
+        private void ReadArguments(NamedPipeServerStream server)
+        {
+            try
+            {
+                using (server)
+                using (CancellationTokenSource timeout = new CancellationTokenSource(ReadTimeout))
+                using (timeout.Token.Register(server.Dispose)) // Ends the read of a client that connects and then sends nothing.
+                using (BinaryReader reader = new BinaryReader(server, Encoding.UTF8))
+                {
+                    int length = reader.ReadInt32();
+
+                    if (length < 0 || length > MaxArgumentsLength)
                     {
-                        break;
+                        throw new Exception("Invalid length: " + length);
                     }
+
+                    string[] args = new string[length];
+
+                    for (int i = 0; i < length; i++)
+                    {
+                        args[i] = reader.ReadString();
+                    }
+
+                    OnArgumentsReceived(args);
                 }
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
             }
         }
 
@@ -145,7 +177,7 @@ namespace ShareX.HelpersLib
         {
             try
             {
-                using (NamedPipeClientStream namedPipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
+                using (NamedPipeClientStream namedPipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.Out, PipeOptions.CurrentUserOnly))
                 {
                     namedPipeClient.Connect(ConnectTimeout);
 

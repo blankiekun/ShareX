@@ -40,7 +40,8 @@ namespace ShareX.HelpersLib
 
         public MutexManager(string mutexName, int timeout)
         {
-            mutex = new Mutex(false, mutexName);
+            // The default scope is the Unix session, which every terminal and launcher starts a new one of.
+            mutex = new Mutex(false, mutexName, new NamedWaitHandleOptions { CurrentUserOnly = true, CurrentSessionOnly = false });
 
             try
             {

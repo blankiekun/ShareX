@@ -104,8 +104,7 @@ assume a requested key became active.
 
 **Where reports disagreed:** subsystem tables win over the checklist in 5.1, whose rows are best guesses. Specifically:
 wallpaper is read-only, so nothing sets a wallpaper (the checklist's "Plasma wallpaper API" means reading it). OCR is a `SWAP`
-to Tesseract. Foreign-window tools are `LIMITED` through KWin scripts, not `DROP`. Two items stay open: single instance
-(`flock` plus a Unix socket, or `PipeOptions.CurrentUserOnly`) and updates (`DROP` if packages handle them, `REWRITE` otherwise).
+to Tesseract. Foreign-window tools are `LIMITED` through KWin scripts, not `DROP`. One item stays open: updates (`DROP` if packages handle them, `REWRITE` otherwise).
 
 **Owner decisions (2026-11-03):**
 - Windows is dropped: retarget to `net10.0` and delete Windows code as it gets replaced. Any `multi-target` wording below is superseded.
@@ -406,7 +405,7 @@ The only table whose rows were really run; see its evidence column.
 | ShareX project | 0 errors; main window ran with a throwaway home and no session bus; `Windows.ApplicationModel` is behind `#if MicrosoftStore` | READY | None needed to build and open; tray not exercised | S | High |
 | `UseNls` | `ShareX.csproj:59`; present in the runtime config and the app still ran | READY | Remove on Linux for tidiness | S | Medium |
 | Global hotkeys | Crash fixed in M1: `MainForm` builds `NullHotkeyHost`, which registers nothing, so hotkeys do nothing | LIMITED | KGlobalAccel or the GlobalShortcuts portal; no free key grabbing | L | High |
-| Registry, pipe ACL | Logged `PlatformNotSupportedException` from `RegistryHelpers.cs:81` and `SingleInstanceManager.cs:96`, not fatal | SWAP | Config files; plain pipe or D-Bus. Second-instance arguments stay broken until then | M | High |
+| Registry | Logged `PlatformNotSupportedException` from `RegistryHelpers.cs:81`, not fatal | SWAP | Config files | M | High |
 | Portable mode | `AppPaths.cs:42`: folder renamed `ShareXData` in M2. `-portable` run in a virtual session: starts, uses that folder, no "Avalonia is already initialized" | READY | None. An unwritable app folder was still running after 12 s with no crash text; by the code it falls back to `~/Documents/ShareX` | S | High |
 | Tray icon | `TrayIconService.cs:85` uses Avalonia `TrayIcon` | UNVERIFIED | Status Notifier; I did not confirm our item registered | S | Medium |
 | ShareX.Setup | Removed in M1 | DROP | Packaging script | S | High |
@@ -573,7 +572,7 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | `.sxcu`, `.sxie` | `ShareX/IntegrationHelpers.cs:57-73,213-278`, `ShareX/Infrastructure/FileTypeRegistration.cs:38-46` | HKCU Classes, SHChangeNotify, `.ico` | SWAP | MIME XML, `update-mime-database`, `.desktop`, `update-desktop-database`, `xdg-mime`, PNG icons | M | H |
 | Browser manifests | `ShareX/IntegrationHelpers.cs:75-78,280-366`, `ShareX/host-manifest-*.json:4` | Registry; relative `.exe` path | SWAP | Generate absolute-path manifests per browser | M | M |
 | Native messaging host | `ShareX.HelpersLib/NativeMessagingHost.cs:38-68`, `ShareX.NativeMessagingHost/Program.cs:52,56` | `ShareX.exe`, CreateProcess | SWAP | Keep protocol; `Process.Start` | S | H |
-| Single instance | `ShareX.HelpersLib/SingleInstanceManager.cs:96-103,136-138`, `MutexManager.cs:43` | WindowsIdentity, PipeSecurity, named Mutex | SWAP | `flock` + 0600 Unix socket in `$XDG_RUNTIME_DIR` | M | H |
+| Single instance | `ShareX.HelpersLib/SingleInstanceManager.cs`, `MutexManager.cs:43` | Done: `PipeOptions.CurrentUserOnly` on both ends, with a mutex shared across Unix sessions but not users. Another uid was refused when run from a user namespace. A second process with `-ScreenRecorder` reached the first from the same and a new session (virtual session only, not yet seen by the owner). The socket is in `$TMPDIR`: another uid holding its name first stops arguments being delivered, though none reached that uid (run). By the code, a process with a different `$TMPDIR` won't find the first | UNVERIFIED | None | M | H |
 | CLI parsing | `ShareX.HelpersLib/CLI/CLIManager.cs:55-95`, `ShareX/ShareXCLIManager.cs:161` | None; relative paths resolve to app dir | READY | Resolve against caller's cwd | S | H |
 | Window activation | `ShareX/Infrastructure/ApplicationCommandLine.cs:77-86` | Assumes foreground raise works | LIMITED | Forward `XDG_ACTIVATION_TOKEN`; may become an attention request | M | M |
 | Restart, elevation | `ShareX/Infrastructure/ApplicationLifecycle.cs:112-124`, `ShareX/Presentation/MainWindow/MainMenuBuilder.cs:111`, `ShareX.HelpersLib/Helpers/Helpers.cs:565-597` | `runas`, WindowsPrincipal | DROP | Plain restart stays; remove admin item | S | H |

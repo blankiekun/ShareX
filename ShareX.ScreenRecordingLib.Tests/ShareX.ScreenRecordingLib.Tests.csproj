@@ -13,6 +13,7 @@
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ShareX.HelpersLib\ShareX.HelpersLib.csproj" />
     <ProjectReference Include="..\ShareX.ScreenRecordingLib\ShareX.ScreenRecordingLib.csproj" />
   </ItemGroup>
   <ItemGroup>
