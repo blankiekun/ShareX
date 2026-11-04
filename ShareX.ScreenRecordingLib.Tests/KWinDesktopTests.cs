@@ -151,4 +151,64 @@ public class KWinDesktopTests
         Assert.Equal(0.5, details.Opacity);
         Assert.Equal(["keepAbove"], details.State);
     }
+
+    private static Rectangle? Fit(int x, int y, int width, int height)
+    {
+        // A short monitor beside a tall one, so part of the desktop's bounding box is on no monitor.
+        KWinOutput[] outputs = [new KWinOutput("Tall", new Rectangle(0, 0, 1920, 1080), 1), new KWinOutput("Short", new Rectangle(1920, 0, 1280, 720), 1)];
+        KWinDesktop desktop = new()
+        {
+            Outputs = outputs,
+            Windows = [],
+            Cursor = Point.Empty,
+            Coordinates = DesktopCoordinates.ForDesktop(outputs, false)
+        };
+
+        return desktop.FitToOneOutput(new Rectangle(x, y, width, height));
+    }
+
+    // Catches: a window that fits being changed on its way to the recorder.
+    [Fact]
+    public void FitToOneOutput_KeepsAWindowOnOneOutput()
+    {
+        Assert.Equal(new Rectangle(2000, 100, 800, 500), Fit(2000, 100, 800, 500));
+    }
+
+    // Catches: a maximized window being refused for touching the next monitor, as Intersect gives a rectangle of no width there that IsEmpty doesn't count as empty.
+    [Fact]
+    public void FitToOneOutput_KeepsAWindowFillingAnOutputBesideAnother()
+    {
+        Assert.Equal(new Rectangle(1920, 0, 1280, 720), Fit(1920, 0, 1280, 720));
+    }
+
+    // Catches: a window hanging off the desktop being refused, or asking the recorder for pixels no monitor has.
+    [Theory]
+    [InlineData(-150, 100, 800, 500, 0, 100, 650, 500)]
+    [InlineData(3000, 100, 800, 500, 3000, 100, 200, 500)]
+    [InlineData(100, -50, 800, 500, 100, 0, 800, 450)]
+    public void FitToOneOutput_CutsWhatHangsOffTheDesktop(int x, int y, int width, int height, int cutX, int cutY, int cutWidth, int cutHeight)
+    {
+        Assert.Equal(new Rectangle(cutX, cutY, cutWidth, cutHeight), Fit(x, y, width, height));
+    }
+
+    // Catches: clipping to the desktop's bounding box instead of the monitor, which keeps the part below the short monitor, where nothing is drawn.
+    [Fact]
+    public void FitToOneOutput_CutsToTheMonitorNotTheDesktopsBoundingBox()
+    {
+        Assert.Equal(new Rectangle(2000, 600, 800, 120), Fit(2000, 600, 800, 300));
+    }
+
+    // Catches: recording only one side of a window across two monitors without saying so.
+    [Fact]
+    public void FitToOneOutput_RefusesAWindowOnTwoOutputs()
+    {
+        Assert.Null(Fit(1800, 100, 800, 500));
+    }
+
+    // Catches: an empty rectangle reaching the recorder.
+    [Fact]
+    public void FitToOneOutput_RefusesAWindowOnNoOutput()
+    {
+        Assert.Null(Fit(4000, 100, 800, 500));
+    }
 }

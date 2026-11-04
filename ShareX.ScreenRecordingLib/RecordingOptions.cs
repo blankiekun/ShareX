@@ -34,8 +34,6 @@ public sealed record RecordingOptions
     public required string OutputPath { get; init; }
     /// <summary>Must fit inside one monitor. An odd width or height rounds up to even, see ScreenRecorder.CapturedRegion.</summary>
     public Rectangle Region { get; init; }
-    /// <summary>Not available on Wayland: a nonzero handle is refused. Record the window's rectangle as a Region instead.</summary>
-    public nint WindowHandle { get; init; }
     public int FramesPerSecond { get; init; } = 30;
     /// <summary>Force a constant frame rate. Off by default because it can collapse under heavy GPU load.</summary>
     public bool ConstantFrameRate { get; init; }
@@ -81,7 +79,7 @@ public sealed record RecordingOptions
         ArgumentException.ThrowIfNullOrWhiteSpace(OutputPath);
         if (!Path.GetExtension(OutputPath).Equals(".mp4", StringComparison.OrdinalIgnoreCase))
             throw new ArgumentException("Recording writes H.264/AAC MP4 files.", nameof(OutputPath));
-        if (WindowHandle == 0 && (Region.Width < 2 || Region.Height < 2))
+        if (Region.Width < 2 || Region.Height < 2)
             throw new ArgumentException("Select a region of at least 2 × 2 pixels.", nameof(Region));
         if (FramesPerSecond is < 1 or > 240) throw new ArgumentOutOfRangeException(nameof(FramesPerSecond));
         if (VideoBitrate is < 100_000 or > 200_000_000) throw new ArgumentOutOfRangeException(nameof(VideoBitrate));

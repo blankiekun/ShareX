@@ -304,33 +304,6 @@ namespace ShareX.HelpersLib
             return rect;
         }
 
-        public static Rectangle GetActiveWindowRectangle()
-        {
-            return GetActiveWindowRectangle(false);
-        }
-
-        public static Rectangle GetActiveWindowClientRectangle()
-        {
-            return GetActiveWindowRectangle(true);
-        }
-
-        private static Rectangle GetActiveWindowRectangle(bool clientArea)
-        {
-            try
-            {
-                KWinDesktop desktop = KWinDesktop.Query();
-                KWinWindow window = desktop.ActiveWindow;
-
-                return window == null ? Rectangle.Empty :
-                    desktop.Coordinates.LogicalToX11(clientArea ? window.ClientGeometry : window.FrameGeometry);
-            }
-            catch (KWinScriptException e)
-            {
-                DebugHelper.WriteException(e);
-                return Rectangle.Empty;
-            }
-        }
-
         public static bool IsActiveWindowFullscreen()
         {
             try

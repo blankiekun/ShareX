@@ -162,6 +162,19 @@ public sealed class KWinDesktop
             candidates.FirstOrDefault(x => x.Caption.Contains(title, StringComparison.CurrentCultureIgnoreCase));
     }
 
+    /// <summary>
+    /// What a recording of this rectangle can show. gpu-screen-recorder records inside one output, and what hangs past the edge of the desktop
+    /// isn't drawn anywhere, so that part is cut off.
+    /// </summary>
+    /// <returns>The part on the output it's on. Null when it's on several outputs, as cutting it would lose what can be seen, or on none.</returns>
+    public Rectangle? FitToOneOutput(Rectangle rectangle)
+    {
+        // Beside an output, Intersect gives a rectangle of no width that IsEmpty doesn't count as empty.
+        List<Rectangle> parts = Outputs.Select(x => Rectangle.Intersect(x.Geometry, rectangle)).Where(x => x.Width > 0 && x.Height > 0).ToList();
+
+        return parts.Count == 1 ? parts[0] : null;
+    }
+
     /// <exception cref="KWinScriptException">KWin is unavailable, or did not answer in time.</exception>
     public static KWinDesktop Query()
     {

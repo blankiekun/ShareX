@@ -1982,6 +1982,9 @@ Please run ShareX as administrator to change personal folder path.</value>
 The file was kept, but it may not play:
 {1}</value>
   </data>
+  <data name="ScreenRecord_WindowNotOnOneMonitor" xml:space="preserve">
+    <value>This window isn't on one monitor, and the recorder can only record inside one. Move the window onto a single monitor, then try again.</value>
+  </data>
   <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
     <value>ShareX was closed unexpectedly during a recording. The recording was saved to:
 {0}</value>
