@@ -36,3 +36,6 @@ jobs:
 
       - name: Build
         run: dotnet build --configuration "${{ matrix.configuration }}" -p:Platform="${{ matrix.platform }}" "${{ env.SOLUTION_FILE_PATH }}"
+
+      - name: Test recording
+        run: dotnet test --no-build --configuration "${{ matrix.configuration }}" -p:Platform="${{ matrix.platform }}" ShareX.ScreenRecordingLib.Tests/ShareX.ScreenRecordingLib.Tests.csproj

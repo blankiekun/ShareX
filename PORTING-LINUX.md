@@ -491,6 +491,12 @@ Paths: `S` = `ShareX.ScreenCaptureLib/`, `Scr` = `ShareX.ScreenCaptureLib/Screen
 
 Paths: `SRL` = `ShareX.ScreenRecordingLib`, `SCL` = `ShareX.ScreenCaptureLib`, `HL` = `ShareX.HelpersLib`, `SX` = `ShareX`. M6 built this on the host's `gpu-screen-recorder` (gsr); see the design note in section 4. **Nothing here has run on real gsr, so no row is READY.** "Stub" means proven against a fake recorder that acts out each measured behaviour; measured gsr behaviour comes from the M6 spike.
 
+**Regression tests:** `ShareX.ScreenRecordingLib.Tests` drives `ScreenRecorder` against a fake `gpu-screen-recorder` (the scripts in its `Fixtures/`), with `PATH` set on the test process alone so the real recorder can't be reached. It needs no desktop, GPU or D-Bus, but does need `python3` and `setpriv` (util-linux). `ScreenRecordManager.FinishRecording` is in the app project behind windows and isn't covered. Run it from the repo root:
+
+```
+systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISABLENODEREUSE=1 DOTNET_CLI_USE_MSBUILD_SERVER=0 dotnet test ShareX.ScreenRecordingLib.Tests/ShareX.ScreenRecordingLib.Tests.csproj -p:Platform=x64 -p:UseSharedCompilation=false -m:2 -nodeReuse:false
+```
+
 | Feature | Evidence (file:line) | Dependency | Label | State on KDE Wayland | Effort | Confidence |
 |---|---|---|---|---|---|---|
 | Build, GPU, COM plumbing | `Audio/`, `Encoding/`, `Native/`, `Video/` deleted; SRL csproj | None | DROP | Deleted; Vortice stays only for other projects | S | High |
