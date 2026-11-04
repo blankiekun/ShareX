@@ -733,6 +733,18 @@
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - 應用程式設定</value>
   </data>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>桌面</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>登入時啟動 ShareX</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>在 Dolphin 的右鍵選單中顯示「使用 ShareX 編輯」</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>在 Dolphin 的右鍵選單中顯示「使用 ShareX 上傳」</value>
+  </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
   </data>
@@ -1508,6 +1520,9 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>沒有影像效果預設</value>
   </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>沒有其他可擷取的視窗。請開啟你要的視窗，然後再試一次。</value>
+  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>找不到視窗</value>
   </data>
@@ -2090,6 +2105,9 @@
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>打造你的 ShareX</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>開放原始碼 • 為 Linux 打造</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>你可以隨時在應用程式設定中變更這些選項。</value>

@@ -733,6 +733,18 @@
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - تنظیمات برنامه</value>
   </data>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>میزکار</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>اجرای ShareX هنگام ورود به سیستم</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>نمایش «ویرایش با ShareX» در منوی زمینه‌ای Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>نمایش «آپلود با ShareX» در منوی زمینه‌ای Dolphin</value>
+  </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
   </data>
@@ -1508,6 +1520,9 @@ Please select a different hotkey or quit the conflicting application and reبا�
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>هیچ پیش‌تنظیم جلوه تصویری وجود ندارد</value>
   </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>پنجره دیگری برای ثبت وجود ندارد. پنجره مورد نظر را باز کنید و سپس دوباره تلاش کنید.</value>
+  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>هیچ پنجره‌ای پیدا نشد</value>
   </data>
@@ -2090,6 +2105,9 @@ Please select a different hotkey or quit the conflicting application and reبا�
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>ShareX را مطابق سلیقه خود تنظیم کنید</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>متن‌باز • ساخته‌شده برای Linux</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>می‌توانید هر زمان این گزینه‌ها را در تنظیمات برنامه تغییر دهید.</value>

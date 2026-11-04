@@ -733,6 +733,18 @@
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Configuración de la aplicación</value>
   </data>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>Escritorio</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>Ejecutar ShareX al iniciar sesión</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Mostrar "Editar con ShareX" en el menú contextual de Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Mostrar "Subir con ShareX" en el menú contextual de Dolphin</value>
+  </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
   </data>
@@ -1508,6 +1520,9 @@ Por favor seleccione una tecla de acceso directo diferente o salir de la aplicac
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>No hay ajustes preestablecidos de efectos de imagen</value>
   </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>No hay ninguna otra ventana para capturar. Abre la ventana que quieras y vuelve a intentarlo.</value>
+  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>No se encontraron ventanas</value>
   </data>
@@ -2090,6 +2105,9 @@ El archivo se conservó, pero es posible que no se pueda reproducir:
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Haz que ShareX sea tuyo</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>Código abierto • Creado para Linux</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Puedes cambiar estas opciones en cualquier momento en la configuración de la aplicación.</value>
