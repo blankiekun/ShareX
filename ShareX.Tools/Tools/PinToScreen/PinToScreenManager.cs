@@ -31,6 +31,7 @@ namespace ShareX.Tools;
 public static class PinToScreenManager
 {
     private static readonly HashSet<PinToScreenWindow> Windows = [];
+    private static bool _clickThrough;
 
     public static void Pin(byte[] imageData, PinToScreenOptions options, Action<byte[]> copyImage, Point? location = null)
     {
@@ -42,10 +43,29 @@ public static class PinToScreenManager
         Dispatcher.UIThread.Post(() =>
         {
             PinToScreenWindow window = new(imageData, options, copyImage, location);
+            if (_clickThrough) window.SetClickThrough(true);
             Windows.Add(window);
             window.Closed += (_, _) => Windows.Remove(window);
             window.Show();
         });
+    }
+
+    /// <summary>Flips every pin, and the ones pinned later. This isn't saved, so every start begins with normal pins.</summary>
+    /// <returns>Whether pins are click-through now.</returns>
+    public static bool ToggleClickThrough()
+    {
+        bool clickThrough = !_clickThrough;
+        _clickThrough = clickThrough;
+
+        Dispatcher.UIThread.Post(() =>
+        {
+            foreach (PinToScreenWindow window in Windows)
+            {
+                window.SetClickThrough(_clickThrough);
+            }
+        });
+
+        return clickThrough;
     }
 
     public static void CloseAll()

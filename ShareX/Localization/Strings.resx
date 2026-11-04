@@ -1538,6 +1538,9 @@ Please select a different hotkey or quit the conflicting application and reopen 
   <data name="MainMenuBuilder_PinToScreenDialog" xml:space="preserve">
     <value>Pin to screen...</value>
   </data>
+  <data name="MainMenuBuilder_PinToScreenToggleClickThrough" xml:space="preserve">
+    <value>Toggle click-through on pinned images</value>
+  </data>
   <data name="MainMenuBuilder_QRCode" xml:space="preserve">
     <value>QR code...</value>
   </data>
@@ -2142,6 +2145,12 @@ Do you want to stop the active screen recording and save it?</value>
   </data>
   <data name="TaskHelpers_SetActiveCustomUploaderConfirmation" xml:space="preserve">
     <value>Would you like to set "{0}" as the active custom uploader for {1}?</value>
+  </data>
+  <data name="TaskHelpers_PinToScreenToggleClickThrough_Off" xml:space="preserve">
+    <value>Click-through off for pinned images.</value>
+  </data>
+  <data name="TaskHelpers_PinToScreenToggleClickThrough_On" xml:space="preserve">
+    <value>Click-through on for pinned images.</value>
   </data>
   <data name="TaskHelpers_ToggleHotkeys_Hotkeys_disabled_" xml:space="preserve">
     <value>Hotkeys disabled.</value>

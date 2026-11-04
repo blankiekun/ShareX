@@ -159,6 +159,12 @@ public static class ToolsIntegration
         PinToScreenManager.CloseAll();
     }
 
+    public static bool TogglePinnedImagesClickThrough()
+    {
+        AvaloniaBootstrapper.EnsureInitialized();
+        return PinToScreenManager.ToggleClickThrough();
+    }
+
     public static Task<string?> ShowOCRWindowAsync(
         byte[] imageData,
         IReadOnlyList<OCRLanguageOption> languages,
