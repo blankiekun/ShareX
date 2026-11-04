@@ -638,7 +638,17 @@ namespace ShareX.HelpersLib
 
         public static string GetOperatingSystemProductName(bool includeBit = false)
         {
-            string productName = RegistryHelpers.GetValueString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName", RegistryHive.LocalMachine);
+            string productName = null;
+
+            try
+            {
+                string prettyName = File.ReadLines("/etc/os-release").FirstOrDefault(x => x.StartsWith("PRETTY_NAME=", StringComparison.Ordinal));
+                productName = prettyName?["PRETTY_NAME=".Length..].Trim('"', '\'');
+            }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+            {
+                // Falls back to the kernel version below.
+            }
 
             if (string.IsNullOrEmpty(productName))
             {
