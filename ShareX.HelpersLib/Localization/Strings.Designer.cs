@@ -370,14 +370,14 @@ namespace ShareX.HelpersLib.Localization {
         public static string PrintHelper_Invalid_printer_message {
             get { return ResourceManager.GetString("PrintHelper_Invalid_printer_message", resourceCulture); }
         }
+        public static string PrintHelper_Invalid_printer_name {
+            get { return ResourceManager.GetString("PrintHelper_Invalid_printer_name", resourceCulture); }
+        }
         public static string ImageIO_Open_needs_ImageMagick {
             get { return ResourceManager.GetString("ImageIO_Open_needs_ImageMagick", resourceCulture); }
         }
         public static string ImageIO_Save_needs_ImageMagick {
             get { return ResourceManager.GetString("ImageIO_Save_needs_ImageMagick", resourceCulture); }
-        }
-        public static string PrintHelper_Invalid_printer_name {
-            get { return ResourceManager.GetString("PrintHelper_Invalid_printer_name", resourceCulture); }
         }
         public static string VideoInfo_Summary {
             get { return ResourceManager.GetString("VideoInfo_Summary", resourceCulture); }
