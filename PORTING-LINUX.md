@@ -284,7 +284,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
 | DisableHotkeys | TH:391; TH:2174 | Done in M5 | UNVERIFIED | KGlobalAccel: disabling releases every key but its own, enabling takes them back (virtual session) | S | Med |
-| OpenMainWindow | TH:394 | Window activation | LIMITED: focus-stealing prevention may block raising | XDG activation (A) | S | Low |
+| OpenMainWindow | TH:394; `MainWindow.axaml.cs:138` | Window activation | LIMITED: not run on the real desktop. In a virtual KWin session KWin refused Avalonia's `Activate` and only asked for attention: main window behind or minimized at the default level after an X11 app was used, every state with any app from the High level up. ShareX then falls back to `KWinDesktop.ActivateWindow`, and ends up active and on top by tray, hotkey and second process, including from hidden. If KWin can't be reached it stays a request for attention | KWin script (A) | S | Low |
 | OpenScreenshotsFolder | TH:397; TH:864; ShareX.HelpersLib/Helpers/FileHelpers.cs:294 | Trailing-backslash bug. M3: `ShowFolders` ran in a virtual KWin session | READY | xdg-open (V) | S | High |
 | OpenHistory | TH:400; TH:878 | Owner this report: HistoryLib | UNVERIFIED | None | S | Med |
 | OpenImageHistory | TH:403; TH:894 | Thumbnail COM fallback deleted; videos through the host's `ffmpeg` | UNVERIFIED | See Part 2 | S | Med |
@@ -297,7 +297,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| ShowQuickTaskMenu | UM:343; ShareX/QuickTaskMenu.cs:94 | Win32 cursor via `CaptureHelpers.cs:93` | LIMITED: cursor anchoring lost | Center or window-relative menu (A) | S | High |
+| ShowQuickTaskMenu | UM:343; ShareX/QuickTaskMenu.cs:94 | KWin cursor via `CaptureHelpers.cs:92` | LIMITED: not run on the real desktop. In a virtual KWin session with two monitors the menu opened with its first row under the pointer on either monitor and stayed on screen at each corner; it stops above the panel | None needed | S | High |
 | ShowAfterCaptureWindow | TH:667 | Topmost window | UNVERIFIED | None | S | Med |
 | BeautifyImage | WT:568 | Skia | UNVERIFIED | None | S | Med |
 | AddImageEffects | WT:578; TH:706 | Skia | UNVERIFIED | None | S | Med |
@@ -389,10 +389,10 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 |---|---|---|---|---|---|---|
 | Recorder bar window | ShareX/Presentation/ScreenRecording/ScreenRecorderBarWindow.axaml.cs:110,444 | M2 removed the `user32` calls so it opens under X11. Lost: tool-window style and keeping the outline behind the bar. The setup outline takes clicks inside the region (run in the virtual session under Xwayland), so windows and dialogs below it can't be clicked there. The recording frame no longer does, see Recording controls | REWRITE | KWin rule or layer-shell (A) | M | High |
 | Main window thumbnails | ShareX/Presentation/MainWindow/ThumbnailItemViewModel.cs | Shell COM call deleted in M7 | SWAP | Videos get one frame from the host's `ffmpeg` through `VideoThumbnailHelper`, cancelled when the task is removed (virtual session: a synthetic clip and a damaged file). Damaged videos and images that can't be decoded show the placeholder icon, and the failure is logged | S | High |
-| Main window menus and position | ShareX/Presentation/MainWindow/MainWindow.axaml.cs:217,2111 | GetCursorPos; Position | LIMITED: global cursor anchoring lost | Pointer-event anchors (A) | S | Med |
+| Main window menus and position | ShareX/Presentation/MainWindow/MainWindow.axaml.cs:249,2129 | KWin cursor; Position | LIMITED: not run on the real desktop. In a virtual KWin session with two monitors the Toggle tray menu hotkey opened the menu at the pointer on either monitor and on screen at each corner; it stops above the panel. Escape does not close it; the hotkey does | None needed | S | Med |
 | Actions toolbar | ShareX/Presentation/ActionsToolbar/ActionsToolbarWindow.axaml.cs:54,266,271 | Topmost, Position, GetCursorPos | LIMITED: placement is compositor-dependent | KWin rule (A) | M | Med |
-| Notification window | ShareX/Presentation/Notification/NotificationWindow.cs:320,332,410 | GetCursorPos; Position | LIMITED: active-monitor placement and hover logic degraded | notify-send (V) | M | Med |
-| Quick task menu | ShareX/QuickTaskMenu.cs:94,107 | GetCursorPos; Topmost | LIMITED: cursor anchoring lost | Center placement (A) | S | High |
+| Notification window | ShareX/Presentation/Notification/NotificationWindow.cs:320,332,408 | KWin cursor; Position; `IsPointerOver` | LIMITED: not run on the real desktop with two monitors. In a virtual KWin session it opened on the pointer's monitor; hovering held it, also during the fade, and it closed after the pointer left. It fades if it opens under a still pointer, until the pointer moves. A monitor with no panel still leaves the panel's height free at the bottom | None needed | M | Med |
+| Quick task menu | ShareX/QuickTaskMenu.cs:94,107 | KWin cursor; Topmost | LIMITED: not run on the real desktop. Virtual session results are under ShowQuickTaskMenu; Escape closes it | None needed | S | High |
 | Topmost dialogs | ShareX/Presentation/AfterCapture/AfterCaptureWindow.axaml:13; ShareX/Presentation/BeforeUpload/BeforeUploadWindow.axaml:13; ShareX/Presentation/FileExist/FileExistWindow.axaml:11; ShareX/Presentation/UploadConfirmation/LargeFileUploadWarningWindow.axaml:12; ShareX/Presentation/UploadConfirmation/MultiUploadConfirmationWindow.axaml:12 | Topmost | UNVERIFIED | X11 backend on XWayland (A) | S | Low |
 | Application settings integrations | ShareX/Presentation/ApplicationSettings/ApplicationSettingsViewModel.cs:222,342,364-424,560 | Registry, shortcuts, Windows print text | SWAP | Linux integrations above; relabel options | M | High |
 | Failed-save message | ShareX/SettingManager.cs:168 | Windows-specific error text | SWAP | Linux wording | S | High |
