@@ -25,7 +25,6 @@
 
 using Microsoft.Win32;
 using System;
-using System.IO;
 
 namespace ShareX.HelpersLib
 {
@@ -92,62 +91,6 @@ namespace ShareX.HelpersLib
         public static int? GetValueDWord(string path, string name = null, RegistryHive root = RegistryHive.CurrentUser, RegistryView view = RegistryView.Default)
         {
             return (int?)GetValue(path, name, root, view);
-        }
-
-        public static string SearchProgramPath(string fileName)
-        {
-            // First method: HKEY_CLASSES_ROOT\Applications\{fileName}\shell\{command}\command
-
-            string[] commands = new string[] { "open", "edit" };
-
-            foreach (string command in commands)
-            {
-                string path = $@"HKEY_CLASSES_ROOT\Applications\{fileName}\shell\{command}\command";
-                string value = Registry.GetValue(path, null, null) as string;
-
-                if (!string.IsNullOrEmpty(value))
-                {
-                    string filePath = value.ParseQuoteString();
-
-                    if (File.Exists(filePath))
-                    {
-                        DebugHelper.WriteLine("Found program with first method: " + filePath);
-                        return filePath;
-                    }
-                }
-            }
-
-            // Second method: HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache
-
-            using (RegistryKey programs = Registry.CurrentUser.OpenSubKey(@"Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache"))
-            {
-                if (programs != null)
-                {
-                    foreach (string filePath in programs.GetValueNames())
-                    {
-                        string programPath = filePath;
-
-                        if (!string.IsNullOrEmpty(programPath))
-                        {
-                            foreach (string trim in new string[] { ".ApplicationCompany", ".FriendlyAppName" })
-                            {
-                                if (programPath.EndsWith(trim, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    programPath = programPath.Remove(programPath.Length - trim.Length);
-                                }
-                            }
-
-                            if (programPath.EndsWith(fileName, StringComparison.OrdinalIgnoreCase) && File.Exists(programPath))
-                            {
-                                DebugHelper.WriteLine("Found program with second method: " + programPath);
-                                return programPath;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }
