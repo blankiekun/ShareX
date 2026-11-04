@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using ShareX.HelpersLib;
+using System.Diagnostics;
 
 namespace ShareX.PhotoEditor.Core;
 
@@ -33,6 +34,7 @@ public sealed record FileFormatInfo(string Name, string[] Extensions, bool CanSa
 public static class ImageIO
 {
     public const string ProjectExtension = ".sxpe";
+    private const int MagickTimeoutSeconds = 30;
 
     public static IReadOnlyList<FileFormatInfo> Formats { get; } =
     [
@@ -87,14 +89,9 @@ public static class ImageIO
         }
     }
 
+    /// <summary>Returns null for a file that can't be decoded. Throws <see cref="InvalidDataException"/> when the format needs ImageMagick and it is missing.</summary>
     public static SKBitmap? DecodeImage(string path)
     {
-        string extension = Path.GetExtension(path).ToLowerInvariant();
-        if (extension is ".tif" or ".tiff")
-        {
-            SKBitmap? tiff = DecodeWithSystemDrawing(path);
-            if (tiff != null) return tiff;
-        }
         try
         {
             using FileStream stream = File.OpenRead(path);
@@ -102,26 +99,77 @@ public static class ImageIO
         }
         catch (Exception)
         {
-            return DecodeWithSystemDrawing(path);
+            return DecodeWithMagick(path);
         }
     }
 
-    /// <summary>Fallback decoder (GDI+) that also handles TIFF.</summary>
-    private static SKBitmap? DecodeWithSystemDrawing(string path)
+    // SkiaSharp's Linux build has no TIFF, HEIF or AVIF decoder. The coder is named so ImageMagick can't be
+    // talked into another one by what the file contains (MVG and MSL can read other files).
+    private static SKBitmap? DecodeWithMagick(string path)
     {
-        if (!OperatingSystem.IsWindows()) return null;
+        string? coder = Path.GetExtension(path).ToLowerInvariant() switch
+        {
+            ".tif" or ".tiff" => "tiff",
+            ".heic" or ".heif" => "heic",
+            ".avif" => "avif",
+            _ => null
+        };
+        if (coder == null) return null;
+        string magick = FileHelpers.FindExecutableOnPath("magick") ?? throw new InvalidDataException(
+            string.Format(ShareX.HelpersLib.Localization.Strings.ImageIO_Open_needs_ImageMagick, Path.GetFileName(path)));
         try
         {
-            using System.Drawing.Image image = System.Drawing.Image.FromFile(path);
+            using FileStream input = File.OpenRead(path);
             using MemoryStream png = new();
-            image.Save(png, System.Drawing.Imaging.ImageFormat.Png);
+            // The first page or image only, right way up. The file arrives on stdin, so its name can't be read as options.
+            if (!RunMagick(magick, input, png, $"{coder}:-[0]", "-auto-orient", "png32:-")) return null;
             png.Position = 0;
-            return SKBitmap.Decode(png);
+            return SkiaImageHelpers.Decode(png, false);
         }
-        catch (Exception)
+        catch (Exception e) when (e is IOException or InvalidDataException or UnauthorizedAccessException or System.ComponentModel.Win32Exception)
         {
+            DebugHelper.WriteException(e, $"ImageMagick could not decode {Path.GetFileName(path)}");
             return null;
         }
+    }
+
+    // The file is untrusted, so what it may cost is limited: a small file can claim a huge image.
+    private static bool RunMagick(string magick, Stream input, Stream output, params string[] arguments)
+    {
+        ProcessStartInfo startInfo = new(magick)
+        {
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false
+        };
+        foreach (string argument in (string[])["-limit", "memory", "1GiB", "-limit", "map", "1GiB", "-limit", "disk", "1GiB", "-limit", "area", "256MP", "-limit", "time", "30"])
+            startInfo.ArgumentList.Add(argument);
+        foreach (string argument in arguments) startInfo.ArgumentList.Add(argument);
+
+        using Process process = Process.Start(startInfo)!;
+        using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(MagickTimeoutSeconds));
+        Task writer = Task.Run(async () =>
+        {
+            try { await input.CopyToAsync(process.StandardInput.BaseStream, timeout.Token); }
+            catch (IOException) { } // It stopped reading, which its exit code will explain.
+            finally { process.StandardInput.Close(); }
+        });
+        Task<string> errors = process.StandardError.ReadToEndAsync(timeout.Token);
+        try
+        {
+            process.StandardOutput.BaseStream.CopyToAsync(output, timeout.Token).GetAwaiter().GetResult();
+            process.WaitForExitAsync(timeout.Token).GetAwaiter().GetResult();
+            writer.GetAwaiter().GetResult();
+        }
+        catch (OperationCanceledException)
+        {
+            process.Kill(true);
+            throw new IOException($"magick did not finish within {MagickTimeoutSeconds} seconds.");
+        }
+        if (process.ExitCode == 0) return true;
+        DebugHelper.WriteLine($"magick exited with {process.ExitCode}: {errors.GetAwaiter().GetResult()}");
+        return false;
     }
 
     /// <summary>Creates a single-layer document from a bitmap. Opaque images get a locked Background layer.</summary>
@@ -205,12 +253,11 @@ public static class ImageIO
 
     private static void SaveTiff(SKBitmap bitmap, Stream stream)
     {
-        if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("TIFF export requires Windows.");
+        string magick = FileHelpers.FindExecutableOnPath("magick") ?? throw new InvalidOperationException(ShareX.HelpersLib.Localization.Strings.ImageIO_Save_needs_ImageMagick);
         using MemoryStream png = new();
         bitmap.Save(png, SKEncodedImageFormat.Png);
         png.Position = 0;
-        using System.Drawing.Image image = System.Drawing.Image.FromStream(png);
-        image.Save(stream, System.Drawing.Imaging.ImageFormat.Tiff);
+        if (!RunMagick(magick, png, stream, "png:-", "-compress", "zip", "tiff:-")) throw new IOException("magick could not write the TIFF file.");
     }
 
     public static SKBitmap FlattenOnto(SKBitmap bitmap, SKColor background)
