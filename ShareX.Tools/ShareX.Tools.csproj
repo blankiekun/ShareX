@@ -26,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="ShareX.ScreenRecordingLib.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="ShareX.AvaloniaUI.Imaging" />
     <Using Include="ShareX.Tools.Infrastructure" />
   </ItemGroup>

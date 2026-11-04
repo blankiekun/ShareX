@@ -156,8 +156,7 @@ public sealed partial class OCRViewModel : ViewModelBase, IDisposable
             Languages.Add(language);
         }
 
-        _selectedLanguage = Languages.FirstOrDefault(x => x.LanguageTag.Equals(options.Language, StringComparison.OrdinalIgnoreCase))
-            ?? Languages.FirstOrDefault();
+        _selectedLanguage = OCRHelper.PickLanguage(Languages, options.Language);
         _scaleFactor = (decimal)Math.Clamp(options.ScaleFactor, 1f, 4f);
         _singleLine = options.SingleLine;
         _autoCopy = options.AutoCopy;
