@@ -688,11 +688,7 @@ namespace ShareX
         {
             if (ApplicationState.Settings.DontShowPrintSettingsDialog)
             {
-                using (PrintHelper printHelper = new PrintHelper(img))
-                {
-                    printHelper.Settings = ApplicationState.Settings.PrintSettings;
-                    printHelper.Print();
-                }
+                new PrintHelper(img) { Settings = ApplicationState.Settings.PrintSettings }.Print();
             }
             else
             {

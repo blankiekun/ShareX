@@ -370,6 +370,9 @@ namespace ShareX.HelpersLib.Localization {
         public static string PrintHelper_Invalid_printer_message {
             get { return ResourceManager.GetString("PrintHelper_Invalid_printer_message", resourceCulture); }
         }
+        public static string PrintHelper_Print_failed {
+            get { return ResourceManager.GetString("PrintHelper_Print_failed", resourceCulture); }
+        }
         public static string PrintHelper_Invalid_printer_name {
             get { return ResourceManager.GetString("PrintHelper_Invalid_printer_name", resourceCulture); }
         }
