@@ -451,6 +451,8 @@ internal partial class ScreenRecorderBarWindow : Window
         _regionWindow ??= new ScrollingCaptureRegionWindow(RecordingRegion) { Title = Title };
         _regionWindow.FindControl<RecordingRegionBorder>("RegionBorder")!.AccentBrush = Brushes.Goldenrod;
         _regionWindow.Show();
+        // The outline only marks the area, so what is under it stays usable while the recording is set up.
+        X11InputShape.SetEmpty(_regionWindow);
     }
 
     private void ShowPanel(string id, string title, Func<Control> build)

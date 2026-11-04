@@ -742,30 +742,22 @@ namespace ShareX
                 taskSettings.ExternalPrograms = new List<ExternalProgram>();
             }
 
-            AddExternalProgramFromRegistry(taskSettings, "Paint", "mspaint.exe");
-            AddExternalProgramFromRegistry(taskSettings, "Paint.NET", "PaintDotNet.exe");
-            AddExternalProgramFromRegistry(taskSettings, "Adobe Photoshop", "Photoshop.exe");
-            AddExternalProgramFromRegistry(taskSettings, "IrfanView", "i_view32.exe");
-            AddExternalProgramFromRegistry(taskSettings, "XnView", "xnview.exe");
+            AddExternalProgramFromPath(taskSettings, "KolourPaint", "kolourpaint");
+            AddExternalProgramFromPath(taskSettings, "Krita", "krita");
+            AddExternalProgramFromPath(taskSettings, "GIMP", "gimp");
+            AddExternalProgramFromPath(taskSettings, "Pinta", "pinta");
+            AddExternalProgramFromPath(taskSettings, "Inkscape", "inkscape");
         }
 
-        private static void AddExternalProgramFromRegistry(TaskSettings taskSettings, string name, string fileName)
+        private static void AddExternalProgramFromPath(TaskSettings taskSettings, string name, string fileName)
         {
             if (!taskSettings.ExternalPrograms.Exists(x => x.Name == name))
             {
-                try
-                {
-                    string filePath = RegistryHelpers.SearchProgramPath(fileName);
+                string filePath = FileHelpers.FindExecutableOnPath(fileName);
 
-                    if (!string.IsNullOrEmpty(filePath))
-                    {
-                        ExternalProgram externalProgram = new ExternalProgram(name, filePath);
-                        taskSettings.ExternalPrograms.Add(externalProgram);
-                    }
-                }
-                catch (Exception e)
+                if (!string.IsNullOrEmpty(filePath))
                 {
-                    DebugHelper.WriteException(e);
+                    taskSettings.ExternalPrograms.Add(new ExternalProgram(name, filePath));
                 }
             }
         }
