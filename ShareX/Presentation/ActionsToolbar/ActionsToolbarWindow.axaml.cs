@@ -44,6 +44,7 @@ namespace ShareX;
 public partial class ActionsToolbarWindow : Window
 {
     private bool _positionReady;
+    private PixelPoint? _requestedPosition;
     private bool _adjustingPosition;
     private bool _closing;
 
@@ -230,6 +231,7 @@ public partial class ActionsToolbarWindow : Window
         PointerUpdateKind kind = e.GetCurrentPoint(TitleHandle).Properties.PointerUpdateKind;
         if (kind == PointerUpdateKind.LeftButtonPressed && !ApplicationState.Settings.ActionsToolbarLockPosition)
         {
+            _positionReady = true;
             BeginMoveDrag(e);
             e.Handled = true;
         }
@@ -250,8 +252,6 @@ public partial class ActionsToolbarWindow : Window
     private void OnOpened(object? sender, EventArgs e)
     {
         RestorePosition();
-        _positionReady = true;
-        ClampAndSavePosition();
         Activate();
     }
 
@@ -263,7 +263,7 @@ public partial class ActionsToolbarWindow : Window
             PixelPoint point = new(saved.X, saved.Y);
             if (Screens.All.Any(screen => screen.WorkingArea.Contains(point)))
             {
-                Position = point;
+                RequestPosition(point);
                 return;
             }
         }
@@ -272,16 +272,29 @@ public partial class ActionsToolbarWindow : Window
         Screen? screen = Screens.ScreenFromPoint(new PixelPoint(cursor.X, cursor.Y)) ?? Screens.Primary;
         if (screen == null)
         {
+            _positionReady = true;
             return;
         }
 
         PixelRect area = screen.WorkingArea;
         PixelSize size = PixelSize.FromSize(ClientSize, screen.Scaling);
-        Position = new PixelPoint(area.Right - size.Width, area.Bottom - size.Height);
+        RequestPosition(new PixelPoint(area.Right - size.Width, area.Bottom - size.Height));
+    }
+
+    /// <summary>
+    /// Until KWin answers, Position still reads 0,0 and then where KWin first placed the window. Under a top or left panel those are outside the
+    /// work area, and clamping them would replace this request and save the wrong place. So nothing is clamped or saved until the answer comes.
+    /// </summary>
+    private void RequestPosition(PixelPoint point)
+    {
+        _requestedPosition = point;
+        Position = point;
     }
 
     private void OnPositionChanged(object? sender, PixelPointEventArgs e)
     {
+        _positionReady |= e.Point == _requestedPosition;
+
         if (_positionReady)
         {
             ClampAndSavePosition();
