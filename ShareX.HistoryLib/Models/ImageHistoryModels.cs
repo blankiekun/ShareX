@@ -239,24 +239,6 @@ public sealed class ImageHistoryThumbnailLoader : IDisposable
     {
         if (token.IsCancellationRequested) return null;
 
-        try
-        {
-            using DrawingBitmap? shellThumbnail = NativeMethods.GetFileThumbnail(filePath, new DrawingSize(width, height));
-            if (shellThumbnail != null)
-            {
-                if (token.IsCancellationRequested) return null;
-                return BitmapConversionHelpers.CreatePreview(shellThumbnail, new PixelSize(width, height));
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            return null;
-        }
-        catch (Exception ex)
-        {
-            DebugHelper.WriteException(ex);
-        }
-
         if (token.IsCancellationRequested || FileHelpers.IsVideoFile(filePath)) return null;
         using FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         AvaloniaBitmap thumbnail = AvaloniaBitmap.DecodeToWidth(stream, width);

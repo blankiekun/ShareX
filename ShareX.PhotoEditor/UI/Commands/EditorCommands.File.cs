@@ -358,7 +358,16 @@ public static partial class EditorCommands
     {
         PhotoDocument? doc = w.Document;
         if (doc == null) return;
-        SKBitmap? bitmap = ImageIO.DecodeImage(path);
+        SKBitmap? bitmap;
+        try
+        {
+            bitmap = ImageIO.DecodeImage(path);
+        }
+        catch (InvalidDataException ex)
+        {
+            w.ShowMessage(ex.Message);
+            return;
+        }
         if (bitmap == null)
         {
             w.ShowMessage($"Could not place \"{Path.GetFileName(path)}\" because the file format is not supported.");

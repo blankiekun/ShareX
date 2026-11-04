@@ -35,7 +35,7 @@ namespace ShareX.ImageEditor.Presentation.Converters
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             CursorType cursorType = value is CursorType typedCursor ? typedCursor : CursorType.Default;
-            return WindowsCursorBitmapRenderer.GetPreviewBitmap(cursorType);
+            return CursorBitmapRenderer.GetPreviewBitmap(cursorType);
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
