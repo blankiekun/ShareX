@@ -205,7 +205,6 @@ namespace ShareX
             }
 
             Rectangle captureRectangle = Rectangle.Empty;
-            IntPtr captureWindow = IntPtr.Zero;
             TaskMetadata metadata = new TaskMetadata();
 
             switch (startMethod)
@@ -220,19 +219,16 @@ namespace ShareX
                     }
                     break;
                 case ScreenRecordStartMethod.ActiveWindow:
-                    if (taskSettings.CaptureSettings.CaptureClientArea)
+                    try
                     {
-                        captureRectangle = CaptureHelpers.GetActiveWindowClientRectangle();
+                        captureRectangle = GetActiveWindowRegion(taskSettings.CaptureSettings.CaptureClientArea, metadata);
                     }
-                    else
+                    catch (Exception ex) when (ex is ScreenCaptureException or KWinScriptException)
                     {
-                        captureRectangle = CaptureHelpers.GetActiveWindowRectangle();
+                        DebugHelper.WriteException(ex);
+                        ex.ShowError(false);
+                        return;
                     }
-
-                    IntPtr handle = NativeMethods.GetForegroundWindow();
-                    if (!taskSettings.CaptureSettings.CaptureClientArea) captureWindow = handle;
-                    WindowInfo activeWindowInfo = new WindowInfo(handle);
-                    metadata.UpdateInfo(activeWindowInfo);
                     break;
                 case ScreenRecordStartMethod.CustomRegion:
                     captureRectangle = taskSettings.CaptureSettings.CaptureCustomRegion;
@@ -262,7 +258,7 @@ namespace ShareX
             {
                 try
                 {
-                    configurationBar = new ScreenRecorderBarWindow(taskSettings, captureRectangle, captureWindow, isGif);
+                    configurationBar = new ScreenRecorderBarWindow(taskSettings, captureRectangle, isGif);
                     bool record = await configurationBar.ShowSetupAsync();
                     configurationBar.Commit(taskSettings);
                     SettingManager.SaveApplicationConfigAsync();
@@ -273,7 +269,6 @@ namespace ShareX
                         return;
                     }
                     captureRectangle = configurationBar.RecordingRegion;
-                    captureWindow = configurationBar.CaptureWindow;
                     fps = isGif ? taskSettings.CaptureSettings.GIFFPS : taskSettings.CaptureSettings.ScreenRecordFPS;
                 }
                 catch (Exception ex)
@@ -309,11 +304,7 @@ namespace ShareX
             };
             recordForm.UseInProcessPause = useNative;
             recordForm.PauseRequested += () => nativeRecorder?.Pause();
-            recordForm.ResumeRequested += () =>
-            {
-                if (captureWindow == IntPtr.Zero) nativeRecorder?.Resume(recordForm.RecordingRegion);
-                else nativeRecorder?.Resume();
-            };
+            recordForm.ResumeRequested += () => nativeRecorder?.Resume(recordForm.RecordingRegion);
 
             recordForm.StopRequested += StopRecording;
             recordForm.Show();
@@ -358,7 +349,7 @@ namespace ShareX
 
                     if (useNative && !abortRequested)
                     {
-                        abortRequested = await RecordNativeAsync(path, captureWindow, taskSettings, replaceNativeOutput, isGif);
+                        abortRequested = await RecordNativeAsync(path, taskSettings, replaceNativeOutput, isGif);
                     }
 
                     while (!useNative && !abortRequested && (recordForm.Status == ScreenRecordingStatus.Waiting || recordForm.Status == ScreenRecordingStatus.Paused))
@@ -552,7 +543,26 @@ namespace ShareX
             });
         }
 
-        private static async Task<bool> RecordNativeAsync(string path, IntPtr captureWindow, TaskSettings settings, bool replaceExisting, bool isGif)
+        /// <summary>
+        /// The window's rectangle, to record like any other region, as gpu-screen-recorder can't capture a window on Wayland.
+        /// So what overlaps the window shows up, and a window that moves afterward isn't followed.
+        /// </summary>
+        /// <exception cref="ScreenCaptureException">There is no window to record, or it isn't on one monitor.</exception>
+        /// <exception cref="KWinScriptException">KWin is unavailable, or did not answer in time.</exception>
+        private static Rectangle GetActiveWindowRegion(bool clientArea, TaskMetadata metadata)
+        {
+            KWinDesktop desktop = KWinDesktop.Query();
+            KWinWindow window = desktop.ActiveOrLastUsedWindow(Environment.ProcessId) ?? throw new ScreenCaptureException(Strings.CaptureBase_NoOtherWindow);
+            Rectangle region = desktop.FitToOneOutput(clientArea ? window.ClientGeometry : window.FrameGeometry) ?? throw new ScreenCaptureException(Strings.ScreenRecord_WindowNotOnOneMonitor);
+
+            // ShareX has the focus, so its window may be over the one to record.
+            if (desktop.ActiveWindowId != window.Id) KWinDesktop.ActivateWindow(window.Id);
+
+            metadata.UpdateInfo(window);
+            return desktop.Coordinates.LogicalToX11(region);
+        }
+
+        private static async Task<bool> RecordNativeAsync(string path, TaskSettings settings, bool replaceExisting, bool isGif)
         {
             // HandleExistsFile has already applied the user's overwrite policy. Commit a completed
             // recording afterward so aborts, restarts and startup errors preserve an existing file.
@@ -566,7 +576,6 @@ namespace ShareX
                 {
                     OutputPath = recordingPath,
                     Region = recordForm.RecordingRegion,
-                    WindowHandle = captureWindow,
                     FramesPerSecond = isGif ? settings.CaptureSettings.GIFFPS : settings.CaptureSettings.ScreenRecordFPS,
                     ConstantFrameRate = isGif,
                     VideoBitrate = settings.CaptureSettings.ScreenRecordVideoBitrate * 1000,
@@ -608,7 +617,7 @@ namespace ShareX
                     if (recordForm.Status == ScreenRecordingStatus.Aborted) return true;
                     if (recordForm.Status == ScreenRecordingStatus.Stopped) return true;
                     // A waiting recording region can be dragged. Rebuild for its final physical coordinates.
-                    if (captureWindow == IntPtr.Zero && options.Region != recordForm.RecordingRegion)
+                    if (options.Region != recordForm.RecordingRegion)
                     {
                         await nativeRecorder.DisposeAsync();
                         options = options with { Region = recordForm.RecordingRegion };

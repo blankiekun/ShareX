@@ -60,6 +60,7 @@ public partial class ScreenRecordWindow : Window, IDisposable
     private readonly int _captureWidth;
     private readonly int _captureHeight;
     private readonly PixelPoint _initialPosition;
+    private PixelPoint _regionLocation;
     private readonly DispatcherTimer _refreshTimer;
     private readonly NativeMenu _trayMenu;
     private readonly NativeMenuItem _trayStartItem;
@@ -168,11 +169,11 @@ public partial class ScreenRecordWindow : Window, IDisposable
         }
     }
 
-    public DrawingRectangle RecordingRegion => new(
-        Position.X + _frameLeftPixels + BorderPixels,
-        Position.Y + BorderPixels,
-        _captureWidth,
-        _captureHeight);
+    /// <summary>
+    /// Not worked out from where the window is: KWin keeps a window that moves itself inside the work area, so at a monitor's edge the frame
+    /// can't always sit around what is being recorded. Only the user dragging the frame moves this.
+    /// </summary>
+    public DrawingRectangle RecordingRegion => new(_regionLocation.X, _regionLocation.Y, _captureWidth, _captureHeight);
 
     public ScreenRecordWindow()
         : this(new DrawingRectangle(0, 0, 640, 360))
@@ -183,6 +184,7 @@ public partial class ScreenRecordWindow : Window, IDisposable
     {
         _captureWidth = regionRectangle.Width;
         _captureHeight = regionRectangle.Height;
+        _regionLocation = new PixelPoint(regionRectangle.X, regionRectangle.Y);
         _initialPosition = new PixelPoint(regionRectangle.X - BorderPixels, regionRectangle.Y - BorderPixels);
 
         InitializeComponent();
@@ -712,6 +714,7 @@ public partial class ScreenRecordWindow : Window, IDisposable
         if (CaptureHelpers.GetScreenBounds().Contains(recordingRegion))
         {
             Position = candidate;
+            _regionLocation = new PixelPoint(recordingRegion.X, recordingRegion.Y);
         }
         else
         {

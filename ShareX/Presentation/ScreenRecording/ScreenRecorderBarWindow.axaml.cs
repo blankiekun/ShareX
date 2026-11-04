@@ -60,17 +60,15 @@ internal partial class ScreenRecorderBarWindow : Window
     private bool _closed;
 
     public DrawingRectangle RecordingRegion { get; private set; }
-    public IntPtr CaptureWindow { get; }
     private TaskSettingsCapture Capture => _draft.Capture;
 
-    public ScreenRecorderBarWindow(TaskSettings settings, DrawingRectangle region, IntPtr window, bool gif = false)
+    public ScreenRecorderBarWindow(TaskSettings settings, DrawingRectangle region, bool gif = false)
     {
         InitializeComponent();
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
         _draft = new(settings);
         _gif = gif;
         RecordingRegion = region;
-        CaptureWindow = window;
         _recordButton = ActionButton(Strings.ScreenRecorderBar_Record, LucideIcons.circle, RecordClicked, toolbar: true);
         _recordButton.Classes.Add("recorder-record");
 
@@ -135,17 +133,6 @@ internal partial class ScreenRecorderBarWindow : Window
         if (_closed) return;
         foreach (Source source in _sources) RefreshSource(source);
         if (!ValidateSources()) return;
-        if (CaptureWindow != IntPtr.Zero)
-        {
-            WindowInfo target = new(CaptureWindow);
-            if (!target.IsVisible || target.IsMinimized || !target.Rectangle.IsValid())
-            {
-                ShowError(Strings.ScreenRecorderBar_TargetUnavailable);
-                return;
-            }
-            // The window may have moved or resized while its settings were being edited.
-            RecordingRegion = _gif ? target.Rectangle : CaptureHelpers.EvenRectangleSize(target.Rectangle);
-        }
         _completion.TrySetResult(true);
         Close();
     }
@@ -471,12 +458,6 @@ internal partial class ScreenRecorderBarWindow : Window
         PanelContent.Content = null;
         _activePanel = null;
         Dispatcher.UIThread.Post(ClampToScreen, DispatcherPriority.Loaded);
-    }
-
-    private void ShowError(string message)
-    {
-        ErrorMessage.Text = message;
-        ErrorMessage.IsVisible = true;
     }
 
     private void PositionNearRegion()

@@ -117,7 +117,6 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
     /// <summary>gpu-screen-recorder can't move a running capture, so a different position is logged and recording resumes where it was.</summary>
     public void Resume(Rectangle region)
     {
-        if (options.WindowHandle != 0) throw new InvalidOperationException("Window capture follows its target window rather than a desktop region.");
         if ((region.Width & ~1) != (options.Region.Width & ~1) || (region.Height & ~1) != (options.Region.Height & ~1))
             throw new ArgumentException("Moving the recording region cannot change its output dimensions.", nameof(region));
         if (region.Location != options.Region.Location)
@@ -169,8 +168,6 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
         bool ownsOutput = false, keepTemporary = false;
         try
         {
-            if (options.WindowHandle != 0)
-                throw new PlatformNotSupportedException("Recording a single window isn't available on Wayland. Select the window's area as a region instead.");
             string recorder = HostTools.RequireRecorder();
             CapturedRegion = GsrCommand.PlanRegion(options.Region, HostTools.GetMonitors());
             Encoder = new VideoEncoderInfo("gpu-screen-recorder h264", options.RequireHardwareEncoder, false);
