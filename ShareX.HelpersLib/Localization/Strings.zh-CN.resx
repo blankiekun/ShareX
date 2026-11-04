@@ -867,6 +867,12 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>图像文件</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>无法打开 «{0}»，因为此格式需要 ImageMagick，但未找到 magick 命令。请安装 imagemagick 软件包。</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>保存为 TIFF 需要 ImageMagick，但未找到 magick 命令。请安装 imagemagick 软件包。</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>打开图像</value>
   </data>
@@ -986,6 +992,11 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>打印机名称无效</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX 无法打印：{0}
+
+打印通过桌面的打印门户进行。请检查是否已安装 xdg-desktop-portal 和 xdg-desktop-portal-kde；如需使用实体打印机，还需安装 cups。</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>允许放大图像</value>

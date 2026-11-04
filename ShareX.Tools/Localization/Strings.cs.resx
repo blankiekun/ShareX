@@ -389,6 +389,9 @@ Cesta k souboru: {0}</value>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX – Odstranění pozadí</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin to u tohoto okna nedokáže: okno si kreslí vlastní záhlaví, nebo nemůže přejít na celou obrazovku.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Vybrané okno nelze přepnout. {0}</value>
   </data>
@@ -1166,11 +1169,20 @@ Cesta k souboru: {0}</value>
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Ovládací prvek</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>Soubor .desktop</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Rozšířené styly okna</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Není vybrán žádný cíl</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Obrazovka</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Vyberte okno a prohlédněte si jeho vlastnosti.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Vyberte okno nebo ovládací prvek a prohlédněte jeho vlastnosti</value>
@@ -1187,6 +1199,9 @@ Cesta k souboru: {0}</value>
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Šířka: {2}  Výška: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Název prostředku</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Okno bez názvu</value>
   </data>
@@ -1196,14 +1211,26 @@ Cesta k souboru: {0}</value>
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Popisovač okna</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>ID okna</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Obdélník okna</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Role okna</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Stav okna</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Styly okna</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Název okna</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Typ okna</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Vždy navrchu</value>
@@ -1456,6 +1483,9 @@ Cesta k souboru: {0}</value>
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Režim zvýraznění:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Zvýrazňuje ukazatel, a to i v nahrávkách, pokud je zapnutá možnost zvýrazňovače myši v Nastavení úloh → Zachycení → Záznam obrazovky. Kliknutí zvýraznit nelze: Wayland aplikacím neumožňuje je vidět.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Barva primárního tlačítka:</value>
   </data>
@@ -1606,11 +1636,26 @@ Cesta k souboru: {0}</value>
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Cíl</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract selhal s kódem {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract nemá data pro jazyk „{0}“. Nainstalujte je pomocí správce balíčků, například: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>Jazyk {0} není v tomto systému pro OCR dostupný.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract nemá nainstalována žádná jazyková data. Nainstalujte jazyk pomocí správce balíčků, například: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Optické rozpoznávání znaků je dostupné pouze ve Windows verze {0} nebo novější.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR vyžaduje program tesseract, který nebyl v PATH nalezen. Nainstalujte jej pomocí správce balíčků, například: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract nedokončil práci do {0} sekund a byl zastaven.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2158,8 +2203,14 @@ Cesta k souboru: {0}</value>
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Načítání videa...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>Přehrávání videa vyžaduje libmpv. Nainstalujte balíček mpv.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Ztlumit</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Toto video nelze přehrát. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Pozice přehrávání</value>

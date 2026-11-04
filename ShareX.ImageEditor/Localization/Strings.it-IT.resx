@@ -1134,6 +1134,9 @@ Gli appunti non contengono un’immagine.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Caricamento emoji...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Nessun font emoji trovato, quindi le emoji non possono essere disegnate. Installa il pacchetto noto-fonts-emoji e riavvia ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Nessuna emoji corrisponde a questa ricerca.</value>
   </data>

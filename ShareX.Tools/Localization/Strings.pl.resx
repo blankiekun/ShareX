@@ -388,6 +388,9 @@
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX — usuwanie tła</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin nie może tego zrobić dla tego okna: okno rysuje własny pasek tytułu lub nie może przejść na pełny ekran.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Nie można przełączyć wybranego okna. {0}</value>
   </data>
@@ -1162,11 +1165,20 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Kontrolka</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>Plik .desktop</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Rozszerzone style okna</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Nie wybrano celu</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Ekran</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Wybierz okno, aby zbadać jego właściwości.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Wybierz okno lub kontrolkę, aby zbadać jej właściwości</value>
@@ -1183,6 +1195,9 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Szerokość: {2}  Wysokość: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Nazwa zasobu</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Okno bez tytułu</value>
   </data>
@@ -1192,14 +1207,26 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Uchwyt okna</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>ID okna</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Prostokąt okna</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Rola okna</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Stan okna</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Style okna</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Tytuł okna</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Typ okna</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Zawsze na wierzchu</value>
@@ -1450,6 +1477,9 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Tryb podświetlenia:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Podświetla wskaźnik, także w nagraniach, gdy opcja podświetlania kliknięć myszy jest włączona w Ustawienia zadań → Przechwytywanie → Rejestrator ekranu. Kliknięć nie można podświetlić: Wayland nie pozwala aplikacjom ich widzieć.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Podstawowy kolor przycisku:</value>
   </data>
@@ -1600,11 +1630,26 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Cel</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract zakończył się błędem z kodem {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract nie ma danych dla języka «{0}». Zainstaluj je za pomocą menedżera pakietów, na przykład: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>Język {0} nie jest dostępny w tym systemie dla OCR.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract nie ma zainstalowanych danych językowych. Zainstaluj język za pomocą menedżera pakietów, na przykład: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Optyczne rozpoznawanie znaków jest dostępne tylko w systemie Windows w wersji {0} lub nowszej.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR wymaga programu tesseract, którego nie znaleziono w PATH. Zainstaluj go za pomocą menedżera pakietów, na przykład: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract nie zakończył pracy w ciągu {0} s i został zatrzymany.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2152,8 +2197,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Wczytywanie wideo...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>Odtwarzanie wideo wymaga libmpv. Zainstaluj pakiet mpv.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Wycisz</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Nie można odtworzyć tego wideo. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Pozycja odtwarzania</value>

@@ -2064,9 +2064,64 @@
     <value>خطأ أثناء تصدير النسخة الاحتياطية:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>تحتوي نسخة ShareX الاحتياطية على بيانات تسجيل الدخول ومفاتيح API الخاصة بك كنص عادي غير مشفر، حتى يمكن نقلها إلى جهاز آخر. يمكن لأي شخص يحصل على الملف استخدامها.&#xD;
+&#xD;
+احتفظ به بشكل خاص واحذفه بعد الانتهاء من استعادته. هل تريد التصدير رغم ذلك؟</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>خطأ أثناء استيراد النسخة الاحتياطية:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} في النسخة الاحتياطية تالف، لذا لم يتم استيراد أي شيء.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>تحتوي النسخة الاحتياطية على بيانات تسجيل دخول لا يمكن تخزينها بدون محفظتك، لذا لم يتم استيراد أي شيء. افتح المحفظة وحاول مرة أخرى.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>لا يحتوي الملف على إعدادات أو سجل ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>تأثيرات الصور التي تم استبعادها، لأن هذا الإصدار لا يتضمنها:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>السجل: تمت إضافة {0}، و{1} موجودة هنا بالفعل، و{2} غير قابلة للقراءة.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>تم حفظ سجلك السابق في {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>لم يتم استيراد السجل: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>المجلدات التي تم تغييرها إلى موقعها في Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>الإعدادات التي أعيدت إلى قيمتها الافتراضية، لأن المسار ليس له مقابل هنا:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>يحتوي ملف النسخة الاحتياطية هذا على بيانات تسجيل الدخول الخاصة بك كنص عادي غير مشفر. احذفه بعد أن تتأكد من نجاح الاستيراد.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>بيانات تسجيل الدخول التي تم نقلها، وهي الآن مشفرة بمحفظتك:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>سجّل الدخول مرة أخرى. هذه البيانات مشفرة لجهاز آخر ولا يمكن قراءتها هنا:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>الملفات الموجودة في النسخة الاحتياطية التي تم تجاهلها:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>تم استيراد النسخة الاحتياطية</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>الإجراءات التي تم إيقافها، حتى لا يعمل أي شيء من النسخة الاحتياطية من تلقاء نفسه. تحقق منها وأعد تشغيلها:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>تعذّر حفظ {0}. توقف الاستيراد عند هذه النقطة.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>لا يمكن إغلاق البرنامج أثناء تسجيل الشاشة.

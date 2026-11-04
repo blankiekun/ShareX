@@ -1134,6 +1134,9 @@ Panoda görüntü yok.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Emojiler yükleniyor...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Emoji yazı tipi bulunamadı, bu nedenle emojiler çizilemiyor. noto-fonts-emoji paketini yükleyin ve ShareX'i yeniden başlatın.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Bu aramayla eşleşen emoji yok.</value>
   </data>

@@ -867,6 +867,12 @@ Bạn vẫn muốn chạy tệp này chứ?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Tệp hình ảnh</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Không thể mở «{0}» vì định dạng này cần ImageMagick và không tìm thấy lệnh magick. Hãy cài đặt gói imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Lưu dưới dạng TIFF cần ImageMagick và không tìm thấy lệnh magick. Hãy cài đặt gói imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Mở ảnh</value>
   </data>
@@ -986,6 +992,11 @@ Bạn vẫn muốn chạy tệp này chứ?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Tên máy in không hợp lệ</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX không thể in: {0}
+
+Việc in đi qua cổng in của môi trường máy tính. Hãy kiểm tra xem xdg-desktop-portal và xdg-desktop-portal-kde đã được cài đặt chưa, và cả cups nếu dùng máy in thật.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Cho phép phóng to ảnh</value>

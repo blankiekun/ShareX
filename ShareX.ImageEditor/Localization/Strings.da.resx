@@ -1134,6 +1134,9 @@ Udklipsholder indeholder intet billede.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Indlæser emojier...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Der blev ikke fundet nogen emoji-skrifttype, så emoji kan ikke tegnes. Installér pakken noto-fonts-emoji, og genstart ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Ingen emojier matcher søgningen.</value>
   </data>

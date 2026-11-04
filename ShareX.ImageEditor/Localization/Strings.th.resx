@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>กำลังโหลด อีโมจิ...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>ไม่พบฟอนต์อีโมจิ จึงไม่สามารถวาดอีโมจิได้ โปรดติดตั้งแพ็กเกจ noto-fonts-emoji แล้วเริ่ม ShareX ใหม่</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>ไม่มีอีโมจิที่ตรงกับการค้นหานี้</value>
   </data>

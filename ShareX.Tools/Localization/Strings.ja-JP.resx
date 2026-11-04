@@ -388,6 +388,9 @@
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - 背景削除</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin はこのウィンドウに対してこの操作を実行できません: ウィンドウが独自のタイトル バーを描画しているか、全画面表示にできません。</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>選択したウィンドウを切り替えられません。{0}</value>
   </data>
@@ -1162,11 +1165,20 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>コントロール</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop ファイル</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>拡張ウィンドウ スタイル</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>対象が選択されていません</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>ディスプレイ</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>プロパティを調査するウィンドウを選択してください。</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>プロパティを調査するウィンドウまたはコントロールを選択してください</value>
@@ -1183,6 +1195,9 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  幅: {2}  高さ: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>リソース名</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>無題のウィンドウ</value>
   </data>
@@ -1192,14 +1207,26 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>ウィンドウ ハンドル</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>ウィンドウ ID</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>ウィンドウ領域</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>ウィンドウの役割</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>ウィンドウの状態</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>ウィンドウ スタイル</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>ウィンドウ タイトル</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>ウィンドウの種類</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>常に手前に表示</value>
@@ -1450,6 +1477,9 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>ハイライトモード:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>ポインターを強調表示します。[タスクの設定] → [キャプチャ] → [画面録画] でマウス ハイライターのオプションがオンの場合は、録画内でも強調表示します。クリックは強調表示できません: Wayland ではアプリからクリックを検知できません。</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>主なボタンの色:</value>
   </data>
@@ -1600,11 +1630,26 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>ターゲット</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract がコード {0} で失敗しました。{1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract に言語「{0}」のデータがありません。パッケージ マネージャーでインストールしてください。例: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>このシステムでは OCR 用の {0} 言語を利用できません。</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract の言語データがインストールされていません。パッケージ マネージャーで言語をインストールしてください。例: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>光学文字認識は Windows バージョン {0} 以降でのみ利用できます。</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR には tesseract プログラムが必要ですが、PATH 上に見つかりませんでした。パッケージ マネージャーでインストールしてください。例: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract が {0} 秒以内に完了しなかったため、停止しました。</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2152,8 +2197,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>動画を読み込み中...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>動画の再生には libmpv が必要です。mpv パッケージをインストールしてください。</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>ミュート</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>この動画を再生できませんでした。{0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>再生位置</value>

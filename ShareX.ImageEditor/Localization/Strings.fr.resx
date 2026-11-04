@@ -1134,6 +1134,9 @@ Le presse-papiers ne contient aucune image.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Chargement des emojis...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Aucune police d’emoji n’a été trouvée, les emoji ne peuvent donc pas être dessinés. Installez le paquet noto-fonts-emoji et redémarrez ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Aucun emoji ne correspond à cette recherche.</value>
   </data>

@@ -389,6 +389,9 @@
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - पृष्ठभूमि हटाने वाला</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin इस विंडो के लिए यह नहीं कर सकता: विंडो अपना शीर्षक बार स्वयं बनाती है, या पूर्ण स्क्रीन में नहीं जा सकती।</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>चुनी गई विंडो को बदलना संभव नहीं। {0}</value>
   </data>
@@ -1166,11 +1169,20 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>नियंत्रण</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop फ़ाइल</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>विस्तारित विंडो शैलियाँ</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>कोई लक्ष्य चयनित नहीं</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>डिस्प्ले</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>गुणों की जाँच के लिए कोई विंडो चुनें।</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>गुणों की जाँच के लिए विंडो या नियंत्रण चुनें</value>
@@ -1187,6 +1199,9 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  चौड़ाई: {2}  ऊँचाई: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>संसाधन नाम</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>शीर्षकहीन विंडो</value>
   </data>
@@ -1196,14 +1211,26 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>विंडो हैंडल</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>विंडो ID</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>विंडो आयत</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>विंडो भूमिका</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>विंडो स्थिति</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>विंडो शैलियाँ</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>विंडो शीर्षक</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>विंडो प्रकार</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>हमेशा ऊपर</value>
@@ -1456,6 +1483,9 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>हाइलाइट मोड:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>पॉइंटर को हाइलाइट करता है, और रिकॉर्डिंग में भी, जब कार्य सेटिंग → कैप्चर करें → स्क्रीन रिकॉर्डर में माउस हाइलाइटर विकल्प चालू हो। क्लिक हाइलाइट नहीं किए जा सकते: Wayland ऐप्स को उन्हें देखने नहीं देता।</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>प्राथमिक बटन का रंग:</value>
   </data>
@@ -1606,11 +1636,26 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>लक्ष्य</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract कोड {0} के साथ विफल रहा। {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract के पास भाषा "{0}" का डेटा नहीं है। इसे अपने पैकेज मैनेजर से स्थापित करें, उदाहरण के लिए: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>OCR के लिए इस सिस्टम में {0} भाषा उपलब्ध नहीं है।</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract के लिए कोई भाषा डेटा स्थापित नहीं है। अपने पैकेज मैनेजर से कोई भाषा स्थापित करें, उदाहरण के लिए: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>ऑप्टिकल वर्ण पहचान केवल Windows संस्करण {0} या नए में उपलब्ध है।</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR के लिए tesseract प्रोग्राम आवश्यक है, जो PATH पर नहीं मिला। इसे अपने पैकेज मैनेजर से स्थापित करें, उदाहरण के लिए: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract {0} सेकंड में पूरा नहीं हुआ और उसे रोक दिया गया।</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2158,8 +2203,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>वीडियो लोड हो रहा है...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>वीडियो चलाने के लिए libmpv आवश्यक है। mpv पैकेज स्थापित करें।</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>आवाज़ बंद करें</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>यह वीडियो नहीं चलाया जा सका। {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>प्लेबैक की स्थिति</value>

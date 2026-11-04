@@ -1134,6 +1134,9 @@ El portapapeles no contiene ninguna imagen.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Cargando emojis...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>No se encontró ninguna fuente de emojis, por lo que no se pueden dibujar. Instale el paquete noto-fonts-emoji y reinicie ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Ningún emoji coincide con esta búsqueda.</value>
   </data>

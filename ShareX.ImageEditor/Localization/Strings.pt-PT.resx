@@ -1134,6 +1134,9 @@ A área de transferência não contém uma imagem.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Carregando emojis...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Não foi encontrado nenhum tipo de letra de emojis, por isso os emojis não podem ser desenhados. Instale o pacote noto-fonts-emoji e reinicie o ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Nenhum emoji corresponde a esta pesquisa.</value>
   </data>

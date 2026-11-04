@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>جارٍ تحميل الرموز التعبيرية...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>لم يتم العثور على خط للرموز التعبيرية، لذا يتعذر رسمها. ثبّت الحزمة noto-fonts-emoji وأعد تشغيل ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>لا توجد رموز تعبيرية تطابق هذا البحث.</value>
   </data>

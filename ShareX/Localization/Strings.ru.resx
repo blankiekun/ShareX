@@ -2064,9 +2064,64 @@
     <value>Ошибка при экспорте резервной копии:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Резервная копия ShareX содержит ваши учётные данные и ключи API в открытом виде, чтобы их можно было перенести на другой компьютер. Любой, кто получит этот файл, сможет ими воспользоваться.&#xD;
+&#xD;
+Храните её в тайне и удалите после восстановления. Всё равно экспортировать?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Ошибка при импорте резервной копии:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} в резервной копии повреждён, поэтому ничего не импортировано.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Резервная копия содержит учётные данные, которые нельзя сохранить без вашего бумажника, поэтому ничего не импортировано. Откройте бумажник и повторите попытку.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>В файле нет настроек или истории ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Пропущенные эффекты изображения, так как в этой версии их нет:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>История: добавлено {0}, уже есть {1}, не читается {2}.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Ваша прежняя история сохранена в {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>История не импортирована: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Папки, изменённые на их расположение в Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Настройки, возвращённые к значениям по умолчанию, так как у пути здесь нет соответствия:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Этот файл резервной копии содержит ваши учётные данные в открытом виде. Удалите его, когда убедитесь, что импорт прошёл как надо.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Перенесённые учётные данные, теперь зашифрованные вашим бумажником:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Войдите снова. Эти данные зашифрованы для другого компьютера, и здесь их прочитать нельзя:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Файлы в резервной копии, которые были проигнорированы:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Резервная копия импортирована</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Выключенные действия, чтобы ничего из резервной копии не запускалось само. Проверьте их и включите снова:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Не удалось сохранить {0}. На этом импорт остановился.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX не закроется пока идет запись экрана.

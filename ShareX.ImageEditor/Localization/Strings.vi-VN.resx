@@ -1134,6 +1134,9 @@ Bảng nhớ tạm không chứa ảnh.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Đang tải emoji...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Không tìm thấy phông chữ emoji nên không thể vẽ emoji. Hãy cài đặt gói noto-fonts-emoji và khởi động lại ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Không có emoji nào khớp với tìm kiếm này.</value>
   </data>

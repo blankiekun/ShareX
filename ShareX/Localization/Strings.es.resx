@@ -2064,9 +2064,64 @@ El archivo se conservó, pero es posible que no se pueda reproducir:
     <value>Error al exportar la copia de seguridad:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Una copia de seguridad de ShareX guarda sus inicios de sesión y claves de API en texto sin cifrar, para que puedan pasar a otro equipo. Cualquiera que obtenga el archivo puede usarlos.&#xD;
+&#xD;
+Manténgala en privado y elimínela cuando la haya restaurado. ¿Exportar de todos modos?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Error al importar la copia de seguridad:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} en la copia de seguridad está dañado, por lo que no se importó nada.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>La copia de seguridad contiene inicios de sesión, y no se pueden guardar sin su cartera, por lo que no se importó nada. Abra la cartera e inténtelo de nuevo.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>El archivo no contiene configuración ni historial de ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Efectos de imagen omitidos, porque esta versión no los incluye:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Historial: {0} añadidos, {1} ya presentes, {2} ilegibles.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Su historial anterior se guardó en {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>El historial no se importó: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Carpetas cambiadas a su ubicación en Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Configuración devuelta a su valor predeterminado, porque la ruta no tiene equivalente aquí:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Este archivo de copia de seguridad guarda sus inicios de sesión en texto sin cifrar. Elimínelo cuando esté conforme con la importación.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Inicios de sesión que se transfirieron, ahora cifrados con su cartera:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Inicie sesión de nuevo. Estos datos se cifraron para otro equipo y no se pueden leer aquí:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Archivos de la copia de seguridad que se ignoraron:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Copia de seguridad importada</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Acciones desactivadas, para que nada de la copia de seguridad se ejecute por sí solo. Revíselas y vuelva a activarlas:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>No se pudo guardar {0}. La importación se detuvo ahí.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX no se puede cerrar mientras la grabación de pantalla está activa.

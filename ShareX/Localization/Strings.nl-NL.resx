@@ -2064,9 +2064,64 @@ Het bestand is bewaard, maar kan mogelijk niet worden afgespeeld:
     <value>Fout bij het exporteren van de back-up:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Een ShareX-back-up bevat uw inloggegevens en API-sleutels als platte tekst, zodat ze naar een andere computer kunnen worden overgezet. Iedereen die het bestand in handen krijgt, kan ze gebruiken.&#xD;
+&#xD;
+Houd de back-up privé en verwijder deze zodra u hem hebt hersteld. Toch exporteren?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Fout bij het importeren van de back-up:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} in de back-up is beschadigd, dus er is niets geïmporteerd.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>De back-up bevat inloggegevens die niet kunnen worden opgeslagen zonder uw portefeuille, dus er is niets geïmporteerd. Open de portefeuille en probeer het opnieuw.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Het bestand bevat geen ShareX-instellingen of -geschiedenis.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Afbeeldingseffecten weggelaten, omdat deze versie ze niet heeft:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Geschiedenis: {0} toegevoegd, {1} al aanwezig, {2} onleesbaar.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Uw vorige geschiedenis is opgeslagen in {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Geschiedenis is niet geïmporteerd: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Mappen gewijzigd naar hun Linux-locatie:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Instellingen teruggezet naar de standaardwaarde, omdat het pad hier geen equivalent heeft:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Dit back-upbestand bevat uw inloggegevens als platte tekst. Verwijder het zodra u tevreden bent met de import.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Overgezette inloggegevens, nu versleuteld met uw portefeuille:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Meld u opnieuw aan. Deze zijn versleuteld voor een andere computer en kunnen hier niet worden gelezen:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Bestanden in de back-up die zijn genegeerd:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Back-up geïmporteerd</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Acties uitgeschakeld, zodat niets uit de back-up vanzelf wordt uitgevoerd. Controleer ze en schakel ze weer in:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Kan {0} niet opslaan. De import is daar gestopt.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX kan niet worden gesloten terwijl een schermopname actief is.

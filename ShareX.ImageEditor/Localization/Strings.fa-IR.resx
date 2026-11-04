@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>در حال بارگذاری ایموجی‌ها...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>هیچ قلم ایموجی پیدا نشد، بنابراین ایموجی‌ها قابل ترسیم نیستند. بستهٔ noto-fonts-emoji را نصب کنید و ShareX را دوباره راه‌اندازی کنید.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>هیچ ایموجی‌ای با این جستجو مطابقت ندارد.</value>
   </data>

@@ -867,6 +867,12 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>ملفات الصور</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>تعذّر فتح «{0}» لأن هذا التنسيق يتطلب ImageMagick، ولم يتم العثور على الأمر magick. ثبّت الحزمة imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>يتطلب حفظ TIFF برنامج ImageMagick، ولم يتم العثور على الأمر magick. ثبّت الحزمة imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>فتح صورة</value>
   </data>
@@ -986,6 +992,11 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>اسم الطابعة غير صالح</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>تعذّر على ShareX الطباعة: {0}
+
+تتم الطباعة عبر بوابة الطباعة في سطح المكتب. تحقق من تثبيت xdg-desktop-portal وxdg-desktop-portal-kde، وcups إذا كنت تستخدم طابعة حقيقية.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>السماح بتكبير الصورة</value>

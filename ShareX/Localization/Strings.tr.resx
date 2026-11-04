@@ -2064,9 +2064,64 @@ Dosya saklandı ancak oynatılamayabilir:
     <value>Yedek dışa aktarılırken hata oluştu:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>ShareX yedeği, başka bir makineye taşınabilmeleri için oturum açma bilgilerinizi ve API anahtarlarınızı düz metin olarak tutar. Dosyayı ele geçiren herkes bunları kullanabilir.&#xD;
+&#xD;
+Yedeği gizli tutun ve geri yükledikten sonra silin. Yine de dışa aktarılsın mı?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Yedek içe aktarılırken hata oluştu:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>Yedekteki {0} hasarlı, bu nedenle hiçbir şey içe aktarılmadı.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Yedek, oturum açma bilgileri içeriyor ve bunlar cüzdanınız olmadan saklanamıyor, bu nedenle hiçbir şey içe aktarılmadı. Cüzdanı açıp yeniden deneyin.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Dosyada ShareX ayarı veya geçmişi yok.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Bu sürümde bulunmadığı için dışarıda bırakılan görsel efektleri:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Geçmiş: {0} eklendi, {1} zaten vardı, {2} okunamadı.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Önceki geçmişiniz şuraya kaydedildi: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Geçmiş içe aktarılmadı: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Linux konumlarına değiştirilen klasörler:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Yolun burada karşılığı olmadığı için varsayılana döndürülen ayarlar:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Bu yedek dosyası oturum açma bilgilerinizi düz metin olarak tutar. İçe aktarmadan memnun kaldığınızda dosyayı silin.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Aktarılan oturum açma bilgileri, artık cüzdanınızla şifrelendi:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Yeniden oturum açın. Bunlar başka bir makine için şifrelendi ve burada okunamıyor:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Yedekte yok sayılan dosyalar:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Yedek içe aktarıldı</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Yedekten hiçbir şey kendiliğinden çalışmasın diye kapatılan eylemler. Bunları kontrol edip yeniden açın:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>{0} kaydedilemedi. İçe aktarma orada durdu.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>Ekran kaydı aktifken ShareX kapatılamaz.

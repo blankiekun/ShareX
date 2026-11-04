@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>इमोजी लोड हो रहे हैं...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>कोई इमोजी फ़ॉन्ट नहीं मिला, इसलिए इमोजी नहीं बनाए जा सकते। noto-fonts-emoji पैकेज स्थापित करें और ShareX को पुनः आरंभ करें।</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>इस खोज से कोई इमोजी मेल नहीं खाता।</value>
   </data>

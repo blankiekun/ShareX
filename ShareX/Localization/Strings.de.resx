@@ -2064,9 +2064,64 @@ Die Datei wurde behalten, lässt sich aber möglicherweise nicht abspielen:
     <value>Fehler beim Exportieren der Sicherung:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Eine ShareX-Sicherung enthält Ihre Anmeldedaten und API-Schlüssel im Klartext, damit sie auf einen anderen Rechner übertragen werden können. Jeder, der die Datei erhält, kann sie verwenden.&#xD;
+&#xD;
+Halten Sie sie geheim und löschen Sie sie, sobald Sie sie wiederhergestellt haben. Trotzdem exportieren?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Fehler beim Importieren der Sicherung:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} in der Sicherung ist beschädigt, daher wurde nichts importiert.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Die Sicherung enthält Anmeldedaten, die ohne Ihre digitale Brieftasche nicht gespeichert werden können, daher wurde nichts importiert. Öffnen Sie die digitale Brieftasche und versuchen Sie es erneut.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Die Datei enthält keine ShareX-Einstellungen und keinen Verlauf.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Ausgelassene Bildeffekte, weil diese Version sie nicht enthält:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Verlauf: {0} hinzugefügt, {1} bereits vorhanden, {2} nicht lesbar.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Ihr bisheriger Verlauf wurde in {0} gespeichert</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Der Verlauf wurde nicht importiert: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Ordner, die auf ihren Linux-Speicherort geändert wurden:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Einstellungen, die auf den Standardwert zurückgesetzt wurden, weil der Pfad hier keine Entsprechung hat:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Diese Sicherungsdatei enthält Ihre Anmeldedaten im Klartext. Löschen Sie sie, sobald Sie mit dem Import zufrieden sind.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Übernommene Anmeldedaten, jetzt mit Ihrer digitalen Brieftasche verschlüsselt:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Melden Sie sich erneut an. Diese Daten wurden für einen anderen Rechner verschlüsselt und können hier nicht gelesen werden:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Ignorierte Dateien in der Sicherung:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Sicherung importiert</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Deaktivierte Aktionen, damit nichts aus der Sicherung von selbst ausgeführt wird. Prüfen Sie sie und aktivieren Sie sie wieder:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>{0} konnte nicht gespeichert werden. Der Import wurde an dieser Stelle beendet.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX kann nicht geschlossen werden, während die Bildschirmaufnahme aktiv ist.
