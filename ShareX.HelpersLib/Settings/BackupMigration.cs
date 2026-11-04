@@ -198,6 +198,19 @@ namespace ShareX.HelpersLib
             return null;
         }
 
+        // The file a history row points to on this machine: a C:\Users path that is gone from where it says, in the same place under the Linux home.
+        // Only C:, because MapWindowsPath takes any drive and D:\Users is not this user's home. Touches the disk only for such a path.
+        public static string ResolveHistoryPath(string stored, LinuxFolders folders, Func<string, bool> fileExists)
+        {
+            if (string.IsNullOrEmpty(stored) || !stored.StartsWith("C:", StringComparison.OrdinalIgnoreCase) ||
+                MapWindowsPath(stored, folders) is not { } mapped || fileExists(stored))
+            {
+                return stored;
+            }
+
+            return fileExists(mapped) ? mapped : stored;
+        }
+
         private static string MapProfilePath(string[] parts, LinuxFolders folders)
         {
             if (parts.Length == 0)

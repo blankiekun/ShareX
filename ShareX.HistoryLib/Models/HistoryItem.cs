@@ -24,17 +24,35 @@
 #endregion License Information (GPL v3)
 
 using Newtonsoft.Json;
+using ShareX.HelpersLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ShareX.HistoryLib
 {
     public class HistoryItem
     {
+        private string filePath, localPath;
+
+        // Where this machine's folders are. Until it is set, every stored path is used as it is.
+        public static LinuxFolders LocalFolders { get; set; }
+
         [JsonIgnore]
         public long Id { get; set; }
         public string FileName { get; set; }
-        public string FilePath { get; set; }
+        public string FilePath
+        {
+            get
+            {
+                return filePath;
+            }
+            set
+            {
+                filePath = value;
+                localPath = null;
+            }
+        }
         public DateTime DateTime { get; set; }
         public string Type { get; set; }
         public string Host { get; set; }
@@ -43,6 +61,17 @@ namespace ShareX.HistoryLib
         public string DeletionURL { get; set; }
         public string ShortenedURL { get; set; }
         public Dictionary<string, string> Tags { get; set; }
+
+        // The file on this machine, for anything that touches it. FilePath stays the record and is what gets saved.
+        // Decided once per item, because lists read it while scrolling. F5 loads new items, so it decides again.
+        [JsonIgnore]
+        public string LocalPath
+        {
+            get
+            {
+                return localPath ??= LocalFolders == null ? filePath : BackupMigration.ResolveHistoryPath(filePath, LocalFolders, File.Exists);
+            }
+        }
 
         [JsonIgnore]
         public string TagsWindowTitle
@@ -70,6 +99,22 @@ namespace ShareX.HistoryLib
 
                 return null;
             }
+        }
+
+        // Renames the real file. A mapped path is never stored: a C:\ record keeps its form with the new name, so it still maps to the file.
+        public void RenameLocalFile(string newFileName)
+        {
+            string local = LocalPath;
+            string renamed = FileHelpers.RenameFile(local, newFileName);
+
+            FileName = newFileName;
+
+            if (renamed == local)
+            {
+                return;
+            }
+
+            FilePath = local == filePath ? renamed : filePath[..(filePath.LastIndexOfAny(['\\', '/']) + 1)] + Path.GetFileName(renamed);
         }
 
         [JsonIgnore]

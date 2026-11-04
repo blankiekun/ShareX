@@ -70,7 +70,7 @@ public sealed class ImageHistoryEntry : INotifyPropertyChanged, IDisposable
     }
 
     public HistoryItem Item { get; }
-    public string FileName => string.IsNullOrWhiteSpace(Item.FileName) ? Path.GetFileName(Item.FilePath) : Item.FileName;
+    public string FileName => string.IsNullOrWhiteSpace(Item.FileName) ? Path.GetFileName(Item.LocalPath) : Item.FileName;
     public int ThumbnailWidth { get; }
     public int ThumbnailHeight { get; }
     public ImageHistoryThumbnailHeaderPosition HeaderPosition { get; }
@@ -138,7 +138,7 @@ public sealed class ImageHistoryEntry : INotifyPropertyChanged, IDisposable
 
         try
         {
-            AvaloniaBitmap? thumbnail = await loader.LoadAsync(Item.FilePath, ThumbnailWidth, ThumbnailHeight, token);
+            AvaloniaBitmap? thumbnail = await loader.LoadAsync(Item.LocalPath, ThumbnailWidth, ThumbnailHeight, token);
             if (_realizationCount > 0 && !token.IsCancellationRequested)
             {
                 Thumbnail = thumbnail;

@@ -295,7 +295,7 @@ public partial class ImageHistoryWindow : Window
                     if (string.IsNullOrWhiteSpace(item.FilePath)) continue;
                     if (favorites && !item.Favorite) continue;
                     if (mediaOnly && !FileHelpers.IsImageFile(item.FilePath) && !FileHelpers.IsVideoFile(item.FilePath)) continue;
-                    if (filterMissing && !File.Exists(item.FilePath)) continue;
+                    if (filterMissing && !File.Exists(item.LocalPath)) continue;
                     if (regex != null && !regex.IsMatch(item.FileName ?? string.Empty) &&
                         !(item.Tags?.Values.Any(value => !string.IsNullOrEmpty(value) && regex.IsMatch(value)) == true)) continue;
                     result.Add(item);
@@ -507,7 +507,7 @@ public partial class ImageHistoryWindow : Window
         Point current = e.GetPosition(ThumbnailRows);
         if (Math.Abs(current.X - _dragStart.X) < 5 && Math.Abs(current.Y - _dragStart.Y) < 5) return;
 
-        string[] files = GetSelectedItems().Select(item => item.FilePath).Where(File.Exists)
+        string[] files = GetSelectedItems().Select(item => item.LocalPath).Where(File.Exists)
             .Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
         if (files.Length == 0)
         {
@@ -611,7 +611,7 @@ public partial class ImageHistoryWindow : Window
             bool imagesOnly = ImportImagesOnlyCheckBox.IsChecked == true;
             HashSet<string> existing = ImportSkipDuplicatesCheckBox.IsChecked == true
                 ? _allHistoryItems.Where(item => !string.IsNullOrWhiteSpace(item.FilePath))
-                    .Select(item => item.FilePath).ToHashSet(StringComparer.OrdinalIgnoreCase)!
+                    .Select(item => item.LocalPath).ToHashSet(StringComparer.OrdinalIgnoreCase)!
                 : [];
             int imported = await Task.Run(() => ImportFolder(folder, imagesOnly, existing));
             ImportStatusText.Text = string.Format(Strings.ImageHistoryWindow_SuccessfullyImportedFilesFormat, imported);
@@ -811,15 +811,14 @@ public partial class ImageHistoryWindow : Window
     {
         HistoryItem? item = GetPrimaryItem();
         if (item == null || string.IsNullOrWhiteSpace(item.FilePath)) return;
-        string oldName = Path.GetFileNameWithoutExtension(item.FilePath);
+        string oldName = Path.GetFileNameWithoutExtension(item.LocalPath);
         ShowPrompt(Strings.ImageHistoryWindow_RenameFile, Strings.ImageHistoryWindow_EnterNewFileName, Strings.ImageHistoryWindow_Rename, () =>
         {
             string newName = PromptTextBox.Text?.Trim() ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(newName) && !newName.Equals(oldName, StringComparison.OrdinalIgnoreCase))
             {
-                if (Path.HasExtension(item.FilePath)) newName += Path.GetExtension(item.FilePath);
-                item.FileName = newName;
-                item.FilePath = FileHelpers.RenameFile(item.FilePath, newName);
+                if (Path.HasExtension(item.LocalPath)) newName += Path.GetExtension(item.LocalPath);
+                item.RenameLocalFile(newName);
                 _historyManager.Edit(item);
                 RefreshVisibleItem(item);
             }
@@ -858,7 +857,7 @@ public partial class ImageHistoryWindow : Window
                 {
                     foreach (HistoryItem item in items)
                     {
-                        if (File.Exists(item.FilePath)) File.Delete(item.FilePath);
+                        if (File.Exists(item.LocalPath)) File.Delete(item.LocalPath);
                     }
                 }
                 _historyManager.Delete(items);
@@ -874,22 +873,22 @@ public partial class ImageHistoryWindow : Window
     private void OpenSelectedItem()
     {
         HistoryItem? item = GetPrimaryItem();
-        if (item == null || !File.Exists(item.FilePath)) return;
-        if (FileHelpers.IsImageFile(item.FilePath))
+        if (item == null || !File.Exists(item.LocalPath)) return;
+        if (FileHelpers.IsImageFile(item.LocalPath))
         {
             ShowSelectedImage();
         }
-        else if (FileHelpers.IsTextFile(item.FilePath) || FileHelpers.IsVideoFile(item.FilePath))
+        else if (FileHelpers.IsTextFile(item.LocalPath) || FileHelpers.IsVideoFile(item.LocalPath))
         {
-            FileHelpers.OpenFile(item.FilePath);
+            FileHelpers.OpenFile(item.LocalPath);
         }
         else
         {
             ShowPrompt(Strings.ImageHistoryWindow_OpenFile,
-                string.Format(Strings.ImageHistoryWindow_ConfirmOpenFileFormat, item.FilePath),
+                string.Format(Strings.ImageHistoryWindow_ConfirmOpenFileFormat, item.LocalPath),
                 Strings.HistoryWindows_Open, () =>
                 {
-                    FileHelpers.OpenFile(item.FilePath);
+                    FileHelpers.OpenFile(item.LocalPath);
                     return Task.CompletedTask;
                 });
         }
@@ -898,7 +897,7 @@ public partial class ImageHistoryWindow : Window
     private void ShowSelectedImage()
     {
         HistoryItem? item = GetPrimaryItem();
-        if (item == null || !File.Exists(item.FilePath) || !FileHelpers.IsImageFile(item.FilePath)) return;
+        if (item == null || !File.Exists(item.LocalPath) || !FileHelpers.IsImageFile(item.LocalPath)) return;
         int currentIndex = Array.IndexOf(_filteredHistoryItems, item);
         int start = Math.Max(0, currentIndex - 100);
         int end = Math.Min(_filteredHistoryItems.Length, start + 201);
@@ -906,25 +905,25 @@ public partial class ImageHistoryWindow : Window
         int selectedIndex = 0;
         for (int i = start; i < end; i++)
         {
-            string path = _filteredHistoryItems[i].FilePath;
+            string path = _filteredHistoryItems[i].LocalPath;
             if (!File.Exists(path) || !FileHelpers.IsImageFile(path)) continue;
             if (ReferenceEquals(_filteredHistoryItems[i], item)) selectedIndex = files.Count;
             files.Add(path);
         }
         if (_services.ShowImages != null) _services.ShowImages(files, selectedIndex, this);
-        else _services.ShowImage?.Invoke(item.FilePath, this);
+        else _services.ShowImage?.Invoke(item.LocalPath, this);
     }
 
     private void OnOpenFileClick(object? sender, RoutedEventArgs e)
     {
         HistoryItem? item = GetPrimaryItem();
-        if (item != null && File.Exists(item.FilePath)) FileHelpers.OpenFile(item.FilePath);
+        if (item != null && File.Exists(item.LocalPath)) FileHelpers.OpenFile(item.LocalPath);
     }
 
     private void OnOpenFolderClick(object? sender, RoutedEventArgs e)
     {
         HistoryItem? item = GetPrimaryItem();
-        if (item != null && File.Exists(item.FilePath)) FileHelpers.OpenFolderWithFile(item.FilePath);
+        if (item != null && File.Exists(item.LocalPath)) FileHelpers.OpenFolderWithFile(item.LocalPath);
     }
 
     private void OnOpenUrlClick(object? sender, RoutedEventArgs e) => OpenUrl(item => item.URL);
@@ -950,10 +949,10 @@ public partial class ImageHistoryWindow : Window
     private void OnCopyShortUrlClick(object? sender, RoutedEventArgs e) => CopyValues(item => item.ShortenedURL);
     private void OnCopyThumbnailUrlClick(object? sender, RoutedEventArgs e) => CopyValues(item => item.ThumbnailURL);
     private void OnCopyDeletionUrlClick(object? sender, RoutedEventArgs e) => CopyValues(item => item.DeletionURL);
-    private void OnCopyFilePathClick(object? sender, RoutedEventArgs e) => CopyValues(item => item.FilePath);
-    private void OnCopyFileNameClick(object? sender, RoutedEventArgs e) => CopyValues(item => Path.GetFileNameWithoutExtension(item.FilePath));
-    private void OnCopyFileNameWithExtensionClick(object? sender, RoutedEventArgs e) => CopyValues(item => Path.GetFileName(item.FilePath));
-    private void OnCopyFolderClick(object? sender, RoutedEventArgs e) => CopyValues(item => Path.GetDirectoryName(item.FilePath));
+    private void OnCopyFilePathClick(object? sender, RoutedEventArgs e) => CopyValues(item => item.LocalPath);
+    private void OnCopyFileNameClick(object? sender, RoutedEventArgs e) => CopyValues(item => Path.GetFileNameWithoutExtension(item.LocalPath));
+    private void OnCopyFileNameWithExtensionClick(object? sender, RoutedEventArgs e) => CopyValues(item => Path.GetFileName(item.LocalPath));
+    private void OnCopyFolderClick(object? sender, RoutedEventArgs e) => CopyValues(item => Path.GetDirectoryName(item.LocalPath));
     private void OnCopyHtmlLinkClick(object? sender, RoutedEventArgs e) => CopyValues(item => $"<a href=\"{item.URL}\">{item.URL}</a>", HasUrl);
     private void OnCopyHtmlImageClick(object? sender, RoutedEventArgs e) => CopyValues(item => $"<img src=\"{item.URL}\"/>", HasImageUrl);
     private void OnCopyHtmlLinkedImageClick(object? sender, RoutedEventArgs e) =>
@@ -972,22 +971,22 @@ public partial class ImageHistoryWindow : Window
 
     private void OnCopyFileClick(object? sender, RoutedEventArgs e)
     {
-        string[] files = GetSelectedItems().Select(item => item.FilePath).Where(File.Exists).ToArray();
+        string[] files = GetSelectedItems().Select(item => item.LocalPath).Where(File.Exists).ToArray();
         if (files.Length > 0) ClipboardHelpers.CopyFile(files);
     }
 
     private void OnCopyImageClick(object? sender, RoutedEventArgs e)
     {
         HistoryItem? item = GetPrimaryItem();
-        if (item != null && File.Exists(item.FilePath) && FileHelpers.IsImageFile(item.FilePath))
-            ClipboardHelpers.CopyImageFromFile(item.FilePath);
+        if (item != null && File.Exists(item.LocalPath) && FileHelpers.IsImageFile(item.LocalPath))
+            ClipboardHelpers.CopyImageFromFile(item.LocalPath);
     }
 
     private void OnCopyTextClick(object? sender, RoutedEventArgs e)
     {
         HistoryItem? item = GetPrimaryItem();
-        if (item != null && File.Exists(item.FilePath) && FileHelpers.IsTextFile(item.FilePath))
-            ClipboardHelpers.CopyTextFromFile(item.FilePath);
+        if (item != null && File.Exists(item.LocalPath) && FileHelpers.IsTextFile(item.LocalPath))
+            ClipboardHelpers.CopyTextFromFile(item.LocalPath);
     }
 
     private void OnUploadFileClick(object? sender, RoutedEventArgs e) => InvokeFileService(_services.UploadFile, false);
@@ -995,15 +994,15 @@ public partial class ImageHistoryWindow : Window
     private void OnTrimVideoClick(object? sender, RoutedEventArgs e)
     {
         HistoryItem[] items = GetSelectedItems();
-        if (items.Length == 1 && File.Exists(items[0].FilePath) && FileHelpers.IsVideoFile(items[0].FilePath))
-            _services.TrimVideo?.Invoke(items[0].FilePath);
+        if (items.Length == 1 && File.Exists(items[0].LocalPath) && FileHelpers.IsVideoFile(items[0].LocalPath))
+            _services.TrimVideo?.Invoke(items[0].LocalPath);
     }
     private void OnTrimAnimatedGifClick(object? sender, RoutedEventArgs e)
     {
         HistoryItem[] items = GetSelectedItems();
-        if (items.Length == 1 && File.Exists(items[0].FilePath) &&
-            string.Equals(Path.GetExtension(items[0].FilePath), ".gif", StringComparison.OrdinalIgnoreCase))
-            _services.TrimAnimatedGif?.Invoke(items[0].FilePath);
+        if (items.Length == 1 && File.Exists(items[0].LocalPath) &&
+            string.Equals(Path.GetExtension(items[0].LocalPath), ".gif", StringComparison.OrdinalIgnoreCase))
+            _services.TrimAnimatedGif?.Invoke(items[0].LocalPath);
     }
     private void OnPinToScreenClick(object? sender, RoutedEventArgs e) => InvokeFileService(_services.PinToScreen, true);
     private void OnAnalyzeImageClick(object? sender, RoutedEventArgs e) => InvokeFileService(_services.AnalyzeImage, true);
@@ -1011,8 +1010,8 @@ public partial class ImageHistoryWindow : Window
     private void InvokeFileService(Action<string>? action, bool imageOnly)
     {
         HistoryItem? item = GetPrimaryItem();
-        if (action != null && item != null && File.Exists(item.FilePath) &&
-            (!imageOnly || FileHelpers.IsImageFile(item.FilePath))) action(item.FilePath);
+        if (action != null && item != null && File.Exists(item.LocalPath) &&
+            (!imageOnly || FileHelpers.IsImageFile(item.LocalPath))) action(item.LocalPath);
     }
 
     private async void OnWindowKeyDown(object? sender, KeyEventArgs e)

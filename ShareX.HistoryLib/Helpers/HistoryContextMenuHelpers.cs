@@ -40,12 +40,12 @@ internal static class HistoryContextMenuHelpers
     {
         bool single = selected.Length == 1;
         HistoryItem? item = single ? selected[0] : null;
-        bool file = single && File.Exists(item!.FilePath);
-        bool imageFile = file && FileHelpers.IsImageFile(item!.FilePath);
-        bool textFile = file && FileHelpers.IsTextFile(item!.FilePath);
-        bool hasFile = selected.Any(item => File.Exists(item.FilePath));
-        bool hasPath = selected.Any(item => !string.IsNullOrWhiteSpace(item.FilePath));
-        bool hasFolder = selected.Any(item => !string.IsNullOrWhiteSpace(Path.GetDirectoryName(item.FilePath)));
+        bool file = single && File.Exists(item!.LocalPath);
+        bool imageFile = file && FileHelpers.IsImageFile(item!.LocalPath);
+        bool textFile = file && FileHelpers.IsTextFile(item!.LocalPath);
+        bool hasFile = selected.Any(item => File.Exists(item.LocalPath));
+        bool hasPath = selected.Any(item => !string.IsNullOrWhiteSpace(item.LocalPath));
+        bool hasFolder = selected.Any(item => !string.IsNullOrWhiteSpace(Path.GetDirectoryName(item.LocalPath)));
         bool hasUrl = selected.Any(item => !string.IsNullOrWhiteSpace(item.URL));
         bool hasShortUrl = selected.Any(item => !string.IsNullOrWhiteSpace(item.ShortenedURL));
         bool hasThumbnailUrl = selected.Any(item => !string.IsNullOrWhiteSpace(item.ThumbnailURL));
@@ -76,9 +76,9 @@ internal static class HistoryContextMenuHelpers
             "PreviewMenu" => imageFile && (services.ShowImage != null || services.ShowImages != null),
             "UploadMenu" => file && services.UploadFile != null,
             "EditImageMenu" => imageFile && services.EditImage != null,
-            "TrimVideoMenu" => file && FileHelpers.IsVideoFile(item!.FilePath) && services.TrimVideo != null,
+            "TrimVideoMenu" => file && FileHelpers.IsVideoFile(item!.LocalPath) && services.TrimVideo != null,
             "TrimAnimatedGifMenu" => file &&
-                string.Equals(Path.GetExtension(item!.FilePath), ".gif", StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(Path.GetExtension(item!.LocalPath), ".gif", StringComparison.OrdinalIgnoreCase) &&
                 services.TrimAnimatedGif != null,
             "PinMenu" => imageFile && services.PinToScreen != null,
             "AnalyzeMenu" => imageFile && services.AnalyzeImage != null,
