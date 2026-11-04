@@ -571,6 +571,15 @@ namespace ShareX.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no other window to capture. Open the window you want, then try again..
+        /// </summary>
+        public static string CaptureBase_NoOtherWindow {
+            get {
+                return ResourceManager.GetString("CaptureBase_NoOtherWindow", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to No windows found.
         /// </summary>
         public static string MainMenuBuilder_NoWindowsFound {

@@ -39,7 +39,7 @@ public sealed record KWinOutput(string Name, Rectangle Geometry, double Scale);
 
 /// <summary>A window as KWin sees it. Geometry is in KWin logical coordinates.</summary>
 public sealed record KWinWindow(string Id, string Caption, string ResourceClass, int Pid, Rectangle FrameGeometry,
-    Rectangle ClientGeometry, bool IsNormal, bool IsFullscreen)
+    Rectangle ClientGeometry, bool IsNormal, bool IsFullscreen, bool IsKeepAbove)
 {
     public string? ProcessName
     {
@@ -74,7 +74,7 @@ public sealed class KWinDesktop
             windows.push({
                 id: String(w.internalId), caption: w.caption, resourceClass: w.resourceClass, pid: w.pid,
                 frame: rect(w.frameGeometry), client: rect(w.clientGeometry),
-                normal: (w.normalWindow || w.dialog) && !w.skipTaskbar, fullscreen: w.fullScreen
+                normal: (w.normalWindow || w.dialog) && !w.skipTaskbar, fullscreen: w.fullScreen, keepAbove: w.keepAbove
             });
         }
         report(JSON.stringify({
@@ -100,6 +100,18 @@ public sealed class KWinDesktop
     public required DesktopCoordinates Coordinates { get; init; }
 
     public KWinWindow? ActiveWindow => Windows.FirstOrDefault(x => x.Id == ActiveWindowId);
+
+    /// <summary>
+    /// The window most recently in use that doesn't belong to <paramref name="exceptPid"/>. KWin scripts can't read the focus
+    /// chain, but activating a window raises it, so the stack gives the same order. A kept-above window sits on top whether it
+    /// was used or not, so one only counts when there is nothing else. Minimized windows aren't in <see cref="Windows"/>.
+    /// </summary>
+    public KWinWindow? LastUsedWindow(int exceptPid)
+    {
+        List<KWinWindow> candidates = Windows.Where(x => x.Pid != exceptPid && x.IsNormal && !string.IsNullOrEmpty(x.Caption)).ToList();
+
+        return candidates.FirstOrDefault(x => !x.IsKeepAbove) ?? candidates.FirstOrDefault();
+    }
 
     /// <exception cref="KWinScriptException">KWin is unavailable, or did not answer in time.</exception>
     public static KWinDesktop Query()
@@ -135,7 +147,7 @@ public sealed class KWinDesktop
         // KWin lists the bottom of the stack first.
         List<KWinWindow> windows = root["windows"]!.Reverse().Select(x => new KWinWindow(
             (string?)x["id"] ?? "", (string?)x["caption"] ?? "", (string?)x["resourceClass"] ?? "", (int)x["pid"]!,
-            ReadRectangle(x["frame"]!), ReadRectangle(x["client"]!), (bool)x["normal"]!, (bool)x["fullscreen"]!)).ToList();
+            ReadRectangle(x["frame"]!), ReadRectangle(x["client"]!), (bool)x["normal"]!, (bool)x["fullscreen"]!, (bool)x["keepAbove"]!)).ToList();
 
         return new KWinDesktop
         {
