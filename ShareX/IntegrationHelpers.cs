@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using Newtonsoft.Json;
 using ShareX.HelpersLib;
 using ShareX.Localization;
 using System;
@@ -30,6 +31,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using MessageBox = ShareX.AvaloniaUI.MessageBox;
 using MessageBoxButtons = ShareX.AvaloniaUI.MessageBoxButtons;
 using MessageBoxIcon = ShareX.AvaloniaUI.MessageBoxIcon;
@@ -57,10 +59,36 @@ namespace ShareX
         private static string UploadMenuPath => Path.Combine(DataHome, "kio", "servicemenus", "ShareX-upload.desktop");
         private static string EditMenuPath => Path.Combine(DataHome, "kio", "servicemenus", "ShareX-edit.desktop");
 
-        private static readonly string ChromeNativeMessagingHosts = @"SOFTWARE\Google\Chrome\NativeMessagingHosts\com.getsharex.sharex";
-        private static readonly string FirefoxNativeMessagingHosts = @"SOFTWARE\Mozilla\NativeMessagingHosts\ShareX";
-        private static readonly string ChromeHostManifestFilePath = FileHelpers.GetAbsolutePath("host-manifest-chrome.json");
-        private static readonly string FirefoxHostManifestFilePath = FileHelpers.GetAbsolutePath("host-manifest-firefox.json");
+        private const string ChromeHostName = "com.getsharex.sharex";
+        private const string ChromeExtensionOrigin = "chrome-extension://nlkoigbdolhchiicbonbihbphgamnaoc/";
+        private const string FirefoxHostName = "ShareX";
+        private const string FirefoxExtensionId = "firefox@getsharex.com";
+
+        private static string ConfigHome => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.DoNotVerify);
+        private static string[] ChromeManifestPaths =>
+        [
+            Path.Combine(ConfigHome, "google-chrome", "NativeMessagingHosts", ChromeHostName + ".json"),
+            Path.Combine(ConfigHome, "chromium", "NativeMessagingHosts", ChromeHostName + ".json")
+        ];
+        private static string FirefoxManifestPath => Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile, Environment.SpecialFolderOption.DoNotVerify),
+            ".mozilla", "native-messaging-hosts", FirefoxHostName + ".json");
+        private static string ChromeManifest => JsonConvert.SerializeObject(new
+        {
+            name = ChromeHostName,
+            description = "ShareX",
+            path = FileHelpers.GetAbsolutePath("ShareX_NativeMessagingHost"),
+            type = "stdio",
+            allowed_origins = new[] { ChromeExtensionOrigin }
+        }, Formatting.Indented);
+        private static string FirefoxManifest => JsonConvert.SerializeObject(new
+        {
+            name = FirefoxHostName,
+            description = "ShareX",
+            path = FileHelpers.GetAbsolutePath("ShareX_NativeMessagingHost"),
+            type = "stdio",
+            allowed_extensions = new[] { FirefoxExtensionId }
+        }, Formatting.Indented);
 
         public static bool CheckShellContextMenuButton()
         {
@@ -125,7 +153,7 @@ namespace ShareX
             }
             else
             {
-                File.Delete(path);
+                DesktopEntryHelpers.Delete(path);
             }
         }
 
@@ -221,90 +249,58 @@ namespace ShareX
 
         public static bool CheckChromeExtensionSupport()
         {
-            try
-            {
-                return RegistryHelpers.CheckStringValue(ChromeNativeMessagingHosts, null, ChromeHostManifestFilePath) && File.Exists(ChromeHostManifestFilePath);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-
-            return false;
+            return ChromeManifestPaths.Any(path => HasManifest(path, ChromeManifest));
         }
 
         public static void CreateChromeExtensionSupport(bool create)
         {
-            try
+            foreach (string path in ChromeManifestPaths)
             {
-                if (create)
-                {
-                    UnregisterChromeExtensionSupport();
-                    RegisterChromeExtensionSupport();
-                }
-                else
-                {
-                    UnregisterChromeExtensionSupport();
-                }
+                SetManifest(path, create, ChromeManifest);
             }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-        }
-
-        private static void RegisterChromeExtensionSupport()
-        {
-            RegistryHelpers.CreateRegistry(ChromeNativeMessagingHosts, ChromeHostManifestFilePath);
-        }
-
-        private static void UnregisterChromeExtensionSupport()
-        {
-            RegistryHelpers.RemoveRegistry(ChromeNativeMessagingHosts);
         }
 
         public static bool CheckFirefoxAddonSupport()
         {
+            return HasManifest(FirefoxManifestPath, FirefoxManifest);
+        }
+
+        public static void CreateFirefoxAddonSupport(bool create)
+        {
+            SetManifest(FirefoxManifestPath, create, FirefoxManifest);
+        }
+
+        // Anything but ShareX's own manifest reads as off: one for another copy of ShareX, or with other extensions allowed.
+        private static bool HasManifest(string path, string manifest)
+        {
             try
             {
-                return RegistryHelpers.CheckStringValue(FirefoxNativeMessagingHosts, null, FirefoxHostManifestFilePath) && File.Exists(FirefoxHostManifestFilePath);
+                return File.Exists(path) && File.ReadAllText(path) == manifest;
             }
             catch (Exception e)
             {
                 DebugHelper.WriteException(e);
+                return false;
             }
-
-            return false;
         }
 
-        public static void CreateFirefoxAddonSupport(bool create)
+        private static void SetManifest(string path, bool create, string manifest)
         {
             try
             {
                 if (create)
                 {
-                    UnregisterFirefoxAddonSupport();
-                    RegisterFirefoxAddonSupport();
+                    DesktopEntryHelpers.Write(path, manifest);
                 }
                 else
                 {
-                    UnregisterFirefoxAddonSupport();
+                    DesktopEntryHelpers.Delete(path);
                 }
             }
             catch (Exception e)
             {
                 DebugHelper.WriteException(e);
             }
-        }
-
-        private static void RegisterFirefoxAddonSupport()
-        {
-            RegistryHelpers.CreateRegistry(FirefoxNativeMessagingHosts, FirefoxHostManifestFilePath);
-        }
-
-        private static void UnregisterFirefoxAddonSupport()
-        {
-            RegistryHelpers.RemoveRegistry(FirefoxNativeMessagingHosts);
         }
 
         public static bool CheckSteamShowInApp()
@@ -343,14 +339,16 @@ namespace ShareX
             StartupManager.State = StartupState.Disabled;
             SetUploadMenu(false);
             SetEditMenu(false);
-            File.Delete(Path.Combine(ApplicationsFolder, DesktopFileId));
-            File.Delete(Path.Combine(ApplicationsFolder, CustomUploaderDesktopFile));
-            File.Delete(Path.Combine(ApplicationsFolder, ImageEffectDesktopFile));
-            File.Delete(Path.Combine(MimeFolder, "packages", "ShareX.xml"));
+            CreateChromeExtensionSupport(false);
+            CreateFirefoxAddonSupport(false);
+            DesktopEntryHelpers.Delete(Path.Combine(ApplicationsFolder, DesktopFileId));
+            DesktopEntryHelpers.Delete(Path.Combine(ApplicationsFolder, CustomUploaderDesktopFile));
+            DesktopEntryHelpers.Delete(Path.Combine(ApplicationsFolder, ImageEffectDesktopFile));
+            DesktopEntryHelpers.Delete(Path.Combine(MimeFolder, "packages", "ShareX.xml"));
 
             foreach (string icon in BundledIcons())
             {
-                File.Delete(Path.Combine(InstalledIconsFolder, Path.GetRelativePath(BundledIconsFolder, icon)));
+                DesktopEntryHelpers.Delete(Path.Combine(InstalledIconsFolder, Path.GetRelativePath(BundledIconsFolder, icon)));
             }
 
             RefreshDatabases();

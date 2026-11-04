@@ -31,15 +31,33 @@ namespace ShareX.HelpersLib
 {
     public class NativeMessagingHost
     {
+        // The length prefix comes from the browser and sizes an allocation. Chrome allows 4 GB, which no image or page text here needs.
+        public const int MaxInputLength = 64 * 1024 * 1024;
+
+        // Browsers close the connection on a longer message from a host.
+        public const int MaxOutputLength = 1024 * 1024;
+
+        private readonly Stream inputStream;
+        private readonly Stream outputStream;
+
+        public NativeMessagingHost(Stream inputStream, Stream outputStream)
+        {
+            this.inputStream = inputStream;
+            this.outputStream = outputStream;
+        }
+
         public string Read()
         {
             string input = null;
 
-            Stream inputStream = Console.OpenStandardInput();
-
             byte[] bytesLength = new byte[4];
             inputStream.ReadExactly(bytesLength);
             int inputLength = BitConverter.ToInt32(bytesLength, 0);
+
+            if (inputLength > MaxInputLength)
+            {
+                throw new InvalidDataException($"Message of {inputLength} bytes is over the limit of {MaxInputLength}.");
+            }
 
             if (inputLength > 0)
             {
@@ -53,9 +71,13 @@ namespace ShareX.HelpersLib
 
         public void Write(string data)
         {
-            Stream outputStream = Console.OpenStandardOutput();
-
             byte[] bytesData = Encoding.UTF8.GetBytes(data);
+
+            if (bytesData.Length > MaxOutputLength)
+            {
+                bytesData = Encoding.UTF8.GetBytes("{}");
+            }
+
             byte[] bytesLength = BitConverter.GetBytes(bytesData.Length);
 
             outputStream.Write(bytesLength, 0, bytesLength.Length);

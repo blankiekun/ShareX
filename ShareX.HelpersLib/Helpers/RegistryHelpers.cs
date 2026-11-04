@@ -63,17 +63,6 @@ namespace ShareX.HelpersLib
             }
         }
 
-        public static void RemoveRegistry(string path, RegistryHive root = RegistryHive.CurrentUser)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                using (RegistryKey rk = RegistryKey.OpenBaseKey(root, RegistryView.Default))
-                {
-                    rk.DeleteSubKeyTree(path, false);
-                }
-            }
-        }
-
         public static object GetValue(string path, string name = null, RegistryHive root = RegistryHive.CurrentUser, RegistryView view = RegistryView.Default)
         {
             try
@@ -103,13 +92,6 @@ namespace ShareX.HelpersLib
         public static int? GetValueDWord(string path, string name = null, RegistryHive root = RegistryHive.CurrentUser, RegistryView view = RegistryView.Default)
         {
             return (int?)GetValue(path, name, root, view);
-        }
-
-        public static bool CheckStringValue(string path, string name = null, string value = null, RegistryHive root = RegistryHive.CurrentUser, RegistryView view = RegistryView.Default)
-        {
-            string registryValue = GetValueString(path, name, root, view);
-
-            return registryValue != null && (value == null || registryValue.Equals(value, StringComparison.OrdinalIgnoreCase));
         }
 
         public static string SearchProgramPath(string fileName)
