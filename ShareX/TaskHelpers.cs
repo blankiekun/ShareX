@@ -640,7 +640,8 @@ namespace ShareX
                 nameParser.ProcessName = metadata.ProcessName;
             }
 
-            if (taskSettings != null && taskSettings.OverrideScreenshotsFolder && !string.IsNullOrEmpty(taskSettings.ScreenshotsFolder))
+            if (taskSettings != null && taskSettings.OverrideScreenshotsFolder && !string.IsNullOrEmpty(taskSettings.ScreenshotsFolder) &&
+                !BackupMigration.IsWindowsPath(FileHelpers.ExpandFolderVariables(taskSettings.ScreenshotsFolder)))
             {
                 screenshotsFolder = nameParser.Parse(taskSettings.ScreenshotsFolder);
             }

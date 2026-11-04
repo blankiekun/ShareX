@@ -78,7 +78,8 @@ internal static class AppPaths
                 if (!string.IsNullOrEmpty(primaryPath))
                 {
                     primaryPath = FileHelpers.ExpandFolderVariables(primaryPath);
-                    if (string.IsNullOrEmpty(fallbackPath) || Directory.Exists(primaryPath))
+                    // A settings folder copied from Windows can name a drive, which would become a folder literally called "C:\..." next to the program.
+                    if (!BackupMigration.IsWindowsPath(primaryPath) && (string.IsNullOrEmpty(fallbackPath) || Directory.Exists(primaryPath)))
                     {
                         return primaryPath;
                     }

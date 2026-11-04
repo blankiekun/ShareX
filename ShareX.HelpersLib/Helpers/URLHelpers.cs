@@ -27,6 +27,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -60,23 +61,13 @@ namespace ShareX.HelpersLib
                             throw new Exception(Localization.Strings.URLHelpers_Invalid_URL);
                         }
 
-                        using (Process process = new Process())
+                        if (!TryStartBrowser(url))
                         {
-                            ProcessStartInfo psi = new ProcessStartInfo();
-                            psi.UseShellExecute = true;
-
-                            if (!string.IsNullOrEmpty(HelpersOptions.BrowserPath))
+                            using (Process process = new Process())
                             {
-                                psi.FileName = HelpersOptions.BrowserPath;
-                                psi.Arguments = url;
+                                process.StartInfo = new ProcessStartInfo(url) { UseShellExecute = true };
+                                process.Start();
                             }
-                            else
-                            {
-                                psi.FileName = url;
-                            }
-
-                            process.StartInfo = psi;
-                            process.Start();
                         }
 
                         DebugHelper.WriteLine("URL opened: " + url);
@@ -86,6 +77,34 @@ namespace ShareX.HelpersLib
                         DebugHelper.WriteException(e, $"OpenURL({url}) failed");
                     }
                 });
+            }
+        }
+
+        // A browser that can't start, such as a Windows path in a copied config, falls back to the default one.
+        // Under shell execute that path would itself be handed to xdg-open and the URL dropped.
+        private static bool TryStartBrowser(string url)
+        {
+            string browserPath = HelpersOptions.BrowserPath;
+
+            if (string.IsNullOrEmpty(browserPath))
+            {
+                return false;
+            }
+
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(browserPath);
+                psi.ArgumentList.Add(url);
+
+                using (Process.Start(psi))
+                {
+                    return true;
+                }
+            }
+            catch (Win32Exception e)
+            {
+                DebugHelper.WriteException(e, $"Browser \"{browserPath}\" did not start, using the default browser");
+                return false;
             }
         }
 
