@@ -67,7 +67,7 @@ internal static class Program
         _startTimer = Stopwatch.StartNew();
         ApplicationCommandLine.Initialize(args);
 
-        if (ApplicationCommandLine.TryHandleInstall() || ApplicationCommandLine.TryHandleUninstall())
+        if (ApplicationCommandLine.TryHandleHelp() || ApplicationCommandLine.TryHandleInstall() || ApplicationCommandLine.TryHandleUninstall())
         {
             return;
         }

@@ -353,7 +353,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Destination settings | ShareX.UploadersLib/Presentation/DestinationSettings/DestinationSettingsAccounts.cs:427 | Browser and secrets | UNVERIFIED | See Part 2 | S | Med |
 | Task and hotkey workflows | ShareX/CaptureHelpers/CaptureBase.cs:138; TH:77 | Hotkeys done in M5 | READY | KGlobalAccel; owner confirmed on the real desktop, 2026-11-04 | M | Med |
 | Actions presets | TH:748-761 | Registry program search | SWAP | `.desktop` lookup (A) | S | High |
-| Command line | ShareX/ShareXCLIManager.cs:58; ShareX.HelpersLib/CLI/CLIManager.cs:63 | `-` switches, safe for Unix paths | READY | None | S | High |
+| Command line | ShareX/ShareXCLIManager.cs:58; ShareX.HelpersLib/CLI/CLIManager.cs:63; ShareX/Infrastructure/ApplicationCommandLine.cs:53 | `-` switches, safe for Unix paths | READY | None. `--help` and `-h` print usage and exit before any startup (run in a virtual session) | S | High |
 | Watch folders | ShareX/WatchFolder.cs:58 | FileSystemWatcher | UNVERIFIED | None | S | Med |
 | Download and upload URL | UM:518 | None found | READY | None | S | Med |
 | History window, stats | TH:878; TH:910; ShareX.HistoryLib/Integration/HistoryIntegration.cs:39,53 | None found | UNVERIFIED | None | S | Med |
