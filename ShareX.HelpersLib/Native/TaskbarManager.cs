@@ -39,7 +39,7 @@ namespace ShareX.HelpersLib
 
     /// <summary>
     /// Shows progress on ShareX's task manager button through the launcher entry signal that Plasma reads. It names the installed
-    /// desktop entry, so nothing shows without one. Plasma drops the bar when this connection closes, so a crash can't leave it behind.
+    /// desktop entry, so nothing shows without one.
     /// </summary>
     public static class TaskbarManager
     {
