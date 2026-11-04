@@ -162,6 +162,32 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         Activate();
         MainWindowIntegration.ReportVisibility(true);
+
+        // KWin's focus-stealing prevention can turn Activate into a request for attention: at its default level when an X11 app
+        // was the last one used, and with any app from its High level up.
+        DispatcherTimer.RunOnce(ActivateThroughKWinIfRefused, TimeSpan.FromMilliseconds(250));
+    }
+
+    private void ActivateThroughKWinIfRefused()
+    {
+        if (IsActive || !IsVisible)
+        {
+            return;
+        }
+
+        try
+        {
+            KWinWindow? window = KWinDesktop.Query().Windows.FirstOrDefault(x => x.Pid == Environment.ProcessId && x.Caption == Title);
+
+            if (window != null)
+            {
+                KWinDesktop.ActivateWindow(window.Id);
+            }
+        }
+        catch (KWinScriptException e)
+        {
+            DebugHelper.WriteException(e);
+        }
     }
 
     public void HideToTray()
