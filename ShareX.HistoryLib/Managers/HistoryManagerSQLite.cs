@@ -51,11 +51,40 @@ namespace ShareX.HistoryLib
         {
             FileHelpers.CreateDirectoryFromFilePath(filePath);
 
+            // Sandbox mode has no path, and SQLite then keeps the database in a temporary file of its own.
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                MakeDatabasePrivate(filePath);
+            }
+
             string connectionString = $"Data Source={filePath}";
             connection = new SqliteConnection(connectionString);
             connection.Open();
 
             SetBusyTimeout(5000);
+        }
+
+        // Deletion URLs live here. SQLite would create the file with the default mode, and gives the sidecar files it creates the mode of
+        // the database, so an empty file of our own settles both. Sidecars left by a crash keep the mode they were created with.
+        private static void MakeDatabasePrivate(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                using FileStream _ = new FileStream(filePath, new FileStreamOptions
+                {
+                    Mode = FileMode.OpenOrCreate,
+                    Access = FileAccess.Write,
+                    UnixCreateMode = FileHelpers.PrivateFileMode
+                });
+            }
+
+            foreach (string path in new[] { filePath, filePath + "-wal", filePath + "-shm", filePath + "-journal" })
+            {
+                if (File.Exists(path))
+                {
+                    FileHelpers.TryMakePrivate(path);
+                }
+            }
         }
 
         private void SetBusyTimeout(int milliseconds)

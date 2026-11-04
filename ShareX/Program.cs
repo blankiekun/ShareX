@@ -30,6 +30,7 @@ using ShareX.HelpersLib;
 using ShareX.ImageEditor.Integration;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 #if MicrosoftStore
@@ -42,6 +43,22 @@ namespace ShareX;
 internal static class Program
 {
     private static Stopwatch _startTimer = null!;
+
+    // The current log tightens itself, but older months' logs are never opened again. Runs with logging off too, as the old ones are still there.
+    private static void MakeLogsPrivate()
+    {
+        string folder = AppPaths.LogsFolder;
+
+        if (Directory.Exists(folder))
+        {
+            foreach (string file in Directory.GetFiles(folder))
+            {
+                FileHelpers.TryMakePrivate(file);
+            }
+
+            FileHelpers.TryMakePrivate(folder, FileHelpers.PrivateFolderMode);
+        }
+    }
 
     [STAThread]
     private static void Main(string[] args)
@@ -58,6 +75,7 @@ internal static class Program
         SystemOptions.UpdateSystemOptions();
         PersonalPathManager.Initialize();
         DebugHelper.Init(AppPaths.LogsFilePath);
+        MakeLogsPrivate();
 
         if (SystemOptions.ReadError != null)
         {
