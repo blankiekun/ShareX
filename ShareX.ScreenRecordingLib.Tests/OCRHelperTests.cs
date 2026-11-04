@@ -47,7 +47,8 @@ public sealed class OCRHelperTests : IDisposable
     private string FakeTesseract(string script)
     {
         string path = Path.Combine(_folder, "tesseract");
-        File.WriteAllText(path, "#!/bin/sh\n" + script + "\n");
+        // .cs files check out as CRLF, and a raw string keeps that. A shell reads the CR as part of the line, so > 'file' would write to "file\r".
+        File.WriteAllText(path, "#!/bin/sh\n" + script.ReplaceLineEndings("\n") + "\n");
         File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
         return path;
     }
