@@ -26,12 +26,19 @@
 #nullable enable
 
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using Avalonia.Threading;
+using ShareX.AvaloniaUI.Imaging;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ShareX.HelpersLib;
 
@@ -42,8 +49,15 @@ public sealed class ImageViewerViewModel : INotifyPropertyChanged, IDisposable
     private Bitmap? _currentImage;
     private string? _currentImageFilePath;
     private string _statusText = string.Empty;
+    private CancellationTokenSource? _playback;
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    /// <summary>Another image took over the view. An animation moving to its next frame doesn't count.</summary>
+    public event EventHandler? ImageReplaced;
+
+    /// <summary>The pixels of <see cref="CurrentImage"/> changed without the bitmap itself changing.</summary>
+    public event EventHandler? FrameChanged;
 
     public Bitmap? CurrentImage
     {
@@ -212,6 +226,7 @@ public sealed class ImageViewerViewModel : INotifyPropertyChanged, IDisposable
             CurrentImageFilePath = _images[_currentImageIndex];
             ReplaceImage(new Bitmap(CurrentImageFilePath));
             UpdateStatus();
+            StartPlayback(CurrentImageFilePath);
             return true;
         }
         catch (Exception exception)
@@ -224,9 +239,108 @@ public sealed class ImageViewerViewModel : INotifyPropertyChanged, IDisposable
 
     private void ReplaceImage(Bitmap image)
     {
-        CurrentImage?.Dispose();
+        StopPlayback();
+        Bitmap? previous = CurrentImage;
         CurrentImage = image;
+        previous?.Dispose();
+        ImageReplaced?.Invoke(this, EventArgs.Empty);
         NotifyNavigationChanged();
+    }
+
+    private void StartPlayback(string filePath)
+    {
+        _playback = new CancellationTokenSource();
+        CancellationToken token = _playback.Token;
+        _ = Task.Run(() => PlayAnimationAsync(filePath, token), token);
+    }
+
+    // Cancelled only on the UI thread, which is also the only place PresentFrame runs, so a frame can't be
+    // written to a bitmap after this returns.
+    private void StopPlayback()
+    {
+        _playback?.Cancel();
+        _playback = null;
+    }
+
+    /// <summary>
+    /// Runs off the UI thread and keeps only the frame being decoded plus the one on screen, so memory doesn't grow
+    /// with the length of the file. Frame 0 is on screen already as the still from <see cref="LoadCurrentImage"/>.
+    /// </summary>
+    private async Task PlayAnimationAsync(string filePath, CancellationToken token)
+    {
+        try
+        {
+            using SkiaAnimatedImage animation = new(filePath);
+            int frameCount = animation.FrameCount;
+            if (frameCount < 2)
+            {
+                return;
+            }
+
+            using SKBitmap frame = SkiaImageHelpers.CreateBitmap(animation.Width, animation.Height);
+            animation.DecodeFrame(frame, 0, -1);
+            int shown = 0;
+            long due = Stopwatch.GetTimestamp() + GetFrameDelayTicks(animation, 0);
+
+            while (!token.IsCancellationRequested)
+            {
+                int next = (shown + 1) % frameCount;
+                animation.DecodeFrame(frame, next, shown);
+
+                long wait = due - Stopwatch.GetTimestamp();
+                if (wait > 0)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds((double)wait / Stopwatch.Frequency), token);
+                }
+
+                await Dispatcher.UIThread.InvokeAsync(() => PresentFrame(frame, token), DispatcherPriority.Normal, token);
+                shown = next;
+
+                // Keep to the file's timeline through small delays, but if decoding fell behind, carry on from now
+                // rather than rushing frames to catch up.
+                due = Math.Max(due + GetFrameDelayTicks(animation, next), Stopwatch.GetTimestamp());
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception exception)
+        {
+            DebugHelper.WriteException(exception, $"Failed to play animation '{filePath}'.");
+        }
+    }
+
+    private static long GetFrameDelayTicks(SkiaAnimatedImage animation, int frame)
+    {
+        // Browsers show a frame asking for 10 ms or less for 100 ms. Old files use a delay of 0 to mean "as fast as
+        // you can", and they were made to look right at that speed.
+        int duration = animation.GetFrameDuration(frame);
+        return (duration <= 10 ? 100 : duration) * Stopwatch.Frequency / 1000;
+    }
+
+    private void PresentFrame(SKBitmap frame, CancellationToken token)
+    {
+        if (token.IsCancellationRequested)
+        {
+            return;
+        }
+
+        if (CurrentImage is WriteableBitmap buffer)
+        {
+            using ILockedFramebuffer target = buffer.Lock();
+            using SKPixmap source = frame.PeekPixels();
+            source.ReadPixels(frame.Info, target.Address, target.RowBytes);
+        }
+        else
+        {
+            // First frame of playback: swap the still for a bitmap later frames can be written into, so that
+            // frames never have to replace a bitmap the Image control is drawing.
+            Bitmap? still = CurrentImage;
+            CurrentImage = BitmapConversionHelpers.ToAvaloniBitmap(frame);
+            still?.Dispose();
+        }
+
+        FrameChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void UpdateStatus()
@@ -264,7 +378,9 @@ public sealed class ImageViewerViewModel : INotifyPropertyChanged, IDisposable
 
     public void Dispose()
     {
-        CurrentImage?.Dispose();
+        StopPlayback();
+        Bitmap? image = CurrentImage;
         CurrentImage = null;
+        image?.Dispose();
     }
 }

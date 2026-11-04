@@ -1416,7 +1416,19 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
         else if (!string.IsNullOrEmpty(info?.FilePath))
         {
-            FileHelpers.OpenFile(info.FilePath);
+            ThumbnailViewClickAction action = ApplicationState.Settings.ThumbnailClickAction;
+
+            // A local GIF plays in ShareX's own viewer, unless the user picked something else for clicks.
+            if (action is ThumbnailViewClickAction.Default or ThumbnailViewClickAction.OpenImageViewer &&
+                File.Exists(info.FilePath) &&
+                string.Equals(Path.GetExtension(info.FilePath), ".gif", StringComparison.OrdinalIgnoreCase))
+            {
+                ExecuteThumbnailClick(item, action);
+            }
+            else
+            {
+                FileHelpers.OpenFile(info.FilePath);
+            }
         }
 
         e.Handled = true;

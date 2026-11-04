@@ -78,14 +78,10 @@ public partial class ImageViewerWindow : Window
     {
         DataContext = _viewModel;
         AvaloniaXamlLoader.Load(this);
-        this.FindControl<Image>("PreviewImage")!.RenderTransform = _previewTransform;
-        _viewModel.PropertyChanged += (_, e) =>
-        {
-            if (e.PropertyName == nameof(ImageViewerViewModel.CurrentImage))
-            {
-                _previewTransform.Matrix = Matrix.Identity;
-            }
-        };
+        Image previewImage = this.FindControl<Image>("PreviewImage")!;
+        previewImage.RenderTransform = _previewTransform;
+        _viewModel.ImageReplaced += (_, _) => _previewTransform.Matrix = Matrix.Identity;
+        _viewModel.FrameChanged += (_, _) => previewImage.InvalidateVisual();
         System.Drawing.Rectangle activeScreen = CaptureHelpers.GetActiveScreenBounds();
         WindowStartupLocation = WindowStartupLocation.Manual;
         Position = new PixelPoint(activeScreen.X, activeScreen.Y);
