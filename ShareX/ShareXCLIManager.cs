@@ -34,8 +34,37 @@ namespace ShareX
 {
     public class ShareXCLIManager : CLIManager
     {
+        // These read the screen or act on the window in use, so ShareX coming to the front first would be what they get.
+        private static readonly HashSet<HotkeyType> screenJobs = new()
+        {
+            HotkeyType.PrintScreen, HotkeyType.ActiveWindow, HotkeyType.CustomWindow, HotkeyType.ActiveMonitor, HotkeyType.RectangleRegion,
+            HotkeyType.CustomRegion, HotkeyType.LastRegion, HotkeyType.ScrollingCapture, HotkeyType.StartAutoCapture, HotkeyType.StopAutoCapture,
+            HotkeyType.ScreenRecorder, HotkeyType.ScreenRecorderActiveWindow, HotkeyType.ScreenRecorderCustomRegion, HotkeyType.StartScreenRecorder,
+            HotkeyType.ScreenRecorderGIF, HotkeyType.ScreenRecorderGIFActiveWindow, HotkeyType.ScreenRecorderGIFCustomRegion, HotkeyType.StartScreenRecorderGIF,
+            HotkeyType.StopScreenRecording, HotkeyType.PauseScreenRecording, HotkeyType.AbortScreenRecording,
+            HotkeyType.ScreenColorPicker, HotkeyType.Ruler, HotkeyType.PinToScreenFromScreen, HotkeyType.OCR, HotkeyType.QRCodeDecodeFromScreen,
+            HotkeyType.QRCodeScanRegion, HotkeyType.ActiveWindowBorderless, HotkeyType.ActiveWindowTopMost
+        };
+
         public ShareXCLIManager(string[] arguments) : base(arguments)
         {
+        }
+
+        public bool HasScreenJob()
+        {
+            return Commands.Any(command => command.IsCommand && IsScreenJob(command));
+        }
+
+        private static bool IsScreenJob(CLICommand command)
+        {
+            // Given a file, OCR reads that instead of the screen.
+            if (command.CheckCommand(nameof(HotkeyType.OCR)) && !string.IsNullOrEmpty(command.Parameter))
+            {
+                return false;
+            }
+
+            return screenJobs.Any(job => command.CheckCommand(job.ToString())) ||
+                (FindWorkflow(command) is { } workflow && screenJobs.Contains(workflow.TaskSettings.Job));
         }
 
         public async Task UseCommandLineArgs()
@@ -173,6 +202,18 @@ namespace ShareX
 
         private async Task<bool> CheckCLIWorkflow(CLICommand command)
         {
+            if (FindWorkflow(command) is { } workflow)
+            {
+                await TaskHelpers.ExecuteJob(workflow.TaskSettings);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private static HotkeySettings FindWorkflow(CLICommand command)
+        {
             if (ApplicationState.HotkeysConfigOrNull is { } hotkeysConfig && command.CheckCommand("workflow") && !string.IsNullOrEmpty(command.Parameter))
             {
                 foreach (HotkeySettings hotkeySetting in hotkeysConfig.Hotkeys)
@@ -181,15 +222,13 @@ namespace ShareX
                     {
                         if (command.Parameter == hotkeySetting.TaskSettings.ToString())
                         {
-                            await TaskHelpers.ExecuteJob(hotkeySetting.TaskSettings);
-
-                            return true;
+                            return hotkeySetting;
                         }
                     }
                 }
             }
 
-            return false;
+            return null;
         }
 
         private async Task<bool> CheckNativeMessagingInput(CLICommand command)
