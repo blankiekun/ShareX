@@ -58,6 +58,59 @@ public class BackupMigrationTests
         Assert.True(report.HasPlaintextSecrets);
     }
 
+    // Bug: dropping the attribute leaves OAuth 1 credentials in the clear in UploadersConfig.json with nothing to show for it. AuthToken stays
+    // out on purpose: the name also matches Seafile's property, and the OAuth 1 one isn't a secret.
+    [Theory]
+    [InlineData("ConsumerSecret", true)]
+    [InlineData("ConsumerPrivateKey", true)]
+    [InlineData("UserToken", true)]
+    [InlineData("UserSecret", true)]
+    [InlineData("AuthSecret", true)]
+    [InlineData("ConsumerKey", false)]
+    [InlineData("AuthToken", false)]
+    public void The_oauth1_credentials_count_as_secrets(string property, bool expected)
+    {
+        Assert.Equal(expected, Secrets.Contains(property));
+    }
+
+    // Bug: the attribute changes how values load, so a config from before it loses its plaintext values or stops looking signed in. Uses no wallet.
+    [Fact]
+    public void A_plaintext_oauth1_account_from_before_encryption_loads_as_it_is()
+    {
+        UploadersConfig config = UploadersConfig.LoadFromJson("""
+        { "FlickrOAuthInfo": { "ConsumerKey": "key", "ConsumerSecret": "app-secret", "UserToken": "user-token", "UserSecret": "user-secret" } }
+        """);
+
+        OAuthInfo info = config.FlickrOAuthInfo;
+        Assert.Equal("app-secret", info.ConsumerSecret);
+        Assert.Equal("user-token", info.UserToken);
+        Assert.Equal("user-secret", info.UserSecret);
+        Assert.True(OAuthInfo.CheckOAuth(info));
+    }
+
+    // Bug: every Windows backup with Flickr reports "secrets imported" for a secret that ships with the app, and also for an account it
+    // just told the user to sign in to again, because Windows leaves UserToken in the clear beside the encrypted UserSecret.
+    [Fact]
+    public void An_oauth1_account_is_reported_by_what_really_happened_to_it()
+    {
+        JObject signedOut = JObject.Parse($$"""
+        { "FlickrOAuthInfo": { "ConsumerKey": "key", "ConsumerSecret": "app-secret", "UserToken": "user-token", "UserSecret": "{{TaggedBlob}}" } }
+        """);
+        JObject appOnly = JObject.Parse("""{ "FlickrOAuthInfo": { "ConsumerKey": "key", "ConsumerSecret": "app-secret" } }""");
+        JObject plain = JObject.Parse("""{ "PhotobucketOAuthInfo": { "ConsumerSecret": "app-secret", "UserToken": "user-token", "UserSecret": "user-secret" } }""");
+
+        BackupMigrationReport signedOutReport = Migrate(signedOut);
+        BackupMigrationReport appOnlyReport = Migrate(appOnly);
+        BackupMigrationReport plainReport = Migrate(plain);
+
+        Assert.Equal(["Flickr"], signedOutReport.SignInAgain);
+        Assert.Empty(signedOutReport.SecretsImported);
+        Assert.Equal("", (string?)signedOut.SelectToken("FlickrOAuthInfo.UserSecret"));
+        Assert.Empty(appOnlyReport.SecretsImported);
+        Assert.True(appOnlyReport.NeedsSecretStorage);
+        Assert.Equal(["Photobucket"], plainReport.SecretsImported);
+    }
+
     // Bug: a new destination's secret reaches the user as a raw property name such as "NewThingAPIKey".
     [Fact]
     public void Every_secret_in_the_uploaders_config_has_a_destination_name()
