@@ -23,6 +23,8 @@
 
 #endregion License Information (GPL v3)
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ShareX.AvaloniaUI.Theming;
 using ShareX.HelpersLib;
 using ShareX.HistoryLib;
@@ -106,6 +108,19 @@ namespace ShareX
         }
 
         public static string BackupFolder => Path.Combine(AppPaths.PersonalFolder, "Backup");
+
+        // Far above any real config or history, low enough that a bad archive can't fill the disk or memory.
+        private const long MaxImportedConfigSize = 64_000_000;
+        private const long MaxImportedHistorySize = 256_000_000;
+
+        private static readonly Dictionary<string, long> ImportableEntries = new Dictionary<string, long>()
+        {
+            [ApplicationConfigFileName] = MaxImportedConfigSize,
+            [UploadersConfigFileName] = MaxImportedConfigSize,
+            [HotkeysConfigFileName] = MaxImportedConfigSize,
+            [AppPaths.HistoryFileName] = MaxImportedHistorySize,
+            [AppPaths.HistoryFileNameOld] = MaxImportedHistorySize
+        };
 
         private static ApplicationConfig Settings { get => ApplicationState.SettingsOrNull; set => ApplicationState.Settings = value; }
         private static TaskSettings DefaultTaskSettings { get => ApplicationState.DefaultTaskSettings; set => ApplicationState.DefaultTaskSettings = value; }
@@ -451,7 +466,7 @@ namespace ShareX
                     HistoryClose();
                 }
 
-                ZipManager.Compress(archivePath, entries);
+                ZipManager.Compress(archivePath, entries, unixCreateMode: UnixFileMode.UserRead | UnixFileMode.UserWrite);
                 return true;
             }
             catch (Exception e)
@@ -474,30 +489,193 @@ namespace ShareX
             return false;
         }
 
-        public static bool Import(string archivePath)
+        // Returns null when nothing was imported, after telling the user why.
+        public static BackupImportReport Import(string archivePath)
         {
+            string workFolder = Path.Combine(AppPaths.PersonalFolder, "Import-" + Guid.NewGuid().ToString("N"));
+
             try
             {
                 HistoryClose();
 
-                ZipManager.Extract(archivePath, AppPaths.PersonalFolder, true, entry =>
-                {
-                    return FileHelpers.CheckExtension(entry.Name, new string[] { "json", "xml" });
-                }, 1_000_000_000);
+                Dictionary<string, string> configs = new Dictionary<string, string>();
 
-                return true;
+                List<string> skipped = ZipManager.ReadEntries(archivePath, ImportableEntries, (name, stream) =>
+                {
+                    if (name == AppPaths.HistoryFileName || name == AppPaths.HistoryFileNameOld)
+                    {
+                        Directory.CreateDirectory(workFolder);
+
+                        using (FileStream file = File.Create(Path.Combine(workFolder, name)))
+                        {
+                            stream.CopyTo(file);
+                        }
+                    }
+                    else
+                    {
+                        // Held in memory, not extracted: the JSON can have secrets in the clear, and they must never reach the disk that way.
+                        using (StreamReader reader = new StreamReader(stream))
+                        {
+                            configs[name] = reader.ReadToEnd();
+                        }
+                    }
+                });
+
+                string importedHistory = Path.Combine(workFolder, AppPaths.HistoryFileName);
+                string importedHistoryOld = Path.Combine(workFolder, AppPaths.HistoryFileNameOld);
+
+                if (configs.Count == 0 && !File.Exists(importedHistory) && !File.Exists(importedHistoryOld))
+                {
+                    throw new InvalidDataException(Strings.SettingManager_ImportNothingFound);
+                }
+
+                BackupImportReport report = new BackupImportReport() { SkippedEntries = skipped };
+
+                ApplicationConfig applicationConfig = MigrateConfig<ApplicationConfig>(configs, ApplicationConfigFileName, report.Migration);
+                UploadersConfig uploadersConfig = MigrateConfig<UploadersConfig>(configs, UploadersConfigFileName, report.Migration);
+                HotkeysConfig hotkeysConfig = MigrateConfig<HotkeysConfig>(configs, HotkeysConfigFileName, report.Migration);
+
+                // Find out now rather than halfway through the saves, with the first config already replaced.
+                if (report.Migration.NeedsSecretStorage)
+                {
+                    RequireSecretStorage();
+                }
+
+                // In this order: where the other two are saved depends on the application config.
+                SaveImportedConfig(applicationConfig, ApplicationConfigFilePath);
+
+                if (applicationConfig != null)
+                {
+                    Settings = applicationConfig;
+                }
+
+                SaveImportedConfig(uploadersConfig, UploadersConfigFilePath);
+                SaveImportedConfig(hotkeysConfig, HotkeysConfigFilePath);
+
+                if (File.Exists(importedHistory))
+                {
+                    MergeImportedHistory(importedHistory, report);
+                }
+
+                // The older format goes where startup looks for it, which migrates it or moves it to the backup folder.
+                if (File.Exists(importedHistoryOld))
+                {
+                    File.Move(importedHistoryOld, AppPaths.HistoryFilePathOld, true);
+                }
+
+                return report;
             }
             catch (Exception e)
             {
                 DebugHelper.WriteException(e);
-                MessageBox.Show(string.Format(Strings.SettingManager_ImportBackupError, e), Strings.SettingManager_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format(Strings.SettingManager_ImportBackupError, e.Message), Strings.SettingManager_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
+                if (Directory.Exists(workFolder))
+                {
+                    Directory.Delete(workFolder, true);
+                }
+
                 HistoryConnect();
             }
 
-            return false;
+            return null;
+        }
+
+        private static T MigrateConfig<T>(Dictionary<string, string> configs, string fileName, BackupMigrationReport report) where T : SettingsBase<T>, new()
+        {
+            if (!configs.TryGetValue(fileName, out string json))
+            {
+                return null;
+            }
+
+            try
+            {
+                JObject root;
+
+                // DateParseHandling.None: every string stays exactly as stored, including a secret that happens to look like a date.
+                using (JsonTextReader reader = new JsonTextReader(new StringReader(json)) { DateParseHandling = DateParseHandling.None })
+                {
+                    root = JObject.Load(reader);
+                }
+
+                HashSet<string> secretProperties = BackupMigration.GetSecretPropertyNames(typeof(UploadersConfig).Assembly, typeof(ApplicationConfig).Assembly,
+                    typeof(ShareX.Tools.AIOptions).Assembly, typeof(HelpersOptions).Assembly);
+
+                BackupMigration.Migrate(root, secretProperties, LinuxFolders.Current(AppPaths.PersonalFolder), CanDecryptHere, report);
+
+                return SettingsBase<T>.LoadFromJson(root.ToString(Newtonsoft.Json.Formatting.None), BackupFolder);
+            }
+            catch (JsonException e)
+            {
+                // Not e.Message or e itself: a parsing message can quote the value it choked on, and this one could be a secret.
+                DebugHelper.WriteLine($"{fileName} in the backup can't be read: {e.GetType().Name}");
+                throw new InvalidDataException(string.Format(Strings.SettingManager_ImportFileDamaged, fileName));
+            }
+        }
+
+        private static bool CanDecryptHere(string taggedValue)
+        {
+            // Throws if the wallet can't be reached, which stops the import. Only then does a failure below mean another machine's key.
+            RequireSecretStorage();
+
+            try
+            {
+                SecretServiceCrypto.Decrypt(taggedValue.Substring(taggedValue.IndexOf('$', 1) + 1));
+                return true;
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteLine($"A secret in the backup was encrypted with another machine's key: {e.GetType().Name}");
+                return false;
+            }
+        }
+
+        private static void RequireSecretStorage()
+        {
+            try
+            {
+                SecretServiceCrypto.Encrypt("ShareX");
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException(string.Format(Strings.SettingManager_ImportNeedsWallet, e.Message), e);
+            }
+        }
+
+        private static void SaveImportedConfig<T>(T config, string filePath) where T : SettingsBase<T>, new()
+        {
+            if (config != null && !config.SaveImported(filePath))
+            {
+                throw new IOException(string.Format(Strings.SettingManager_ImportSaveFailed, filePath));
+            }
+        }
+
+        // A damaged history file shouldn't cost the settings that were imported fine, so this reports instead of throwing.
+        private static void MergeImportedHistory(string importedHistory, BackupImportReport report)
+        {
+            try
+            {
+                string historyFilePath = AppPaths.HistoryFilePath;
+
+                if (File.Exists(historyFilePath))
+                {
+                    FileHelpers.CreateDirectory(BackupFolder);
+                    report.HistoryBackupPath = Path.Combine(BackupFolder, $"History-before-import-{DateTime.Now:yyyyMMdd-HHmmss-fff}.db");
+                    File.Copy(historyFilePath, report.HistoryBackupPath);
+                }
+
+                using (HistoryManagerSQLite historyManager = new HistoryManagerSQLite(historyFilePath))
+                {
+                    report.History = historyManager.MergeFrom(importedHistory);
+                }
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
+                report.HistoryError = e.Message;
+            }
         }
     }
 }

@@ -35,6 +35,7 @@ namespace ShareX.HelpersLib
         public string Host { get; set; }
         public int Port { get; set; }
         public string Username { get; set; }
+        [JsonEncrypt]
         public string Password { get; set; }
 
         public ProxyInfo()

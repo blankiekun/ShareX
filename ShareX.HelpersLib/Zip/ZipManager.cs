@@ -33,6 +33,8 @@ namespace ShareX.HelpersLib
 {
     public static class ZipManager
     {
+        private const int MaxForeignArchiveEntries = 1000;
+
         public static void Extract(string archivePath, string destination, bool retainDirectoryStructure = true, Func<ZipArchiveEntry, bool> filter = null,
             long maxUncompressedSize = 0)
         {
@@ -98,6 +100,58 @@ namespace ShareX.HelpersLib
             }
         }
 
+        // For an archive from another machine. Only entries named exactly in allowedEntries reach the reader, each capped at its limit
+        // however large its header claims to be. Nothing is written from an entry's own name, so a traversal name has nowhere to go.
+        // Returns the names of the entries it passed over.
+        public static List<string> ReadEntries(string archivePath, IReadOnlyDictionary<string, long> allowedEntries, Action<string, Stream> read)
+        {
+            // Compressed data is never larger than this, give or take the zip's own headers.
+            long maxArchiveSize = allowedEntries.Values.Sum() + 1_000_000;
+
+            if (new FileInfo(archivePath).Length > maxArchiveSize)
+            {
+                throw new InvalidDataException(Localization.Strings.ZipManager_Archive_too_large);
+            }
+
+            List<string> skipped = new List<string>();
+            HashSet<string> seen = new HashSet<string>(StringComparer.Ordinal);
+
+            using (ZipArchive archive = ZipFile.OpenRead(archivePath))
+            {
+                if (archive.Entries.Count > MaxForeignArchiveEntries)
+                {
+                    throw new InvalidDataException(Localization.Strings.ZipManager_Archive_too_large);
+                }
+
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    if (!allowedEntries.TryGetValue(entry.FullName, out long maxSize))
+                    {
+                        skipped.Add(entry.FullName);
+                        continue;
+                    }
+
+                    if (!seen.Add(entry.FullName))
+                    {
+                        throw new InvalidDataException($"The archive has more than one {entry.FullName}.");
+                    }
+
+                    if (entry.Length > maxSize)
+                    {
+                        throw new InvalidDataException(Localization.Strings.ZipManager_Archive_too_large + "\r\n\r\n" + entry.FullName + "\r\n" +
+                            string.Format(Localization.Strings.ZipManager_Maximum_allowed_file_size, maxSize.ToSizeString()));
+                    }
+
+                    using (MaxLengthStream stream = new MaxLengthStream(entry.Open(), maxSize))
+                    {
+                        read(entry.FullName, stream);
+                    }
+                }
+            }
+
+            return skipped;
+        }
+
         private static void ExtractToFile(ZipArchiveEntry source, string destinationFileName, bool overwrite)
         {
             if (source == null)
@@ -132,7 +186,8 @@ namespace ShareX.HelpersLib
             ZipFile.CreateFromDirectory(source, archivePath, compression, false);
         }
 
-        public static void Compress(string archivePath, List<ZipEntryInfo> entries, CompressionLevel compression = CompressionLevel.Optimal)
+        // unixCreateMode is applied at creation, so the file is never readable by others while it is being written.
+        public static void Compress(string archivePath, List<ZipEntryInfo> entries, CompressionLevel compression = CompressionLevel.Optimal, UnixFileMode? unixCreateMode = null)
         {
             FileHelpers.CreateDirectoryFromFilePath(archivePath);
 
@@ -141,7 +196,10 @@ namespace ShareX.HelpersLib
                 File.Delete(archivePath);
             }
 
-            using (ZipArchive archive = ZipFile.Open(archivePath, ZipArchiveMode.Create))
+            FileStreamOptions options = new FileStreamOptions() { Mode = FileMode.CreateNew, Access = FileAccess.ReadWrite, UnixCreateMode = unixCreateMode };
+
+            using (FileStream stream = new FileStream(archivePath, options))
+            using (ZipArchive archive = new ZipArchive(stream, ZipArchiveMode.Create))
             {
                 foreach (ZipEntryInfo entry in entries)
                 {

@@ -14,6 +14,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ShareX.HelpersLib\ShareX.HelpersLib.csproj" />
+    <ProjectReference Include="..\ShareX.HistoryLib\ShareX.HistoryLib.csproj" />
+    <ProjectReference Include="..\ShareX.UploadersLib\ShareX.UploadersLib.csproj" />
     <ProjectReference Include="..\ShareX.ScreenRecordingLib\ShareX.ScreenRecordingLib.csproj" />
     <ProjectReference Include="..\ShareX.Tools\ShareX.Tools.csproj" />
   </ItemGroup>

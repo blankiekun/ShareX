@@ -3145,4 +3145,59 @@ You can later disable it from "After capture tasks" menu.</value>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin disabled the upload feature.</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>A ShareX backup holds your logins and API keys in plain text, so that they can move to another machine. Anyone who gets the file can use them.&#xD;
+&#xD;
+Keep it private and delete it once you have restored it. Export anyway?</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Backup imported</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Sign in again. These were encrypted for another machine and can't be read here:</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Logins that came across, now encrypted with your wallet:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Folders changed to their Linux location:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Settings put back to their default, because the path has no equivalent here:</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Actions turned off, so that nothing from the backup runs by itself. Check them and turn them back on:</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Image effects left out, because this version doesn't have them:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>History: {0} added, {1} already here, {2} unreadable.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Your previous history was saved to {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>History was not imported: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Files in the backup that were ignored:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>This backup file holds your logins in plain text. Delete it once you are happy with the import.</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>The file has no ShareX settings or history in it.</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} in the backup is damaged, so nothing was imported.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>The backup holds logins, and they can't be stored without your wallet, so nothing was imported. Open the wallet and try again.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Could not save {0}. The import stopped there.</value>
+  </data>
 </root>
