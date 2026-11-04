@@ -733,6 +733,18 @@
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Setări ale aplicației</value>
   </data>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>Pornește ShareX la autentificare</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Afișați "Editați cu ShareX" în meniul contextual din Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Afișați "Încărcați cu ShareX" în meniul contextual din Dolphin</value>
+  </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
   </data>
@@ -1508,6 +1520,9 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Nicio presetare pentru efecte de imagine</value>
   </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>Nu există altă fereastră de capturat. Deschideți fereastra dorită, apoi încercați din nou.</value>
+  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Nu s-au găsit ferestre</value>
   </data>
@@ -2090,6 +2105,9 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Personalizați ShareX</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>Open source • Creat pentru Linux</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Puteți modifica oricând aceste opțiuni din setările aplicației.</value>

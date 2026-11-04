@@ -733,6 +733,18 @@
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - अनुप्रयोग सेटिंग</value>
   </data>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>डेस्कटॉप</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>लॉग इन करने पर ShareX चलाएँ</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Dolphin संदर्भ मेनू में "ShareX से संपादित करें" दिखाएँ</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Dolphin संदर्भ मेनू में "ShareX से अपलोड करें" दिखाएँ</value>
+  </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
   </data>
@@ -1508,6 +1520,9 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>कोई छवि प्रभाव प्रीसेट नहीं</value>
   </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>कैप्चर करने के लिए कोई अन्य विंडो नहीं है। अपनी इच्छित विंडो खोलें, फिर पुनः प्रयास करें।</value>
+  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>कोई विंडो नहीं मिली</value>
   </data>
@@ -2090,6 +2105,9 @@
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>ShareX को अपना बनाएँ</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>ओपन सोर्स • Linux के लिए निर्मित</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>आप इन विकल्पों को एप्लिकेशन सेटिंग में कभी भी बदल सकते हैं।</value>

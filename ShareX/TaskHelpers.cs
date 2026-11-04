@@ -1789,14 +1789,28 @@ namespace ShareX
         {
             using Bitmap bitmap = mode switch
             {
-                QRCodeScanMode.Screen => new Screenshot().CaptureFullscreen(),
+                QRCodeScanMode.Screen => await CaptureScreenForQRCodeAsync(),
                 QRCodeScanMode.Region => await RegionCaptureTasks.GetRegionImageAsync(
                     TaskSettings.GetDefaultTaskSettings().CaptureSettings.RegionCaptureOptions),
                 QRCodeScanMode.ImageFile when !string.IsNullOrWhiteSpace(filePath) => SkiaImageHelpers.LoadImage(filePath),
                 _ => null
             };
 
-            return bitmap != null ? BarcodeScan(bitmap) : null;
+            return bitmap != null ? await Task.Run(() => BarcodeScan(bitmap)) : null;
+        }
+
+        private static async Task<Bitmap> CaptureScreenForQRCodeAsync()
+        {
+            try
+            {
+                return await Task.Run(() => new Screenshot().CaptureFullscreen());
+            }
+            catch (ScreenCaptureException e)
+            {
+                DebugHelper.WriteException(e);
+                e.ShowError(false);
+                return null;
+            }
         }
 
         private static Task SaveQRCodeAsync(string text, int size, string filePath)
