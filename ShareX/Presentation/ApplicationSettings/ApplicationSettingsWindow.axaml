@@ -165,7 +165,7 @@
                                     <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_ShowTrayIcon}" IsChecked="{Binding ShowTray, Mode=TwoWay}"/>
                                     <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_MinimizeToTrayOnStart}" IsEnabled="{Binding SilentRunEnabled}" IsChecked="{Binding SilentRun, Mode=TwoWay}"/>
                                     <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_ShowProgressInTrayIcon}" IsChecked="{Binding TrayIconProgressEnabled, Mode=TwoWay}"/>
-                                    <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_ShowProgressInTaskbarButton}" IsEnabled="{Binding TaskbarProgressSupported}" IsChecked="{Binding TaskbarProgressEnabled, Mode=TwoWay}"/>
+                                    <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_ShowProgressInTaskbarButton}" IsChecked="{Binding TaskbarProgressEnabled, Mode=TwoWay}"/>
                                     <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_UseWhiteShareXIcon}" IsChecked="{Binding UseWhiteShareXIcon, Mode=TwoWay}"/>
                                     <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_RememberMainWindowPosition}" IsChecked="{Binding RememberMainFormPosition, Mode=TwoWay}"/>
                                     <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_RememberMainWindowSize}" IsChecked="{Binding RememberMainFormSize, Mode=TwoWay}"/>

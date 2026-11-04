@@ -218,8 +218,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         }
     }
 
-    public bool TaskbarProgressSupported => TaskbarManager.IsPlatformSupported;
-
     public bool UseWhiteShareXIcon
     {
         get => Settings.UseWhiteShareXIcon;

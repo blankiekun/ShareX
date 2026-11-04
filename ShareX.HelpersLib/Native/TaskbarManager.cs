@@ -23,182 +23,124 @@
 
 #endregion License Information (GPL v3)
 
+#nullable enable
+
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using Tmds.DBus.Protocol;
 
 namespace ShareX.HelpersLib
 {
     public enum TaskbarProgressBarStatus
     {
-        NoProgress = 0,
-        Indeterminate = 0x1,
-        Normal = 0x2,
-        Error = 0x4,
-        Paused = 0x8
+        NoProgress,
+        Normal
     }
 
+    /// <summary>
+    /// Shows progress on ShareX's task manager button through the launcher entry signal that Plasma reads. It names the installed
+    /// desktop entry, so nothing shows without one.
+    /// </summary>
     public static class TaskbarManager
     {
-        [ComImport, Guid("c43dc798-95d1-4bea-9030-bb99e2983a1a"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        private interface ITaskbarList4
-        {
-            // ITaskbarList
-            [PreserveSig]
-            void HrInit();
-
-            [PreserveSig]
-            void AddTab(IntPtr hwnd);
-
-            [PreserveSig]
-            void DeleteTab(IntPtr hwnd);
-
-            [PreserveSig]
-            void ActivateTab(IntPtr hwnd);
-
-            [PreserveSig]
-            void SetActiveAlt(IntPtr hwnd);
-
-            // ITaskbarList2
-            [PreserveSig]
-            void MarkFullscreenWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
-
-            // ITaskbarList3
-            [PreserveSig]
-            void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
-
-            [PreserveSig]
-            void SetProgressState(IntPtr hwnd, TaskbarProgressBarStatus tbpFlags);
-        }
-
-        [ComImport, Guid("56FDF344-FD6D-11d0-958A-006097C9A090"), ClassInterface(ClassInterfaceType.None)]
-        private class CTaskbarList
-        {
-        }
+        private const string DesktopEntryUri = "application://ShareX.desktop";
+        private const string ObjectPath = "/com/canonical/unity/launcherentry/sharex";
+        private const string Interface = "com.canonical.Unity.LauncherEntry";
 
         private static readonly object syncLock = new object();
 
-        private static ITaskbarList4 taskbarList;
+        private static Task<DBusConnection>? connecting;
+        private static bool enabled;
+        private static double progress;
+        private static bool progressVisible;
 
-        private static ITaskbarList4 TaskbarList
+        public static bool Enabled
         {
-            get
+            get => enabled;
+            set
             {
-                if (taskbarList == null)
+                // Tasks finishing later won't report while this is off, so a bar showing now has to go now.
+                if (!value)
                 {
-                    lock (syncLock)
-                    {
-                        if (taskbarList == null)
-                        {
-                            taskbarList = (ITaskbarList4)new CTaskbarList();
-                            taskbarList.HrInit();
-                        }
-                    }
+                    Update(0, false);
                 }
 
-                return taskbarList;
-            }
-        }
-
-        private static IntPtr mainWindowHandle;
-
-        private static void InvokeTaskbar(Action<ITaskbarList4> action)
-        {
-            lock (syncLock)
-            {
-                try
-                {
-                    action(TaskbarList);
-                }
-                catch (InvalidComObjectException)
-                {
-                    // Upload progress can be reported by different COM apartments.
-                    // Recreate a cached RCW whose creating apartment was torn down.
-                    taskbarList = null;
-
-                    try
-                    {
-                        action(TaskbarList);
-                    }
-                    catch (InvalidComObjectException)
-                    {
-                        taskbarList = null;
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        Enabled = false;
-                    }
-                }
-                catch (FileNotFoundException)
-                {
-                    Enabled = false;
-                }
-            }
-        }
-
-        private static IntPtr MainWindowHandle
-        {
-            get
-            {
-                if (mainWindowHandle == IntPtr.Zero)
-                {
-                    Process currentProcess = Process.GetCurrentProcess();
-
-                    if (currentProcess == null || currentProcess.MainWindowHandle == IntPtr.Zero)
-                    {
-                        mainWindowHandle = IntPtr.Zero;
-                    }
-                    else
-                    {
-                        mainWindowHandle = currentProcess.MainWindowHandle;
-                    }
-                }
-
-                return mainWindowHandle;
-            }
-        }
-
-        public static bool Enabled { get; set; }
-
-        public static bool IsPlatformSupported
-        {
-            get
-            {
-                return Helpers.IsWindows7OrGreater();
-            }
-        }
-
-        private static void SetProgressValue(IntPtr hwnd, int currentValue, int maximumValue = 100)
-        {
-            if (Enabled && IsPlatformSupported && hwnd != IntPtr.Zero)
-            {
-                currentValue = currentValue.Clamp(0, maximumValue);
-
-                InvokeTaskbar(taskbar => taskbar.SetProgressValue(
-                    hwnd,
-                    Convert.ToUInt32(currentValue),
-                    Convert.ToUInt32(maximumValue)));
+                enabled = value;
             }
         }
 
         public static void SetProgressValue(int currentValue, int maximumValue = 100)
         {
-            SetProgressValue(MainWindowHandle, currentValue, maximumValue);
-        }
-
-        private static void SetProgressState(IntPtr hwnd, TaskbarProgressBarStatus state)
-        {
-            if (Enabled && IsPlatformSupported && hwnd != IntPtr.Zero)
+            if (Enabled)
             {
-                InvokeTaskbar(taskbar => taskbar.SetProgressState(hwnd, state));
+                Update((double)currentValue.Clamp(0, maximumValue) / maximumValue, true);
             }
         }
 
         public static void SetProgressState(TaskbarProgressBarStatus state)
         {
-            SetProgressState(MainWindowHandle, state);
+            if (Enabled)
+            {
+                bool visible = state == TaskbarProgressBarStatus.Normal;
+                Update(visible ? progress : 0, visible);
+            }
         }
 
+        private static void Update(double newProgress, bool visible)
+        {
+            lock (syncLock)
+            {
+                if (newProgress == progress && visible == progressVisible)
+                {
+                    return;
+                }
+
+                progress = newProgress;
+                progressVisible = visible;
+
+                connecting ??= ConnectAsync();
+                connecting.ContinueWith(SendCurrentState, TaskScheduler.Default);
+            }
+        }
+
+        private static async Task<DBusConnection> ConnectAsync()
+        {
+            DBusConnection connection = new DBusConnection(DBusAddress.Session ?? throw new InvalidOperationException("There is no D-Bus session bus."));
+            await connection.ConnectAsync().ConfigureAwait(false);
+            return connection;
+        }
+
+        // Runs after the connection is up, maybe out of order, so it sends whatever is newest rather than the value that queued it.
+        private static void SendCurrentState(Task<DBusConnection> connected)
+        {
+            lock (syncLock)
+            {
+                if (connected.IsFaulted)
+                {
+                    if (enabled)
+                    {
+                        enabled = false;
+                        DebugHelper.WriteException(connected.Exception, "Taskbar progress is off");
+                    }
+
+                    return;
+                }
+
+                DBusConnection connection = connected.Result;
+
+                using MessageWriter writer = connection.GetMessageWriter();
+                writer.WriteSignalHeader(null, ObjectPath, Interface, "Update", "sa{sv}");
+                writer.WriteString(DesktopEntryUri);
+                ArrayStart properties = writer.WriteDictionaryStart();
+                writer.WriteDictionaryEntryStart();
+                writer.WriteString("progress");
+                writer.WriteVariantDouble(progress);
+                writer.WriteDictionaryEntryStart();
+                writer.WriteString("progress-visible");
+                writer.WriteVariantBool(progressVisible);
+                writer.WriteDictionaryEnd(properties);
+                connection.TrySendMessage(writer.CreateMessage());
+            }
+        }
     }
 }

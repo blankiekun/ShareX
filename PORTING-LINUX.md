@@ -23,8 +23,8 @@ User-facing features in the checklist (section 5.1), by label:
 | Label | Rows |
 |---|---|
 | `READY` | 39 |
-| `UNVERIFIED` | 60 |
-| `SWAP` | 26 |
+| `UNVERIFIED` | 61 |
+| `SWAP` | 25 |
 | `REWRITE` | 17 |
 | `LIMITED` | 33 |
 | `DROP` | 8 |
@@ -355,7 +355,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Thumbnail click actions (7) | ShareX/Enums.cs:389 | Open-folder and thumbnail dependencies | UNVERIFIED | See Part 2 | S | Med |
 | File exists prompt (4 actions) | ShareX/Enums.cs:400; TH:782 | None found | UNVERIFIED | None | S | Med |
 | Notification sounds | TH:2220; ShareX.HelpersLib/Helpers/Helpers.cs:387 | SoundPlayer | SWAP | PipeWire or Pulse player (A) | S | High |
-| Taskbar progress | WT:391; ShareX.HelpersLib/Native/TaskbarManager.cs:42 | Taskbar COM | SWAP | Unity LauncherEntry (A) | S | Low |
+| Taskbar progress | WT:391; `ShareX.HelpersLib/Native/TaskbarManager.cs` | Done in M5 | UNVERIFIED | Unity LauncherEntry, seen on a real plasmashell in a virtual session | S | Medium |
 | Hide desktop icons | ShareX/CaptureHelpers/CaptureBase.cs:86; ShareX.HelpersLib/DesktopIconManager.cs:30 | Explorer desktop | DROP | None | S | High |
 | Hide taskbar during capture | ShareX/Presentation/TaskSettings/TaskSettingsPageBuilder.cs:458 | Windows taskbar | DROP | None | S | High |
 | Restart after Windows update | ShareX/Forms/MainForm.cs:107 | RegisterApplicationRestart | DROP | None | S | High |
@@ -450,7 +450,7 @@ The only table whose rows were really run; see its evidence column.
 | FontSafe, ImageFont | ShareX.HelpersLib/ImageFont.cs:64 | None; saved Windows fonts may substitute | UNVERIFIED | Skia with fontconfig [A] | S | High |
 | InputManager | ShareX.HelpersLib/Input/InputManager.cs:49 | SendInput; scrolling capture | LIMITED | RemoteDesktop portal [A]; `ydotool` active here [V]. Lost: silent injection | M | Medium |
 | FFmpegCLIManager | ShareX.HelpersLib/Media/FFmpegCLIManager.cs:89 | Rejects non-`.exe`, so ffmpeg never runs. M3: check removed; ran `/usr/bin/ffmpeg` | READY | Remove check; `ffmpeg` [V] | S | High |
-| TaskbarManager | ShareX.HelpersLib/Native/TaskbarManager.cs:168 | COM; support check uses the version gate | SWAP | Unity LauncherEntry signal [A] | S | Low |
+| TaskbarManager | ShareX.HelpersLib/Native/TaskbarManager.cs | Done in M5: COM removed, no support check | UNVERIFIED | Unity LauncherEntry signal (virtual session only) | S | Medium |
 | Thumbnails, restart, display affinity | ShareX.HelpersLib/Native/NativeMethods_Helpers.cs:549 | Shell thumbnails, RegisterApplicationRestart, SetWindowDisplayAffinity | LIMITED | Freedesktop thumbnail cache [A]. Lost: capture exclusion, restart | M | Medium |
 | Dead classes | ShareX.HelpersLib/SevenZipManager.cs:33 | Also TimerResolutionManager, FFmpeg downloaders; 0 callers. M3: deleted, with `DWMManager` and the FFmpeg downloaders. `NativeMethods.cs` went from 158 externs to 92 | DROP | Delete | S | High |
 
@@ -547,7 +547,7 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | Tray mouse actions | `TrayIconService.cs:86,105-109,136` | WindowsTrayIcon button events | LIMITED | Only `Clicked` wired: TrayMiddleClickAction and right-click custom menu lost; double-click via timer needs testing | S | High |
 | WindowsTrayIcon | `Native/WindowsTrayIcon.cs:35,48` | Shell_NotifyIcon | DROP | Gated by `TrayIconService.cs:77` | S | High |
 | LucideTrayIcon | `LucideTrayIcon.cs:87,102,110,205` | Registry, metrics, gated | UNVERIFIED | Falls back to Avalonia theme, 16px; check HiDPI | S | Med |
-| TaskbarManager | `Native/TaskbarManager.cs:44-73,164-168`; `TaskManager.cs:345,351`; `WorkerTask.cs:391` | ITaskbarList4 COM | SWAP | `com.canonical.Unity.LauncherEntry.Update`; needs installed `.desktop`; only Normal and NoProgress used | S | Med-High |
+| TaskbarManager | `Native/TaskbarManager.cs`; `TaskManager.cs:345,351`; `WorkerTask.cs:391`. A D-Bus monitor on the private bus saw `Update` for `application://ShareX.desktop` rise from 0 to 1 during an upload, then a hide, and nothing with the setting off. A real plasmashell in that session drew the bar on the task button; not seen on the owner's desktop | None | UNVERIFIED | `com.canonical.Unity.LauncherEntry.Update`; shows nothing without an installed `ShareX.desktop`. `Indeterminate`, `Error` and `Paused` removed: no caller used them, and the signal has no such states, so a pulsing, red or yellow bar is not available | S | Med-High |
 | Toast window | `NotificationWindow.axaml:8-10`; `NotificationWindow.cs:320,332,410`; `TaskManager.cs:282`; `TaskHelpers.cs:2770` | GetCursorPos | READY | Keep under XWayland; pointer events for hover; `KWin.activeOutputName` for screen; owner confirmed on the real desktop, 2026-11-03 | S | Med |
 | Native notifications (optional) | same call sites | None | SWAP | org.freedesktop.Notifications; loses placement, hover, per-button click actions | M | Med-High |
 | GetCursorPos helper | `CaptureHelpers.cs:91`; callers `QuickTaskMenu.cs:94`, `ActionsToolbarWindow.axaml.cs:271`, `MouseHighlighterService.cs:65` | Done in M4 | LIMITED | KWin script, `workspace.cursorPos`, converted to X11. Each call loads a script (a few ms), blocking the caller, and returns (0,0) with a log entry if KWin fails, so it must never be polled: the notification's 40 ms hover check now uses `IsPointerOver`. Callers that own the pointer should use pointer events | M | Med |
