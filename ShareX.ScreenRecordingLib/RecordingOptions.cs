@@ -69,6 +69,10 @@ public sealed record RecordingOptions
     /// <summary>When false, gpu-screen-recorder may fall back to CPU encoding if the GPU encoder is unavailable.</summary>
     public bool RequireHardwareEncoder { get; init; } = true;
     public TimeSpan Duration { get; init; }
+    /// <summary>Where this recording notes its temporary file, so a later start can recover it if ShareX is killed. Null keeps no note. See RecordingJournal.</summary>
+    public string? JournalFolder { get; init; }
+    /// <summary>Where a recovered recording goes. Null means OutputPath.</summary>
+    public string? RecoveryPath { get; init; }
 
     internal bool HasAudio => CaptureSystemAudio || CaptureMicrophone;
 
@@ -92,6 +96,14 @@ public sealed record RecordingOptions
         if (!float.IsFinite(SystemAudioGain) || SystemAudioGain is < 0 or > 4) throw new ArgumentOutOfRangeException(nameof(SystemAudioGain));
         if (!float.IsFinite(MicrophoneGain) || MicrophoneGain is < 0 or > 4) throw new ArgumentOutOfRangeException(nameof(MicrophoneGain));
     }
+}
+
+/// <summary>The recording failed, but the file it wrote has content and stays at KeptPath. It may not play.</summary>
+public sealed class RecordingKeptException(string reason, string keptPath, Exception innerException)
+    : IOException($"{reason} The file was kept at '{keptPath}', but it may not play.", innerException)
+{
+    public string Reason { get; } = reason;
+    public string KeptPath { get; } = keptPath;
 }
 
 /// <summary>IsD3D11Aware is always false here; it stays so existing readers of this record keep compiling.</summary>

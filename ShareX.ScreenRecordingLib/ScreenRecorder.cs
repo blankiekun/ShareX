@@ -49,6 +49,7 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
     private Thread? worker;
     private bool startRequested, disposed, resumeRequested;
     private int recording, aborted;
+    private string? journalFile;
 
     public Task<RecordingResult> Completion => completed.Task;
     public VideoEncoderInfo? Encoder { get; private set; }
@@ -179,10 +180,12 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
             // Reserve the name atomically. Never overwrite or delete a pre-existing user file.
             using (new FileStream(options.OutputPath, FileMode.CreateNew, FileAccess.Write, FileShare.None)) { }
             ownsOutput = true;
+            WriteJournal(temporary, 0);
             prepared.TrySetResult();
             if (WaitHandle.WaitAny([stop, begin]) == 0) throw new OperationCanceledException("Recording stopped before capture began.");
 
             session = new GsrSession(recorder, GsrCommand.BuildArguments(options, CapturedRegion, temporary, socketPath), socketPath, firstFrameFile);
+            WriteJournal(temporary, session.ProcessId);
             session.WaitForFirstFrame(stop);
             clock.Start(RecordingClock.Now);
             Volatile.Write(ref recording, 1);
@@ -200,16 +203,7 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
 
             RecordingResult result = InspectOutput(temporary);
             ownsOutput = false;
-            try
-            {
-                // Only the empty reservation may go. Anything else at that name now belongs to someone else.
-                if (File.Exists(options.OutputPath))
-                {
-                    if (new FileInfo(options.OutputPath).Length != 0) throw new IOException($"'{options.OutputPath}' appeared while recording.");
-                    File.Delete(options.OutputPath);
-                }
-                File.Move(temporary, options.OutputPath, overwrite: false);
-            }
+            try { ReplaceReservation(temporary); }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
                 keepTemporary = true;
@@ -219,15 +213,26 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
         }
         catch (Exception ex)
         {
+            // gsr has to be gone first: it may still be saving, and that decides whether there's a file to keep.
+            session?.Dispose();
+            session = null;
             if (ownsOutput)
             {
-                try
+                // An abort, or a stop before the first frame, is the user's choice and not a failure, so that file goes.
+                if (ex is not OperationCanceledException && Volatile.Read(ref aborted) == 0 && HasContent(temporary))
                 {
-                    // Only the empty reservation may go, here as on the way to success.
-                    FileInfo reservation = new(options.OutputPath);
-                    if (reservation.Exists && reservation.Length == 0) reservation.Delete();
+                    ex = KeepRejected(temporary, ex, out keepTemporary);
                 }
-                catch (Exception cleanup) { ex = new AggregateException("Recording failed and its incomplete output could not be removed.", ex, cleanup); }
+                else
+                {
+                    try
+                    {
+                        // Only the empty reservation may go, here as on the way to success.
+                        FileInfo reservation = new(options.OutputPath);
+                        if (reservation.Exists && reservation.Length == 0) reservation.Delete();
+                    }
+                    catch (Exception cleanup) { ex = new AggregateException("Recording failed and its incomplete output could not be removed.", ex, cleanup); }
+                }
             }
             prepared.TrySetException(ex); started.TrySetException(ex); completed.TrySetException(ex);
         }
@@ -239,6 +244,48 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
             if (!keepTemporary) TryDelete(temporary);
             TryDelete(firstFrameFile);
             TryDelete(socketPath);
+            if (journalFile != null) TryDelete(journalFile);
+        }
+    }
+
+    private static bool HasContent(string path)
+    {
+        FileInfo file = new(path);
+        return file.Exists && file.Length > 0;
+    }
+
+    /// <summary>Moves the file to the reserved name. Only the empty reservation may go: anything else at that name now belongs to someone else.</summary>
+    private void ReplaceReservation(string temporary)
+    {
+        if (File.Exists(options.OutputPath))
+        {
+            if (new FileInfo(options.OutputPath).Length != 0) throw new IOException($"'{options.OutputPath}' appeared while recording.");
+            File.Delete(options.OutputPath);
+        }
+        File.Move(temporary, options.OutputPath, overwrite: false);
+    }
+
+    /// <summary>Leaves a file that failed its checks at the output path, or at the temporary name if that's taken, and says where.</summary>
+    private RecordingKeptException KeepRejected(string temporary, Exception why, out bool keptAtTemporary)
+    {
+        keptAtTemporary = false;
+        try { ReplaceReservation(temporary); }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { keptAtTemporary = true; }
+        return new RecordingKeptException(why.Message, keptAtTemporary ? temporary : options.OutputPath, why);
+    }
+
+    /// <summary>A recording without its note can still finish normally, so failing to write one only gets logged.</summary>
+    private void WriteJournal(string temporary, int recorderPid)
+    {
+        if (options.JournalFolder == null) return;
+        try
+        {
+            journalFile ??= Path.Combine(options.JournalFolder, $"{Guid.NewGuid():N}.json");
+            RecordingJournal.Write(journalFile, temporary, options.OutputPath, options.RecoveryPath ?? options.OutputPath, recorderPid);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            ReportDiagnostic($"Couldn't write the recording journal, so this recording can't be recovered if ShareX is killed: {ex.Message}");
         }
     }
 
@@ -294,7 +341,7 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
             ReportDiagnostic($"{notChecked}, so the frame count and microphone track weren't checked.");
             return new RecordingResult(options.OutputPath, Elapsed, -1, -1, -1, encoder);
         }
-        if (!probe.IsReadable) throw new IOException($"gpu-screen-recorder wrote a file that can't be read: {probe.Error}");
+        if (!probe.IsReadable) throw new IOException($"gpu-screen-recorder wrote a file that can't be read: {probe.Error.Replace(path + ": ", "")}"); // That hidden name is about to change.
         if (probe.VideoFrames == 0) throw new IOException("gpu-screen-recorder wrote a file with no video frames.");
         if (options.CaptureMicrophone) ReportEmptyMicrophone(probe);
         return new RecordingResult(options.OutputPath, probe.Duration ?? Elapsed, probe.VideoFrames ?? -1, -1, -1, encoder);

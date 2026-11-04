@@ -25,6 +25,7 @@
 
 using ShareX.ScreenRecordingLib.Gsr;
 using System.Drawing;
+using System.Text.Json;
 using Xunit;
 
 namespace ShareX.ScreenRecordingLib.Tests;
@@ -69,6 +70,19 @@ public sealed class RecordingLifecycleTests : IDisposable
             captured = recorder.CapturedRegion;
         }
         return new Outcome(result, error, diagnostics, captured);
+    }
+
+    /// <summary>The failure was reported, with where the file is, and the file is at the output path with nothing else left around it.</summary>
+    private void AssertKeptAtTheOutputPath(Outcome outcome, string reason, string content = FakeHost.Video)
+    {
+        Assert.Null(outcome.Result);
+        RecordingKeptException kept = Assert.IsType<RecordingKeptException>(outcome.Error);
+        Assert.Contains(reason, kept.Message);
+        Assert.Contains(host.OutputPath, kept.Message);
+        Assert.Equal(host.OutputPath, kept.KeptPath);
+        Assert.Equal(content, File.ReadAllText(host.OutputPath));
+        Assert.Equal([host.OutputPath], Directory.GetFileSystemEntries(host.Work));
+        Assert.Empty(Directory.GetFileSystemEntries(host.Runtime));
     }
 
     // Catches: a stop that reports completion without a finished file at the path it reports, or leaves the temporary file,
@@ -171,17 +185,16 @@ public sealed class RecordingLifecycleTests : IDisposable
         host.AssertNothingLeft();
     }
 
-    // Catches: treating a killed recorder's stub of a file as a recording. SIGKILL left an unplayable 88-byte MP4 (measured).
+    // Catches: deleting what a killed recorder left. The 88-byte MP4 from a real SIGKILL (measured) may be useless, but only the user
+    // can decide that, and an error that doesn't say SIGKILL gives them no reason why.
     [Fact]
-    public async Task RecorderThatIsKilled_SurfacesTheLossAndKeepsNoStub()
+    public async Task RecorderThatIsKilled_KeepsWhatItLeftAndSaysWhere()
     {
         host.SetMode("killed_mid");
 
         Outcome outcome = await Record(host.Options(), _ => host.Trigger(), stop: false);
 
-        Assert.Null(outcome.Result);
-        Assert.Contains("SIGKILL", outcome.Error?.Message);
-        host.AssertNothingLeft();
+        AssertKeptAtTheOutputPath(outcome, "SIGKILL", new string('\0', 88));
     }
 
     // Catches: the silent loss itself. The recorder says everything went fine but saved nothing, and the empty reservation
@@ -194,6 +207,20 @@ public sealed class RecordingLifecycleTests : IDisposable
         Outcome outcome = await Record(host.Options());
 
         Assert.Null(outcome.Result);
+        Assert.Contains("wrote no video", outcome.Error?.Message);
+        host.AssertNothingLeft();
+    }
+
+    // Catches: keeping a file with nothing in it as if it were a recording, or leaving it under its hidden name. Zero bytes is the
+    // one failed output with nothing to keep, so it must not produce a "kept at" error either.
+    [Fact]
+    public async Task RecorderThatWritesAZeroByteFile_KeepsNothing()
+    {
+        host.SetMode("empty_file");
+
+        Outcome outcome = await Record(host.Options());
+
+        Assert.IsNotType<RecordingKeptException>(outcome.Error);
         Assert.Contains("wrote no video", outcome.Error?.Message);
         host.AssertNothingLeft();
     }
@@ -211,37 +238,35 @@ public sealed class RecordingLifecycleTests : IDisposable
         host.AssertNothingLeft();
     }
 
-    // Catches: delivering an all-black video. With an uncapped helper gsr exits 0 with a valid black MP4 (measured), so only
-    // these stderr lines give it away, and they can come before or after recording starts.
+    // Catches: reporting an all-black video as a finished recording, or deleting it. With an uncapped helper gsr exits 0 with a valid
+    // black MP4 (measured), so only these stderr lines give it away, and they can come before or after recording starts. The file
+    // stays, because a false alarm from these lines would otherwise lose a real recording.
     [Theory]
     [InlineData("black_start")]
     [InlineData("black_late")]
-    public async Task BlackVideoMarkers_SurfaceAnErrorAndKeepNoFile(string mode)
+    public async Task BlackVideoMarkers_SurfaceAnErrorAndKeepTheFile(string mode)
     {
         host.SetMode(mode);
 
         Outcome outcome = await Record(host.Options(), _ => host.Trigger(), stop: false);
 
-        Assert.Null(outcome.Result);
-        Assert.Contains("black", outcome.Error?.Message);
-        host.AssertNothingLeft();
+        AssertKeptAtTheOutputPath(outcome, "black");
     }
 
-    // Catches: an unusable file replacing the reservation and being reported as a finished recording.
+    // Catches: a rejected recording being reported as finished, or being deleted. ffprobe also exits 1 for reasons of its own, which
+    // look just like a rejected file, so a good recording can land here.
     [Theory]
     [InlineData(null, "moov atom not found", "moov atom not found")]
     [InlineData("""{"streams":[{"codec_type":"video","nb_frames":"0"}],"format":{}}""", null, "no video frames")]
     [InlineData("""{"streams":[{"codec_type":"audio"}],"format":{}}""", null, "no video stream")]
-    public async Task OutputThatFailsTheProbe_SurfacesAnErrorInsteadOfAFile(string? json, string? probeError, string reason)
+    public async Task OutputThatFailsTheProbe_SurvivesAtTheOutputPathWithAnError(string? json, string? probeError, string reason)
     {
         Environment.SetEnvironmentVariable("FAKE_FFPROBE_JSON", json);
         Environment.SetEnvironmentVariable("FAKE_FFPROBE_ERROR", probeError);
 
         Outcome outcome = await Record(host.Options());
 
-        Assert.Null(outcome.Result);
-        Assert.Contains(reason, outcome.Error?.Message);
-        Assert.False(File.Exists(host.OutputPath));
+        AssertKeptAtTheOutputPath(outcome, reason);
     }
 
     // Catches: losing a good recording only because ffprobe, an optional check, isn't installed.
@@ -367,16 +392,34 @@ public sealed class RecordingLifecycleTests : IDisposable
         host.AssertNothingLeft();
     }
 
-    // Catches: gsr hanging at startup making the app wait forever or report a start. Takes the session's full 10 second limit.
+    // Catches: gsr hanging at startup making the app wait forever or report a start, and judging the file before gsr has saved it:
+    // this fake only writes once it's told to stop. Takes the session's full 10 second limit.
     [Fact]
-    public async Task RecorderThatNeverDeliversAFrame_TimesOutAndIsStopped()
+    public async Task RecorderThatNeverDeliversAFrame_TimesOutAndKeepsWhatItSaved()
     {
         host.SetMode("no_first_frame");
 
         Outcome outcome = await Record(host.Options());
 
-        Assert.Null(outcome.Result);
-        Assert.Contains("didn't deliver a frame", outcome.Error?.Message);
+        AssertKeptAtTheOutputPath(outcome, "didn't deliver a frame");
+        host.AssertRecorderGone();
+    }
+
+    // Catches: treating the user's own stop before capture began as a failure, which would leave a file and show an error for it.
+    [Fact]
+    public async Task StopBeforeTheFirstFrame_KeepsNothing()
+    {
+        host.SetMode("no_first_frame");
+        await using (ScreenRecorder recorder = new(host.Options()))
+        {
+            Task start = recorder.StartAsync();
+            using CancellationTokenSource limit = new(Limit);
+            while (host.Events("start").Count == 0) await Task.Delay(5, limit.Token);
+
+            recorder.RequestStop();
+
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => start.WaitAsync(Limit));
+        }
         host.AssertNothingLeft();
         host.AssertRecorderGone();
     }
@@ -424,6 +467,94 @@ public sealed class RecordingLifecycleTests : IDisposable
         Assert.Contains("exit 139", outcome.Error?.Message);
         Assert.Equal("someone else's file", File.ReadAllText(host.OutputPath));
         Assert.Equal([host.OutputPath], Directory.GetFileSystemEntries(host.Work));
+    }
+
+    // Catches: a rejected recording being deleted, or replacing someone else's file, when the reserved name was taken meanwhile. It
+    // can only stay under its hidden name then, so the error has to name that.
+    [Fact]
+    public async Task RejectedOutputWithTheNameTaken_KeepsBothFilesAndSaysWhere()
+    {
+        Environment.SetEnvironmentVariable("FAKE_FFPROBE_JSON", null);
+        Environment.SetEnvironmentVariable("FAKE_FFPROBE_ERROR", "moov atom not found");
+
+        Outcome outcome = await Record(host.Options(), _ => File.WriteAllText(host.OutputPath, "someone else's file"));
+
+        RecordingKeptException error = Assert.IsType<RecordingKeptException>(outcome.Error);
+        Assert.Equal("someone else's file", File.ReadAllText(host.OutputPath));
+        Assert.NotEqual(host.OutputPath, error.KeptPath);
+        Assert.Contains(error.KeptPath, error.Message);
+        Assert.Equal(FakeHost.Video, File.ReadAllText(error.KeptPath));
+    }
+
+    private RecordingJournal.Entry SingleJournalEntry() =>
+        JsonSerializer.Deserialize<RecordingJournal.Entry>(File.ReadAllText(Assert.Single(Directory.GetFiles(host.Journal))))!;
+
+    // Catches: an entry that doesn't name what a later start needs, most of all the recorder's own pid and the hidden temporary
+    // name, or one that stays after a normal finish, which a later start would then try to recover.
+    [Fact]
+    public async Task Journal_NamesTheRecordingWhileItRunsAndIsGoneAfter()
+    {
+        string final = Path.Combine(host.Work, "final.mp4");
+        RecordingJournal.Entry? entry = null;
+
+        Outcome outcome = await Record(host.Options() with { JournalFolder = host.Journal, RecoveryPath = final }, _ => entry = SingleJournalEntry());
+
+        Assert.Null(outcome.Error);
+        Assert.Equal(host.RecorderArgument("-o"), entry!.Temporary);
+        Assert.Equal(host.OutputPath, entry.Reservation);
+        Assert.Equal(final, entry.FinalPath);
+        Assert.Equal(Environment.ProcessId, entry.OwnerPid);
+        Assert.Equal(RecordingJournal.StartTimeOf(Environment.ProcessId), entry.OwnerStart);
+        Assert.Equal(host.Events("start").Single().GetProperty("pid").GetInt32(), entry.RecorderPid);
+        Assert.True(entry.RecorderStart > 0);
+        Assert.Empty(Directory.GetFiles(host.Journal));
+    }
+
+    // Catches: an entry outliving a failure or an abort, which would make a later start report or move a file that was dealt with.
+    [Theory]
+    [InlineData("die_mid", false)]
+    [InlineData("black_late", false)]
+    [InlineData("normal", true)]
+    public async Task Journal_IsGoneAfterAFailureOrAnAbort(string mode, bool abort)
+    {
+        host.SetMode(mode);
+
+        await Record(host.Options() with { JournalFolder = host.Journal }, recorder =>
+        {
+            if (abort) recorder.RequestAbort(); else host.Trigger();
+        }, stop: false);
+
+        Assert.Empty(Directory.GetFiles(host.Journal));
+    }
+
+    // Catches: a second ShareX moving the file of a recording in progress, seen from the recording's side: it must finish normally
+    // with the file at its own output path.
+    [Fact]
+    public async Task RecoveryWhileRecording_LeavesTheRecordingAlone()
+    {
+        RecordingRecovery? recovery = null;
+
+        Outcome outcome = await Record(host.Options() with { JournalFolder = host.Journal }, _ => recovery = RecordingJournal.Recover(host.Journal));
+
+        Assert.Equal(1, recovery!.StillRecording);
+        Assert.Empty(recovery.Recovered);
+        Assert.Null(outcome.Error);
+        Assert.Equal(FakeHost.Video, File.ReadAllText(host.OutputPath));
+    }
+
+    // Catches: an unwritable data folder costing the user the recording. The journal only protects against a kill, so it's not worth
+    // stopping for.
+    [Fact]
+    public async Task JournalThatCantBeWritten_StillDeliversTheFileAndSaysSo()
+    {
+        string blocked = Path.Combine(host.Work, "blocked");
+        File.WriteAllText(blocked, "");
+
+        Outcome outcome = await Record(host.Options() with { JournalFolder = Path.Combine(blocked, "journal") });
+
+        Assert.Null(outcome.Error);
+        Assert.Equal(FakeHost.Video, File.ReadAllText(host.OutputPath));
+        Assert.Contains(outcome.Diagnostics, message => message.Contains("journal"));
     }
 
     // Catches: the region check being bypassed on the way to the recorder, so a spanning region silently gives wrong pixels.

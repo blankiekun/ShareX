@@ -50,6 +50,7 @@ internal sealed class FakeHost : IDisposable
     public string Work { get; }
     public string Runtime { get; }
     public string OutputPath => Path.Combine(Work, "out.mp4");
+    public string Journal => Path.Combine(root, "journal");
 
     public FakeHost()
     {
