@@ -3978,6 +3978,24 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tesseract failed with code {0}. {1}.
+        /// </summary>
+        public static string OCRHelper_Failed {
+            get {
+                return ResourceManager.GetString("OCRHelper_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tesseract has no data for the language '{0}'. Install it with your package manager, for example: sudo pacman -S tesseract-data-{0}.
+        /// </summary>
+        public static string OCRHelper_Language_data_missing {
+            get {
+                return ResourceManager.GetString("OCRHelper_Language_data_missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} language is not available in this system for OCR..
         /// </summary>
         public static string OCRHelper_Language_unavailable {
@@ -3987,11 +4005,38 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tesseract has no language data installed. Install a language with your package manager, for example: sudo pacman -S tesseract-data-eng.
+        /// </summary>
+        public static string OCRHelper_No_languages {
+            get {
+                return ResourceManager.GetString("OCRHelper_No_languages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical character recognition is only available with Windows version {0} or newer..
         /// </summary>
         public static string OCRHelper_Requires_Windows_version {
             get {
                 return ResourceManager.GetString("OCRHelper_Requires_Windows_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OCR needs the tesseract program, which wasn't found on PATH. Install it with your package manager, for example: sudo pacman -S tesseract tesseract-data-eng.
+        /// </summary>
+        public static string OCRHelper_Tesseract_missing {
+            get {
+                return ResourceManager.GetString("OCRHelper_Tesseract_missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tesseract didn't finish within {0} seconds and was stopped..
+        /// </summary>
+        public static string OCRHelper_Timed_out {
+            get {
+                return ResourceManager.GetString("OCRHelper_Timed_out", resourceCulture);
             }
         }
         

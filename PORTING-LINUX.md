@@ -254,7 +254,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | AnimatedGifTrimmer | TH:315; TH:1131 | Owner tools: only grep hit is portable `ICommand` | UNVERIFIED | None | S | Med |
 | VideoThumbnailer | TH:318; ShareX.Tools/Tools/VideoThumbnailer/VideoThumbnailer.cs:53 | Owner tools: `.exe` guard. M3: ran end to end in a virtual KWin session | READY | /usr/bin/ffmpeg (V) | S | High |
 | AnalyzeImage | TH:321; TH:1872 | Owner tools: HTTP AI; `[JsonEncrypt]` options at ShareX.Tools/Tools/AnalyzeImage/AIOptions.cs:44 | UNVERIFIED | None | S | Med |
-| OCR | TH:324; ShareX.Tools/Tools/OCR/OCRHelper.cs (stubbed in M1, always fails) | Owner tools: was `Windows.Media.Ocr` | REWRITE | tesseract (V) | M | High |
+| OCR | TH:324; ShareX.Tools/Tools/OCR/OCRHelper.cs | Done in M7 | UNVERIFIED | Host `tesseract`, image on stdin, as an argument list. Languages come from `tesseract --list-langs`, shown as Tesseract's codes such as `eng`, without `osd`. A missing tool or language says which package to install (M7, virtual session with the real tesseract 5.5.3 and `eng` only; other languages not run) | M | High |
 | QRCode | TH:334; TH:1730 | Owner tools: ZXing, Skia | UNVERIFIED | None | S | Med |
 | QRCodeDecodeFromScreen | TH:344; TH:1749 | Owner tools plus capture | SWAP | Portal Screenshot (V) | S | Med |
 | QRCodeScanRegion | TH:347; TH:1754 | Owner tools plus capture | LIMITED: as Region | As Region | S | Med |
@@ -307,7 +307,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | ShowInExplorer | WT:749; ShareX.HelpersLib/Native/NativeMethods_Helpers.cs:482 | SHOpenFolderAndSelectItems. M3: `ShowItems` reached Dolphin with `--select` and the `xdg-open` fallback ran, both in a virtual KWin session | READY | org.freedesktop.FileManager1 (V) | S | High |
 | AnalyzeImage | WT:754 | HTTP AI | UNVERIFIED | None | S | Med |
 | ScanQRCode | WT:759 | ZXing | UNVERIFIED | None | S | Med |
-| DoOCR | WT:548 | Windows.Media.Ocr | REWRITE | tesseract (V) | M | High |
+| DoOCR | WT:548 | Done in M7 through the OCR tool's helper; this after-capture route not run | UNVERIFIED | Host `tesseract` | M | High |
 | ShowBeforeUploadWindow | WT:395 | Topmost window | UNVERIFIED | None | S | Med |
 | UploadImageToHost | WT:618; ShareX/SettingManager.cs:246 | Secrets dependency, see Part 2 | UNVERIFIED | None | S | Med |
 | DeleteFile | WT:339 | None found | READY | None | S | High |
@@ -406,7 +406,7 @@ The only table whose rows were really run; see its evidence column.
 | HistoryLib, ImageEffectsLib, UploadersLib, ScreenCaptureLib | 0 errors in the M1 build; `History.db` is created at start-up | UNVERIFIED | Compile only; CA1416 misses P/Invoke, so behaviour is untested | M | Medium |
 | SQLite | `libe_sqlite3.so` shipped, `History.db` created; `Directory.Packages.props:7` is an 11.0 RC | READY | Consider a stable version | S | High |
 | ScreenRecordingLib | 0 errors. M6 replaced the D3D and Media Foundation pipeline with a `gpu-screen-recorder` wrapper; no package or project references remain | UNVERIFIED | Confirm on real captures | S | Medium |
-| ShareX.Tools OCR | 0 errors: `OCRHelper.cs` is a stub, `IsSupported` is false and calls throw `InvalidOperationException` | SWAP | Tesseract (not tested) | M | High |
+| ShareX.Tools OCR | 0 errors. M7: `OCRHelper.cs` runs the host `tesseract` | SWAP | Tesseract (M7, virtual session) | M | High |
 | ONNX provider | `BackgroundRemovalService.cs:163` uses DML; compiles, but `runtimes/linux-x64` has no onnxruntime library | SWAP | `Microsoft.ML.OnnxRuntime`, CPU first | S | Medium |
 | Vortice.Direct2D1 | Only `WindowsEmojiBitmapRenderer.cs`; guarded by `IsWindows` at lines 56 and 159; compiles | SWAP | Skia with Noto Color Emoji | S | Medium |
 | PhotoEditor, NativeMessagingHost | 0 errors; CA1416 6 (`ImageIO.cs`) and 0; host manifests are generated with an absolute path, see 5.7 | SWAP | Linux manifest with an absolute path, installed in browser native-messaging folders | S | Medium |
@@ -422,8 +422,8 @@ The only table whose rows were really run; see its evidence column.
 | CI | `pr.yml` is on `ubuntu-latest`, Release and Debug on x64; `build.yml` removed. Same build commands ran locally, not yet in Actions | UNVERIFIED | M5 adds the AppImage pipeline | M | High |
 | `Scripts/` | PowerShell only, not called from any csproj; `pwsh` not installed here | UNVERIFIED | Optional developer tools; not needed to build | S | Medium |
 | FFmpeg | `VideoTrimmerWindow.axaml.cs:40`, `FFmpegDownloader.cs:61` hardcode `ffmpeg.exe`. M3: `ffmpeg` resolved from PATH; downloaders deleted | READY | Use system `ffmpeg` as a package dependency | S | High |
-| PKGBUILD/AUR | Not written. Depends: `dotnet-runtime`, `ffmpeg`, `libx11`, `libxcursor`, `libxi`, `libxrandr`, `libice`, `libsm`, `fontconfig` (from `ldd` and mapped libraries) | UNVERIFIED | Framework-dependent `-r linux-x64` | M | Medium |
-| AppImage | Not built. The self-contained editor publish ran: 114 MB against 737 MB for the unpublished Debug output of all RIDs. **Must declare host dependencies for recording:** `gpu-screen-recorder` (the capped `gsr-kms-server` can't run from the AppImage's `nosuid` mount, so neither is bundled), plus `ffmpeg` with `ffprobe`, `kscreen-doctor`, `pactl` and `getcap` | UNVERIFIED | Use that publish as the payload; document the host packages | M | Medium |
+| PKGBUILD/AUR | Not written. Depends: `dotnet-runtime`, `ffmpeg`, `libx11`, `libxcursor`, `libxi`, `libxrandr`, `libice`, `libsm`, `fontconfig` (from `ldd` and mapped libraries); optional for OCR: `tesseract` with a `tesseract-data-*` package | UNVERIFIED | Framework-dependent `-r linux-x64` | M | Medium |
+| AppImage | Not built. The self-contained editor publish ran: 114 MB against 737 MB for the unpublished Debug output of all RIDs. **Must declare host dependencies for recording:** `gpu-screen-recorder` (the capped `gsr-kms-server` can't run from the AppImage's `nosuid` mount, so neither is bundled), plus `ffmpeg` with `ffprobe`, `kscreen-doctor`, `pactl` and `getcap`. **For OCR:** `tesseract` with a language package such as `tesseract-data-eng`, not bundled, as language packs are the user's choice | UNVERIFIED | Use that publish as the payload; document the host packages | M | Medium |
 | Flatpak | Not built | UNVERIFIED | X11 socket, portals, .NET extension | L | Low |
 | `.desktop`, icons | `ShareX -install` writes them from the build output. `ShareX/Resources/hicolor` holds the frames of the two `.ico` files (16, 32, 48, 256, none upscaled). `StartupWMClass=ShareX` matches the real `WM_CLASS`, and KWin resolved the window to `ShareX.desktop` (virtual session only). It must stay on that one entry: with it on the hidden file-type entries too, KWin chose one of those | UNVERIFIED | Confirm on the real desktop; a package would ship the same files system-wide | S | High |
 
@@ -657,7 +657,7 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | MonitorTest | `ShareX.Tools/Tools/MonitorTest/MonitorTestWindow.axaml.cs:53` | `GetCursorPos`, uncaught. M3: uses `Screens`; not run | UNVERIFIED | `Screens` API | S | H |
 | MouseHighlighter | `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterMouseHook.cs:74`; `ShareX.Tools/Tools/MouseHighlighter/MouseHighlighterOverlayWindow.cs:54` | Global hook, layered overlay | LIMITED | KWin `mouseclick`/`trackmouse`. Lost: ripple, crosshairs, custom options unless a custom effect is written | M | M |
 | NetworkMonitor | `ShareX.Tools/Tools/NetworkMonitor/NetworkMonitorProbe.cs:83` | None | READY | None needed | S | H |
-| OCR | `ShareX.Tools/Tools/OCR/OCRHelper.cs` (stubbed in M1, always fails) | Was `Windows.Media.Ocr` | SWAP | Tesseract CLI; map language tags, add language packs | S | H |
+| OCR | `ShareX.Tools/Tools/OCR/OCRHelper.cs` | Done in M7: was `Windows.Media.Ocr` | UNVERIFIED | Host `tesseract` CLI. Saved Windows tags map to Tesseract codes (`en` to `eng`), except Chinese. Single line joins lines, as on Windows. Search and translate services stay: they only open a browser when clicked. The help button now opens Tesseract's documentation, as the ShareX page describes Windows language packs. Run in a virtual session only | S | H |
 | PinToScreen | `ShareX.Tools/Tools/PinToScreen/PinToScreenWindow.axaml.cs:101`, `:109` | `GetCursorPos`, uncaught | LIMITED | XWayland `Topmost`; no KWin rule or layer-shell. Lost: reliable cursor-monitor placement | S | M |
 | QRCode | `ShareX/TaskHelpers.cs:1792` | Screen capture in main app | SWAP | Spectacle or portal for scan modes | S | M |
 | RemoteStorageBrowser | `ShareX/TaskHelpers.cs:1724` | None in tool; providers unaudited | UNVERIFIED | None needed | S | M |

@@ -27,7 +27,7 @@ namespace ShareX.Tools;
 
 public sealed class OCROptions
 {
-    public string Language { get; set; } = "en";
+    public string Language { get; set; } = "eng";
     public float ScaleFactor { get; set; } = 2f;
     public bool SingleLine { get; set; }
     public bool Silent { get; set; }

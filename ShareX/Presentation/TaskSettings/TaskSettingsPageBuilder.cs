@@ -687,7 +687,7 @@ internal sealed class TaskSettingsPageBuilder
         try
         {
             OCRLanguageOption[] languages = OCRHelper.AvailableLanguages.OrderBy(x => x.DisplayName).ToArray();
-            OCRLanguageOption selected = languages.FirstOrDefault(x => x.LanguageTag.Equals(options.Language, StringComparison.OrdinalIgnoreCase)) ?? languages.First();
+            OCRLanguageOption selected = OCRHelper.PickLanguage(languages, options.Language)!;
             options.Language = selected.LanguageTag;
             language = ObjectCombo(languages, () => selected, value => options.Language = value.LanguageTag, value => value.DisplayName);
         }

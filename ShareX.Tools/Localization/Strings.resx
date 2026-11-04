@@ -1601,11 +1601,26 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Target</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract failed with code {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract has no data for the language '{0}'. Install it with your package manager, for example: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>{0} language is not available in this system for OCR.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract has no language data installed. Install a language with your package manager, for example: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Optical character recognition is only available with Windows version {0} or newer.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR needs the tesseract program, which wasn't found on PATH. Install it with your package manager, for example: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract didn't finish within {0} seconds and was stopped.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
