@@ -24,6 +24,8 @@ namespace ShareX.Tools.Localization {
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Strings {
         
+        public static string MouseHighlighter_PointerOnlyHelp => ResourceManager.GetString("MouseHighlighter_PointerOnlyHelp", resourceCulture);
+
         public static string MouseHighlighter_Title => ResourceManager.GetString("MouseHighlighter_Title", resourceCulture);
 
         public static string MouseHighlighter_Mode => ResourceManager.GetString("MouseHighlighter_Mode", resourceCulture);

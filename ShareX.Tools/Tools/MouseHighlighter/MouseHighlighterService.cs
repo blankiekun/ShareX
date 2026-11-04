@@ -23,55 +23,35 @@
 
 #endregion License Information (GPL v3)
 
-using Avalonia.Controls;
 using Avalonia.Threading;
 using ShareX.HelpersLib;
-using System.Diagnostics;
 using DrawingPoint = System.Drawing.Point;
 
 namespace ShareX.Tools;
 
-internal sealed class MouseHighlight
-{
-    public DrawingPoint Position { get; set; }
-    public MouseHighlightButton Button { get; init; }
-    public double Started { get; init; }
-    public double? Released { get; set; }
-    public bool Crosshairs { get; init; }
-}
-
-// Animation state stays on the Avalonia UI thread. The mouse hook has its own
-// message loop and only communicates through the nonblocking input buffer.
+// Runs only while the tool is on: disposing it unloads the KWin script and closes the window, and there is no timer. The script
+// reports on a D-Bus thread, and only the newest position is ever waiting for the UI thread.
 internal sealed class MouseHighlighterService : IDisposable
 {
-    private readonly List<MouseHighlighterOverlayWindow> _windows = [];
-    private readonly List<MouseHighlight> _highlights = [];
-    private readonly DispatcherTimer _timer;
-    private readonly MouseHighlighterMouseHook? _hook;
-    private readonly MouseHighlighterInputBuffer _input;
-    private readonly Window _screenProbe = new();
-    private readonly long _startTimestamp = Stopwatch.GetTimestamp();
-    private readonly MouseHighlight?[] _heldHighlights = new MouseHighlight?[3];
+    private readonly MouseHighlighterOverlayWindow _window = new();
+    private readonly KWinCursorWatcher? _watcher;
+    private DesktopCoordinates _coordinates = null!;
+    private long _latestPosition;
+    private int _moveQueued;
+    private bool _disposed;
 
     public MouseHighlighterOptions Options { get; private set; }
-    public DrawingPoint CursorPosition { get; private set; }
-    public IReadOnlyList<MouseHighlight> Highlights => _highlights;
-    public double Time => Stopwatch.GetElapsedTime(_startTimestamp).TotalMilliseconds;
 
     public MouseHighlighterService(MouseHighlighterOptions options)
     {
-        Options = options;
         options.Validate();
-        CursorPosition = CaptureHelpers.GetCursorPosition();
-        _input = new MouseHighlighterInputBuffer(CursorPosition);
-        _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1000d / 60) };
-        _timer.Tick += OnTick;
+        Options = options;
+        _window.Apply(options);
         try
         {
-            _hook = new MouseHighlighterMouseHook(_input);
-            CreateOverlays();
-            _screenProbe.Screens.Changed += OnScreensChanged;
-            _timer.Start();
+            _coordinates = KWinDesktop.Query().Coordinates;
+            _window.Screens.Changed += OnScreensChanged;
+            _watcher = KWinCursorWatcher.Start(OnPointerMoved);
         }
         catch
         {
@@ -84,137 +64,37 @@ internal sealed class MouseHighlighterService : IDisposable
     {
         options.Validate();
         Options = options;
-        _highlights.Clear();
-        Array.Clear(_heldHighlights);
-        _input.DiscardPendingEvents();
+        _window.Apply(options);
     }
 
-    private void CreateOverlays()
+    private void OnPointerMoved(DrawingPoint logical)
     {
-        // Each monitor has its own window and scale. Coordinates and option
-        // sizes stay in physical pixels, including monitors left of the origin.
-        foreach (var screen in _screenProbe.Screens.All)
-        {
-            MouseHighlighterOverlayWindow window = new(this, screen.Bounds);
-            _windows.Add(window);
-            window.Refresh();
-        }
+        Interlocked.Exchange(ref _latestPosition, ((long)logical.X << 32) | (uint)logical.Y);
+        if (Interlocked.Exchange(ref _moveQueued, 1) == 0) Dispatcher.UIThread.Post(MoveWindow);
     }
 
+    private void MoveWindow()
+    {
+        Volatile.Write(ref _moveQueued, 0);
+        if (_disposed) return;
+        long position = Interlocked.Read(ref _latestPosition);
+        _window.MoveTo(_coordinates.LogicalToX11(new DrawingPoint((int)(position >> 32), (int)position)));
+    }
+
+    // The largest output scale sets the X11 scale, so plugging in a monitor can change where everything is.
     private void OnScreensChanged(object? sender, EventArgs e)
     {
-        try
-        {
-            foreach (MouseHighlighterOverlayWindow window in _windows) window.Dispose();
-            _windows.Clear();
-            CreateOverlays();
-        }
-        catch (Exception ex) { MouseHighlighterManager.StopOnError(this, ex); }
+        try { _coordinates = KWinDesktop.Query().Coordinates; }
+        catch (KWinScriptException ex) { MouseHighlighterManager.StopOnError(this, ex); }
     }
 
-    private void MoveCursor(DrawingPoint point)
-    {
-        CursorPosition = point;
-        bool follow = Options.Mode != MouseHighlightMode.Ripple || Options.FollowCursorWhileHeld;
-        if (follow)
-        {
-            foreach (MouseHighlight? highlight in _heldHighlights)
-            {
-                if (highlight != null) highlight.Position = point;
-            }
-        }
-    }
-
-    private void ProcessPendingInput()
-    {
-        if (_input.ConsumeOverflow())
-        {
-            _input.DiscardPendingEvents();
-            _highlights.Clear();
-            Array.Clear(_heldHighlights);
-            MoveCursor(_input.Position);
-            int pressed = _input.PressedButtons;
-            for (int i = 0; i < _heldHighlights.Length; i++)
-            {
-                if ((pressed & (1 << i)) != 0) Press((MouseHighlightButton)i, CursorPosition, Time);
-            }
-        }
-        // Limit work per frame even if input arrives continuously.
-        for (int i = 0; i < MouseHighlighterInputBuffer.Capacity && _input.TryRead(out MouseHighlighterButtonEvent input); i++)
-        {
-            MoveCursor(input.Position);
-            double time = Stopwatch.GetElapsedTime(_startTimestamp, input.Timestamp).TotalMilliseconds;
-            if (input.Pressed) Press(input.Button, input.Position, time);
-            else Release(input.Button, input.Position, time);
-        }
-        MoveCursor(_input.Position);
-    }
-
-    private void Press(MouseHighlightButton button, DrawingPoint point, double time)
-    {
-        if (!Options.IsButtonEnabled(button)) return;
-        MouseHighlight? previous = _heldHighlights[(int)button];
-        if (previous != null) previous.Released = time;
-        MouseHighlight highlight = new() { Position = point, Button = button, Started = time };
-        _highlights.Add(highlight);
-        _heldHighlights[(int)button] = highlight;
-    }
-
-    private void Release(MouseHighlightButton button, DrawingPoint point, double time)
-    {
-        MouseHighlight? highlight = _heldHighlights[(int)button];
-        if (highlight == null) return;
-        highlight.Released = time;
-        _heldHighlights[(int)button] = null;
-
-        if (Options.Mode == MouseHighlightMode.Ripple && Options.ShowReleaseCrosshairs(button))
-        {
-            _highlights.Add(new MouseHighlight
-            {
-                Position = point,
-                Button = button,
-                Started = time,
-                Released = time,
-                Crosshairs = true
-            });
-        }
-    }
-
-    private void OnTick(object? sender, EventArgs e)
-    {
-        if (_hook?.Failure is Exception failure)
-        {
-            MouseHighlighterManager.StopOnError(this, failure);
-            return;
-        }
-        ProcessPendingInput();
-        double time = Time;
-        _highlights.RemoveAll(highlight => highlight.Released.HasValue &&
-            time - highlight.Released.Value >= (Options.Mode == MouseHighlightMode.Ripple
-                ? Options.RippleDuration : Options.FadeDelay + Options.FadeDuration));
-        // Bound retained effects even under very high click rates.
-        while (_highlights.Count > 64)
-        {
-            int index = _highlights.FindIndex(highlight => highlight.Released.HasValue);
-            if (index < 0) break;
-            _highlights.RemoveAt(index);
-        }
-        try
-        {
-            foreach (MouseHighlighterOverlayWindow window in _windows) window.Refresh();
-        }
-        catch (Exception ex) { MouseHighlighterManager.StopOnError(this, ex); }
-    }
+    public void ReleaseScript() => _watcher?.Dispose();
 
     public void Dispose()
     {
-        _timer.Stop();
-        _timer.Tick -= OnTick;
-        _hook?.Dispose();
-        _screenProbe.Screens.Changed -= OnScreensChanged;
-        foreach (MouseHighlighterOverlayWindow window in _windows) window.Dispose();
-        _screenProbe.Close();
-        _windows.Clear();
-        _highlights.Clear();
+        _disposed = true;
+        _watcher?.Dispose();
+        _window.Screens.Changed -= OnScreensChanged;
+        _window.Close();
     }
 }
