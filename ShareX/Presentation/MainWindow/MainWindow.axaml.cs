@@ -258,6 +258,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         ContextMenu menu = BuildContextMenu(_trayMenuBuilder.BuildTrayMenu());
         menu.Closed += OnTrayMenuClosed;
 
+        // KWin activates the anchor after the menu has opened, and Avalonia then moves keyboard focus from the menu to the anchor,
+        // so Escape and the arrow keys would never reach the menu. Posted because Avalonia does that right after raising Activated.
+        anchor.Activated += (_, _) => Dispatcher.UIThread.Post(() => menu.Focus());
+
         try
         {
             if (!TryOpenContextMenu(menu, anchor, PlacementMode.BottomEdgeAlignedLeft))
