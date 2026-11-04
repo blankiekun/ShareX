@@ -2064,9 +2064,64 @@ Tệp đã được giữ lại nhưng có thể không phát được:
     <value>Lỗi khi xuất bản sao lưu:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Bản sao lưu ShareX lưu thông tin đăng nhập và khóa API của bạn dưới dạng văn bản thuần, để có thể chuyển sang máy khác. Bất kỳ ai có được tệp này đều có thể sử dụng chúng.&#xD;
+&#xD;
+Hãy giữ kín bản sao lưu và xóa nó sau khi đã khôi phục. Vẫn xuất?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Lỗi khi nhập bản sao lưu:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} trong bản sao lưu bị hỏng nên không có gì được nhập.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Bản sao lưu có thông tin đăng nhập, và không thể lưu chúng nếu không có ví của bạn, nên không có gì được nhập. Hãy mở ví rồi thử lại.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Tệp không có cài đặt hoặc lịch sử ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Các hiệu ứng ảnh bị bỏ qua vì phiên bản này không có:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Lịch sử: đã thêm {0}, đã có {1}, không đọc được {2}.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Lịch sử trước đây của bạn đã được lưu vào {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Lịch sử chưa được nhập: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Các thư mục đã đổi sang vị trí trên Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Các cài đặt đã trở về mặc định vì đường dẫn không có vị trí tương đương ở đây:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Tệp sao lưu này lưu thông tin đăng nhập của bạn dưới dạng văn bản thuần. Hãy xóa nó khi bạn đã hài lòng với kết quả nhập.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Thông tin đăng nhập đã chuyển sang, hiện được mã hóa bằng ví của bạn:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Hãy đăng nhập lại. Những mục này được mã hóa cho máy khác và không thể đọc ở đây:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Các tệp trong bản sao lưu đã bị bỏ qua:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Đã nhập bản sao lưu</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Các hành động đã tắt để không có gì từ bản sao lưu tự chạy. Hãy kiểm tra rồi bật lại:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Không thể lưu {0}. Quá trình nhập đã dừng ở đó.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>Không thể đóng ShareX khi đang quay màn hình.

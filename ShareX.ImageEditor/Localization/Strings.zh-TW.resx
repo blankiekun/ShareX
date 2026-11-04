@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>正在載入表情符號...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>找不到表情符號字型，因此無法繪製表情符號。請安裝 noto-fonts-emoji 套件並重新啟動 ShareX。</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>沒有符合此搜尋的表情符號。</value>
   </data>

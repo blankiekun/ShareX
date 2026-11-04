@@ -389,6 +389,9 @@
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - 背景移除</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin 无法对此窗口执行此操作：该窗口自行绘制标题栏，或无法进入全屏。</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>无法切换选中的窗口。{0}</value>
   </data>
@@ -1166,11 +1169,20 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>控件</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop 文件</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>扩展窗口样式</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>未选择目标</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>显示器</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>选择窗口以检查其属性。</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>选择窗口或控件以检查其属性</value>
@@ -1187,6 +1199,9 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X：{0}  Y：{1}  |  宽度：{2}  高度：{3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>资源名称</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>无标题窗口</value>
   </data>
@@ -1196,14 +1211,26 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>窗口句柄</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>窗口 ID</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>窗口矩形</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>窗口角色</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>窗口状态</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>窗口样式</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>窗口标题</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>窗口类型</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>总在最前</value>
@@ -1456,6 +1483,9 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>突出显示模式：</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>突出显示指针；如果在任务设置 → 捕获 → 屏幕录制器中开启了鼠标荧光笔选项，录制内容中也会突出显示。无法突出显示点击：Wayland 不允许应用程序看到点击。</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>主按钮颜色：</value>
   </data>
@@ -1606,11 +1636,26 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>目标</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract 失败，代码为 {0}。{1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract 没有语言 «{0}» 的数据。请使用软件包管理器安装，例如：sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>此系统不提供 {0} 语言用于 OCR。</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract 未安装任何语言数据。请使用软件包管理器安装一种语言，例如：sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>光学字符识别仅适用于 Windows {0} 或更高版本。</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR 需要 tesseract 程序，但在 PATH 中未找到。请使用软件包管理器安装，例如：sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract 未在 {0} 秒内完成，已被停止。</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2158,8 +2203,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>正在加载视频...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>视频播放需要 libmpv。请安装 mpv 软件包。</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>静音</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>无法播放此视频。{0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>播放位置</value>

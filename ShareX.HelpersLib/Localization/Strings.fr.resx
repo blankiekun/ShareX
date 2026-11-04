@@ -867,6 +867,12 @@ Voulez-vous quand même l’exécuter ?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Fichiers image</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Impossible d’ouvrir « {0} », car ce format nécessite ImageMagick et la commande magick est introuvable. Installez le paquet imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>L’enregistrement au format TIFF nécessite ImageMagick et la commande magick est introuvable. Installez le paquet imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Ouvrir une image</value>
   </data>
@@ -986,6 +992,11 @@ Voulez-vous quand même l’exécuter ?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nom d’imprimante non valide</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX n’a pas pu imprimer : {0}
+
+L’impression passe par le portail d’impression du bureau. Vérifiez que xdg-desktop-portal et xdg-desktop-portal-kde sont installés, ainsi que cups pour une véritable imprimante.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Autoriser l’agrandissement de l’image</value>

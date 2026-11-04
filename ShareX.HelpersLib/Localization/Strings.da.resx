@@ -867,6 +867,12 @@ Vil du stadig køre den?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Billedfiler</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Kunne ikke åbne ”{0}”, fordi dette format kræver ImageMagick, og kommandoen magick blev ikke fundet. Installér pakken imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Det kræver ImageMagick at gemme som TIFF, og kommandoen magick blev ikke fundet. Installér pakken imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Åbn billede</value>
   </data>
@@ -986,6 +992,11 @@ Vil du stadig køre den?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Ugyldigt printernavn</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX kunne ikke udskrive: {0}
+
+Udskrivning sker gennem skrivebordets udskriftsportal. Kontrollér, at xdg-desktop-portal og xdg-desktop-portal-kde er installeret, og cups til en rigtig printer.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Tillad at billedet forstørres</value>

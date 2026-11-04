@@ -867,6 +867,12 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>קובצי תמונה</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>לא ניתן לפתוח את «{0}» כי תבנית זו דורשת ImageMagick, והפקודה magick לא נמצאה. התקן את החבילה imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>שמירה כ-TIFF דורשת ImageMagick, והפקודה magick לא נמצאה. התקן את החבילה imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>פתיחת תמונה</value>
   </data>
@@ -986,6 +992,11 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>שם מדפסת לא חוקי</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX לא הצליח להדפיס: {0}
+
+ההדפסה עוברת דרך שער ההדפסה של שולחן העבודה. ודא ש-xdg-desktop-portal ו-xdg-desktop-portal-kde מותקנים, ועבור מדפסת אמיתית גם cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>אפשר הגדלת תמונה</value>

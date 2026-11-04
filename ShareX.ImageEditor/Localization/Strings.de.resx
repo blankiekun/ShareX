@@ -1134,6 +1134,9 @@ Die Zwischenablage enthält kein Bild.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Emojis werden geladen...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Es wurde keine Emoji-Schriftart gefunden, daher können keine Emojis gezeichnet werden. Installieren Sie das Paket noto-fonts-emoji und starten Sie ShareX neu.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Keine Emojis entsprechen dieser Suche.</value>
   </data>

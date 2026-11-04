@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>絵文字を読み込んでいます...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>絵文字フォントが見つからないため、絵文字を描画できません。noto-fonts-emoji パッケージをインストールして ShareX を再起動してください。</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>この検索に一致する絵文字はありません。</value>
   </data>

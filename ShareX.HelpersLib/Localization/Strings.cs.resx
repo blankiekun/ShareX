@@ -867,6 +867,12 @@ Chcete jej přesto spustit?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Obrazové soubory</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Soubor „{0}“ nelze otevřít, protože tento formát vyžaduje ImageMagick a příkaz magick nebyl nalezen. Nainstalujte balíček imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Uložení do formátu TIFF vyžaduje ImageMagick a příkaz magick nebyl nalezen. Nainstalujte balíček imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Otevřít obrázek</value>
   </data>
@@ -986,6 +992,11 @@ Chcete jej přesto spustit?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Neplatný název tiskárny</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX nemohl tisknout: {0}
+
+Tisk probíhá přes tiskový portál plochy. Zkontrolujte, zda jsou nainstalovány balíčky xdg-desktop-portal a xdg-desktop-portal-kde a pro skutečnou tiskárnu také cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Povolit zvětšení obrázku</value>

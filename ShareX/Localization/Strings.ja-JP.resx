@@ -2064,9 +2064,64 @@
     <value>バックアップのエクスポート中にエラーが発生しました:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>ShareX バックアップには、別のマシンへ移行できるよう、ログイン情報と API キーが平文で保存されています。ファイルを入手した人は誰でもそれらを使用できます。&#xD;
+&#xD;
+ファイルは他人に渡さず、復元後は削除してください。それでもエクスポートしますか？</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>バックアップのインポート中にエラーが発生しました:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>バックアップ内の {0} が破損しているため、何もインポートされませんでした。</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>バックアップにはログイン情報が含まれていますが、ウォレットがないと保存できないため、何もインポートされませんでした。ウォレットを開いてもう一度お試しください。&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>ファイルに ShareX の設定も履歴も含まれていません。</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>このバージョンにないため除外された画像効果:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>履歴: {0} 件追加、{1} 件は既に存在、{2} 件は読み取り不可。</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>以前の履歴を {0} に保存しました</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>履歴はインポートされませんでした: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Linux の場所に変更されたフォルダー:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>パスに相当するものがここにないため、既定値に戻された設定:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>このバックアップ ファイルにはログイン情報が平文で保存されています。インポートの結果に問題がなければ削除してください。</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>引き継がれたログイン情報 (ウォレットで暗号化済み):</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>もう一度ログインしてください。これらは別のマシン用に暗号化されているため、ここでは読み取れません:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>バックアップ内の無視されたファイル:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>バックアップをインポートしました</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>バックアップの内容が勝手に実行されないよう、オフにしたアクション。確認してからオンに戻してください:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>{0} を保存できませんでした。インポートはそこで停止しました。</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>画面録画中はShareXを閉じることができません。

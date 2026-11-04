@@ -867,6 +867,12 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>画像ファイル</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>この形式には ImageMagick が必要ですが、magick コマンドが見つからなかったため、「{0}」を開けませんでした。imagemagick パッケージをインストールしてください。</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>TIFF の保存には ImageMagick が必要ですが、magick コマンドが見つかりませんでした。imagemagick パッケージをインストールしてください。</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>画像を開く</value>
   </data>
@@ -986,6 +992,11 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>プリンター名が無効です</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX で印刷できませんでした: {0}
+
+印刷はデスクトップの印刷ポータルを経由します。xdg-desktop-portal と xdg-desktop-portal-kde がインストールされていること、実際のプリンターを使う場合は cups もインストールされていることを確認してください。</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>画像の拡大を許可</value>

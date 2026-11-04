@@ -867,6 +867,12 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>ไฟล์รูปภาพ</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>ไม่สามารถเปิด "{0}" ได้ เนื่องจากรูปแบบนี้ต้องใช้ ImageMagick และไม่พบคำสั่ง magick โปรดติดตั้งแพ็กเกจ imagemagick</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>การบันทึก TIFF ต้องใช้ ImageMagick และไม่พบคำสั่ง magick โปรดติดตั้งแพ็กเกจ imagemagick</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>เปิดรูปภาพ</value>
   </data>
@@ -986,6 +992,11 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>ไม่ถูกต้อง เครื่องพิมพ์ ชื่อ</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX ไม่สามารถพิมพ์ได้: {0}
+
+การพิมพ์ทำงานผ่านพอร์ทัลการพิมพ์ของเดสก์ท็อป ตรวจสอบว่าได้ติดตั้ง xdg-desktop-portal และ xdg-desktop-portal-kde แล้ว และติดตั้ง cups สำหรับเครื่องพิมพ์จริง</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>อนุญาตให้ขยายรูปภาพ</value>

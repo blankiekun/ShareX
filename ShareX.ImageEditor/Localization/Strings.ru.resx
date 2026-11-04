@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Загрузка эмодзи...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Шрифт эмодзи не найден, поэтому эмодзи нельзя отрисовать. Установите пакет noto-fonts-emoji и перезапустите ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Эмодзи, соответствующие поиску, не найдены.</value>
   </data>

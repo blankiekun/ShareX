@@ -1134,6 +1134,9 @@ Urklipp innehåller ingen bild.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Läser in emojier...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Inget emoji-teckensnitt hittades, så emoji kan inte ritas. Installera paketet noto-fonts-emoji och starta om ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Inga emojier matchar sökningen.</value>
   </data>

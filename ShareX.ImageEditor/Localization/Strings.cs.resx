@@ -1134,6 +1134,9 @@ Schránka neobsahuje obrázek.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Načítání emoji...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Nebylo nalezeno žádné písmo s emoji, takže emoji nelze vykreslit. Nainstalujte balíček noto-fonts-emoji a restartujte ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Tomuto hledání neodpovídají žádná emoji.</value>
   </data>

@@ -867,6 +867,12 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>فایل‌های تصویری</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>«{0}» باز نشد، زیرا این قالب به ImageMagick نیاز دارد و فرمان magick پیدا نشد. بستهٔ imagemagick را نصب کنید.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>ذخیره به‌صورت TIFF به ImageMagick نیاز دارد و فرمان magick پیدا نشد. بستهٔ imagemagick را نصب کنید.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>باز کردن تصویر</value>
   </data>
@@ -986,6 +992,11 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>نام چاپگر نامعتبر است</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX نتوانست چاپ کند: {0}
+
+چاپ از طریق درگاه چاپ میز کار انجام می‌شود. بررسی کنید که xdg-desktop-portal و xdg-desktop-portal-kde نصب باشند، و برای چاپگر واقعی، cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>اجازه بزرگ‌نمایی تصویر</value>

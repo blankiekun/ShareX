@@ -867,6 +867,12 @@ Yine de çalıştırmak istiyor musunuz?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Görüntü dosyaları</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>«{0}» açılamadı çünkü bu biçim ImageMagick gerektiriyor ve magick komutu bulunamadı. imagemagick paketini yükleyin.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>TIFF olarak kaydetmek ImageMagick gerektiriyor ve magick komutu bulunamadı. imagemagick paketini yükleyin.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Görüntü aç</value>
   </data>
@@ -986,6 +992,11 @@ Yine de çalıştırmak istiyor musunuz?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Geçersiz yazıcı adı</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX yazdıramadı: {0}
+
+Yazdırma, masaüstünün yazdırma portalı üzerinden yapılır. xdg-desktop-portal ve xdg-desktop-portal-kde paketlerinin, gerçek bir yazıcı için de cups paketinin yüklü olduğunu kontrol edin.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Görüntünün büyütülmesine izin ver</value>

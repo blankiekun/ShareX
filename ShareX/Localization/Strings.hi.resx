@@ -2064,9 +2064,64 @@
     <value>बैकअप निर्यात करते समय त्रुटि:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>ShareX बैकअप में आपके लॉगिन और API कुंजियाँ सादे टेक्स्ट में होती हैं, ताकि उन्हें दूसरी मशीन पर ले जाया जा सके। जिसे भी यह फ़ाइल मिलेगी, वह उनका उपयोग कर सकता है।&#xD;
+&#xD;
+इसे निजी रखें और पुनर्स्थापित करने के बाद हटा दें। फिर भी निर्यात करें?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>बैकअप आयात करते समय त्रुटि:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>बैकअप में {0} क्षतिग्रस्त है, इसलिए कुछ भी आयात नहीं किया गया।</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>बैकअप में लॉगिन हैं, और उन्हें आपके वॉलेट के बिना संग्रहीत नहीं किया जा सकता, इसलिए कुछ भी आयात नहीं किया गया। वॉलेट खोलें और फिर से प्रयास करें।&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>फ़ाइल में कोई ShareX सेटिंग या इतिहास नहीं है।</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>छोड़े गए छवि प्रभाव, क्योंकि इस संस्करण में वे नहीं हैं:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>इतिहास: {0} जोड़े गए, {1} पहले से मौजूद, {2} अपठनीय।</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>आपका पिछला इतिहास {0} में सहेजा गया</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>इतिहास आयात नहीं हुआ: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>अपने Linux स्थान में बदले गए फ़ोल्डर:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>डिफ़ॉल्ट पर वापस की गई सेटिंग, क्योंकि पथ का यहाँ कोई समकक्ष नहीं है:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>इस बैकअप फ़ाइल में आपके लॉगिन सादे टेक्स्ट में हैं। आयात से संतुष्ट होने पर इसे हटा दें।</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>स्थानांतरित हुए लॉगिन, जो अब आपके वॉलेट से एन्क्रिप्ट किए गए हैं:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>फिर से लॉगिन करें। ये दूसरी मशीन के लिए एन्क्रिप्ट किए गए थे और यहाँ पढ़े नहीं जा सकते:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>बैकअप की वे फ़ाइलें जिन्हें अनदेखा किया गया:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>बैकअप आयात किया गया</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>बंद की गई क्रियाएँ, ताकि बैकअप से कुछ भी अपने आप न चले। उन्हें जाँचें और फिर से चालू करें:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>{0} सहेजा नहीं जा सका। आयात वहीं रुक गया।</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>स्क्रीन रिकॉर्डिंग सक्रिय होने पर ShareX बंद नहीं किया जा सकता।

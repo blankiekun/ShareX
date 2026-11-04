@@ -867,6 +867,12 @@ Czy mimo to chcesz go uruchomić?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Pliki obrazów</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Nie można otworzyć «{0}», ponieważ ten format wymaga ImageMagick, a nie znaleziono polecenia magick. Zainstaluj pakiet imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Zapisywanie do TIFF wymaga ImageMagick, a nie znaleziono polecenia magick. Zainstaluj pakiet imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Otwórz obraz</value>
   </data>
@@ -986,6 +992,11 @@ Czy mimo to chcesz go uruchomić?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nieprawidłowa nazwa drukarki</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX nie mógł wydrukować: {0}
+
+Drukowanie odbywa się przez portal drukowania pulpitu. Sprawdź, czy zainstalowane są xdg-desktop-portal i xdg-desktop-portal-kde, a dla prawdziwej drukarki także cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Zezwalaj na powiększenie obrazu</value>

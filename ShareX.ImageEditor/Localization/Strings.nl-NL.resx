@@ -1134,6 +1134,9 @@ Het klembord bevat geen afbeelding.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Emoji's laden...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Er is geen emoji-lettertype gevonden, dus emoji kunnen niet worden getekend. Installeer het pakket noto-fonts-emoji en start ShareX opnieuw.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Geen emoji's komen overeen met deze zoekopdracht.</value>
   </data>

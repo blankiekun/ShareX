@@ -1134,6 +1134,9 @@ Clipboardul nu conține nicio imagine.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Se încarcă emojiurile...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Nu s-a găsit niciun font pentru emoji, deci emoji nu pot fi desenate. Instalați pachetul noto-fonts-emoji și reporniți ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Niciun emoji nu corespunde acestei căutări.</value>
   </data>

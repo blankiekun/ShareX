@@ -389,6 +389,9 @@ Dosya yolu: {0}</value>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - Arka Plan Kaldırıcı</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin bunu bu pencere için yapamıyor: pencere kendi başlık çubuğunu çiziyor veya tam ekrana geçemiyor.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Seçilen pencere değiştirilemedi. {0}</value>
   </data>
@@ -1166,11 +1169,20 @@ Dosya yolu: {0}</value>
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Denetim</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop dosyası</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Genişletilmiş pencere stilleri</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Hedef seçilmedi</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Ekran</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Özelliklerini incelemek için bir pencere seçin.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Özelliklerini incelemek için bir pencere veya denetim seçin</value>
@@ -1187,6 +1199,9 @@ Dosya yolu: {0}</value>
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Genişlik: {2}  Yükseklik: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Kaynak adı</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Başlıksız pencere</value>
   </data>
@@ -1196,14 +1211,26 @@ Dosya yolu: {0}</value>
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Pencere tutamacı</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>Pencere kimliği</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Pencere dikdörtgeni</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Pencere rolü</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Pencere durumu</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Pencere stilleri</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Pencere başlığı</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Pencere türü</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Her zaman üstte</value>
@@ -1456,6 +1483,9 @@ Dosya yolu: {0}</value>
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Vurgulama modu:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>İşaretçiyi vurgular; Görev ayarları → Yakalama → Ekran kaydedici bölümünde fare vurgulayıcı seçeneği açıkken kayıtlarda da vurgular. Tıklamalar vurgulanamaz: Wayland uygulamaların bunları görmesine izin vermez.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Birincil düğme rengi:</value>
   </data>
@@ -1606,11 +1636,26 @@ Dosya yolu: {0}</value>
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Hedef</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract {0} koduyla başarısız oldu. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract'ta «{0}» dili için veri yok. Paket yöneticinizle yükleyin, örneğin: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>{0} dili bu sistemde OCR için kullanılamıyor.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract'ta yüklü dil verisi yok. Paket yöneticinizle bir dil yükleyin, örneğin: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Optik karakter tanıma yalnızca Windows {0} veya daha yeni sürümlerde kullanılabilir.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR için tesseract programı gerekiyor, ancak PATH üzerinde bulunamadı. Paket yöneticinizle yükleyin, örneğin: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract {0} saniye içinde bitmedi ve durduruldu.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2158,8 +2203,14 @@ Dosya yolu: {0}</value>
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Video yükleniyor...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>Video oynatma için libmpv gerekiyor. mpv paketini yükleyin.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Sesi kapat</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Bu video oynatılamadı. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Oynatma konumu</value>

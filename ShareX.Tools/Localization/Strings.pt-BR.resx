@@ -389,6 +389,9 @@ Caminho do arquivo: {0}</value>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - Removedor de fundo</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>O KWin não consegue fazer isso com esta janela: ela desenha a própria barra de título ou não pode ir para tela inteira.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Não foi possível alternar a janela selecionada. {0}</value>
   </data>
@@ -1166,11 +1169,20 @@ Caminho do arquivo: {0}</value>
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Controle</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>Arquivo .desktop</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Estilos de janela estendidos</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Nenhum alvo selecionado</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Tela</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Escolha uma janela para inspecionar suas propriedades.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Escolha uma janela ou um controle para inspecionar suas propriedades</value>
@@ -1187,6 +1199,9 @@ Caminho do arquivo: {0}</value>
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Largura: {2}  Altura: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Nome do recurso</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Janela sem título</value>
   </data>
@@ -1196,14 +1211,26 @@ Caminho do arquivo: {0}</value>
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Identificador da janela</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>ID da janela</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Retângulo da janela</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Papel da janela</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Estado da janela</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Estilos da janela</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Título da janela</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Tipo da janela</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Sempre no topo</value>
@@ -1456,6 +1483,9 @@ Caminho do arquivo: {0}</value>
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Modo de destaque:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Destaca o ponteiro, também nas gravações quando a opção do marcador do mouse está ativada em Configuração de tarefas → Captura → Gravador de tela. Os cliques não podem ser destacados: o Wayland não deixa os aplicativos vê-los.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Cor principal do botão:</value>
   </data>
@@ -1606,11 +1636,26 @@ Caminho do arquivo: {0}</value>
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Destino</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>O Tesseract falhou com o código {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>O Tesseract não tem dados para o idioma «{0}». Instale-o com seu gerenciador de pacotes, por exemplo: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>O idioma {0} não está disponível neste sistema para OCR.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>O Tesseract não tem dados de idioma instalados. Instale um idioma com seu gerenciador de pacotes, por exemplo: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>O reconhecimento óptico de caracteres está disponível apenas no Windows versão {0} ou posterior.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>O OCR precisa do programa tesseract, que não foi encontrado no PATH. Instale-o com seu gerenciador de pacotes, por exemplo: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>O Tesseract não terminou em {0} segundos e foi interrompido.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2158,8 +2203,14 @@ Caminho do arquivo: {0}</value>
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Carregando vídeo...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>A reprodução de vídeo precisa da libmpv. Instale o pacote mpv.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Silenciar</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Não foi possível reproduzir este vídeo. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Posição de reprodução</value>

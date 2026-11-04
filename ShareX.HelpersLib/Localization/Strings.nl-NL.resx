@@ -867,6 +867,12 @@ Wilt u het toch uitvoeren?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Afbeeldingsbestanden</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Kan ‘{0}’ niet openen, omdat deze indeling ImageMagick nodig heeft en de opdracht magick niet is gevonden. Installeer het pakket imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Opslaan als TIFF vereist ImageMagick en de opdracht magick is niet gevonden. Installeer het pakket imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Afbeelding openen</value>
   </data>
@@ -986,6 +992,11 @@ Wilt u het toch uitvoeren?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Ongeldige printernaam</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX kon niet afdrukken: {0}
+
+Afdrukken verloopt via het afdrukportaal van de desktop. Controleer of xdg-desktop-portal en xdg-desktop-portal-kde zijn geïnstalleerd, en cups voor een echte printer.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Vergroten van afbeelding toestaan</value>

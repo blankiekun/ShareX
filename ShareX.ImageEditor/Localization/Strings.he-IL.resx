@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>טוען אמוג׳י...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>לא נמצא גופן אמוג׳י, ולכן לא ניתן לצייר אמוג׳י. התקן את החבילה noto-fonts-emoji והפעל מחדש את ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>אין אמוג׳י התואמים לחיפוש זה.</value>
   </data>

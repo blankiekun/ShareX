@@ -389,6 +389,9 @@ Dateipfad: {0}</value>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - Hintergrundentferner</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin kann dies für dieses Fenster nicht ausführen: Es zeichnet seine eigene Titelleiste oder kann nicht in den Vollbildmodus wechseln.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Das ausgewählte Fenster konnte nicht umgeschaltet werden. {0}</value>
   </data>
@@ -1166,11 +1169,20 @@ Dateipfad: {0}</value>
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Steuerelement</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop-Datei</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Erweiterte Fensterstile</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Kein Ziel ausgewählt</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Bildschirm</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Wählen Sie ein Fenster aus, um seine Eigenschaften zu untersuchen.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Wählen Sie ein Fenster oder Steuerelement aus, um seine Eigenschaften zu untersuchen</value>
@@ -1187,6 +1199,9 @@ Dateipfad: {0}</value>
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Breite: {2}  Höhe: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Ressourcenname</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Unbenanntes Fenster</value>
   </data>
@@ -1196,14 +1211,26 @@ Dateipfad: {0}</value>
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Fensterhandle</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>Fenster-ID</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Fensterrechteck</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Fensterrolle</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Fensterzustand</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Fensterstile</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Fenstertitel</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Fenstertyp</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Immer im Vordergrund</value>
@@ -1456,6 +1483,9 @@ Dateipfad: {0}</value>
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Hervorhebungsmodus:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Hebt den Mauszeiger hervor, auch in Aufnahmen, wenn die Option für die Mausklick-Hervorhebung unter Aufgabeneinstellungen → Aufnahme → Bildschirmrekorder aktiviert ist. Klicks können nicht hervorgehoben werden: Wayland lässt Apps sie nicht sehen.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Farbe der primären Schaltfläche:</value>
   </data>
@@ -1606,11 +1636,26 @@ Dateipfad: {0}</value>
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Ziel</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract ist mit Code {0} fehlgeschlagen. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract hat keine Daten für die Sprache „{0}“. Installieren Sie sie mit Ihrem Paketmanager, zum Beispiel: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>Die Sprache {0} ist auf diesem System nicht für OCR verfügbar.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Für Tesseract sind keine Sprachdaten installiert. Installieren Sie eine Sprache mit Ihrem Paketmanager, zum Beispiel: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Die optische Zeichenerkennung ist nur ab Windows-Version {0} verfügbar.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR benötigt das Programm tesseract, das im PATH nicht gefunden wurde. Installieren Sie es mit Ihrem Paketmanager, zum Beispiel: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract wurde nicht innerhalb von {0} Sekunden fertig und wurde gestoppt.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2158,8 +2203,14 @@ Dateipfad: {0}</value>
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Video wird geladen...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>Die Videowiedergabe benötigt libmpv. Installieren Sie das Paket mpv.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Stummschalten</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Dieses Video konnte nicht abgespielt werden. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Wiedergabeposition</value>

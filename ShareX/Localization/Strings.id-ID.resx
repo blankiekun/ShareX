@@ -2064,9 +2064,64 @@ File tetap disimpan, tetapi mungkin tidak dapat diputar:
     <value>Kesalahan saat mengekspor cadangan:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Cadangan ShareX menyimpan data login dan kunci API Anda dalam teks biasa, agar dapat dipindahkan ke komputer lain. Siapa pun yang mendapatkan file ini dapat menggunakannya.&#xD;
+&#xD;
+Simpan secara pribadi dan hapus setelah Anda memulihkannya. Tetap ekspor?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Kesalahan saat mengimpor cadangan:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} dalam cadangan rusak, sehingga tidak ada yang diimpor.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Cadangan berisi data login, dan data itu tidak dapat disimpan tanpa dompet Anda, sehingga tidak ada yang diimpor. Buka dompet dan coba lagi.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>File ini tidak berisi pengaturan atau riwayat ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Efek gambar yang dihilangkan, karena versi ini tidak memilikinya:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Riwayat: {0} ditambahkan, {1} sudah ada, {2} tidak terbaca.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Riwayat Anda sebelumnya disimpan ke {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Riwayat tidak diimpor: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Folder yang diubah ke lokasi Linux-nya:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Pengaturan yang dikembalikan ke default, karena jalurnya tidak memiliki padanan di sini:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>File cadangan ini menyimpan data login Anda dalam teks biasa. Hapus setelah Anda puas dengan hasil impor.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Data login yang berhasil dipindahkan, kini dienkripsi dengan dompet Anda:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Masuk kembali. Data ini dienkripsi untuk komputer lain dan tidak dapat dibaca di sini:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>File dalam cadangan yang diabaikan:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Cadangan diimpor</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Tindakan yang dimatikan, agar tidak ada isi cadangan yang berjalan sendiri. Periksa dan nyalakan kembali:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Tidak dapat menyimpan {0}. Impor berhenti di situ.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX tidak dapat ditutup saat perekaman layar aktif.

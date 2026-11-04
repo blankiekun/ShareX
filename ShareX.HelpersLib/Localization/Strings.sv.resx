@@ -867,6 +867,12 @@ Vill du ändå köra det?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Bildfiler</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Det gick inte att öppna ”{0}” eftersom det här formatet kräver ImageMagick, och kommandot magick hittades inte. Installera paketet imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Att spara som TIFF kräver ImageMagick, och kommandot magick hittades inte. Installera paketet imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Öppna bild</value>
   </data>
@@ -986,6 +992,11 @@ Vill du ändå köra det?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Ogiltigt skrivarnamn</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX kunde inte skriva ut: {0}
+
+Utskrift går via skrivbordets utskriftsportal. Kontrollera att xdg-desktop-portal och xdg-desktop-portal-kde är installerade, och cups för en riktig skrivare.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Tillåt att bilden förstoras</value>

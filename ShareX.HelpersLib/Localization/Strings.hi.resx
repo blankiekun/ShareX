@@ -867,6 +867,12 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>छवि फ़ाइलें</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>"{0}" को नहीं खोला जा सका क्योंकि इस प्रारूप के लिए ImageMagick आवश्यक है, और magick कमांड नहीं मिला। imagemagick पैकेज स्थापित करें।</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>TIFF सहेजने के लिए ImageMagick आवश्यक है, और magick कमांड नहीं मिला। imagemagick पैकेज स्थापित करें।</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>छवि खोलें</value>
   </data>
@@ -986,6 +992,11 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>अमान्य प्रिंटर नाम</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX प्रिंट नहीं कर सका: {0}
+
+प्रिंटिंग डेस्कटॉप के प्रिंट पोर्टल के माध्यम से होती है। जाँचें कि xdg-desktop-portal और xdg-desktop-portal-kde स्थापित हैं, और वास्तविक प्रिंटर के लिए cups भी।</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>छवि को बड़ा करने दें</value>

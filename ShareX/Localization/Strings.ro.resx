@@ -2064,9 +2064,64 @@ Fișierul a fost păstrat, dar s-ar putea să nu poată fi redat:
     <value>Eroare la exportarea copiei de rezervă:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>O copie de rezervă ShareX păstrează datele dvs. de autentificare și cheile API în text simplu, necriptat, ca să poată fi mutate pe alt calculator. Oricine obține fișierul le poate folosi.&#xD;
+&#xD;
+Păstrați-o privată și ștergeți-o după ce ați restaurat-o. Exportați oricum?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Eroare la importarea copiei de rezervă:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} din copia de rezervă este deteriorat, așa că nu s-a importat nimic.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Copia de rezervă conține date de autentificare, care nu pot fi stocate fără portofelul dvs., așa că nu s-a importat nimic. Deschideți portofelul și încercați din nou.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Fișierul nu conține setări sau istoric ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Efecte de imagine omise, deoarece această versiune nu le are:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Istoric: {0} adăugate, {1} existente deja, {2} ilizibile.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Istoricul anterior a fost salvat în {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Istoricul nu a fost importat: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Foldere schimbate la locația lor din Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Setări readuse la valoarea implicită, deoarece calea nu are un echivalent aici:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Acest fișier de rezervă păstrează datele dvs. de autentificare în text simplu, necriptat. Ștergeți-l după ce sunteți mulțumit de import.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Date de autentificare transferate, criptate acum cu portofelul dvs.:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Autentificați-vă din nou. Acestea au fost criptate pentru alt calculator și nu pot fi citite aici:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Fișiere din copia de rezervă care au fost ignorate:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Copie de rezervă importată</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Acțiuni dezactivate, pentru ca nimic din copia de rezervă să nu ruleze singur. Verificați-le și reactivați-le:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Nu s-a putut salva {0}. Importul s-a oprit acolo.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nu poate fi închis cât timp înregistrarea ecranului este activă.
