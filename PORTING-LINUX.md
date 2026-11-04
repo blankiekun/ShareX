@@ -232,7 +232,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | PhotoEditor | TH:242; ShareX.PhotoEditor/Core/ImageIO.cs:208 | Owner editors: TIFF export Windows-only | SWAP | Non-WIC TIFF encoder (A) | M | Med |
 | ImageBeautifier | TH:245; TH:1533 | Owner tools: Skia | UNVERIFIED | None | S | Med |
 | ImageEffects | TH:255; TH:1589 | Owner editors: Skia | UNVERIFIED | None | S | Med |
-| ImageViewer | TH:265; TH:1653 | Owner tools; implementation not read | UNVERIFIED | None | S | Low |
+| ImageViewer | TH:265; TH:1653 | Owner tools. Files with more than one frame now play and loop in the viewer (frame delays honoured, 10 ms or less shown as 100 ms); zoom survives frame changes. Run in a virtual KWin session only, not yet seen by the owner | UNVERIFIED | None | S | Low |
 | BackgroundRemover | TH:275; ShareX.Tools/Tools/BackgroundRemover/BackgroundRemovalService.cs:140 | Owner tools: DirectML package ships Windows runtimes only (V) | SWAP | `Microsoft.ML.OnnxRuntime` linux-x64 (V) | M | High |
 | ImageComparer | TH:278; TH:1089 | None found | READY | None | S | Med |
 | IconConverter | TH:281; TH:1094 | None found | READY | None | S | Med |
