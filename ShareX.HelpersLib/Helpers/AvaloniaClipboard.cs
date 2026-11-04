@@ -75,31 +75,19 @@ internal static class AvaloniaClipboard
             WindowsClipboard.SetImage(DesktopServices.GetWindow().TryGetPlatformHandle()?.Handle ?? IntPtr.Zero, png, dib, html);
             return true;
         }
-        OwnedImageTransfer owned = CreateImageTransfer(png, html);
-        try { await Clipboard.SetDataAsync(owned); }
-        catch { owned.Dispose(); throw; }
-        // Ownership has passed to Avalonia even if persisting the clipboard fails.
+        // Bytes only, no DataFormat.Bitmap. Avalonia's X11 clipboard maps Bitmap to image/png too, so offering both lists
+        // image/png twice, and Electron on Wayland then pastes two files. Also, TryGetDataAsync returns this same transfer
+        // while we own the selection and its callers dispose it, which would dispose a Bitmap held here.
+        DataTransferItem item = new();
+        item.Set(DataFormat.CreateBytesPlatformFormat("image/png"), png);
+        if (!string.IsNullOrEmpty(html))
+            item.Set(DataFormat.CreateStringPlatformFormat("text/html"), html);
+        DataTransfer transfer = new();
+        transfer.Add(item);
+        await Clipboard.SetDataAsync(transfer);
         await Clipboard.FlushAsync();
         return true;
     });
-
-    private static OwnedImageTransfer CreateImageTransfer(byte[] png, string html)
-    {
-        using MemoryStream stream = new(png, writable: false);
-        AvaloniaBitmap bitmap = new(stream);
-        DataTransfer transfer = new();
-        try
-        {
-            DataTransferItem item = new();
-            item.SetBitmap(bitmap);
-            item.Set(DataFormat.CreateBytesPlatformFormat("image/png"), png);
-            if (!string.IsNullOrEmpty(html))
-                item.Set(DataFormat.CreateStringPlatformFormat("text/html"), html);
-            transfer.Add(item);
-            return new OwnedImageTransfer(transfer, bitmap);
-        }
-        catch { ((IDisposable)transfer).Dispose(); bitmap.Dispose(); throw; }
-    }
 
     public static bool Contains(string kind) => DesktopServices.Run(async () =>
     {
@@ -167,21 +155,4 @@ internal static class AvaloniaClipboard
         }
         return snapshot;
     });
-
-    // Avalonia owns a posted transfer until the clipboard changes. Keep its bitmap
-    // alive for lazy requests (X11/Wayland), and release it with the transfer.
-    private sealed class OwnedImageTransfer(DataTransfer transfer, AvaloniaBitmap bitmap) : IAsyncDataTransfer, IDataTransfer
-    {
-        public IReadOnlyList<DataFormat> Formats => transfer.Formats;
-        IReadOnlyList<IAsyncDataTransferItem> IAsyncDataTransfer.Items => transfer.Items;
-        IReadOnlyList<IDataTransferItem> IDataTransfer.Items => transfer.Items;
-        private bool disposed;
-        public void Dispose()
-        {
-            if (disposed) return;
-            disposed = true;
-            ((IDisposable)transfer).Dispose();
-            bitmap.Dispose();
-        }
-    }
 }
