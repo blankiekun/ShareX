@@ -2258,12 +2258,12 @@ namespace ShareX.ImageEditor.Presentation.Views
 
             using var image = SKImage.FromBitmap(skBitmap);
             using var encoded = image.Encode(SKEncodedImageFormat.Png, 100);
-            using var memStream = new System.IO.MemoryStream(encoded.ToArray());
-            var bitmap = new Avalonia.Media.Imaging.Bitmap(memStream);
 
+            // Bytes only, no SetBitmap. TryGetDataAsync returns this same transfer while we own the selection and its callers
+            // dispose it, so a Bitmap held here is gone at the next outside request, which throws on the X event loop.
             DataTransfer data = new DataTransfer();
             DataTransferItem item = new DataTransferItem();
-            item.SetBitmap(bitmap);
+            item.Set(DataFormat.CreateBytesPlatformFormat("image/png"), encoded.ToArray());
             data.Add(item);
 
             await clipboard.SetDataAsync(data);
