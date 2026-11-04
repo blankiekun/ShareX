@@ -142,17 +142,14 @@ internal static class ApplicationCommandLine
     {
         args ??= [];
 
-        if (args.Length == 0)
-        {
-            MainWindowIntegration.Activate();
-        }
-        else if (MainWindowIntegration.IsVisible)
+        ShareXCLIManager commandLine = new(args);
+        commandLine.ParseCommands();
+
+        if (args.Length == 0 || (MainWindowIntegration.IsVisible && !commandLine.HasScreenJob()))
         {
             MainWindowIntegration.Activate();
         }
 
-        ShareXCLIManager commandLine = new(args);
-        commandLine.ParseCommands();
         await commandLine.UseCommandLineArgs();
     }
 }
