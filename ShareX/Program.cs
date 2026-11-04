@@ -59,6 +59,11 @@ internal static class Program
         PersonalPathManager.Initialize();
         DebugHelper.Init(AppPaths.LogsFilePath);
 
+        if (SystemOptions.ReadError != null)
+        {
+            DebugHelper.WriteLine(SystemOptions.ReadError);
+        }
+
         StartupOptions.IsAdmin = Helpers.IsAdministrator();
         StartupOptions.MultiInstance = ApplicationCommandLine.IsCommandPresent("multi", "m");
 
@@ -121,7 +126,8 @@ internal static class Program
     {
         ImageEditorIntegration.Initialize();
 
-        if (ApplicationState.Settings.ShowStartScreen)
+        // A silent start is usually the autostart entry, with nobody there to answer it. The screen waits for the next plain start.
+        if (ApplicationState.Settings.ShowStartScreen && !StartupOptions.SilentRun)
         {
             DebugHelper.WriteLine("Start screen opening.");
             StartScreenWindow startScreen = new();

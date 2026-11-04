@@ -58,13 +58,9 @@ namespace ShareX
                         "Terminal=false",
                         "StartupWMClass=ShareX"));
                 }
-                else if (value == StartupState.Disabled)
-                {
-                    File.Delete(AutostartPath);
-                }
                 else
                 {
-                    throw new NotSupportedException();
+                    File.Delete(AutostartPath);
                 }
             }
         }

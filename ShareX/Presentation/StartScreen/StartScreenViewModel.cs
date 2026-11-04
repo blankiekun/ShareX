@@ -45,7 +45,6 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
 {
     private bool _startWithWindows;
     private bool _startWithWindowsEnabled;
-    private string _startWithWindowsText = Strings.ApplicationSettingsWindow_RunShareXAtLogin;
 
     private ApplicationConfig Settings => ApplicationState.Settings;
 
@@ -181,34 +180,16 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
     }
 
     public bool StartWithWindowsEnabled => _startWithWindowsEnabled;
-    public string StartWithWindowsText => _startWithWindowsText;
+    public string StartWithWindowsText => Strings.ApplicationSettingsWindow_RunShareXAtLogin;
 
     private void RefreshStartWithWindows()
     {
-        _startWithWindowsText = Strings.ApplicationSettingsWindow_RunShareXAtLogin;
         _startWithWindowsEnabled = false;
 
         try
         {
-            StartupState state = StartupManager.State;
-            _startWithWindows = state == StartupState.Enabled || state == StartupState.EnabledByPolicy;
-
-            if (state == StartupState.DisabledByUser)
-            {
-                _startWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text;
-            }
-            else if (state == StartupState.DisabledByPolicy)
-            {
-                _startWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text;
-            }
-            else if (state == StartupState.EnabledByPolicy)
-            {
-                _startWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text;
-            }
-            else
-            {
-                _startWithWindowsEnabled = true;
-            }
+            _startWithWindows = StartupManager.State == StartupState.Enabled;
+            _startWithWindowsEnabled = true;
         }
         catch (Exception e)
         {
@@ -217,7 +198,6 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
 
         OnPropertyChanged(nameof(StartWithWindows));
         OnPropertyChanged(nameof(StartWithWindowsEnabled));
-        OnPropertyChanged(nameof(StartWithWindowsText));
     }
 
     private static IReadOnlyList<StartScreenLanguageOption> CreateLanguageOptions() =>

@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Voulez-vous réinitialiser les paramètres de ShareX ?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Le démarrage a été désactivé par votre organisation</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>Le démarrage automatique a été désactivé dans le Gestionnaire des tâches</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Le démarrage a été activé par votre organisation</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Lancer ShareX au démarrage de Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Pour que les réglages prennent effets, ShareX doit être rouvert à partir de Steam.</value>
   </data>
@@ -2108,9 +2096,6 @@ Voulez-vous arrêter l'enregistrement d'écran en cours et le sauvegarder ?</val
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Personnalisez ShareX</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Open source • Conçu pour Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Vous pouvez modifier ces options à tout moment dans les paramètres de l’application.</value>

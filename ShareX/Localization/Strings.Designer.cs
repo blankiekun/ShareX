@@ -5203,11 +5203,6 @@ namespace ShareX.Localization {
                 return ResourceManager.GetString("TaskSettingsForm_UpdateUploaderMenuNames_URL_shortener___0_", resourceCulture);
             }
         }
-        public static string ApplicationSettingsForm_cbStartWithWindows_Text {
-            get {
-                return ResourceManager.GetString("ApplicationSettingsForm_cbStartWithWindows_Text", resourceCulture);
-            }
-        }
         public static string MainForm_tsmiDeleteSelectedFile_Click_Do_you_really_want_to_delete_this_file_ {
             get {
                 return ResourceManager.GetString("MainForm_tsmiDeleteSelectedFile_Click_Do_you_really_want_to_delete_this_file_", resourceCulture);
@@ -5236,11 +5231,6 @@ namespace ShareX.Localization {
         public static string ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_ {
             get {
                 return ResourceManager.GetString("ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_", resourceCulture);
-            }
-        }
-        public static string ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text {
-            get {
-                return ResourceManager.GetString("ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text", resourceCulture);
             }
         }
         public static string FFmpegIsMissing {
@@ -5428,11 +5418,6 @@ namespace ShareX.Localization {
                 return ResourceManager.GetString("Program_WritePersonalPathConfig_Cant_access_to_file", resourceCulture);
             }
         }
-        public static string ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text {
-            get {
-                return ResourceManager.GetString("ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text", resourceCulture);
-            }
-        }
         public static string WouldYouLikeToRetryClipboardUpload {
             get {
                 return ResourceManager.GetString("WouldYouLikeToRetryClipboardUpload", resourceCulture);
@@ -5516,11 +5501,6 @@ namespace ShareX.Localization {
         public static string UploadManager_UploadFolder_Folder_upload {
             get {
                 return ResourceManager.GetString("UploadManager_UploadFolder_Folder_upload", resourceCulture);
-            }
-        }
-        public static string ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text {
-            get {
-                return ResourceManager.GetString("ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text", resourceCulture);
             }
         }
         public static string UploadTask_Prepare_Preparing {

@@ -59,7 +59,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     private string _screenshotsFolderPreview = string.Empty;
     private bool _startWithWindows;
     private bool _startWithWindowsEnabled;
-    private string _startWithWindowsText = string.Empty;
     private bool _shellContextMenu;
     private bool _editWithShareX;
     private bool _chromeExtensionSupport;
@@ -349,7 +348,7 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     }
 
     public bool StartWithWindowsEnabled { get => _startWithWindowsEnabled; private set => SetField(ref _startWithWindowsEnabled, value); }
-    public string StartWithWindowsText { get => _startWithWindowsText; private set => SetField(ref _startWithWindowsText, value); }
+    public string StartWithWindowsText => Strings.ApplicationSettingsWindow_RunShareXAtLogin;
 
     public bool ShellContextMenu
     {
@@ -892,31 +891,13 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
     private void RefreshStartWithWindows()
     {
-        StartWithWindowsText = Strings.ApplicationSettingsWindow_RunShareXAtLogin;
         StartWithWindowsEnabled = false;
 
         try
         {
-            StartupState state = InvokeOnMainThread(() => StartupManager.State);
-            _startWithWindows = state == StartupState.Enabled || state == StartupState.EnabledByPolicy;
+            _startWithWindows = InvokeOnMainThread(() => StartupManager.State) == StartupState.Enabled;
             OnPropertyChanged(nameof(StartWithWindows));
-
-            if (state == StartupState.DisabledByUser)
-            {
-                StartWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text;
-            }
-            else if (state == StartupState.DisabledByPolicy)
-            {
-                StartWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text;
-            }
-            else if (state == StartupState.EnabledByPolicy)
-            {
-                StartWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text;
-            }
-            else
-            {
-                StartWithWindowsEnabled = true;
-            }
+            StartWithWindowsEnabled = true;
         }
         catch (Exception e)
         {
