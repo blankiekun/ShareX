@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using ShareX.HelpersLib;
+using ShareX.Localization;
 using ShareX.ScreenCaptureLib;
 using System;
 using System.Drawing;
@@ -39,6 +40,12 @@ namespace ShareX
 
         public bool AllowAutoHideForm { get; set; } = true;
         public bool AllowAnnotation { get; set; } = true;
+
+        /// <summary>
+        /// Set by ShareX's own menu on an active window or monitor capture: ShareX is the active window by then, so this hands
+        /// activation back to the window the user was last in. A hotkey doesn't set it, as there ShareX being active means the user is in it.
+        /// </summary>
+        public bool ActivateLastUsedWindow { get; init; }
 
         public void Capture(bool autoHideForm)
         {
@@ -87,6 +94,21 @@ namespace ShareX
             if (taskSettings.GeneralSettings.ToastWindowAutoHide)
             {
                 await NotificationWindow.CloseActiveWindowAsync();
+            }
+
+            if (ActivateLastUsedWindow)
+            {
+                try
+                {
+                    ReturnToLastUsedWindow();
+                    wait = true;
+                }
+                catch (Exception ex) when (ex is ScreenCaptureException or KWinScriptException)
+                {
+                    DebugHelper.WriteException(ex);
+                    ex.ShowError(false);
+                    return;
+                }
             }
 
             if (taskSettings.CaptureSettings.CaptureAutoHideDesktopIcons && !CaptureHelpers.IsActiveWindowFullscreen() && DesktopIconManager.AreDesktopIconsVisible())
@@ -140,6 +162,19 @@ namespace ShareX
             if (captureError is ScreenCaptureException or KWinScriptException)
             {
                 captureError.ShowError(false);
+            }
+        }
+
+        // Before the main window hides: KWin then activates a window of its own choosing, which in testing was the next one on
+        // ShareX's monitor, not the last one used. After the screenshot delay, as the user may have picked a window during it.
+        private void ReturnToLastUsedWindow()
+        {
+            KWinWindow window = KWinDesktop.Query().LastUsedWindow(Environment.ProcessId);
+
+            // With no window at all, a monitor capture still has the desktop to show.
+            if ((window == null || !KWinDesktop.ActivateWindow(window.Id)) && this is CaptureActiveWindow)
+            {
+                throw new ScreenCaptureException(Strings.CaptureBase_NoOtherWindow);
             }
         }
 
