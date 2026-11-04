@@ -42,7 +42,7 @@ internal sealed class FakeHost : IDisposable
     public const string Video = "fake video\n";
     public const string HealthyProbe = """{"streams":[{"codec_type":"video","nb_frames":"30","duration":"1.000000","bit_rate":"8000000"}],"format":{"duration":"1.000000"}}""";
 
-    private static readonly string[] Variables = ["PATH", "XDG_RUNTIME_DIR", "LD_LIBRARY_PATH", "FAKE_GSR_MODE", "FAKE_GSR_LOG", "FAKE_GSR_TRIGGER", "FAKE_GETCAP", "FAKE_FFPROBE_JSON", "FAKE_FFPROBE_ERROR"];
+    private static readonly string[] Variables = ["PATH", "XDG_RUNTIME_DIR", "LD_LIBRARY_PATH", "FAKE_GSR_MODE", "FAKE_GSR_LOG", "FAKE_GSR_TRIGGER", "FAKE_GETCAP", "FAKE_FFPROBE_JSON", "FAKE_FFPROBE_ERROR", "FAKE_FFPROBE_DIE"];
 
     private readonly Dictionary<string, string?> saved = Variables.ToDictionary(name => name, Environment.GetEnvironmentVariable);
     private readonly string root, bin, logPath, triggerPath;
@@ -82,6 +82,7 @@ internal sealed class FakeHost : IDisposable
         Environment.SetEnvironmentVariable("FAKE_GETCAP", null);
         Environment.SetEnvironmentVariable("FAKE_FFPROBE_JSON", HealthyProbe);
         Environment.SetEnvironmentVariable("FAKE_FFPROBE_ERROR", null);
+        Environment.SetEnvironmentVariable("FAKE_FFPROBE_DIE", null);
     }
 
     public RecordingOptions Options() => new()

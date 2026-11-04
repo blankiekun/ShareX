@@ -123,12 +123,17 @@ internal static partial class HostTools
         return monitors;
     }
 
-    /// <summary>Returns null when ffprobe isn't installed. Reads only the file header, so it's fast on long recordings.</summary>
+    /// <summary>
+    /// Returns null when ffprobe isn't installed and throws when it fails for its own reasons, so IsReadable is only false
+    /// when the file itself was rejected. Reads only the file header, so it's fast on long recordings.
+    /// </summary>
     public static RecordingProbe? ProbeRecording(string path)
     {
         ToolResult? result = Run("ffprobe", "-v", "error", "-show_entries", "stream=codec_type,nb_frames,bit_rate,duration:format=duration", "-of", "json", path);
         if (result == null) return null;
-        if (result.ExitCode != 0) return new RecordingProbe(false, result.Error.Trim(), null, null, []);
+        // ffprobe exits 1 when it rejects a file. Other codes mean the tool died: 127 from the loader, 128+N from a signal.
+        if (result.ExitCode == 1) return new RecordingProbe(false, result.Error.Trim(), null, null, []);
+        if (result.ExitCode != 0) throw new IOException($"exit {result.ExitCode}: {result.Error.Trim()}".TrimEnd(' ', ':'));
 
         using JsonDocument document = JsonDocument.Parse(result.Output);
         long? frames = null;

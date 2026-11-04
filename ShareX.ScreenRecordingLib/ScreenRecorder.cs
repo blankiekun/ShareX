@@ -282,12 +282,7 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
 
         RecordingProbe? probe;
         string notChecked = "ffprobe isn't installed or timed out";
-        try
-        {
-            probe = HostTools.ProbeRecording(path);
-            // An ffprobe that can't run fails like a bad file does, so see that it runs before blaming the recording.
-            if (probe is { IsReadable: false } && HostTools.Run("ffprobe", "-version") is not { ExitCode: 0 }) throw new IOException(probe.Error);
-        }
+        try { probe = HostTools.ProbeRecording(path); }
         catch (Exception ex)
         {
             // The recorder finished, and a check that didn't finish says nothing about the file, so it's no reason to lose it.

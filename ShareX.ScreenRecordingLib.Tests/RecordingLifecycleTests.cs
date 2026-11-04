@@ -304,6 +304,20 @@ public sealed class RecordingLifecycleTests : IDisposable
         AssertDeliveredUnchecked(outcome, "shared libraries");
     }
 
+    // Catches: deleting a finished recording because ffprobe died while reading it, as in an OOM kill (137, here a real
+    // SIGKILL) or a crash (139). Only exit 1 is ffprobe rejecting the file.
+    [Theory]
+    [InlineData("KILL", "exit 137")]
+    [InlineData("139", "exit 139")]
+    public async Task ProbeThatDies_StillDeliversTheFile(string death, string reason)
+    {
+        Environment.SetEnvironmentVariable("FAKE_FFPROBE_DIE", death);
+
+        Outcome outcome = await Record(host.Options());
+
+        AssertDeliveredUnchecked(outcome, reason);
+    }
+
     // Catches: abort keeping a partial file, reporting a finished recording, or leaving the recorder running.
     [Fact]
     public async Task Abort_RemovesThePartialFileAndStopsTheRecorder()

@@ -1,9 +1,12 @@
 #!/bin/sh
 # Answers with what the test asked for: FAKE_FFPROBE_ERROR makes it fail, otherwise it prints FAKE_FFPROBE_JSON.
-# The real one answers -version whatever a file looks like: a bad file doesn't mean a broken tool.
-if [ "$1" = "-version" ]; then
-    exit 0
-fi
+# FAKE_FFPROBE_DIE ends it the way a dying tool does: KILL is a real SIGKILL, a number is that exit code. No real SIGSEGV,
+# because that would reach the desktop's crash handler.
+case "$FAKE_FFPROBE_DIE" in
+    "") ;;
+    KILL) kill -KILL $$ ;;
+    *) exit "$FAKE_FFPROBE_DIE" ;;
+esac
 if [ -n "$FAKE_FFPROBE_ERROR" ]; then
     printf '%s\n' "$FAKE_FFPROBE_ERROR" >&2
     exit 1
