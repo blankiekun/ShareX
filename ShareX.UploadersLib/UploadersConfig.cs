@@ -480,6 +480,7 @@ namespace ShareX.UploadersLib
         #region Zero Width Shortener
 
         public string ZeroWidthShortenerURL { get; set; } = "https://api.zws.im";
+        [JsonEncrypt]
         public string ZeroWidthShortenerToken { get; set; } = "";
 
         #endregion

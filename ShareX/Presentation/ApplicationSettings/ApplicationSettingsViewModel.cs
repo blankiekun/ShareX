@@ -711,6 +711,17 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         });
     }
 
+    // A backup has to hold secrets in the clear to survive the move to another machine, so the user chooses knowing that.
+    public bool ConfirmExport()
+    {
+        return !ExportSettings || MessageBox.Show(
+            Strings.SettingManager_ExportPlaintextWarning,
+            "ShareX - " + Strings.Confirmation,
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Warning,
+            ShareX.AvaloniaUI.MessageBoxDefaultButton.Button2) == MessageBoxResult.Yes;
+    }
+
     public async Task ExportAsync(string path)
     {
         IsBusy = true;
@@ -747,23 +758,29 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
         try
         {
-            bool result = await Task.Run(() =>
+            BackupImportReport report = await Task.Run(() =>
             {
-                if (!SettingManager.Import(path))
+                BackupImportReport importReport = SettingManager.Import(path);
+
+                if (importReport != null)
                 {
-                    return false;
+                    SettingManager.LoadAllSettings();
                 }
 
-                SettingManager.LoadAllSettings();
-                return true;
+                return importReport;
             });
 
-            if (result)
+            if (report != null)
             {
                 LanguageHelper.ChangeLanguage(Settings.Language);
                 Reload();
                 await UpdateApplicationAsync();
                 StatusMessage = string.Format(Strings.ApplicationSettingsWindow_BackupImportedFrom, path);
+
+                string reportText = report.ToText();
+                DebugHelper.WriteLine("Backup import report:\r\n" + reportText);
+                InvokeOnMainThread(() => MessageBox.Show(reportText, "ShareX - " + Strings.SettingManager_ImportReportTitle,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information));
             }
             else
             {

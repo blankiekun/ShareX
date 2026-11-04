@@ -557,6 +557,13 @@ namespace ShareX.HelpersLib
 
         public static void CreateDirectory(string directoryPath)
         {
+            // A settings folder copied from Windows can still hold these, and on Linux it would make a folder literally named "C:\Users\...".
+            if (BackupMigration.IsWindowsPath(directoryPath))
+            {
+                DebugHelper.WriteLine($"Not creating a folder from a Windows path: {directoryPath}");
+                return;
+            }
+
             if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
             {
                 try

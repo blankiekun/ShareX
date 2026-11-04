@@ -137,6 +137,11 @@ public partial class ApplicationSettingsWindow : Window
 
     private async void OnExportClick(object? sender, RoutedEventArgs e)
     {
+        if (!ViewModel.ConfirmExport())
+        {
+            return;
+        }
+
         string machineName = FileHelpers.SanitizeFileName(Environment.MachineName.ToLowerInvariant());
         IStorageFile? file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {

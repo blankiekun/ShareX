@@ -110,6 +110,19 @@ namespace ShareX.HelpersLib
         {
             ApplicationVersion = Helpers.GetApplicationVersion();
 
+            return SerializeToMemoryStream(encryptSecrets);
+        }
+
+        // Keeps ApplicationVersion as loaded, so the next normal load still runs the upgrade steps for the version these settings came from.
+        public bool SaveImported(string filePath)
+        {
+            FilePath = filePath;
+
+            return SaveInternal(FilePath);
+        }
+
+        private MemoryStream SerializeToMemoryStream(bool encryptSecrets)
+        {
             MemoryStream ms = new MemoryStream();
             SaveToStream(ms, encryptSecrets, true);
             return ms;
@@ -134,7 +147,7 @@ namespace ShareX.HelpersLib
 
                         // Serialize before touching the disk: a secret that can't be encrypted throws here,
                         // and the settings file, its backup and any leftover temp file stay as they were.
-                        using (MemoryStream memoryStream = SaveToMemoryStream(true))
+                        using (MemoryStream memoryStream = SerializeToMemoryStream(true))
                         using (FileStream fileStream = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, FileOptions.WriteThrough))
                         {
                             memoryStream.WriteTo(fileStream);
@@ -248,6 +261,37 @@ namespace ShareX.HelpersLib
             return setting;
         }
 
+        // For settings that aren't on disk yet. Unlike Load, a failure throws instead of giving defaults.
+        public static T LoadFromJson(string json, string backupFolder = null)
+        {
+            using (StringReader stringReader = new StringReader(json))
+            using (JsonTextReader jsonReader = new JsonTextReader(stringReader))
+            {
+                T settings = CreateLoadSerializer().Deserialize<T>(jsonReader);
+
+                if (settings == null)
+                {
+                    throw new JsonSerializationException($"{typeof(T).Name} object is null.");
+                }
+
+                settings.BackupFolder = backupFolder;
+                settings.CreateBackup = !string.IsNullOrEmpty(backupFolder);
+
+                return settings;
+            }
+        }
+
+        private static JsonSerializer CreateLoadSerializer()
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.ContractResolver = new EncryptedStringPropertyResolver();
+            serializer.Converters.Add(new StringEnumConverter());
+            serializer.DateTimeZoneHandling = DateTimeZoneHandling.Local;
+            serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
+            serializer.Error += Serializer_Error;
+            return serializer;
+        }
+
         private static T LoadInternal(string filePath, List<string> fallbackFilePaths = null)
         {
             string typeName = typeof(T).Name;
@@ -267,13 +311,7 @@ namespace ShareX.HelpersLib
                             using (StreamReader streamReader = new StreamReader(fileStream))
                             using (JsonTextReader jsonReader = new JsonTextReader(streamReader))
                             {
-                                JsonSerializer serializer = new JsonSerializer();
-                                serializer.ContractResolver = new EncryptedStringPropertyResolver();
-                                serializer.Converters.Add(new StringEnumConverter());
-                                serializer.DateTimeZoneHandling = DateTimeZoneHandling.Local;
-                                serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
-                                serializer.Error += Serializer_Error;
-                                settings = serializer.Deserialize<T>(jsonReader);
+                                settings = CreateLoadSerializer().Deserialize<T>(jsonReader);
                             }
 
                             if (settings == null)

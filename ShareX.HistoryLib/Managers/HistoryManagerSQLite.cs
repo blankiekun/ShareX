@@ -28,11 +28,17 @@ using Newtonsoft.Json;
 using ShareX.HelpersLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ShareX.HistoryLib
 {
+    public readonly record struct HistoryMergeResult(int Added, int AlreadyPresent, int Unreadable);
+
     public class HistoryManagerSQLite : HistoryManager, IDisposable
     {
+        private static readonly string[] mergedColumns = { "FileName", "FilePath", "DateTime", "Type", "Host", "URL", "ThumbnailURL", "DeletionURL", "ShortenedURL", "Tags" };
+
         private SqliteConnection connection;
 
         public HistoryManagerSQLite(string filePath) : base(filePath)
@@ -112,7 +118,167 @@ CREATE TABLE IF NOT EXISTS History (
                 }
             }
 
-            return items;
+            // By date, not row order: merged rows get new ids however old they are, and the windows reverse this list to put the newest first.
+            return items.OrderBy(item => item.DateTime).ToList();
+        }
+
+        // Adds the rows of another History.db, which may come from another machine. Values are copied as stored, so paths stay as written
+        // and a second merge of the same file finds every row already here. Rows are compared on every column but Id, so two rows
+        // identical in all of them count as one. All of it lands or none does.
+        public HistoryMergeResult MergeFrom(string sourceFilePath)
+        {
+            SqliteConnectionStringBuilder sourceConnection = new SqliteConnectionStringBuilder()
+            {
+                DataSource = sourceFilePath,
+                Mode = SqliteOpenMode.ReadOnly,
+                Pooling = false
+            };
+
+            using (SqliteConnection source = new SqliteConnection(sourceConnection.ToString()))
+            {
+                source.Open();
+                CheckMergeSource(source);
+
+                string columns = string.Join(", ", mergedColumns);
+                HashSet<string> known = new HashSet<string>(StringComparer.Ordinal);
+
+                using (SqliteCommand cmd = new SqliteCommand($"SELECT {columns} FROM History;", connection))
+                using (SqliteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (TryReadMergeRow(reader, out string[] row))
+                        {
+                            known.Add(GetMergeKey(row));
+                        }
+                    }
+                }
+
+                int added = 0, alreadyPresent = 0, unreadable = 0;
+
+                using (SqliteTransaction transaction = connection.BeginTransaction())
+                using (SqliteCommand insert = connection.CreateCommand())
+                using (SqliteCommand select = new SqliteCommand($"SELECT {columns} FROM History;", source))
+                using (SqliteDataReader reader = select.ExecuteReader())
+                {
+                    insert.Transaction = transaction;
+                    insert.CommandText = $"INSERT INTO History ({columns}) VALUES ({string.Join(", ", mergedColumns.Select(column => "@" + column))});";
+                    SqliteParameter[] parameters = mergedColumns.Select(column => insert.Parameters.Add("@" + column, SqliteType.Text)).ToArray();
+
+                    while (reader.Read())
+                    {
+                        if (!TryReadMergeRow(reader, out string[] row) || !IsLoadableMergeRow(row))
+                        {
+                            unreadable++;
+                        }
+                        else if (!known.Add(GetMergeKey(row)))
+                        {
+                            alreadyPresent++;
+                        }
+                        else
+                        {
+                            for (int i = 0; i < row.Length; i++)
+                            {
+                                parameters[i].Value = row[i] ?? (object)DBNull.Value;
+                            }
+
+                            insert.ExecuteNonQuery();
+                            added++;
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+
+                return new HistoryMergeResult(added, alreadyPresent, unreadable);
+            }
+        }
+
+        // The file came from elsewhere: nothing but a plain, intact History table gets read.
+        private static void CheckMergeSource(SqliteConnection source)
+        {
+            string RunScalar(string sql)
+            {
+                using (SqliteCommand cmd = new SqliteCommand(sql, source))
+                {
+                    return cmd.ExecuteScalar()?.ToString();
+                }
+            }
+
+            RunScalar("PRAGMA trusted_schema = OFF;");
+
+            if (RunScalar("PRAGMA quick_check(1);") != "ok")
+            {
+                throw new InvalidDataException("The history file is damaged.");
+            }
+
+            if (RunScalar("SELECT type FROM sqlite_master WHERE name = 'History' COLLATE NOCASE;") != "table")
+            {
+                throw new InvalidDataException("The file has no history table.");
+            }
+
+            HashSet<string> columns = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            using (SqliteCommand cmd = new SqliteCommand("SELECT name FROM pragma_table_info('History');", source))
+            using (SqliteDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    columns.Add(reader.GetString(0));
+                }
+            }
+
+            if (!mergedColumns.All(columns.Contains))
+            {
+                throw new InvalidDataException("The history table has unexpected columns.");
+            }
+        }
+
+        // False for a value that isn't text, which History.db never stores itself.
+        private static bool TryReadMergeRow(SqliteDataReader reader, out string[] row)
+        {
+            row = new string[mergedColumns.Length];
+
+            for (int i = 0; i < row.Length; i++)
+            {
+                if (reader.IsDBNull(i))
+                {
+                    continue;
+                }
+
+                if (reader.GetValue(i) is not string text)
+                {
+                    return false;
+                }
+
+                row[i] = text;
+            }
+
+            return true;
+        }
+
+        // Load parses these two for every row and one failure loses the whole list, so a bad row can't be let in.
+        private static bool IsLoadableMergeRow(string[] row)
+        {
+            if (!DateTime.TryParse(row[Array.IndexOf(mergedColumns, "DateTime")], out _))
+            {
+                return false;
+            }
+
+            try
+            {
+                JsonConvert.DeserializeObject<Dictionary<string, string>>(row[Array.IndexOf(mergedColumns, "Tags")] ?? "{}");
+                return true;
+            }
+            catch (JsonException)
+            {
+                return false;
+            }
+        }
+
+        private static string GetMergeKey(string[] row)
+        {
+            return string.Join('\u001f', row.Select(value => value ?? "\u0000"));
         }
 
         protected override bool Append(string dbPath, IEnumerable<HistoryItem> historyItems)

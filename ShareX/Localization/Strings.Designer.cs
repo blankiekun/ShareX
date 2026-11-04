@@ -2111,6 +2111,91 @@ namespace ShareX.Localization {
                 return ResourceManager.GetString("ApplicationSettingsWindow_ImportingBackup", resourceCulture);
             }
         }
+        public static string SettingManager_ExportPlaintextWarning {
+            get {
+                return ResourceManager.GetString("SettingManager_ExportPlaintextWarning", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportTitle {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportTitle", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportSignInAgain {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportSignInAgain", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportSecretsImported {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportSecretsImported", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportPathsMapped {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportPathsMapped", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportPathsReset {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportPathsReset", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportTurnedOff {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportTurnedOff", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportDroppedEffects {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportDroppedEffects", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportHistory {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportHistory", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportHistoryBackup {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportHistoryBackup", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportHistoryFailed {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportHistoryFailed", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportSkipped {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportSkipped", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportReportPlaintextWarning {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportReportPlaintextWarning", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportNothingFound {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportNothingFound", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportFileDamaged {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportFileDamaged", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportNeedsWallet {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportNeedsWallet", resourceCulture);
+            }
+        }
+        public static string SettingManager_ImportSaveFailed {
+            get {
+                return ResourceManager.GetString("SettingManager_ImportSaveFailed", resourceCulture);
+            }
+        }
         public static string ApplicationSettingsWindow_BackupImportedFrom {
             get {
                 return ResourceManager.GetString("ApplicationSettingsWindow_BackupImportedFrom", resourceCulture);

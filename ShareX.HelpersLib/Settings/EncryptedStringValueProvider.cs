@@ -32,7 +32,7 @@ namespace ShareX.HelpersLib
     public class EncryptedStringValueProvider : IValueProvider
     {
         private const string encryptedTag = "$ShareXEncrypted$";
-        // Written by Windows ShareX. Can't be decrypted here, so it's kept byte-identical until M8 decides how it crosses over.
+        // Written by Windows ShareX. It can't be decrypted here, so a settings folder copied across loads with these cleared.
         private const string windowsEncryptedTag = "$DPAPIEncrypted$";
 
         private PropertyInfo targetProperty;
@@ -47,8 +47,7 @@ namespace ShareX.HelpersLib
         {
             string value = (string)targetProperty.GetValue(target);
 
-            if (string.IsNullOrEmpty(value) || value.StartsWith(encryptedTag, StringComparison.Ordinal) ||
-                value.StartsWith(windowsEncryptedTag, StringComparison.Ordinal))
+            if (string.IsNullOrEmpty(value) || value.StartsWith(encryptedTag, StringComparison.Ordinal))
             {
                 return value;
             }
@@ -77,7 +76,10 @@ namespace ShareX.HelpersLib
                 }
                 else if (text.StartsWith(windowsEncryptedTag, StringComparison.Ordinal))
                 {
-                    LogUnusableSecret("it was encrypted by Windows ShareX");
+                    // Sending it would upload with a garbage credential, and no build here can ever read it.
+                    DebugHelper.WriteLine($"Secret {targetProperty.DeclaringType.Name}.{targetProperty.Name} was encrypted by Windows ShareX and can't be read here. " +
+                        "It was cleared, so sign in to that destination again.");
+                    text = "";
                 }
             }
 
