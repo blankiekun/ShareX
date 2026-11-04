@@ -68,6 +68,8 @@ internal static class ApplicationLifecycle
         // With no recording running, the signal keeps its default action.
         if (!ScreenRecordManager.IsRecording && Volatile.Read(ref _signalExitStarted) == 0)
         {
+            // But an active global shortcut would go on taking its key from everything else, firing at nothing.
+            _hotkeyHost?.ReleaseHotkeysForExit();
             return;
         }
 

@@ -33,7 +33,7 @@ using System.Threading.Tasks;
 namespace ShareX;
 
 /// <summary>
-/// Coordinates the Windows hotkey host and desktop notification-area icon.
+/// Coordinates the hotkey host and desktop notification-area icon.
 /// Avalonia owns the application lifetime and all visible windows.
 /// </summary>
 internal sealed class MainForm
@@ -44,12 +44,15 @@ internal sealed class MainForm
 
     public MainForm()
     {
-        _hotkeyHost = new NullHotkeyHost();
-        _hotkeyHost.NativeMessageReceived += OnNativeMessage;
+        // A -multi instance gets a component of its own, so it can't remove or fire the first instance's hotkeys;
+        // its keys are then the first instance's and show as failed.
+        _hotkeyHost = StartupOptions.MultiInstance
+            ? new KGlobalAccelHotkeyHost("sharex-" + Environment.ProcessId, true)
+            : new KGlobalAccelHotkeyHost("sharex", false);
         _hotkeyHost.Closed += OnHostClosed;
 
         ApplyIconSetting();
-        TrayIconService = new DesktopTrayIconService(_hotkeyHost, ShareXResources.IconBytes, ApplicationInfo.TitleShort, ApplicationState.Settings.ShowTray);
+        TrayIconService = new DesktopTrayIconService(ShareXResources.IconBytes, ApplicationInfo.TitleShort, ApplicationState.Settings.ShowTray);
     }
 
     internal void Initialize() => _hotkeyHost.Initialize();
@@ -97,30 +100,7 @@ internal sealed class MainForm
 
     internal void ExitApplication() => _hotkeyHost.Close();
 
-    private void OnNativeMessage(object? sender, NativeWindowMessageEventArgs m)
-    {
-        if (m.Message == (int)WindowsMessages.QUERYENDSESSION)
-        {
-            EndSessionReasons reason = (EndSessionReasons)m.LParam.ToInt64();
-            if (reason.HasFlag(EndSessionReasons.ENDSESSION_CLOSEAPP))
-            {
-                NativeMethods.RegisterApplicationRestart("-silent", 0);
-            }
-
-            m.Result = new IntPtr(1);
-            m.Handled = true;
-        }
-        else if (m.Message == (int)WindowsMessages.ENDSESSION)
-        {
-            if (m.WParam != IntPtr.Zero)
-            {
-                ApplicationLifecycle.CloseSequence();
-            }
-
-            m.Result = IntPtr.Zero;
-            m.Handled = true;
-        }
-    }
+    internal void ReleaseHotkeysForExit() => _hotkeyHost.ReleaseForExit();
 
     private void OnHostClosed(object? sender, EventArgs e)
     {

@@ -42,7 +42,7 @@ The other tables overlap with the checklist, so their rows aren't added to these
 - **Window handles are a trap.** Under X11 the handle is a non-zero XID, so `handle != IntPtr.Zero` guards pass and the
   code reaches `user32`, which should throw `DllNotFoundException`. Windows version checks had a similar problem: fixed in M2,
   every `Helpers.IsWindows*` is now false off Windows.
-- **The default hotkeys clash with KDE.** Print and Shift+Print belong to Spectacle on this machine.
+- **The default hotkeys clashed with KDE.** Print and Shift+Print belong to Spectacle on this machine. M5 moved those two defaults; a saved hotkey on either shows as failed.
 
 ## 2. Fix these first
 
@@ -52,7 +52,7 @@ The other tables overlap with the checklist, so their rows aren't added to these
 | 2 | Done in M1: props files weren't imported on Linux | `Directory.Build.props`, `Directory.Build.targets` | MSBuild looks for `Directory.Build.*` and Linux is case-sensitive, so the build got version 1.0.0. Renamed, with the RID set to `linux-x64` |
 | 3 | Done in M1: resource path casing | `ShareX.UploadersLib/Properties/Resources.resx:17` | Pointed to `..\resources\oauthcallbackpage.html`; the file is `Resources/OAuthCallbackPage.html` |
 | 4 | Done in M1: Windows-only targets | All projects now target `net10.0`; `Microsoft.WindowsDesktop.App` removed from `ShareX.HelpersLib.csproj` | Was `NETSDK1100` on Linux |
-| 5 | Done in M1: hotkey host crashed start-up | `ShareX/Forms/MainForm.cs:47`, `ShareX.HelpersLib/Input/NullHotkeyHost.cs` | `MainForm` now builds a host that registers nothing, so hotkeys do nothing until M5 |
+| 5 | Done in M1: hotkey host crashed start-up | `ShareX/Forms/MainForm.cs:47` | M5 replaced the host that registered nothing with `KGlobalAccelHotkeyHost` |
 | 6 | Done in M2: portable mode collided with the binary | `ShareX/Infrastructure/AppPaths.cs:42` | The folder is now `ShareXData`. `-portable` starts, with no "Avalonia is already initialized" crash |
 
 ## 3. Suggested order
@@ -95,6 +95,14 @@ fix this later. `xdotool` positions reach KWin as logical at every scale, unlike
 **Hotkeys.** Use KGlobalAccel on KDE: it supports press-any-key capture and per-key register and unregister. The
 GlobalShortcuts portal can only hint a trigger and has the user confirm in a dialog; it's the fallback for Flatpak. Don't
 assume a requested key became active.
+
+What M5 found on KWin and KGlobalAccel 6.8, all in a virtual session:
+- **The read-back can't detect a clash.** `setShortcutKeys` stores and returns the requested key even when another action holds it; both then list the key, and the first one goes on firing. So `KGlobalAccelHotkeyHost` asks `globalShortcutsByKey` first, takes nothing that's held, then checks the read-back and that it's the only holder.
+- **Action names last one run.** Each start removes the component's actions and registers from ShareX's settings, so a rebind in System Settings doesn't survive a restart. While running, the rebind turns the hotkey Failed, and opening ShareX's hotkey settings puts ShareX's key back.
+- **On exit, normal or SIGTERM, actions go inactive.** They stay in `kglobalshortcutsrc` and hold their keys against other programs, but don't fire. After SIGKILL they stay active, so the key is taken and fires at nothing until the next ShareX start.
+- **Shifted digits and punctuation register as the typed character.** KWin fired `Ctrl+!` for Ctrl+Shift+1 and never `Ctrl+Shift+1`. The table assumes a US layout, so on another layout such a hotkey shows as registered and doesn't fire.
+- **`invokeShortcut` ignores inactive state,** so it can't show that an inactive action is quiet; use a key press. `xdotool` through XWayland with `XwaylandEisNoPrompt` does reach KWin's global shortcuts and is what the tests used. It doesn't pass through the kernel, so a physical press is still the owner's check, Alt+Print above all: the kernel handles Alt+SysRq itself.
+- **`--no-global-shortcuts` leaves kglobalaccel on the bus.** Registering works in such a session but keys don't fire.
 
 **Recording.** Owner decision (2026-11-03): build on `gpu-screen-recorder` (gsr) as a host dependency, accepting its `cap_sys_admin` helper and capture with no consent prompt. `ScreenRecorder` keeps its public surface and spawns gsr with an argument list, clearing `LD_LIBRARY_PATH`. It checks the helper with `getcap` first and treats `no drm found` or `drmfb handle is NULL` on stderr as failure even with exit 0, because that case is a valid all-black MP4. It controls gsr through `-ipc` and uses the socket plus `-write-first-frame-ts` as the started signal. gsr writes to a hidden temporary name, which then moves over the empty `CreateNew` reservation without clobbering anything else.
 - **Spanning regions are refused, not clipped.** gsr gives wrong pixels for them, and clipping would silently drop part of the selection. The refusal explains why before anything starts. Monitor bounds come from `kscreen-doctor -j`.
@@ -157,9 +165,9 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 |---|---|---|---|---|---|---|
 | Fullscreen | ShareX/CaptureHelpers/CaptureFullscreen.cs:35 | Done in M4 | READY | `spectacle -f`. Pixels match KWin geometry on both outputs (M4; owner confirmed on the real desktop, 2026-11-03) | M | Med |
 | Monitor | ShareX/Presentation/MainWindow/MainMenuBuilder.cs:185 | Done in M4 | UNVERIFIED | `spectacle -f`, cropped. Spectacle can't name a monitor (M4, virtual session only) | M | Med |
-| ActiveMonitor | ShareX/CaptureHelpers/CaptureActiveMonitor.cs:35 | Done in M4; new item in the Capture menu | READY | `spectacle -m`, which follows the active window's output, not the cursor (M4; owner confirmed on the real desktop, 2026-11-03) | M | Med |
+| ActiveMonitor | ShareX/CaptureHelpers/CaptureActiveMonitor.cs:35 | Done in M4; new item in the Capture menu | READY | `spectacle -m`, which follows the active window's output, not the cursor (M4; owner confirmed on the real desktop, 2026-11-03). From a hotkey that is the monitor in use; from the menu it is ShareX's (M5, virtual session) | M | Med |
 | Window | ShareX/CaptureHelpers/CaptureWindow.cs:47; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:156 | Done in M4 | LIMITED: spectacle only captures the active window, so the window is activated first. Minimized windows aren't listed, and entries have no icon | KWin script list, `spectacle -a` (M4, virtual session only) | L | Med |
-| ActiveWindow | ShareX/CaptureHelpers/CaptureActiveWindow.cs:33 | Done in M4; new item in the Capture menu | UNVERIFIED | `spectacle -a`, or `-a -S`, `-a -e -S` by setting. From the menu it captures the window KWin activates when ShareX hides, and KWin stayed on ShareX's monitor in tests (M4, virtual session only) | M | Med |
+| ActiveWindow | ShareX/CaptureHelpers/CaptureActiveWindow.cs:33 | Done in M4; new item in the Capture menu | UNVERIFIED | `spectacle -a`, or `-a -S`, `-a -e -S` by setting. A hotkey captures the window in use, since nothing of ShareX takes focus first. From the menu it captures the window KWin activates when ShareX hides, and KWin stayed on ShareX's monitor in tests (M4 and M5, virtual session only) | M | Med |
 | Region | ShareX/CaptureHelpers/CaptureRegion.cs:46 | Done in M4 | LIMITED: annotations are per monitor; cursor is drawn into the frozen image | One overlay per output over a frozen `spectacle -f` (M4, virtual session only); see 5.4. From the main window's menu it waits 400 ms first, so KWin's fade of the closed menu isn't captured (virtual session, default animation speed; a slower Plasma animation setting would need longer, and hotkeys don't wait) | L | Med |
 | CustomRegion | TH:136 | Done in M4: same code as LastRegion, not run itself | UNVERIFIED | `spectacle -f`, cropped | S | Med |
 | LastRegion | TH:142 | Done in M4 | UNVERIFIED | `spectacle -f`, cropped (M4, virtual session only) | S | Med |
@@ -267,7 +275,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| DisableHotkeys | TH:391; TH:2174 | Owner hotkeys | SWAP | Portal GlobalShortcuts (V), KGlobalAccel (A) | S | Med |
+| DisableHotkeys | TH:391; TH:2174 | Done in M5 | UNVERIFIED | KGlobalAccel: disabling releases every key but its own, enabling takes them back (virtual session) | S | Med |
 | OpenMainWindow | TH:394 | Window activation | LIMITED: focus-stealing prevention may block raising | XDG activation (A) | S | Low |
 | OpenScreenshotsFolder | TH:397; TH:864; ShareX.HelpersLib/Helpers/FileHelpers.cs:294 | Trailing-backslash bug. M3: `ShowFolders` ran in a virtual KWin session | READY | xdg-open (V) | S | High |
 | OpenHistory | TH:400; TH:878 | Owner this report: HistoryLib | UNVERIFIED | None | S | Med |
@@ -335,7 +343,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Custom uploaders, import | TH:2412; ShareX/ShareXCLIManager.cs:103 | Association only | SWAP | See Part 2 | S | High |
 | Image effect import | TH:2509; ShareX/ShareXCLIManager.cs:118 | Association only | SWAP | See Part 2 | S | High |
 | Destination settings | ShareX.UploadersLib/Presentation/DestinationSettings/DestinationSettingsAccounts.cs:427 | Browser and secrets | UNVERIFIED | See Part 2 | S | Med |
-| Task and hotkey workflows | ShareX/CaptureHelpers/CaptureBase.cs:138; TH:77 | Owner hotkeys for trigger | UNVERIFIED | Portal GlobalShortcuts (V) | M | Med |
+| Task and hotkey workflows | ShareX/CaptureHelpers/CaptureBase.cs:138; TH:77 | Hotkeys done in M5 | UNVERIFIED | KGlobalAccel | M | Med |
 | Actions presets | TH:748-761 | Registry program search | SWAP | `.desktop` lookup (A) | S | High |
 | Command line | ShareX/ShareXCLIManager.cs:58; ShareX.HelpersLib/CLI/CLIManager.cs:63 | `-` switches, safe for Unix paths | READY | None | S | High |
 | Watch folders | ShareX/WatchFolder.cs:58 | FileSystemWatcher | UNVERIFIED | None | S | Med |
@@ -350,7 +358,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Edit with ShareX | ShareX/IntegrationHelpers.cs:51 | Registry | SWAP | KIO service menu (V) | S | High |
 | Send To | ShareX/Presentation/ApplicationSettings/ApplicationSettingsViewModel.cs:388 | Explorer Send To | DROP | Service menu covers it (A) | S | Med |
 | Browser extension hosts | ShareX/IntegrationHelpers.cs:75-78; ShareX.NativeMessagingHost/Program.cs:52 | Registry; hard-coded `ShareX.exe` | SWAP | Per-browser manifest folders (A) | M | High |
-| Tray icon | ShareX/Presentation/MainWindow/TrayIconService.cs:77-85 | Windows path branched | UNVERIFIED | Avalonia TrayIcon on SNI (A) | S | Med |
+| Tray icon | ShareX/Presentation/MainWindow/TrayIconService.cs:77 | Windows path deleted in M5 | UNVERIFIED | Avalonia TrayIcon on SNI (A) | S | Med |
 | Toast notifications, 12 click actions | ShareX/Enums.cs:373; ShareX/Presentation/Notification/NotificationWindow.cs:564 | Custom positioned window | LIMITED: see Presentation scan | notify-send (V); notification portal (V) | M | Med |
 | Thumbnail click actions (7) | ShareX/Enums.cs:389 | Open-folder and thumbnail dependencies | UNVERIFIED | See Part 2 | S | Med |
 | File exists prompt (4 actions) | ShareX/Enums.cs:400; TH:782 | None found | UNVERIFIED | None | S | Med |
@@ -358,7 +366,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Taskbar progress | WT:391; ShareX.HelpersLib/Native/TaskbarManager.cs:42 | Taskbar COM | SWAP | Unity LauncherEntry (A) | S | Low |
 | Hide desktop icons | ShareX/CaptureHelpers/CaptureBase.cs:86; ShareX.HelpersLib/DesktopIconManager.cs:30 | Explorer desktop | DROP | None | S | High |
 | Hide taskbar during capture | ShareX/Presentation/TaskSettings/TaskSettingsPageBuilder.cs:458 | Windows taskbar | DROP | None | S | High |
-| Restart after Windows update | ShareX/Forms/MainForm.cs:107 | RegisterApplicationRestart | DROP | None | S | High |
+| Restart after Windows update | Deleted in M5 | RegisterApplicationRestart | DROP | None | S | High |
 | Auto-update, dev builds | ShareX.HelpersLib/UpdateChecker/GitHubUpdateChecker.cs:174; TH:2634 | Setup `.exe` assets | DROP | Distribution packaging (A) | S | High |
 | Steam build | ShareX/Presentation/ApplicationSettings/ApplicationSettingsViewModel.cs:162 | Windows launcher | DROP | None | S | Med |
 | Microsoft Store build | ShareX/Enums.cs:30-31 | Windows.ApplicationModel | DROP | None | S | High |
@@ -404,10 +412,10 @@ The only table whose rows were really run; see its evidence column.
 | PhotoEditor, NativeMessagingHost | 0 errors; CA1416 6 (`ImageIO.cs`) and 0; `host-manifest-firefox.json:4` names an `.exe` | SWAP | Linux manifest with an absolute path, installed in browser native-messaging folders | S | Medium |
 | ShareX project | 0 errors; main window ran with a throwaway home and no session bus; `Windows.ApplicationModel` is behind `#if MicrosoftStore` | READY | None needed to build and open; tray not exercised | S | High |
 | `UseNls` | `ShareX.csproj:59`; present in the runtime config and the app still ran | READY | Remove on Linux for tidiness | S | Medium |
-| Global hotkeys | Crash fixed in M1: `MainForm` builds `NullHotkeyHost`, which registers nothing, so hotkeys do nothing | LIMITED | KGlobalAccel or the GlobalShortcuts portal; no free key grabbing | L | High |
+| Global hotkeys | `KGlobalAccelHotkeyHost` since M5; ran in a virtual session, a physical key press is the owner's check | UNVERIFIED | KGlobalAccel; no free key grabbing: a key another program holds shows as failed | L | High |
 | Registry | Logged `PlatformNotSupportedException` from `RegistryHelpers.cs:81`, not fatal | SWAP | Config files | M | High |
 | Portable mode | `AppPaths.cs:42`: folder renamed `ShareXData` in M2. `-portable` run in a virtual session: starts, uses that folder, no "Avalonia is already initialized" | READY | None. An unwritable app folder was still running after 12 s with no crash text; by the code it falls back to `~/Documents/ShareX` | S | High |
-| Tray icon | `TrayIconService.cs:85` uses Avalonia `TrayIcon` | UNVERIFIED | Status Notifier; I did not confirm our item registered | S | Medium |
+| Tray icon | `TrayIconService.cs:77` uses Avalonia `TrayIcon` | UNVERIFIED | Status Notifier; I did not confirm our item registered | S | Medium |
 | ShareX.Setup | Removed in M1 | DROP | Packaging script | S | High |
 | ShareX.Steam | Removed in M1 | DROP | None needed | S | High |
 | Steam, MicrosoftStore configs | `Directory.Build.props:21-33`; the `.sln` maps them for all projects | DROP | Leave out of the Linux build matrix | S | High |
@@ -530,12 +538,12 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | Feature | Evidence | Windows dependency | Label | KDE Wayland replacement | Effort | Confidence |
 |---|---|---|---|---|---|---|
 | Hotkey data model | `HelpersLib/Input/HotkeyInfo.cs:33-70`, `InputKey.cs`, `InputMouseButton.cs` | VK-style values | READY | Add InputKey to Qt key mapping in the backend | S | High |
-| HotkeyManager | `ShareX/HotkeyManager.cs:57-68,100-129` | Via `IHotkeyHost`, `IsActiveWindowFullscreen` | READY | Keep | S | High |
-| Hotkey host | `WindowsHotkeyHost.cs:89,97,114` (unused since M1; `NullHotkeyHost` runs instead); `IHotkeyHost.cs:36-37`; `WindowsNativeWindow.cs:48` | RegisterHotKey, atoms, HWND, WM_HOTKEY | SWAP | KGlobalAccel: `doRegister`, `setShortcut`, `unregister`, `globalShortcutPressed`; remove `Handle`, `NativeMessageReceived` from the interface | M | Med-High |
-| Default hotkeys | `HotkeyManager.cs:227-231` | Assumes PrintScreen is free | LIMITED | Print and Shift+Print belong to Spectacle here: 2 of 5 defaults conflict; prompt or remap | S | High |
-| Press-any-key UI | `HotkeySettingsWindow.axaml.cs:165-208`; `HotkeySettingsAvaloniaService.cs:151-182,247` | PrintScreen KeyUp workaround | LIMITED | Keep with KGlobalAccel; KWin may swallow bound keys; `blockGlobalShortcuts` exists, untested | M | Med |
-| Repeat limit, fullscreen suppression | `WindowsHotkeyHost.cs:155-163`; `HotkeyManager.cs:59`; `CaptureHelpers.cs` | M4 moved the check to KWin's `fullScreen`; limiter is M5 | SWAP | Keep limiter | M | Med-Low |
-| Session end | `MainForm.cs:102-113` | QUERYENDSESSION, RegisterApplicationRestart | SWAP | Avalonia lifetime shutdown; session restore not investigated | S | Med |
+| HotkeyManager | `ShareX/HotkeyManager.cs:69-80,112-141` | Via `IHotkeyHost`, `IsActiveWindowFullscreen` | READY | Keep | S | High |
+| Hotkey host | `KGlobalAccelHotkeyHost.cs`, `QtKeys.cs`; `IHotkeyHost.cs` | Done in M5; `WindowsHotkeyHost`, `NullHotkeyHost` deleted | UNVERIFIED | KGlobalAccel: `globalShortcutsByKey`, `doRegister`, `setShortcutKeys`, `unregister`, `setInactive`, `globalShortcutPressed`. Register, change, remove, restart and rebind ran in a virtual session with XTEST key presses; needs the owner's physical press | M | Med-High |
+| Default hotkeys | `HotkeyManager.cs:243-253` | Print and Shift+Print clashed with Spectacle | UNVERIFIED | Full screen is Meta+Ctrl+F and screen recording Meta+Ctrl+V; the other three stay. All five are free against KWin, Spectacle and Plasma's stock shortcuts (virtual session); the owner's own bindings weren't read. A saved config keeps its old keys, which show as failed | S | High |
+| Press-any-key UI | `HotkeySettingsWindow.axaml.cs:165-199`; `HotkeySettingsAvaloniaService.cs:189-192,242` | PrintScreen KeyUp workaround deleted in M5 | LIMITED | `blockGlobalShortcuts` during capture: a bound key otherwise fires its shortcut; with it Print, Meta+W, Alt+Tab and Meta combinations all reached the box (XTEST). Lost: it is desktop-wide, so ShareX killed during capture leaves every desktop shortcut off until the next ShareX start. VT switching and Meta alone as a launcher key not run | M | Med |
+| Repeat limit, fullscreen suppression | `HotkeyRepeatLimiter` in `KGlobalAccelHotkeyHost.cs`; `HotkeyManager.cs:69-71`; `CaptureHelpers.cs` | Done in M5, with M4's KWin `fullScreen` check | UNVERIFIED | Both ran in a virtual session. Only `globalShortcutPressed` is used, so holding a key should trigger once rather than repeat; a physical hold not run | M | Med-Low |
+| Session end | `ApplicationLifecycle.cs:66-76` | QUERYENDSESSION handler deleted in M5 | SWAP | Avalonia lifetime shutdown; SIGTERM makes hotkeys inactive, then takes its default action; session restore not investigated | S | Med |
 | Low-level mouse hook | `MouseHighlighterMouseHook.cs:74,140` | WH_MOUSE_LL (only hook in repo) | LIMITED | No passive global hook; evdev gives clicks (needs `input` group), no position; polling needs KWin script; maybe KWin mouse-click effect (assumed) | L | Med |
 | Highlighter overlay | `MouseHighlighterOverlayWindow.cs:53,91,225` | WindowsNativeWindow, HWND topmost | REWRITE | Avalonia transparent window under XWayland; click-through untested | M | Low |
 | Synthetic input | `InputManager.cs:49`; `InputHelpers.cs:32-117` | SendInput, GetSystemMetrics | SWAP | RemoteDesktop portal with libei or `Notify*`; uinput fallback | M | Med |
@@ -543,9 +551,9 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | ScrollMessage | `ScrollingCaptureManager.cs:111,147` | SendMessage WM_VSCROLL | DROP | Hide the option | S | High |
 | Paste/keybd_event/mouse_event | no hits or callers | None | DROP | Nothing to port; `SendKeyPressText` unused | S | High |
 | "Auto Clicker" | `EasterEggs/ShareXClicker/ShareXClickerGame.cs:43` | None (game upgrade) | READY | Keep | S | High |
-| Tray icon and menu | `TrayIconService.cs:83-91,156-186` | Non-Windows path uses Avalonia | UNVERIFIED | Avalonia `DBusTrayIconImpl` (SNI); check `Menu.Opening` rebuilds over DBusMenu | S | Med |
-| Tray mouse actions | `TrayIconService.cs:86,105-109,136` | WindowsTrayIcon button events | LIMITED | Only `Clicked` wired: TrayMiddleClickAction and right-click custom menu lost; double-click via timer needs testing | S | High |
-| WindowsTrayIcon | `Native/WindowsTrayIcon.cs:35,48` | Shell_NotifyIcon | DROP | Gated by `TrayIconService.cs:77` | S | High |
+| Tray icon and menu | `TrayIconService.cs:77-79,126-156` | Avalonia only since M5 | UNVERIFIED | Avalonia `DBusTrayIconImpl` (SNI); check `Menu.Opening` rebuilds over DBusMenu | S | Med |
+| Tray mouse actions | `TrayIconService.cs:78,92-113` | WindowsTrayIcon button events deleted in M5 | LIMITED | Only `Clicked` wired: TrayMiddleClickAction and right-click custom menu lost; double-click via timer needs testing | S | High |
+| WindowsTrayIcon | Deleted in M5 | Shell_NotifyIcon | DROP | None | S | High |
 | LucideTrayIcon | `LucideTrayIcon.cs:87,102,110,205` | Registry, metrics, gated | UNVERIFIED | Falls back to Avalonia theme, 16px; check HiDPI | S | Med |
 | TaskbarManager | `Native/TaskbarManager.cs:44-73,164-168`; `TaskManager.cs:345,351`; `WorkerTask.cs:391` | ITaskbarList4 COM | SWAP | `com.canonical.Unity.LauncherEntry.Update`; needs installed `.desktop`; only Normal and NoProgress used | S | Med-High |
 | Toast window | `NotificationWindow.axaml:8-10`; `NotificationWindow.cs:320,332,410`; `TaskManager.cs:282`; `TaskHelpers.cs:2770` | GetCursorPos | READY | Keep under XWayland; pointer events for hover; `KWin.activeOutputName` for screen; owner confirmed on the real desktop, 2026-11-03 | S | Med |

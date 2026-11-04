@@ -33,12 +33,19 @@ public interface IHotkeyHost : IDisposable
 {
     event HotkeyEventHandler HotkeyPress;
     event EventHandler Closed;
-    event EventHandler<NativeWindowMessageEventArgs> NativeMessageReceived;
-    IntPtr Handle { get; }
     bool IsDisposed { get; }
+
+    /// <summary>False when the desktop has no shortcut service, so failures aren't about any one key.</summary>
+    bool IsServiceAvailable { get; }
     int HotkeyRepeatLimit { get; set; }
-    void RegisterHotkey(HotkeyInfo hotkeyInfo);
+    void RegisterHotkey(HotkeyInfo hotkeyInfo, string description);
     bool UnregisterHotkey(HotkeyInfo hotkeyInfo);
+
+    /// <summary>While on, keys go to the focused window instead of firing shortcuts, so a press-any-key box can see them.</summary>
+    void SetKeyCaptureActive(bool active);
+
+    /// <summary>Stops the hotkeys firing because the process is about to end. Safe from any thread.</summary>
+    void ReleaseForExit();
     void Initialize();
     void Close();
 }
