@@ -295,7 +295,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | AnnotateImage | WT:589 | Owner editors | SWAP | See ImageEditor | M | Med |
 | CopyImageToClipboard | WT:599 | Owner clipboard; DIB branch Windows-gated | UNVERIFIED | wl-copy fallback (V) | S | Med |
 | PinToScreen | WT:605 | Owner tools | LIMITED: as PinToScreen hotkey | KWin rules (A) | M | Med |
-| SendImageToPrinter | WT:611; TH:687; ShareX.HelpersLib/Printer/PrintHelper.cs:74 | PrintDocument is Windows-gated | REWRITE | Portal Print (V); no `lp` on this host | M | High |
+| SendImageToPrinter | WT:611; TH:687; ShareX.HelpersLib/Printer/PrintHelper.cs | Done in M7 | UNVERIFIED | Portal Print; see 5.8 | M | High |
 | SaveImageToFile | WT:625 | Serialized path risk, see Part 2 | UNVERIFIED | None | S | Med |
 | SaveImageToFileWithDialog | WT:638 | Avalonia picker | UNVERIFIED | Portal FileChooser (V) | S | Med |
 | SaveThumbnailImageToFile | WT:657; TH:454 | Skia | READY | None | S | Med |
@@ -607,8 +607,8 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | Image copy | `AvaloniaClipboard.cs:75,79`; `WindowsClipboard.cs:37` (a comment, not a WinForms reference) | Win32 clipboard, Windows branch only | SWAP | Existing PNG path | S | Medium |
 | Background and exit persistence | `ShareX.Avalonia/Integration/DesktopServices.cs:52`; `WaylandDataDevice.cs:61-83`; `X11ClipboardImpl.cs:54-56` | None | LIMITED | `wl-copy` fallback; loses multi-MIME offers (one `-t` per run) | M | Medium |
 | `ClipboardFormat`, `ClipboardDataFormats` | `ShareX.HelpersLib/ClipboardFormat.cs:28`; `ClipboardData.cs:41` | Windows-style names only | READY | None | S | High |
-| Printing | `ShareX.HelpersLib/Printer/PrintHelper.cs:76,129`; `PrintTextHelper.cs:45` | `System.Drawing.Printing`; non-Windows throws | REWRITE | Skia PDF to portal Print | L | Medium |
-| Page transfer, print dialog | `ShareX.HelpersLib/Native/WindowsPrintInterop.cs:39`; `ShareX.HelpersLib/Printer/WindowsPrintDialog.cs:41,88` | `StretchDIBits`, `PrintDlgExW` | REWRITE | Portal `PreparePrint`/`Print`; `lp -d` for silent printing | M | Medium |
+| Printing | `ShareX.HelpersLib/Printer/PrintHelper.cs`; `PortalPrint.cs` | Windows printing deleted in M7, with `PrintTextHelper` (text printing had no caller) | UNVERIFIED | Skia PDF on the paper chosen in the dialog, image at its own resolution, to portal Print. Portal over `lp`: `lp` is not on this host, and there would be no dialog to choose a printer. Virtual session: real portal and KDE backend wrote the PDF through its Print to File; a fake portal checked the calls and the PDF (page size, image, orientation, cancel, failure). A real printer is the owner's check, and needs `cups`: the KDE backend runs `lpr` | L | Medium |
+| Page transfer, print dialog | `PortalPrint.cs`; `WindowsPrintInterop.cs` and `WindowsPrintDialog.cs` deleted in M7 | None | LIMITED | Portal `PreparePrint`/`Print`. Lost: printing without a dialog and the default printer override, because the portal always asks; both settings are gone. Landscape: the page is sized landscape, and whether CUPS then turns it again is not known until a real print | M | Medium |
 | File dialogs | `ShareX.HelpersLib/Helpers/FileDialogHelpers.cs:41,56,74`; `X11Window.cs:290-300` | None | UNVERIFIED | Avalonia's portal FileChooser (default); no custom code | S | High |
 | `DesktopServices` | `DesktopServices.cs:52` | None | UNVERIFIED | Test hidden service window | S | Medium |
 | Screen colour picker | `ShareX.Avalonia/Windows/ScreenColorPickerWindow.axaml.cs:92,123,460-489` | 10 P/Invokes confirmed | LIMITED | Portal `PickColor`; loses live magnifier, hover preview, position. Line 92 calls `GetDC` before the OS guard | M | High |

@@ -987,6 +987,11 @@ Do you still want to run it?</value>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Invalid printer name</value>
   </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX could not print: {0}
+
+Printing goes through the desktop's print portal. Check that xdg-desktop-portal and xdg-desktop-portal-kde are installed, and cups for a real printer.</value>
+  </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Allow image to enlarge</value>
   </data>

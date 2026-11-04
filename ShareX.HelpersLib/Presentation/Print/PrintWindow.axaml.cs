@@ -47,7 +47,6 @@ public partial class PrintWindow : Window
         CancelButton.Content = Localization.Strings.MyMessageBox_MyMessageBox_Cancel;
 
         Opened += (_, _) => Activate();
-        Closed += (_, _) => _printHelper?.Dispose();
     }
 
     public PrintWindow(DrawingImage image, PrintSettings settings, bool previewOnly = false)
@@ -66,8 +65,7 @@ public partial class PrintWindow : Window
         CenterImageCheckBox.IsChecked = settings.CenterImage;
 
         PrintButton.IsEnabled = !previewOnly;
-        PrintButton.Content = Localization.Strings.PrintForm_LoadSettings_Print +
-            (settings.ShowPrintDialog ? "..." : string.Empty);
+        PrintButton.Content = Localization.Strings.PrintForm_LoadSettings_Print + "...";
         CancelButton.Content = Localization.Strings.MyMessageBox_MyMessageBox_Cancel;
         UpdateScaleDependentOptions();
     }
