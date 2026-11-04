@@ -49,6 +49,8 @@ internal static class ApplicationCommandLine
 
     internal static bool IsCommandPresent(params string[] commands) => Initial.IsCommandExist(commands);
 
+    internal static bool HasInitialScreenJob() => Initial.HasScreenJob();
+
     // Before anything else starts: no log, settings, mutex or pipe, and a running ShareX is not told.
     internal static bool TryHandleHelp()
     {

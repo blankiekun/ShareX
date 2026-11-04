@@ -161,7 +161,8 @@ internal static class Program
 
         await ApplicationSettingsRuntime.InitializeAsync(hotkeyHost);
 
-        bool showMainWindow = !(StartupOptions.SilentRun || ApplicationState.Settings.SilentRun) ||
+        // A job that reads the screen or the window in use would get ShareX if it came first, so it starts in the tray, as a silent start does.
+        bool showMainWindow = !(StartupOptions.SilentRun || ApplicationState.Settings.SilentRun || ApplicationCommandLine.HasInitialScreenJob()) ||
             !ApplicationState.Settings.ShowTray;
         MainWindowIntegration.Initialize(hotkeyHost.TrayIconService, showMainWindow);
         ScreenRecordManager.RecoverInterruptedRecordings();
