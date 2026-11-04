@@ -1974,6 +1974,20 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>スクリーン カラーピッカー</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIFが完成しなかったため、破棄されました。録画はMP4として次の場所に保持されています:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+ファイルは保持されましたが、再生できない可能性があります:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>録画中にShareXが予期せず終了しました。録画は次の場所に保存されました:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>バー</value>
   </data>
@@ -2060,7 +2074,7 @@
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>画面録画中はShareXを閉じることができません。
 
-現在の画面録画を中止しますか？</value>
+現在の画面録画を停止して保存しますか？</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX はシステムトレイに最小化されています。</value>

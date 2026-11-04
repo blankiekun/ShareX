@@ -1974,6 +1974,20 @@ Veuillez exécuter ShareX en tant qu'administrateur pour changer le chemin du do
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Sélecteur de couleurs de l'écran</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>Le GIF n’a pas été terminé, il a donc été abandonné. L’enregistrement a été conservé au format MP4 à l’emplacement suivant :
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Le fichier a été conservé, mais il ne pourra peut-être pas être lu :
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX a été fermé de manière inattendue pendant un enregistrement. L’enregistrement a été sauvegardé à l’emplacement suivant :
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Barre</value>
   </data>
@@ -2060,7 +2074,7 @@ Veuillez exécuter ShareX en tant qu'administrateur pour changer le chemin du do
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX ne peut être fermé lorsqu'un enregistrement d'écran est en cours.
 
-Voulez-vous annuler l'enregistrement d'écran en cours ?</value>
+Voulez-vous arrêter l'enregistrement d'écran en cours et le sauvegarder ?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX est réduit dans la zone de notification.</value>

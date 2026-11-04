@@ -1974,6 +1974,20 @@ Vă rugăm să rulați ShareX ca administrator pentru a schimba calea folderului
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Selector de culori de pe ecran</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF-ul nu a fost finalizat, așa că a fost eliminat. Înregistrarea a fost păstrată ca MP4 la:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Fișierul a fost păstrat, dar s-ar putea să nu poată fi redat:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX a fost închis neașteptat în timpul unei înregistrări. Înregistrarea a fost salvată la:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Bară</value>
   </data>
@@ -2060,7 +2074,7 @@ Vă rugăm să rulați ShareX ca administrator pentru a schimba calea folderului
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nu poate fi închis cât timp înregistrarea ecranului este activă.
 
-Vrei să anulezi înregistrarea activă a ecranului?</value>
+Doriți să opriți înregistrarea activă a ecranului și să o salvați?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX este minimizat în bara de sistem.</value>

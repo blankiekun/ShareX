@@ -1974,6 +1974,20 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>화면 색상 picker</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF가 완성되지 않아 삭제되었습니다. 녹화 파일은 MP4로 다음 위치에 보관되었습니다:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+파일은 보관되었지만 재생되지 않을 수 있습니다:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>녹화 중 ShareX가 예기치 않게 종료되었습니다. 녹화 파일이 다음 위치에 저장되었습니다:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>바</value>
   </data>
@@ -2058,9 +2072,9 @@
 {0}</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>ShareX cannot be closed while 화면 녹화 is active.
+    <value>화면 녹화가 진행 중일 때는 ShareX를 닫을 수 없습니다.
 
-Do you want to abort the active 화면 녹화?</value>
+현재 화면 녹화를 중지하고 저장하시겠습니까?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX가 시스템 트레이로 최소화되었습니다.</value>

@@ -1974,6 +1974,20 @@ Kör ShareX som administratör för att ändra sökvägen till den personliga ma
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Skärmfärgväljare</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF-filen blev inte klar, så den kasserades. Inspelningen behölls som MP4 här:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Filen behölls, men den kanske inte går att spela upp:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX stängdes oväntat under en inspelning. Inspelningen sparades här:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Verktygsfält</value>
   </data>
@@ -2060,7 +2074,7 @@ Kör ShareX som administratör för att ändra sökvägen till den personliga ma
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX kan inte stängas medan en skärminspelning pågår.
 
-Vill du avbryta den aktiva skärminspelningen?</value>
+Vill du stoppa den aktiva skärminspelningen och spara den?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX är minimerat till meddelandefältet.</value>

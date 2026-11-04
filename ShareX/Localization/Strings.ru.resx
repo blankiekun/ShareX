@@ -1974,6 +1974,20 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Пипетка</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF не был завершён, поэтому он удалён. Запись сохранена как MP4 по пути:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Файл сохранён, но может не воспроизводиться:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX неожиданно закрылся во время записи. Запись сохранена по пути:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Панель</value>
   </data>
@@ -2060,7 +2074,7 @@
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX не закроется пока идет запись экрана.
 
-Хотите отменить текущую запись?</value>
+Хотите остановить текущую запись и сохранить её?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX свернут в системный трей.</value>

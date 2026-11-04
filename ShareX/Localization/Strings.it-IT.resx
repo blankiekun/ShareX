@@ -1974,6 +1974,20 @@ Esegui ShareX come amministratore per cambiare il percorso della cartella person
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Schermo colore picker</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>La GIF non è stata completata, quindi è stata scartata. La registrazione è stata conservata come MP4 in:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Il file è stato conservato, ma potrebbe non essere riproducibile:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX è stato chiuso inaspettatamente durante una registrazione. La registrazione è stata salvata in:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Barra</value>
   </data>
@@ -2058,9 +2072,9 @@ Esegui ShareX come amministratore per cambiare il percorso della cartella person
 {0}</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>ShareX cannot be closed while registrazione schermo is active.
+    <value>ShareX non può essere chiuso mentre la registrazione schermo è attiva.
 
-Do you want to abort the active registrazione schermo?</value>
+Arrestare la registrazione schermo attiva e salvarla?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX è ridotto nell'area di notifica.</value>

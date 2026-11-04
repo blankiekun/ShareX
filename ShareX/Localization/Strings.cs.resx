@@ -1974,6 +1974,20 @@ Chcete-li změnit cestu k osobní složce, spusťte ShareX jako správce.</value
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Výběr barvy z obrazovky</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF nebyl dokončen, proto byl zahozen. Nahrávka byla zachována jako MP4 v umístění:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Soubor byl zachován, ale nemusí jít přehrát:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX byl během nahrávání neočekávaně ukončen. Nahrávka byla uložena do:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Panel</value>
   </data>
@@ -2060,7 +2074,7 @@ Chcete-li změnit cestu k osobní složce, spusťte ShareX jako správce.</value
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nelze zavřít, když probíhá nahrávání obrazovky.
 
-Chcete aktivní nahrávání obrazovky přerušit?</value>
+Chcete aktivní nahrávání obrazovky zastavit a uložit?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX je minimalizován do oznamovací oblasti.</value>

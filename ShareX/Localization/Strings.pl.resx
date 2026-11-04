@@ -1974,6 +1974,20 @@ Proszę uruchomić ShareX jako administrator, aby zmienić ścieżkę folderu os
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Selektor kolorów ekranu</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF nie został ukończony, więc go odrzucono. Nagranie zachowano jako MP4 w lokalizacji:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Plik został zachowany, ale może nie dać się odtworzyć:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX został nieoczekiwanie zamknięty podczas nagrywania. Nagranie zapisano w lokalizacji:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Pasek</value>
   </data>
@@ -2060,7 +2074,7 @@ Proszę uruchomić ShareX jako administrator, aby zmienić ścieżkę folderu os
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nie może zostać zamknięty, gdy aktywne jest nagrywanie ekranu.
 
-Czy chcesz przerwać aktywne nagrywanie ekranu?</value>
+Czy chcesz zatrzymać aktywne nagrywanie ekranu i zapisać nagranie?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX jest zminimalizowany do zasobnika systemowego.</value>

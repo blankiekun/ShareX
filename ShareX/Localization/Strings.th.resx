@@ -1974,6 +1974,20 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>หน้าจอ ตัวเลือกสี</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF ไม่เสร็จสมบูรณ์จึงถูกทิ้งไป ไฟล์ที่บันทึกไว้ถูกเก็บเป็น MP4 ที่:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+เก็บไฟล์ไว้แล้ว แต่อาจเล่นไม่ได้:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX ถูกปิดโดยไม่คาดคิดระหว่างการบันทึก ไฟล์ที่บันทึกไว้ถูกเก็บที่:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>แถบ</value>
   </data>
@@ -2060,7 +2074,7 @@
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ไม่สามารถปิด ShareX ขณะกำลังบันทึกหน้าจอ
 
-ต้องการยกเลิกการบันทึกหน้าจอที่กำลังทำงานหรือไม่</value>
+ต้องการหยุดการบันทึกหน้าจอที่กำลังทำงานและบันทึกไฟล์หรือไม่</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX ย่อเล็กสุดแล้ว เพื่อ ถาดระบบ.</value>

@@ -1974,6 +1974,20 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>स्क्रीन रंग चयनकर्ता</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF पूरा नहीं हुआ, इसलिए उसे हटा दिया गया। रिकॉर्डिंग को MP4 के रूप में यहाँ रखा गया है:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+फ़ाइल रखी गई है, लेकिन हो सकता है कि वह न चले:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>रिकॉर्डिंग के दौरान ShareX अचानक बंद हो गया। रिकॉर्डिंग यहाँ सहेजी गई है:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>बार</value>
   </data>
@@ -2060,7 +2074,7 @@
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>स्क्रीन रिकॉर्डिंग सक्रिय होने पर ShareX बंद नहीं किया जा सकता।
 
-क्या आप सक्रिय स्क्रीन रिकॉर्डिंग निरस्त करना चाहते हैं?</value>
+क्या आप सक्रिय स्क्रीन रिकॉर्डिंग रोककर उसे सहेजना चाहते हैं?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX सिस्टम ट्रे में छोटा किया गया है।</value>
