@@ -69,6 +69,7 @@ internal static class ApplicationLifecycle
         {
             // But an active global shortcut would go on taking its key from everything else, firing at nothing.
             _hotkeyHost?.ReleaseHotkeysForExit();
+            HostSoundPlayer.StopForExit();
             return;
         }
 

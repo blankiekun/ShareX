@@ -43,7 +43,8 @@ public sealed class HostSoundPlayerTests : IDisposable
     private void FakePlayer(string name, string lastLine = "exit 0")
     {
         string path = Path.Combine(_folder, name);
-        File.WriteAllText(path, "#!/bin/sh\n" +
+        // FakeHost swaps the process-wide PATH while other test classes run, and the player inherits it.
+        File.WriteAllText(path, "#!/bin/sh\nPATH=/usr/bin:/bin\n" +
             $"{{ printf '%s\\n' \"$#\" \"$1\"; stat -c %a \"$1\"; cat \"$1\"; }} > '{Log(name)}.part'\n" +
             $"mv '{Log(name)}.part' '{Log(name)}'\n" +
             lastLine + "\n");

@@ -52,16 +52,21 @@ public static class HostSoundPlayer
 
     static HostSoundPlayer()
     {
-        // Background waits die with the process, so nothing else would stop the player or remove its file.
-        AppDomain.CurrentDomain.ProcessExit += (_, _) =>
-        {
-            Stop();
+        AppDomain.CurrentDomain.ProcessExit += (_, _) => StopForExit();
+    }
 
-            foreach (string path in TemporaryFiles.Keys)
-            {
-                DeleteTemporaryFile(path);
-            }
-        };
+    /// <summary>
+    /// Background waits die with the process, so nothing else would stop the player or remove its file. ProcessExit calls this.
+    /// A signal that keeps its default action doesn't reach ProcessExit, so that handler has to call it too.
+    /// </summary>
+    public static void StopForExit()
+    {
+        Stop();
+
+        foreach (string path in TemporaryFiles.Keys)
+        {
+            DeleteTemporaryFile(path);
+        }
     }
 
     /// <summary>Writes the sound to a file only this user can read, plays it and removes it. Takes ownership of the stream.</summary>
