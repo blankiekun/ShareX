@@ -80,6 +80,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private bool _disposed;
     private Thickness _frameExtents;
     private PixelPoint? _hiddenPosition;
+    private bool _hiddenMaximized;
+    private Size _normalSize;
+    private PixelPoint _normalPosition;
+    private Thickness _normalMargin;
+    private Size? _sizeToKeep;
+    private long _keepSizeUntil;
     private readonly List<ThumbnailItemViewModel> _selectionOrder = new();
     private ThumbnailItemViewModel? _selectionAnchor;
 
@@ -129,7 +135,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         Closing += OnClosing;
         PositionChanged += (_, _) => SaveWindowBounds();
-        Resized += (_, _) => SaveWindowBounds();
+        Resized += (_, _) => OnWindowResized();
         KeyDown += OnWindowKeyDown;
 
         Dispatcher.UIThread.Post(WarmUpTrayMenu, DispatcherPriority.Background);
@@ -152,7 +158,19 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 Position = position;
             }
 
+            Size size = ClientSize;
+            bool hasMargin = _frameExtents != default;
             Show();
+
+            if (hasMargin)
+            {
+                KeepSize(size);
+            }
+
+            if (_hiddenMaximized)
+            {
+                WindowState = Avalonia.Controls.WindowState.Maximized;
+            }
         }
 
         if (WindowState == Avalonia.Controls.WindowState.Minimized)
@@ -193,7 +211,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public void HideToTray()
     {
         SaveWindowBounds();
-        _hiddenPosition = Position;
+        // KWin forgets a hidden window's state, so a maximized one comes back at its normal place and is maximized again from there.
+        _hiddenMaximized = IsWindowMaximized;
+        _hiddenPosition = WindowState == Avalonia.Controls.WindowState.Normal ? Position : _normalPosition;
         Hide();
         MainWindowIntegration.ReportVisibility(false);
     }
@@ -2140,11 +2160,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void SaveWindowBounds()
     {
-        if (_disposed || WindowState != Avalonia.Controls.WindowState.Normal)
+        if (_disposed || WindowState != Avalonia.Controls.WindowState.Normal || IsKeepingSize)
         {
             return;
         }
 
+        _normalSize = ClientSize;
+        _normalPosition = Position;
         ApplicationState.Settings.MainFormPosition = new DrawingPoint(OpeningPosition.X, OpeningPosition.Y);
         ApplicationState.Settings.MainFormSize = new DrawingSize((int)Math.Round(ClientSize.Width), (int)Math.Round(ClientSize.Height));
     }
@@ -2169,6 +2191,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         if (change.Property == WindowStateProperty)
         {
             OnPropertyChanged(nameof(IsWindowMaximized));
+            RestoreNormalBounds(change.GetOldValue<Avalonia.Controls.WindowState>());
         }
         else if (change.Property == IconProperty)
         {
@@ -2178,6 +2201,53 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             UpdateFrameExtents();
         }
+    }
+
+    private bool IsKeepingSize => _sizeToKeep != null && Environment.TickCount64 < _keepSizeUntil;
+
+    /// <summary>
+    /// Avalonia works out this window's size as its X11 size minus the margin, and the margin changes around these moments, so it can settle on the wrong size:
+    /// every Show takes the margin off once more, leaving full screen resizes to the output's size over KWin's restore, and a restore at the minimum size is
+    /// pushed up by the margin. The wrong size arrives in a later resize, so it is put right there. The limit is for a size that KWin refuses.
+    /// </summary>
+    private void KeepSize(Size size)
+    {
+        _sizeToKeep = size;
+        _keepSizeUntil = Environment.TickCount64 + 1000;
+    }
+
+    private void OnWindowResized()
+    {
+        if (IsKeepingSize && ClientSize != _sizeToKeep)
+        {
+            Width = _sizeToKeep.Value.Width;
+            Height = _sizeToKeep.Value.Height;
+            return;
+        }
+
+        _sizeToKeep = null;
+        SaveWindowBounds();
+    }
+
+    private void RestoreNormalBounds(Avalonia.Controls.WindowState previous)
+    {
+        if (WindowState != Avalonia.Controls.WindowState.Normal)
+        {
+            _sizeToKeep = null;
+            return;
+        }
+
+        if (_normalSize == default || previous is not (Avalonia.Controls.WindowState.Maximized or Avalonia.Controls.WindowState.FullScreen))
+        {
+            return;
+        }
+
+        // The margin goes first and the X server keeps this order: KWin takes a size that arrives before the margin as the frame, and adds the margin on top.
+        _frameExtents = _normalMargin;
+        X11FrameExtents.Set(this, _normalMargin);
+        KeepSize(_normalSize);
+        Width = _normalSize.Width;
+        Height = _normalSize.Height;
     }
 
     /// <summary>Position is where the frame is, but a window that opens at a position has its margin start there.</summary>
@@ -2197,6 +2267,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             _frameExtents = margin;
             X11FrameExtents.Set(this, margin);
+
+            if (margin != default)
+            {
+                _normalMargin = margin;
+            }
         }
     }
 
