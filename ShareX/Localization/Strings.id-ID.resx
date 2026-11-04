@@ -1974,6 +1974,20 @@ Jalankan ShareX sebagai administrator untuk mengubah jalur folder pribadi.</valu
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Pemilih warna layar</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF tidak selesai, sehingga dibuang. Rekaman disimpan sebagai MP4 di:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+File tetap disimpan, tetapi mungkin tidak dapat diputar:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX tertutup secara tidak terduga saat perekaman. Rekaman disimpan ke:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Bilah</value>
   </data>
@@ -2060,7 +2074,7 @@ Jalankan ShareX sebagai administrator untuk mengubah jalur folder pribadi.</valu
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX tidak dapat ditutup saat perekaman layar aktif.
 
-Apakah Anda ingin membatalkan perekaman layar aktif?</value>
+Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX diminimalkan ke baki sistem.</value>

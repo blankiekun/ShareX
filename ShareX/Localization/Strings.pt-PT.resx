@@ -1974,6 +1974,20 @@ Por favor execute o ShareX como administrador para mudar o caminho da pasta.</va
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Seletor de cor do ecrã</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>O GIF não foi concluído, por isso foi descartado. A gravação foi mantida como MP4 em:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+O ficheiro foi mantido, mas pode não ser reproduzido:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>O ShareX foi fechado inesperadamente durante uma gravação. A gravação foi guardada em:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Barra</value>
   </data>
@@ -2060,7 +2074,7 @@ Por favor execute o ShareX como administrador para mudar o caminho da pasta.</va
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>O ShareX não pode ser fechado enquanto a gravação do ecrã está ativa.
 
-Pretende cancelar a gravação de ecrã ativa?</value>
+Pretende parar a gravação de ecrã ativa e guardá-la?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>O ShareX está minimizado na área de notificação.</value>

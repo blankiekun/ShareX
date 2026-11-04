@@ -1974,6 +1974,20 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>منتقي الألوان</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>لم يكتمل إنشاء ملف GIF، لذا تم حذفه. تم الاحتفاظ بالتسجيل بصيغة MP4 في:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+تم الاحتفاظ بالملف، لكن قد يتعذر تشغيله:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>تم إغلاق ShareX بشكل غير متوقع أثناء التسجيل. تم حفظ التسجيل في:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>الشريط</value>
   </data>
@@ -2060,7 +2074,7 @@
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>لا يمكن إغلاق البرنامج أثناء تسجيل الشاشة.
 
-هل تريد إلغاء تسجيل الشاشة الحاليّ؟</value>
+هل تريد إيقاف تسجيل الشاشة الحاليّ وحفظه؟</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>تم تصغير  ShareX إلى منطقة الإشعارات.</value>

@@ -1974,6 +1974,20 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>בוחר צבעי מסך</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>קובץ ה-GIF לא הושלם ולכן נמחק. ההקלטה נשמרה כקובץ MP4 בנתיב:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+הקובץ נשמר, אך ייתכן שלא ניתן יהיה להפעיל אותו:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX נסגר באופן בלתי צפוי במהלך הקלטה. ההקלטה נשמרה בנתיב:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>סרגל</value>
   </data>
@@ -2060,7 +2074,7 @@
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>לא ניתן לסגור את ShareX בזמן שהקלטת מסך פעילה.
 
-האם ברצונך לבטל את הקלטת המסך הפעילה?</value>
+האם ברצונך לעצור את הקלטת המסך הפעילה ולשמור אותה?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX ממוזער למגש המערכת.</value>

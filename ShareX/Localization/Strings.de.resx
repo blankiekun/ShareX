@@ -1974,6 +1974,20 @@ Bitte starte ShareX als Administrator, um den Einstellungsordner zu ändern.</va
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Bildschirm-Farbwähler</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>Das GIF wurde nicht fertiggestellt und daher verworfen. Die Aufnahme wurde als MP4 gespeichert unter:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Die Datei wurde behalten, lässt sich aber möglicherweise nicht abspielen:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX wurde während einer Aufnahme unerwartet geschlossen. Die Aufnahme wurde gespeichert unter:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Leiste</value>
   </data>
@@ -2060,7 +2074,7 @@ Bitte starte ShareX als Administrator, um den Einstellungsordner zu ändern.</va
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX kann nicht geschlossen werden, während die Bildschirmaufnahme aktiv ist.
 
-Möchten Sie die aktive Bildschirmaufzeichnung abbrechen?</value>
+Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX wird in die Taskleiste minimiert.</value>

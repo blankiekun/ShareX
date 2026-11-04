@@ -1974,6 +1974,20 @@ Please select a different hotkey or quit the conflicting application and reبا�
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>صفحه رنگ picker</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>فایل GIF کامل نشد، بنابراین حذف شد. ضبط به‌صورت MP4 در این مسیر نگه داشته شد:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+فایل نگه داشته شد، اما ممکن است پخش نشود:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX هنگام ضبط به‌طور غیرمنتظره بسته شد. ضبط در این مسیر ذخیره شد:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>نوار</value>
   </data>
@@ -2058,9 +2072,9 @@ Please select a different hotkey or quit the conflicting application and reبا�
 {0}</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>ShareX cannot be closed while ضبط صفحه is active.
+    <value>تا زمانی که ضبط صفحه فعال است، نمی‌توان ShareX را بست.
 
-Do you want to abort the active ضبط صفحه?</value>
+آیا می‌خواهید ضبط صفحه فعال را متوقف و ذخیره کنید؟</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX در سینی سیستم کمینه شده است.</value>

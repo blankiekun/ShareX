@@ -1974,6 +1974,20 @@ Por favor ejecute ShareX como administrador para cambiar ruta de la carpeta pers
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Pantalla color picker</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>El GIF no se terminó, así que se descartó. La grabación se conservó como MP4 en:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+El archivo se conservó, pero es posible que no se pueda reproducir:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX se cerró inesperadamente durante una grabación. La grabación se guardó en:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Barra</value>
   </data>
@@ -2058,9 +2072,9 @@ Por favor ejecute ShareX como administrador para cambiar ruta de la carpeta pers
 {0}</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>ShareX cannot be closed while grabación de pantalla is active.
+    <value>ShareX no se puede cerrar mientras la grabación de pantalla está activa.
 
-Do you want to abort the active grabación de pantalla?</value>
+¿Desea detener la grabación de pantalla activa y guardarla?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX está minimizado en la bandeja del sistema.</value>

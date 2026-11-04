@@ -1974,6 +1974,20 @@ Kérlek futtasd a ShareX-et adminisztrátori jogosultságokkal a személyes mapp
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Képernyő szín picker</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>A GIF nem készült el, ezért a program elvetette. A felvétel MP4-ként megmaradt itt:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+A fájl megmaradt, de lehet, hogy nem játszható le:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>A ShareX váratlanul bezárult egy felvétel közben. A felvétel ide lett mentve:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Sáv</value>
   </data>
@@ -2058,9 +2072,9 @@ Kérlek futtasd a ShareX-et adminisztrátori jogosultságokkal a személyes mapp
 {0}</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>ShareX cannot be closed while képernyőfelvétel is active.
+    <value>A ShareX nem zárható be, amíg a képernyőfelvétel aktív.
 
-Do you want to megszakítás the active képernyőfelvétel?</value>
+Leállítja és menti az aktív képernyőfelvételt?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>A ShareX a rendszertálcára van kicsinyítve.</value>

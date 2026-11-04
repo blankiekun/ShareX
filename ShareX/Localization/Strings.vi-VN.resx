@@ -1974,6 +1974,20 @@ Vui lòng chạy ShareX dưới quyền administrator để thay đổi thư m�
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Bộ chọn màu màn hình</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>Chưa tạo xong GIF nên GIF đã bị loại bỏ. Bản ghi được giữ lại dưới dạng MP4 tại:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Tệp đã được giữ lại nhưng có thể không phát được:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX đã bị đóng đột ngột trong khi đang ghi. Bản ghi đã được lưu vào:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Thanh</value>
   </data>
@@ -2060,7 +2074,7 @@ Vui lòng chạy ShareX dưới quyền administrator để thay đổi thư m�
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>Không thể đóng ShareX khi đang quay màn hình.
 
-Bạn có muốn hủy phiên quay màn hình đang hoạt động không?</value>
+Bạn có muốn dừng phiên quay màn hình đang hoạt động và lưu lại không?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX được thu nhỏ vào khay hệ thống.</value>

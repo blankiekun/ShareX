@@ -1974,6 +1974,20 @@ Kør ShareX som administrator for at ændre stien til den personlige mappe.</val
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Skærmfarvevælger</value>
   </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF'en blev ikke færdig, så den blev kasseret. Optagelsen blev beholdt som MP4 her:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Filen blev beholdt, men den kan muligvis ikke afspilles:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX blev lukket uventet under en optagelse. Optagelsen blev gemt her:
+{0}</value>
+  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Værktøjslinje</value>
   </data>
@@ -2060,7 +2074,7 @@ Kør ShareX som administrator for at ændre stien til den personlige mappe.</val
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX kan ikke lukkes, mens en skærmoptagelse er i gang.
 
-Vil du afbryde den aktive skærmoptagelse?</value>
+Vil du stoppe den aktive skærmoptagelse og gemme den?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX er minimeret til meddelelsesområdet.</value>
