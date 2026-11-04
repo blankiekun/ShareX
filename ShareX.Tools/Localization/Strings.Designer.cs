@@ -628,15 +628,6 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Device.
-        /// </summary>
-        public static string BackgroundRemoverWindow_Device {
-            get {
-                return ResourceManager.GetString("BackgroundRemoverWindow_Device", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Image.
         /// </summary>
         public static string BackgroundRemoverWindow_Image {
@@ -655,6 +646,15 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No model found. ShareX doesn&apos;t include or download one: get a background removal model in ONNX format, put the .onnx file in {0}, then press the refresh button..
+        /// </summary>
+        public static string BackgroundRemoverWindow_No_model_found {
+            get {
+                return ResourceManager.GetString("BackgroundRemoverWindow_No_model_found", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Open guide page....
         /// </summary>
         public static string BackgroundRemoverWindow_Open_guide_page {
@@ -669,15 +669,6 @@ namespace ShareX.Tools.Localization {
         public static string BackgroundRemoverWindow_Open_models_folder {
             get {
                 return ResourceManager.GetString("BackgroundRemoverWindow_Open_models_folder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Processing device.
-        /// </summary>
-        public static string BackgroundRemoverWindow_Processing_device {
-            get {
-                return ResourceManager.GetString("BackgroundRemoverWindow_Processing_device", resourceCulture);
             }
         }
         
@@ -3511,15 +3502,6 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatic.
-        /// </summary>
-        public static string LocalizedDisplayConverter_Automatic {
-            get {
-                return ResourceManager.GetString("LocalizedDisplayConverter_Automatic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Backward diagonal.
         /// </summary>
         public static string LocalizedDisplayConverter_Backward_diagonal {
@@ -3538,15 +3520,6 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CPU.
-        /// </summary>
-        public static string LocalizedDisplayConverter_CPU {
-            get {
-                return ResourceManager.GetString("LocalizedDisplayConverter_CPU", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Forward diagonal.
         /// </summary>
         public static string LocalizedDisplayConverter_Forward_diagonal {
@@ -3561,15 +3534,6 @@ namespace ShareX.Tools.Localization {
         public static string LocalizedDisplayConverter_Gemini {
             get {
                 return ResourceManager.GetString("LocalizedDisplayConverter_Gemini", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to GPU.
-        /// </summary>
-        public static string LocalizedDisplayConverter_GPU {
-            get {
-                return ResourceManager.GetString("LocalizedDisplayConverter_GPU", resourceCulture);
             }
         }
         

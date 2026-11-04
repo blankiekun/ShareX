@@ -349,9 +349,6 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Răsfoire...</value>
   </data>
-  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
-    <value>Dispozitiv</value>
-  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Imagine</value>
   </data>
@@ -363,9 +360,6 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Deschide dosarul modelelor</value>
-  </data>
-  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
-    <value>Dispozitiv de procesare</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Reîmprospătează modelele</value>
@@ -1261,23 +1255,14 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Setări fereastră</value>
   </data>
-  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
-    <value>Automat</value>
-  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Diagonală înapoi</value>
-  </data>
-  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
-    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Tablă de șah</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Diagonală înainte</value>
-  </data>
-  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
-    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>

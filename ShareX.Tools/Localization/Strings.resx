@@ -349,23 +349,20 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Browse...</value>
   </data>
-  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
-    <value>Device</value>
-  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Image</value>
   </data>
   <data name="BackgroundRemoverWindow_Models" xml:space="preserve">
     <value>Models</value>
   </data>
+  <data name="BackgroundRemoverWindow_No_model_found" xml:space="preserve">
+    <value>No model found. ShareX doesn't include or download one: get a background removal model in ONNX format, put the .onnx file in {0}, then press the refresh button.</value>
+  </data>
   <data name="BackgroundRemoverWindow_Open_guide_page" xml:space="preserve">
     <value>Open guide page...</value>
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Open models folder</value>
-  </data>
-  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
-    <value>Processing device</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Refresh models</value>
@@ -1235,23 +1232,14 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Window settings</value>
   </data>
-  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
-    <value>Automatic</value>
-  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Backward diagonal</value>
-  </data>
-  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
-    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Checkerboard</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Forward diagonal</value>
-  </data>
-  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
-    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>

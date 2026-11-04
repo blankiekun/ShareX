@@ -25,12 +25,14 @@
 
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ShareX.AvaloniaUI.Theming;
 
 namespace ShareX.Tools;
 
 public sealed partial class BackgroundRemoverViewModel
 {
     private static readonly TimeSpan DefaultNotificationDuration = TimeSpan.FromSeconds(2.4);
+    private static readonly TimeSpan ErrorNotificationDuration = TimeSpan.FromSeconds(12);
     private static readonly TimeSpan NotificationHideDuration = TimeSpan.FromMilliseconds(220);
     private static readonly TimeSpan NotificationHoverPollInterval = TimeSpan.FromMilliseconds(50);
 
@@ -62,6 +64,11 @@ public sealed partial class BackgroundRemoverViewModel
         {
             _ = ShowNotificationAsync(message, icon, DefaultNotificationDuration);
         }
+    }
+
+    private void ShowErrorNotification(string message)
+    {
+        _ = ShowNotificationAsync(message, LucideIcons.circle_alert, ErrorNotificationDuration);
     }
 
     public void DismissNotification()

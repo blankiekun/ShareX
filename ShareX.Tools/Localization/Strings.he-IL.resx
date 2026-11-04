@@ -349,9 +349,6 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>עיון...</value>
   </data>
-  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
-    <value>התקן</value>
-  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>תמונה</value>
   </data>
@@ -363,9 +360,6 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>פתח את תיקיית המודלים</value>
-  </data>
-  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
-    <value>התקן עיבוד</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>רענן מודלים</value>
@@ -1261,23 +1255,14 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>הגדרות חלון</value>
   </data>
-  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
-    <value>אוטומטי</value>
-  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>אלכסון לאחור</value>
-  </data>
-  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
-    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>לוח שחמט</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>אלכסון קדימה</value>
-  </data>
-  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
-    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>

@@ -349,9 +349,6 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>เรียกดู...</value>
   </data>
-  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
-    <value>อุปกรณ์</value>
-  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>รูปภาพ</value>
   </data>
@@ -363,9 +360,6 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>เปิดโฟลเดอร์โมเดล</value>
-  </data>
-  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
-    <value>อุปกรณ์ประมวลผล</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>รีเฟรช โมเดล</value>
@@ -1261,23 +1255,14 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>หน้าต่าง การตั้งค่า</value>
   </data>
-  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
-    <value>อัตโนมัติ</value>
-  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>แนวทแยงย้อนกลับ</value>
-  </data>
-  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
-    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>ลายตารางหมากรุก</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>แนวทแยงไปข้างหน้า</value>
-  </data>
-  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
-    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>

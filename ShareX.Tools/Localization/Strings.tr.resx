@@ -350,9 +350,6 @@ Dosya yolu: {0}</value>
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Gözat...</value>
   </data>
-  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
-    <value>Cihaz</value>
-  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Resim</value>
   </data>
@@ -364,9 +361,6 @@ Dosya yolu: {0}</value>
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Modeller klasörünü aç</value>
-  </data>
-  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
-    <value>İşleme cihazı</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Modelleri yenile</value>
@@ -1265,23 +1259,14 @@ Dosya yolu: {0}</value>
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Pencere ayarları</value>
   </data>
-  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
-    <value>Otomatik</value>
-  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Geri çapraz</value>
-  </data>
-  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
-    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Dama tahtası</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>İleri çapraz</value>
-  </data>
-  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
-    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>

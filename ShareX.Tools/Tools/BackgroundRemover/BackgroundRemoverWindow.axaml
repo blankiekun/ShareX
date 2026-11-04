@@ -16,10 +16,6 @@
         MinHeight="520"
         WindowStartupLocation="CenterScreen">
 
-    <Window.Resources>
-        <vm:LocalizedDisplayConverter x:Key="LocalizedDisplayConverter"/>
-    </Window.Resources>
-
     <Window.Styles>
         <Style Selector="Border.remover-panel">
             <Setter Property="Background" Value="{DynamicResource ShareX.Brush.Background.Panel}"/>
@@ -64,7 +60,7 @@
         <Grid Background="{DynamicResource ShareX.Brush.Background.Main}">
             <Grid RowDefinitions="Auto,*,Auto" Margin="16" RowSpacing="12">
                 <Border Grid.Row="0" Classes="remover-panel" Padding="12">
-                    <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
                         <Grid Grid.Row="0"
                               ColumnDefinitions="Auto,*,Auto"
                               ColumnSpacing="12">
@@ -87,7 +83,7 @@
                                        Text="{x:Static localization:Strings.BackgroundRemoverWindow_Models}"
                                        VerticalAlignment="Center"/>
                             <Grid Grid.Column="1"
-                                  ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto"
+                                  ColumnDefinitions="*,Auto,Auto,Auto"
                                   ColumnSpacing="4">
                                 <ComboBox Grid.Column="0"
                                           ItemsSource="{Binding AvailableModels}"
@@ -136,28 +132,17 @@
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"/>
                                 </Button>
-                                <TextBlock Grid.Column="4"
-                                           Text="{x:Static localization:Strings.BackgroundRemoverWindow_Device}"
-                                           Margin="8,0,8,0"
-                                           VerticalAlignment="Center"/>
-                                <ComboBox Grid.Column="5"
-                                          ItemsSource="{Binding AvailableDevices}"
-                                          SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"
-                                          IsEnabled="{Binding !IsProcessing}"
-                                          MinWidth="88"
-                                          VerticalAlignment="Center"
-                                          ToolTip.Tip="{x:Static localization:Strings.BackgroundRemoverWindow_Processing_device}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Converter={StaticResource LocalizedDisplayConverter}}"/>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
                             </Grid>
                             <Button Grid.Column="2"
                                     Content="{x:Static localization:Strings.BackgroundRemoverWindow_Remove_Background}"
                                     Command="{Binding RemoveBackgroundCommand}"/>
                         </Grid>
+
+                        <SelectableTextBlock Grid.Row="2"
+                                             Text="{Binding NoModelMessage}"
+                                             IsVisible="{Binding IsGuideHighlighted}"
+                                             TextWrapping="Wrap"
+                                             FontWeight="Normal"/>
                     </Grid>
                 </Border>
 

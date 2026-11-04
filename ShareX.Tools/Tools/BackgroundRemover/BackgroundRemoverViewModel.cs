@@ -45,30 +45,20 @@ public sealed partial class BackgroundRemoverViewModel : ViewModelBase, IDisposa
     {
         ModelsFolder = modelsFolder;
         _options = options;
-        SelectedDevice = Enum.IsDefined(options.SelectedDevice) ? options.SelectedDevice : BackgroundRemovalDevice.Auto;
-        _options.SelectedDevice = SelectedDevice;
         RefreshModels();
     }
 
     public ObservableCollection<BackgroundRemovalModel> AvailableModels { get; } = [];
 
-    public IReadOnlyList<BackgroundRemovalDevice> AvailableDevices { get; } = Enum.GetValues<BackgroundRemovalDevice>();
-
     public string? ModelsFolder { get; }
 
-    [ObservableProperty]
-    private BackgroundRemovalDevice _selectedDevice = BackgroundRemovalDevice.Auto;
+    public string NoModelMessage => string.Format(Localization.Strings.BackgroundRemoverWindow_No_model_found, ModelsFolder);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasSelectedModel))]
     [NotifyPropertyChangedFor(nameof(CanRemoveBackground))]
     [NotifyCanExecuteChangedFor(nameof(RemoveBackgroundCommand))]
     private BackgroundRemovalModel? _selectedModel;
-
-    partial void OnSelectedDeviceChanged(BackgroundRemovalDevice value)
-    {
-        _options.SelectedDevice = value;
-    }
 
     partial void OnSelectedModelChanged(BackgroundRemovalModel? value)
     {
@@ -269,7 +259,6 @@ public sealed partial class BackgroundRemoverViewModel : ViewModelBase, IDisposa
         {
             IsProcessing = true;
             BackgroundRemovalModel selectedModel = SelectedModel!;
-            BackgroundRemovalDevice selectedDevice = SelectedDevice;
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             SKBitmap? sourceBitmap = SKBitmap.Decode(ImagePath);
@@ -284,7 +273,7 @@ public sealed partial class BackgroundRemoverViewModel : ViewModelBase, IDisposa
             {
                 using (sourceBitmap)
                 {
-                    return _backgroundRemovalService.RemoveBackground(sourceBitmap, selectedModel, selectedDevice);
+                    return _backgroundRemovalService.RemoveBackground(sourceBitmap, selectedModel);
                 }
             });
 
@@ -293,7 +282,7 @@ public sealed partial class BackgroundRemoverViewModel : ViewModelBase, IDisposa
             ShowNotification(string.Format(Localization.Strings.BackgroundRemoverViewModel_Background_removed_ms, stopwatch.ElapsedMilliseconds), LucideIcons.eraser);
             string cacheStatus = result.IsSessionCached ? "cached" : "not cached";
             Debug.WriteLine(
-                $"Background removal (device={selectedDevice}, execution={result.ExecutionDevice}, model={selectedModel.FileName}, {cacheStatus}): " +
+                $"Background removal (model={selectedModel.FileName}, {cacheStatus}): " +
                 $"total={stopwatch.ElapsedMilliseconds} ms, session={result.SessionSetupMilliseconds} ms, " +
                 $"preprocess={result.PreprocessingMilliseconds} ms, inference={result.InferenceMilliseconds} ms, " +
                 $"postprocess={result.PostprocessingMilliseconds} ms");
@@ -301,6 +290,7 @@ public sealed partial class BackgroundRemoverViewModel : ViewModelBase, IDisposa
         catch (Exception ex)
         {
             ToolsDiagnostics.ReportWarning(nameof(BackgroundRemoverViewModel), "Background removal failed.", ex);
+            ShowErrorNotification(ex.Message);
         }
         finally
         {
