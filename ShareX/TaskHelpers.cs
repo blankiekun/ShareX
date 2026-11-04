@@ -688,11 +688,7 @@ namespace ShareX
         {
             if (ApplicationState.Settings.DontShowPrintSettingsDialog)
             {
-                using (PrintHelper printHelper = new PrintHelper(img))
-                {
-                    printHelper.Settings = ApplicationState.Settings.PrintSettings;
-                    printHelper.Print();
-                }
+                new PrintHelper(img) { Settings = ApplicationState.Settings.PrintSettings }.Print();
             }
             else
             {
@@ -1287,18 +1283,14 @@ namespace ShareX
 
             try
             {
-                IntPtr handle = NativeMethods.GetForegroundWindow();
-
-                if (handle.ToInt32() > 0)
+                if (BorderlessWindowManager.ToggleActiveWindow(taskSettings.ToolsSettings.BorderlessWindowSettings.ExcludeTaskbarArea))
                 {
-                    BorderlessWindowManager.ToggleBorderlessWindow(handle, taskSettings.ToolsSettings.BorderlessWindowSettings.ExcludeTaskbarArea);
-
                     PlayNotificationSoundAsync(NotificationSound.ActionCompleted, taskSettings);
                 }
             }
             catch (Exception e)
             {
-                e.ShowError();
+                e.ShowError(false);
             }
         }
 
@@ -1308,12 +1300,11 @@ namespace ShareX
 
             try
             {
-                IntPtr handle = NativeMethods.GetForegroundWindow();
+                KWinWindow window = KWinDesktop.Query().ActiveOrLastUsedWindow(Environment.ProcessId);
 
-                if (handle.ToInt32() > 0)
+                if (window != null)
                 {
-                    WindowInfo windowInfo = new WindowInfo(handle);
-                    windowInfo.TopMost = !windowInfo.TopMost;
+                    KWinDesktop.SetKeepAbove(window.Id, !window.IsKeepAbove);
 
                     PlayNotificationSoundAsync(NotificationSound.ActionCompleted, taskSettings);
                 }
@@ -1789,7 +1780,7 @@ namespace ShareX
         {
             using Bitmap bitmap = mode switch
             {
-                QRCodeScanMode.Screen => await CaptureScreenForQRCodeAsync(),
+                QRCodeScanMode.Screen => await CaptureScreenForToolAsync(),
                 QRCodeScanMode.Region => await RegionCaptureTasks.GetRegionImageAsync(
                     TaskSettings.GetDefaultTaskSettings().CaptureSettings.RegionCaptureOptions),
                 QRCodeScanMode.ImageFile when !string.IsNullOrWhiteSpace(filePath) => SkiaImageHelpers.LoadImage(filePath),
@@ -1799,7 +1790,7 @@ namespace ShareX
             return bitmap != null ? await Task.Run(() => BarcodeScan(bitmap)) : null;
         }
 
-        private static async Task<Bitmap> CaptureScreenForQRCodeAsync()
+        internal static async Task<Bitmap> CaptureScreenForToolAsync()
         {
             try
             {
@@ -1861,9 +1852,14 @@ namespace ShareX
             }
         }
 
-        public static void OpenRuler(TaskSettings taskSettings = null)
+        public static async void OpenRuler(TaskSettings taskSettings = null)
         {
-            ToolsIntegration.ShowRulerWindow();
+            Bitmap screenshot = await CaptureScreenForToolAsync();
+
+            if (screenshot != null)
+            {
+                ToolsIntegration.ShowRulerWindow(screenshot);
+            }
         }
 
         public static void OpenMouseHighlighter(TaskSettings taskSettings = null)

@@ -32,7 +32,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using ShareX.AvaloniaUI.Input;
 using ShareX.AvaloniaUI.Theming;
-using System.Runtime.InteropServices;
+using SkiaSharp;
 
 namespace ShareX.AvaloniaUI.Windows
 {
@@ -40,10 +40,6 @@ namespace ShareX.AvaloniaUI.Windows
     {
         private const double PreviewOffset = 18;
         private const int MagnifierPixelCount = 15;
-        private const uint BiRgb = 0;
-        private const uint DibRgbColors = 0;
-        private const uint SrcCopy = 0x00CC0020;
-        private const uint ClrInvalid = 0xFFFFFFFF;
 
         private readonly ScreenColorPickerOptions _options;
         private readonly TaskCompletionSource<ScreenColorPickerResult?> _completionSource = new();
@@ -53,15 +49,19 @@ namespace ShareX.AvaloniaUI.Windows
         private Image _magnifierImage = null!;
         private TextBlock _infoText = null!;
         private WriteableBitmap? _magnifierBitmap;
-        private nint _magnifierDc;
-        private nint _magnifierDib;
-        private nint _previousMagnifierObject;
-        private nint _magnifierBits;
+        private SKBitmap? _screen;
+        private PixelRect _screenBounds;
         private Color _currentColor;
         private PixelPoint _currentPosition;
         private PointerAction _pointerAction;
         private Color _pressedColor;
         private PixelPoint _pressedPosition;
+
+        /// <summary>
+        /// Takes a screenshot of the whole desktop, or returns null after telling the user why it can't. A client can't read screen
+        /// pixels on Wayland, so colors come from this image. This project can't reach the capture code, so the app sets it at startup.
+        /// </summary>
+        public static Func<Task<SKBitmap?>>? CaptureScreenshotAsync { get; set; }
 
         public ScreenColorPickerWindow() : this(new ScreenColorPickerOptions())
         {
@@ -89,15 +89,21 @@ namespace ShareX.AvaloniaUI.Windows
                     PixelFormat.Bgra8888,
                     AlphaFormat.Opaque);
                 _magnifierImage.Source = _magnifierBitmap;
-                InitializeMagnifierCapture();
             }
 
-            Loaded += OnLoaded;
+            Opened += OnOpened;
         }
 
-        public Task<ScreenColorPickerResult?> PickAsync(Window? owner = null)
+        public async Task<ScreenColorPickerResult?> PickAsync(Window? owner = null)
         {
-            ConfigureOverlayBounds();
+            using SKBitmap? screenshot = CaptureScreenshotAsync == null ? null : await CaptureScreenshotAsync();
+
+            if (screenshot == null)
+            {
+                return null;
+            }
+
+            ConfigureOverlayBounds(screenshot);
 
             if (owner != null)
             {
@@ -108,24 +114,21 @@ namespace ShareX.AvaloniaUI.Windows
                 Show();
             }
 
-            return _completionSource.Task;
+            return await _completionSource.Task;
         }
 
         protected override void OnClosed(EventArgs e)
         {
             _completionSource.TrySetResult(null);
-            DisposeMagnifierCapture();
+            _screen?.Dispose();
             base.OnClosed(e);
         }
 
-        private void OnLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private void OnOpened(object? sender, EventArgs e)
         {
-            if (!OperatingSystem.IsWindows())
-            {
-                Complete(null);
-                return;
-            }
-
+            // KWin places a new window out from under a panel's reserved strip, and this one spans every monitor, so FullScreen
+            // can't help. A move after mapping is left alone.
+            Position = _screenBounds.Position;
             Activate();
             Focus();
         }
@@ -194,7 +197,7 @@ namespace ShareX.AvaloniaUI.Windows
             }
         }
 
-        private void ConfigureOverlayBounds()
+        private void ConfigureOverlayBounds(SKBitmap screenshot)
         {
             var screens = Screens.All;
             if (screens.Count == 0)
@@ -209,6 +212,11 @@ namespace ShareX.AvaloniaUI.Windows
             var topLeft = new PixelPoint(left, top);
             double scaling = Screens.ScreenFromPoint(topLeft)?.Scaling ?? screens[0].Scaling;
 
+            // A scale can make the screenshot's size differ from the desktop's in X11 pixels, which is what a pointer position is in.
+            _screenBounds = new PixelRect(left, top, right - left, bottom - top);
+            _screen = new SKBitmap(new SKImageInfo(_screenBounds.Width, _screenBounds.Height, SKColorType.Bgra8888, SKAlphaType.Premul));
+            screenshot.ScalePixels(_screen, new SKSamplingOptions(SKFilterMode.Nearest));
+
             Position = topLeft;
             Width = (right - left) / scaling;
             Height = (bottom - top) / scaling;
@@ -217,17 +225,15 @@ namespace ShareX.AvaloniaUI.Windows
 
         private void UpdatePicker(PixelPoint screenPoint, Point clientPoint)
         {
-            Color color = default;
-            bool colorRead = _magnifierBitmap != null &&
-                TryUpdateMagnifier(screenPoint, _magnifierBitmap, out color);
-
-            if (!colorRead)
+            if (_screen != null && _screenBounds.Contains(screenPoint))
             {
-                colorRead = TryGetScreenColor(screenPoint, out color);
-            }
+                Color color = ReadPixel(screenPoint);
 
-            if (colorRead)
-            {
+                if (_magnifierBitmap != null)
+                {
+                    UpdateMagnifier(screenPoint, _magnifierBitmap);
+                }
+
                 _currentColor = color;
                 _currentPosition = screenPoint;
                 _colorPreview.Background = new SolidColorBrush(color);
@@ -267,151 +273,32 @@ namespace ShareX.AvaloniaUI.Windows
             }
         }
 
-        private void InitializeMagnifierCapture()
+        private Color ReadPixel(PixelPoint point)
         {
-            nint screenDc = GetDC(nint.Zero);
-
-            if (screenDc == nint.Zero)
-            {
-                return;
-            }
-
-            try
-            {
-                _magnifierDc = CreateCompatibleDC(screenDc);
-
-                if (_magnifierDc == nint.Zero)
-                {
-                    return;
-                }
-
-                BitmapInfo bitmapInfo = new()
-                {
-                    Header = new BitmapInfoHeader
-                    {
-                        Size = (uint)Marshal.SizeOf<BitmapInfoHeader>(),
-                        Width = MagnifierPixelCount,
-                        Height = -MagnifierPixelCount,
-                        Planes = 1,
-                        BitCount = 32,
-                        Compression = BiRgb
-                    }
-                };
-
-                _magnifierDib = CreateDIBSection(screenDc, ref bitmapInfo, DibRgbColors,
-                    out _magnifierBits, nint.Zero, 0);
-
-                if (_magnifierDib != nint.Zero && _magnifierBits != nint.Zero)
-                {
-                    _previousMagnifierObject = SelectObject(_magnifierDc, _magnifierDib);
-                }
-            }
-            finally
-            {
-                ReleaseDC(nint.Zero, screenDc);
-            }
+            SKColor pixel = _screen!.GetPixel(point.X - _screenBounds.X, point.Y - _screenBounds.Y);
+            return Color.FromRgb(pixel.Red, pixel.Green, pixel.Blue);
         }
 
-        private unsafe bool TryUpdateMagnifier(PixelPoint center, WriteableBitmap bitmap, out Color color)
+        private unsafe void UpdateMagnifier(PixelPoint center, WriteableBitmap bitmap)
         {
-            if (_magnifierDc == nint.Zero || _magnifierDib == nint.Zero || _magnifierBits == nint.Zero)
+            int radius = MagnifierPixelCount / 2;
+
+            using (ILockedFramebuffer framebuffer = bitmap.Lock())
             {
-                color = default;
-                return false;
-            }
-
-            nint screenDc = GetDC(nint.Zero);
-
-            if (screenDc == nint.Zero)
-            {
-                color = default;
-                return false;
-            }
-
-            try
-            {
-                int radius = MagnifierPixelCount / 2;
-
-                if (!BitBlt(_magnifierDc, 0, 0, MagnifierPixelCount, MagnifierPixelCount,
-                    screenDc, center.X - radius, center.Y - radius, SrcCopy))
-                {
-                    color = default;
-                    return false;
-                }
-
-                using ILockedFramebuffer framebuffer = bitmap.Lock();
-                int sourceStride = MagnifierPixelCount * 4;
-                byte* source = (byte*)_magnifierBits;
-                byte* destination = (byte*)framebuffer.Address;
-
                 for (int y = 0; y < MagnifierPixelCount; y++)
                 {
-                    Buffer.MemoryCopy(source + (y * sourceStride),
-                        destination + (y * framebuffer.RowBytes), framebuffer.RowBytes, sourceStride);
+                    uint* row = (uint*)((byte*)framebuffer.Address + y * framebuffer.RowBytes);
+
+                    for (int x = 0; x < MagnifierPixelCount; x++)
+                    {
+                        PixelPoint point = new(center.X - radius + x, center.Y - radius + y);
+                        Color color = _screenBounds.Contains(point) ? ReadPixel(point) : Colors.Black;
+                        row[x] = 0xFF000000u | ((uint)color.R << 16) | ((uint)color.G << 8) | color.B;
+                    }
                 }
-
-                int centerOffset = ((radius * sourceStride) + radius * 4);
-                color = Color.FromRgb(source[centerOffset + 2], source[centerOffset + 1], source[centerOffset]);
-                return true;
-            }
-            finally
-            {
-                ReleaseDC(nint.Zero, screenDc);
-            }
-        }
-
-        private void DisposeMagnifierCapture()
-        {
-            if (_magnifierDc != nint.Zero && _previousMagnifierObject != nint.Zero)
-            {
-                SelectObject(_magnifierDc, _previousMagnifierObject);
-                _previousMagnifierObject = nint.Zero;
             }
 
-            if (_magnifierDib != nint.Zero)
-            {
-                DeleteObject(_magnifierDib);
-                _magnifierDib = nint.Zero;
-                _magnifierBits = nint.Zero;
-            }
-
-            if (_magnifierDc != nint.Zero)
-            {
-                DeleteDC(_magnifierDc);
-                _magnifierDc = nint.Zero;
-            }
-        }
-
-        private static bool TryGetScreenColor(PixelPoint point, out Color color)
-        {
-            nint screenDc = GetDC(nint.Zero);
-
-            if (screenDc == nint.Zero)
-            {
-                color = default;
-                return false;
-            }
-
-            try
-            {
-                uint pixel = GetPixel(screenDc, point.X, point.Y);
-
-                if (pixel == ClrInvalid)
-                {
-                    color = default;
-                    return false;
-                }
-
-                color = Color.FromRgb(
-                    (byte)(pixel & 0xFF),
-                    (byte)((pixel >> 8) & 0xFF),
-                    (byte)((pixel >> 16) & 0xFF));
-                return true;
-            }
-            finally
-            {
-                ReleaseDC(nint.Zero, screenDc);
-            }
+            _magnifierImage.InvalidateVisual();
         }
 
         private enum PointerAction
@@ -420,65 +307,5 @@ namespace ShareX.AvaloniaUI.Windows
             Select,
             Cancel
         }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct NativePoint
-        {
-            public int X;
-            public int Y;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct BitmapInfoHeader
-        {
-            public uint Size;
-            public int Width;
-            public int Height;
-            public ushort Planes;
-            public ushort BitCount;
-            public uint Compression;
-            public uint SizeImage;
-            public int XPelsPerMeter;
-            public int YPelsPerMeter;
-            public uint ColorsUsed;
-            public uint ColorsImportant;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct BitmapInfo
-        {
-            public BitmapInfoHeader Header;
-            public uint Colors;
-        }
-
-        [DllImport("user32.dll")]
-        private static extern nint GetDC(nint windowHandle);
-
-        [DllImport("user32.dll")]
-        private static extern int ReleaseDC(nint windowHandle, nint deviceContext);
-
-        [DllImport("gdi32.dll")]
-        private static extern uint GetPixel(nint deviceContext, int x, int y);
-
-        [DllImport("gdi32.dll")]
-        private static extern nint CreateCompatibleDC(nint deviceContext);
-
-        [DllImport("gdi32.dll")]
-        private static extern bool DeleteDC(nint deviceContext);
-
-        [DllImport("gdi32.dll")]
-        private static extern nint CreateDIBSection(nint deviceContext, ref BitmapInfo bitmapInfo,
-            uint usage, out nint bits, nint section, uint offset);
-
-        [DllImport("gdi32.dll")]
-        private static extern nint SelectObject(nint deviceContext, nint graphicsObject);
-
-        [DllImport("gdi32.dll")]
-        private static extern bool DeleteObject(nint graphicsObject);
-
-        [DllImport("gdi32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool BitBlt(nint destinationDc, int x, int y, int width, int height,
-            nint sourceDc, int sourceX, int sourceY, uint rasterOperation);
     }
 }

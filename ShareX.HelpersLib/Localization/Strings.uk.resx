@@ -867,6 +867,12 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Файли зображень</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Не вдалося відкрити «{0}», оскільки цей формат потребує ImageMagick, а команду magick не знайдено. Встановіть пакет imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Збереження у TIFF потребує ImageMagick, а команду magick не знайдено. Встановіть пакет imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Відкрити зображення</value>
   </data>
@@ -986,6 +992,11 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Неприпустима назва принтера</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX не вдалося надрукувати: {0}
+
+Друк виконується через портал друку стільниці. Перевірте, чи встановлено xdg-desktop-portal і xdg-desktop-portal-kde, а для справжнього принтера також cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Дозволити збільшення зображення</value>

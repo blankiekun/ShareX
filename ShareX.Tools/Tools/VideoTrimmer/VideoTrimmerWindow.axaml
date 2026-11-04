@@ -37,7 +37,7 @@
                             </Style>
                         </Border.Styles>
                         <Grid>
-                            <local:WindowsMediaPlayer x:Name="Player" IsVisible="{Binding HasVideo}"
+                            <local:MpvPlayer x:Name="Player" IsVisible="{Binding HasVideo}"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <StackPanel IsVisible="{Binding !HasVideo}" Spacing="12"
                                         HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False">

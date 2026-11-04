@@ -137,6 +137,9 @@ public static class MouseHighlighterManager
         else Dispatcher.UIThread.Invoke(Close);
     }
 
+    // A signal ends the process without Shutdown, on a thread that isn't the UI thread. The window goes with the process, but KWin's script wouldn't.
+    public static void ReleaseForExit() => _service?.ReleaseScript();
+
     internal static void StopOnError(MouseHighlighterService service, Exception exception)
     {
         if (!ReferenceEquals(_service, service)) return;

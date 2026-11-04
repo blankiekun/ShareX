@@ -46,16 +46,17 @@ namespace ShareX.UploadersLib
         public string ConsumerKey { get; set; }
 
         // Used for HMAC_SHA1 signature
-        [Browsable(false)]
+        [Browsable(false), JsonEncrypt]
         public string ConsumerSecret { get; set; }
 
         // Used for RSA_SHA1 signature
-        [Browsable(false)]
+        [Browsable(false), JsonEncrypt]
         public string ConsumerPrivateKey { get; set; }
 
         [Browsable(false)]
         public OAuthInfoSignatureMethod SignatureMethod { get; set; }
 
+        // Not a secret: the sign-in URL carries it through the browser, and it does nothing without AuthSecret.
         [Browsable(false)]
         public string AuthToken { get; set; }
 
@@ -65,7 +66,7 @@ namespace ShareX.UploadersLib
         [JsonEncrypt, Description("Verification Code from the Authorization Page")]
         public string AuthVerifier { get; set; }
 
-        [Browsable(false)]
+        [Browsable(false), JsonEncrypt]
         public string UserToken { get; set; }
 
         [Browsable(false), JsonEncrypt]

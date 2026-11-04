@@ -2064,9 +2064,64 @@ Filen behölls, men den kanske inte går att spela upp:
     <value>Fel vid export av säkerhetskopian:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>En ShareX-säkerhetskopia innehåller dina inloggningsuppgifter och API-nycklar i klartext, så att de kan flyttas till en annan dator. Alla som får tag i filen kan använda dem.&#xD;
+&#xD;
+Håll den privat och ta bort den när du har återställt den. Exportera ändå?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Fel vid import av säkerhetskopian:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} i säkerhetskopian är skadad, så inget importerades.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Säkerhetskopian innehåller inloggningsuppgifter, och de kan inte sparas utan din plånbok, så inget importerades. Öppna plånboken och försök igen.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Filen innehåller inga ShareX-inställningar eller någon historik.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Bildeffekter som utelämnats, eftersom den här versionen inte har dem:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Historik: {0} tillagda, {1} fanns redan, {2} oläsliga.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Din tidigare historik sparades i {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Historiken importerades inte: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Mappar som ändrats till sin Linux-plats:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Inställningar som återställts till standard, eftersom sökvägen saknar motsvarighet här:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Den här säkerhetskopian innehåller dina inloggningsuppgifter i klartext. Ta bort den när du är nöjd med importen.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Inloggningsuppgifter som följde med, nu krypterade med din plånbok:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Logga in igen. Dessa krypterades för en annan dator och kan inte läsas här:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Filer i säkerhetskopian som ignorerades:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Säkerhetskopian importerades</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Åtgärder som stängts av, så att inget från säkerhetskopian körs av sig självt. Kontrollera dem och slå på dem igen:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Det gick inte att spara {0}. Importen stoppades där.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX kan inte stängas medan en skärminspelning pågår.

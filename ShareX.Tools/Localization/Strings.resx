@@ -1457,6 +1457,9 @@
   <data name="MouseHighlighter_PrimaryReleaseCrosshairs" xml:space="preserve">
     <value>Show crosshairs on primary button release</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Highlights the pointer, and also in recordings when the mouse highlighter option is on in Task settings → Capture → Screen recorder. Clicks can't be highlighted: Wayland doesn't let apps see them.</value>
+  </data>
   <data name="MouseHighlighter_Radius" xml:space="preserve">
     <value>Radius (px):</value>
   </data>
@@ -2168,8 +2171,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Loading video...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>Video playback needs libmpv. Install the mpv package.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Mute</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>This video could not be played. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Playback position</value>
@@ -2325,9 +2334,6 @@
   <data name="VideoTrimmer_OutputExtension" xml:space="preserve">
     <value>Use the {0} extension for this export mode.</value>
   </data>
-  <data name="VideoTrimmer_PlaybackError" xml:space="preserve">
-    <value>Windows could not play this video. Check that Windows supports its format and that the Windows media components are installed. {0}</value>
-  </data>
   <data name="VideoTrimmer_Precise" xml:space="preserve">
     <value>Re-encode</value>
   </data>
@@ -2369,5 +2375,32 @@
   </data>
   <data name="VideoTrimmer_VideoFiles" xml:space="preserve">
     <value>Video files</value>
+  </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin can't do this for this window: it draws its own title bar, or can't go full screen.</value>
+  </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>Desktop file</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Resource name</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>Window ID</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Window role</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Window state</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Window type</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Pick a window to inspect its properties.</value>
   </data>
 </root>

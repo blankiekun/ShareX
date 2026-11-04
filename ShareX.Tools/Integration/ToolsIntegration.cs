@@ -232,9 +232,10 @@ public static class ToolsIntegration
         Show(() => new QRCodeWindow(services, options));
     }
 
-    public static void ShowRulerWindow()
+    /// <param name="screenshot">The whole desktop. The window takes ownership of it.</param>
+    public static void ShowRulerWindow(SkiaSharp.SKBitmap screenshot)
     {
-        Show(() => new RulerWindow());
+        Show(() => new RulerWindow(screenshot));
     }
 
     public static void ShowMouseHighlighterWindow(MouseHighlighterOptions options, Action? settingsChanged = null)

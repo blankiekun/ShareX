@@ -55,11 +55,11 @@ public static class KWinScript
     private const string CallbackMethod = "Report";
 
     public static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(2);
-    private static readonly TimeSpan UnloadTimeout = TimeSpan.FromSeconds(1);
+    internal static readonly TimeSpan UnloadTimeout = TimeSpan.FromSeconds(1);
 
     // KWin numbers a script by how many are loaded, so a script unloading while another loads can make two share
     // an id, and run() then reaches the wrong one. Scripts from other programs can still collide; that times out.
-    private static readonly SemaphoreSlim Gate = new(1, 1);
+    internal static readonly SemaphoreSlim Gate = new(1, 1);
 
     /// <summary>
     /// Runs <paramref name="body"/>, which must call <c>report(text)</c> once. Blocks the calling thread
@@ -90,17 +90,8 @@ public static class KWinScript
 
     private static async Task<string> RunAsync(string body, TimeSpan timeout)
     {
-        string runtimeDirectory = Environment.GetEnvironmentVariable("XDG_RUNTIME_DIR") ?? "";
-        if (runtimeDirectory.Length == 0 || !Directory.Exists(runtimeDirectory))
-        {
-            throw new KWinScriptException("XDG_RUNTIME_DIR is not set, so ShareX cannot talk to KWin. Is this a KDE Plasma Wayland session?");
-        }
-
-        string? sessionBus = DBusAddress.Session;
-        if (string.IsNullOrEmpty(sessionBus))
-        {
-            throw new KWinScriptException("There is no D-Bus session bus, so ShareX cannot talk to KWin. Is this a KDE Plasma Wayland session?");
-        }
+        string runtimeDirectory = RequireRuntimeDirectory();
+        string sessionBus = RequireSessionBus();
 
         string token = Guid.NewGuid().ToString("N");
         string pluginName = "sharex-" + token;
@@ -170,9 +161,31 @@ public static class KWinScript
         }
     }
 
+    internal static string RequireRuntimeDirectory()
+    {
+        string runtimeDirectory = Environment.GetEnvironmentVariable("XDG_RUNTIME_DIR") ?? "";
+        if (runtimeDirectory.Length == 0 || !Directory.Exists(runtimeDirectory))
+        {
+            throw new KWinScriptException("XDG_RUNTIME_DIR is not set, so ShareX cannot talk to KWin. Is this a KDE Plasma Wayland session?");
+        }
+
+        return runtimeDirectory;
+    }
+
+    internal static string RequireSessionBus()
+    {
+        string? sessionBus = DBusAddress.Session;
+        if (string.IsNullOrEmpty(sessionBus))
+        {
+            throw new KWinScriptException("There is no D-Bus session bus, so ShareX cannot talk to KWin. Is this a KDE Plasma Wayland session?");
+        }
+
+        return sessionBus;
+    }
+
     internal static string JsString(string value) => Newtonsoft.Json.JsonConvert.ToString(value);
 
-    private static Task<int> CallLoadScriptAsync(DBusConnection connection, string path, string pluginName)
+    internal static Task<int> CallLoadScriptAsync(DBusConnection connection, string path, string pluginName)
     {
         using MessageWriter writer = connection.GetMessageWriter();
         writer.WriteMethodCallHeader(KWinService, ScriptingPath, ScriptingInterface, "loadScript", "ss");
@@ -182,14 +195,14 @@ public static class KWinScript
             static (Message message, object? _) => message.GetBodyReader().ReadInt32(), null);
     }
 
-    private static Task CallRunAsync(DBusConnection connection, int scriptId)
+    internal static Task CallRunAsync(DBusConnection connection, int scriptId)
     {
         using MessageWriter writer = connection.GetMessageWriter();
         writer.WriteMethodCallHeader(KWinService, ScriptingPath + "/Script" + scriptId, ScriptInterface, "run");
         return connection.CallMethodAsync(writer.CreateMessage());
     }
 
-    private static Task CallUnloadScriptAsync(DBusConnection connection, string pluginName)
+    internal static Task CallUnloadScriptAsync(DBusConnection connection, string pluginName)
     {
         using MessageWriter writer = connection.GetMessageWriter();
         writer.WriteMethodCallHeader(KWinService, ScriptingPath, ScriptingInterface, "unloadScript", "s");

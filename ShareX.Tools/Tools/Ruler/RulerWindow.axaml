@@ -6,6 +6,7 @@
         Title="{x:Static localization:Strings.RulerWindow_ShareX_Ruler}"
         CanResize="False"
         ShowInTaskbar="False"
+        Topmost="True"
         WindowDecorations="None"
         TransparencyLevelHint="Transparent"
         Background="Transparent"

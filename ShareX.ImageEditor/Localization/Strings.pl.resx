@@ -1134,6 +1134,9 @@ Schowek nie zawiera obrazu.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Ładowanie emoji...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Nie znaleziono czcionki emoji, więc emoji nie mogą zostać narysowane. Zainstaluj pakiet noto-fonts-emoji i uruchom ponownie ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Brak emoji pasujących do wyszukiwania.</value>
   </data>

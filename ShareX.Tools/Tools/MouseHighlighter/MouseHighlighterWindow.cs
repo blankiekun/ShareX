@@ -42,9 +42,9 @@ public sealed class MouseHighlighterWindow : Window
         _options = options;
         Title = "ShareX - " + Strings.MouseHighlighter_Title;
         Width = 620;
-        Height = 690;
+        Height = 380;
         MinWidth = 520;
-        MinHeight = 460;
+        MinHeight = 340;
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
         this.Bind(BackgroundProperty, new DynamicResourceExtension("ShareX.Brush.Background.Main"));
@@ -74,7 +74,7 @@ public sealed class MouseHighlighterWindow : Window
 
         TextBlock text = new()
         {
-            Text = Strings.MouseHighlighter_RecordingHelp,
+            Text = Strings.MouseHighlighter_PointerOnlyHelp,
             TextWrapping = TextWrapping.Wrap,
             FontWeight = FontWeight.Normal,
             Margin = new Thickness(10, 0, 0, 0)

@@ -867,6 +867,12 @@ Doriți totuși să îl executați?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Fișiere imagine</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Nu s-a putut deschide «{0}» deoarece acest format necesită ImageMagick, iar comanda magick nu a fost găsită. Instalați pachetul imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Salvarea în TIFF necesită ImageMagick, iar comanda magick nu a fost găsită. Instalați pachetul imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Deschideți imaginea</value>
   </data>
@@ -986,6 +992,11 @@ Doriți totuși să îl executați?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nume de imprimantă nevalid</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX nu a putut imprima: {0}
+
+Imprimarea trece prin portalul de imprimare al desktopului. Verificați dacă xdg-desktop-portal și xdg-desktop-portal-kde sunt instalate, iar pentru o imprimantă reală și cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Permiteți mărirea imaginii</value>

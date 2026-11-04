@@ -62,4 +62,93 @@ public class KWinDesktopTests
     {
         Assert.Null(LastUsed(Window("main", ShareXPid), Window("viewer", ShareXPid)));
     }
+
+    // Catches: the keep-above hotkey skipping the window it just kept above, so a second press changes another window instead.
+    [Fact]
+    public void ActiveOrLastUsedWindow_TakesAnActiveKeptAboveWindow()
+    {
+        KWinOutput[] outputs = [new KWinOutput("A", new Rectangle(0, 0, 1280, 720), 1)];
+        KWinDesktop desktop = new()
+        {
+            Outputs = outputs,
+            Windows = [Window("pinned", keepAbove: true), Window("other")],
+            Cursor = Point.Empty,
+            Coordinates = DesktopCoordinates.ForDesktop(outputs, false),
+            ActiveWindowId = "pinned"
+        };
+
+        Assert.Equal("pinned", desktop.ActiveOrLastUsedWindow(ShareXPid)?.Id);
+    }
+
+    // Catches: a hotkey sent while ShareX has the focus stripping or pinning ShareX's own window.
+    [Fact]
+    public void ActiveOrLastUsedWindow_SkipsActiveShareXWindow()
+    {
+        KWinOutput[] outputs = [new KWinOutput("A", new Rectangle(0, 0, 1280, 720), 1)];
+        KWinDesktop desktop = new()
+        {
+            Outputs = outputs,
+            Windows = [Window("main", ShareXPid), Window("user")],
+            Cursor = Point.Empty,
+            Coordinates = DesktopCoordinates.ForDesktop(outputs, false),
+            ActiveWindowId = "main"
+        };
+
+        Assert.Equal("user", desktop.ActiveOrLastUsedWindow(ShareXPid)?.Id);
+    }
+
+    private static string? FindByTitle(string title, params KWinWindow[] topOfStackFirst)
+    {
+        KWinOutput[] outputs = [new KWinOutput("A", new Rectangle(0, 0, 1280, 720), 1)];
+        KWinDesktop desktop = new()
+        {
+            Outputs = outputs,
+            Windows = topOfStackFirst,
+            Cursor = Point.Empty,
+            Coordinates = DesktopCoordinates.ForDesktop(outputs, false)
+        };
+
+        return desktop.FindWindowByTitle(title, ShareXPid)?.Id;
+    }
+
+    // Catches: a borderless toggle hitting a window that merely contains the title, because it is higher in the stack, when another has exactly that title.
+    [Fact]
+    public void FindWindowByTitle_PrefersAnExactMatch()
+    {
+        Assert.Equal("exact", FindByTitle("Notes", Window("partial", caption: "Notes - Editor"), Window("exact", caption: "Notes")));
+    }
+
+    // Catches: a typed title having to match case and all, which the Windows version didn't ask for.
+    [Fact]
+    public void FindWindowByTitle_FallsBackToAnyCaseContains()
+    {
+        Assert.Equal("partial", FindByTitle("notes", Window("other", caption: "Terminal"), Window("partial", caption: "My Notes - Editor")));
+    }
+
+    // Catches: the tool stripping ShareX's own window or a panel when their title happens to match.
+    [Fact]
+    public void FindWindowByTitle_SkipsShareXAndWindowsThatAreNotOrdinary()
+    {
+        Assert.Null(FindByTitle("Notes", Window("own", ShareXPid, caption: "Notes"), Window("panel", normal: false, caption: "Notes")));
+    }
+
+    // Catches: a window that closed between the list and the click reading as a crash in the parser. The script reports null for it.
+    [Fact]
+    public void ParseWindowDetails_ReadsAClosedWindowAsNull()
+    {
+        Assert.Null(KWinDesktop.ParseWindowDetails("null"));
+    }
+
+    // Catches: a window without a role or desktop file failing to parse, since KWin leaves those out or empty.
+    [Fact]
+    public void ParseWindowDetails_ReadsAWindowWithFieldsMissing()
+    {
+        KWinWindowDetails? details = KWinDesktop.ParseWindowDetails(
+            """{"id":"{a}","caption":"c","pid":5,"frame":{"x":1,"y":2,"width":3,"height":4},"client":{"x":1,"y":2,"width":3,"height":4},"opacity":0.5,"keepAbove":true,"state":["keepAbove"]}""");
+
+        Assert.NotNull(details);
+        Assert.Equal("", details.WindowRole);
+        Assert.Equal(0.5, details.Opacity);
+        Assert.Equal(["keepAbove"], details.State);
+    }
 }

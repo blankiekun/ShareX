@@ -388,6 +388,9 @@
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - 배경 제거</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin은 이 창에 이 작업을 할 수 없습니다: 창이 자체 제목 표시줄을 그리거나 전체 화면으로 전환할 수 없습니다.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>선택한 창을 전환할 수 없습니다. {0}</value>
   </data>
@@ -1162,11 +1165,20 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>컨트롤</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop 파일</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>확장 창 스타일</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>선택한 대상 없음</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>디스플레이</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>속성을 검사할 창을 선택하세요.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>속성을 검사할 창 또는 컨트롤을 선택하세요</value>
@@ -1183,6 +1195,9 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  너비: {2}  높이: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>리소스 이름</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>제목 없는 창</value>
   </data>
@@ -1192,14 +1207,26 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>창 핸들</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>창 ID</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>창 사각형</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>창 역할</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>창 상태</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>창 스타일</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>창 제목</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>창 유형</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>항상 위</value>
@@ -1450,6 +1477,9 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>하이라이트 모드:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>포인터를 강조 표시하며, 작업 설정 → 캡처 → 화면 녹화기에서 마우스 클릭 강조 표시 옵션이 켜져 있으면 녹화에서도 강조 표시합니다. 클릭은 강조 표시할 수 없습니다: Wayland는 앱이 클릭을 볼 수 없게 합니다.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>기본 버튼 색상:</value>
   </data>
@@ -1600,11 +1630,26 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>대상</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract가 코드 {0}(으)로 실패했습니다. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract에 «{0}» 언어 데이터가 없습니다. 패키지 관리자로 설치하세요. 예: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>이 시스템에서는 OCR용 {0} 언어를 사용할 수 없습니다.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract에 설치된 언어 데이터가 없습니다. 패키지 관리자로 언어를 설치하세요. 예: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>광학 문자 인식은 Windows 버전 {0} 이상에서만 사용할 수 있습니다.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR에는 tesseract 프로그램이 필요한데 PATH에서 찾을 수 없습니다. 패키지 관리자로 설치하세요. 예: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract가 {0}초 안에 끝나지 않아 중지되었습니다.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2152,8 +2197,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>동영상 불러오는 중...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>동영상을 재생하려면 libmpv가 필요합니다. mpv 패키지를 설치하세요.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>음소거</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>이 동영상을 재생할 수 없습니다. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>재생 위치</value>

@@ -388,6 +388,9 @@
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX – Háttér eltávolítása</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>A KWin ezt nem tudja megtenni ennél az ablaknál: az ablak saját címsort rajzol, vagy nem tud teljes képernyőre váltani.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>A kijelölt ablak nem váltható át. {0}</value>
   </data>
@@ -1162,11 +1165,20 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Vezérlő</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop fájl</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Kiterjesztett ablakstílusok</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Nincs cél kiválasztva</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Képernyő</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Válasszon egy ablakot a tulajdonságainak vizsgálatához.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Válasszon ablakot vagy vezérlőt a tulajdonságainak vizsgálatához</value>
@@ -1183,6 +1195,9 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Szélesség: {2}  Magasság: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Erőforrás neve</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Névtelen ablak</value>
   </data>
@@ -1192,14 +1207,26 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Ablakfogantyú</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>Ablakazonosító</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Ablak téglalapja</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Ablak szerepe</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Ablak állapota</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Ablakstílusok</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Ablak címe</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Ablak típusa</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Mindig felül</value>
@@ -1450,6 +1477,9 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Kiemelés mód:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Kiemeli a mutatót, a felvételeken is, ha az egérkiemelő opció be van kapcsolva itt: Feladat beállítások → Rögzítés → Képernyőrögzítő. A kattintások nem emelhetők ki: a Wayland nem engedi, hogy az alkalmazások lássák őket.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>A gomb elsődleges színe:</value>
   </data>
@@ -1600,11 +1630,26 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Cél</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>A Tesseract a következő kóddal hibásan leállt: {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>A Tesseract nem rendelkezik adatokkal a(z) «{0}» nyelvhez. Telepítse a csomagkezelővel, például: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>A(z) {0} nyelv nem érhető el OCR-hez ezen a rendszeren.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>A Tesseracthoz nincs telepítve nyelvi adat. Telepítsen egy nyelvet a csomagkezelővel, például: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Az optikai karakterfelismerés csak a Windows {0} vagy újabb verzióján érhető el.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>Az OCR-hez szükség van a tesseract programra, amely nem található a PATH-ban. Telepítse a csomagkezelővel, például: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>A Tesseract nem fejeződött be {0} másodpercen belül, ezért leállították.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2152,8 +2197,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Videó betöltése...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>A videólejátszáshoz libmpv szükséges. Telepítse az mpv csomagot.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Némítás</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Ez a videó nem játszható le. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Lejátszási pozíció</value>

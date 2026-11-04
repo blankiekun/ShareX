@@ -867,6 +867,12 @@ Ennek ellenére szeretné futtatni?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Képfájlok</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>A(z) «{0}» nem nyitható meg, mert ehhez a formátumhoz ImageMagick szükséges, és a magick parancs nem található. Telepítse az imagemagick csomagot.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>A TIFF mentéséhez ImageMagick szükséges, és a magick parancs nem található. Telepítse az imagemagick csomagot.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Kép megnyitása</value>
   </data>
@@ -986,6 +992,11 @@ Ennek ellenére szeretné futtatni?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Érvénytelen nyomtatónév</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>A ShareX nem tudott nyomtatni: {0}
+
+A nyomtatás az asztali környezet nyomtatási portálján keresztül történik. Ellenőrizze, hogy az xdg-desktop-portal és az xdg-desktop-portal-kde telepítve van-e, valódi nyomtatóhoz pedig a cups is.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Kép nagyításának engedélyezése</value>

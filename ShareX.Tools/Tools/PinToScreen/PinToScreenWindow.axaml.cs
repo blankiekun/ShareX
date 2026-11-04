@@ -88,17 +88,46 @@ public partial class PinToScreenWindow : Window
         _opened = true;
         ResizeWindow(keepCenter: false);
 
-        System.Drawing.Point location;
         if (_requestedLocation.HasValue)
         {
             int inset = GetOuterInset();
-            location = new System.Drawing.Point(_requestedLocation.Value.X - inset, _requestedLocation.Value.Y - inset);
+            PlaceThroughKWin(new System.Drawing.Point(_requestedLocation.Value.X - inset, _requestedLocation.Value.Y - inset));
         }
         else
         {
             System.Drawing.Size size = new((int)Math.Ceiling(Width), (int)Math.Ceiling(Height));
-            location = Helpers.GetPosition(Options.Placement, Options.PlacementOffset,
+            System.Drawing.Point location = Helpers.GetPosition(Options.Placement, Options.PlacementOffset,
                 CaptureHelpers.GetActiveScreenWorkingArea(), size);
+            Position = new PixelPoint(location.X, location.Y);
+        }
+    }
+
+    /// <summary>
+    /// The image has to sit exactly over what was captured, even in a panel's strip or with its shadow off the screen. This window
+    /// was opened last, so it's the highest of ShareX's with this title. KWin adds " &lt;2&gt;" to a repeated title.
+    /// </summary>
+    private async void PlaceThroughKWin(System.Drawing.Point location)
+    {
+        try
+        {
+            for (int attempt = 0; attempt < 10; attempt++)
+            {
+                // KWin may not have the new window yet, and any resize this window just asked for would undo the move when it lands.
+                await Task.Delay(100);
+
+                KWinDesktop desktop = KWinDesktop.Query();
+                KWinWindow? window = desktop.Windows.FirstOrDefault(x => x.Pid == Environment.ProcessId && x.Caption.StartsWith(Title ?? "", StringComparison.Ordinal));
+
+                if (window != null)
+                {
+                    desktop.MoveWindow(window.Id, location);
+                    return;
+                }
+            }
+        }
+        catch (KWinScriptException ex)
+        {
+            ToolsDiagnostics.ReportWarning(nameof(PinToScreenWindow), "Failed to place a pinned image through KWin.", ex);
         }
 
         Position = new PixelPoint(location.X, location.Y);

@@ -1134,6 +1134,9 @@ Papan klip tidak berisi gambar.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Memuat emoji...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Font emoji tidak ditemukan, sehingga emoji tidak dapat digambar. Instal paket noto-fonts-emoji dan mulai ulang ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Tidak ada emoji yang cocok dengan pencarian ini.</value>
   </data>

@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using DrawingBitmap = SkiaSharp.SKBitmap;
 
@@ -44,6 +45,8 @@ namespace ShareX;
 internal sealed class ThumbnailItemViewModel : INotifyPropertyChanged, IDisposable
 {
     private int _refreshVersion;
+    private CancellationTokenSource? _refreshCancellation;
+    private (string Path, int Width, int Height)? _videoRequest;
     private Bitmap? _thumbnail;
     private bool _isSelected;
     private string _title = string.Empty;
@@ -181,10 +184,23 @@ internal sealed class ThumbnailItemViewModel : INotifyPropertyChanged, IDisposab
 
         string? filePath = Task.Info?.FilePath;
 
-        if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath) &&
-            (FileHelpers.IsImageFile(filePath) || FileHelpers.IsVideoFile(filePath)))
+        if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
         {
-            StartThumbnailRefresh(filePath, null);
+            if (FileHelpers.IsImageFile(filePath))
+            {
+                StartThumbnailRefresh(filePath, null);
+            }
+            else if (FileHelpers.IsVideoFile(filePath))
+            {
+                // Upload progress lands here many times a second, and each pass would kill ffmpeg and start it again.
+                (string, int, int) request = (filePath, Width, Height);
+
+                if (_videoRequest != request)
+                {
+                    StartThumbnailRefresh(filePath, null);
+                    _videoRequest = request;
+                }
+            }
         }
     }
 
@@ -222,15 +238,25 @@ internal sealed class ThumbnailItemViewModel : INotifyPropertyChanged, IDisposab
 
     private void StartThumbnailRefresh(string? filePath, DrawingBitmap? image)
     {
+        CancelThumbnailRefresh();
+        _refreshCancellation = new CancellationTokenSource();
         int version = ++_refreshVersion;
         int width = Width;
         int height = Height;
-        _ = RefreshThumbnailAsync(version, width, height, filePath, image);
+        _ = RefreshThumbnailAsync(version, width, height, filePath, image, _refreshCancellation.Token);
     }
 
-    private async Task RefreshThumbnailAsync(int version, int width, int height, string? filePath, DrawingBitmap? image)
+    private void CancelThumbnailRefresh()
     {
-        Bitmap? bitmap = await System.Threading.Tasks.Task.Run(() => CreateThumbnail(width, height, filePath, image));
+        _refreshCancellation?.Cancel();
+        _refreshCancellation?.Dispose();
+        _refreshCancellation = null;
+        _videoRequest = null;
+    }
+
+    private async Task RefreshThumbnailAsync(int version, int width, int height, string? filePath, DrawingBitmap? image, CancellationToken token)
+    {
+        Bitmap? bitmap = await System.Threading.Tasks.Task.Run(() => CreateThumbnailAsync(width, height, filePath, image, token));
 
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
@@ -248,7 +274,7 @@ internal sealed class ThumbnailItemViewModel : INotifyPropertyChanged, IDisposab
         });
     }
 
-    private static Bitmap? CreateThumbnail(int width, int height, string? filePath, DrawingBitmap? image)
+    private static async Task<Bitmap?> CreateThumbnailAsync(int width, int height, string? filePath, DrawingBitmap? image, CancellationToken token)
     {
         try
         {
@@ -265,11 +291,12 @@ internal sealed class ThumbnailItemViewModel : INotifyPropertyChanged, IDisposab
 
             if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath) && FileHelpers.IsVideoFile(filePath))
             {
-                using DrawingBitmap? shellThumbnail = NativeMethods.GetFileThumbnail(filePath, new System.Drawing.Size(width, height));
+                byte[]? frame = await VideoThumbnailHelper.ReadFrameAsync(filePath, width, height, token);
 
-                if (shellThumbnail != null)
+                if (frame != null)
                 {
-                    return BitmapConversionHelpers.CreatePreview(shellThumbnail, new Avalonia.PixelSize(width, height));
+                    using MemoryStream stream = new(frame);
+                    return new Bitmap(stream);
                 }
             }
         }
@@ -297,6 +324,7 @@ internal sealed class ThumbnailItemViewModel : INotifyPropertyChanged, IDisposab
     public void Dispose()
     {
         _refreshVersion++;
+        CancelThumbnailRefresh();
         Thumbnail?.Dispose();
         _thumbnail = null;
     }

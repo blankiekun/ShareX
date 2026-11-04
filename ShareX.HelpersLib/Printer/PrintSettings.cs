@@ -35,9 +35,6 @@ namespace ShareX.HelpersLib
         public bool AutoScaleImage { get; set; }
         public bool AllowEnlargeImage { get; set; }
         public bool CenterImage { get; set; }
-        public XmlFont TextFont { get; set; }
-        public bool ShowPrintDialog { get; set; }
-        public string DefaultPrinterOverride { get; set; }
 
         public PrintSettings()
         {
@@ -46,9 +43,6 @@ namespace ShareX.HelpersLib
             AutoScaleImage = true;
             AllowEnlargeImage = false;
             CenterImage = false;
-            TextFont = new XmlFont("Arial", 10);
-            ShowPrintDialog = true;
-            DefaultPrinterOverride = "";
         }
     }
 }

@@ -389,6 +389,9 @@ Chemin du fichier : {0}</value>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - Suppression d’arrière-plan</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin ne peut pas faire cela pour cette fenêtre : elle dessine sa propre barre de titre ou ne peut pas passer en plein écran.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Impossible de basculer la fenêtre sélectionnée. {0}</value>
   </data>
@@ -1166,11 +1169,20 @@ Chemin du fichier : {0}</value>
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Contrôle</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>Fichier .desktop</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Styles de fenêtre étendus</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Aucune cible sélectionnée</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Écran</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Choisissez une fenêtre pour examiner ses propriétés.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Choisissez une fenêtre ou un contrôle pour examiner ses propriétés</value>
@@ -1187,6 +1199,9 @@ Chemin du fichier : {0}</value>
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X : {0}  Y : {1}  |  Largeur : {2}  Hauteur : {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Nom de la ressource</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Fenêtre sans titre</value>
   </data>
@@ -1196,14 +1211,26 @@ Chemin du fichier : {0}</value>
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Handle de fenêtre</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>ID de la fenêtre</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Rectangle de fenêtre</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Rôle de la fenêtre</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>État de la fenêtre</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Styles de fenêtre</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Titre de la fenêtre</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Type de fenêtre</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Toujours au premier plan</value>
@@ -1456,6 +1483,9 @@ Chemin du fichier : {0}</value>
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Mode surbrillance :</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Met en évidence le pointeur, y compris dans les enregistrements lorsque l’option du surligneur de la souris est activée dans Paramètres des tâches → Capture → Enregistreur d’écran. Les clics ne peuvent pas être mis en évidence : Wayland ne permet pas aux applications de les voir.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Couleur du bouton principal :</value>
   </data>
@@ -1606,11 +1636,26 @@ Chemin du fichier : {0}</value>
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Cible</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract a échoué avec le code {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract n’a aucune donnée pour la langue « {0} ». Installez-la avec votre gestionnaire de paquets, par exemple : sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>La langue {0} n’est pas disponible pour l’OCR sur ce système.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract n’a aucune donnée de langue installée. Installez une langue avec votre gestionnaire de paquets, par exemple : sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>La reconnaissance optique de caractères est uniquement disponible sous Windows version {0} ou ultérieure.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>L’OCR nécessite le programme tesseract, qui est introuvable dans le PATH. Installez-le avec votre gestionnaire de paquets, par exemple : sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract n’a pas terminé en {0} secondes et a été arrêté.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2158,8 +2203,14 @@ Chemin du fichier : {0}</value>
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Chargement de la vidéo...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>La lecture vidéo nécessite libmpv. Installez le paquet mpv.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Couper le son</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Impossible de lire cette vidéo. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Position de lecture</value>

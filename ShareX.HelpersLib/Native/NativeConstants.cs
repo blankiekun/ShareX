@@ -69,7 +69,6 @@ namespace ShareX.HelpersLib
         public const int DWM_TNP_VISIBLE = 0x8;
         public const int DWM_TNP_SOURCECLIENTAREAONLY = 0x10;
         public const int WH_KEYBOARD_LL = 13;
-        public const int WH_MOUSE_LL = 14;
         public const int ULW_ALPHA = 0x02;
         public const byte AC_SRC_OVER = 0x00;
         public const byte AC_SRC_ALPHA = 0x01;

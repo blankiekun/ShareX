@@ -2064,9 +2064,64 @@ Le fichier a été conservé, mais il ne pourra peut-être pas être lu :
     <value>Erreur lors de l’exportation de la sauvegarde :
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Une sauvegarde ShareX contient vos identifiants et vos clés API en clair, afin qu’ils puissent être transférés sur une autre machine. Toute personne qui obtient le fichier peut les utiliser.&#xD;
+&#xD;
+Gardez-la privée et supprimez-la une fois restaurée. Exporter quand même ?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Erreur lors de l’importation de la sauvegarde :
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} dans la sauvegarde est endommagé, rien n’a donc été importé.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>La sauvegarde contient des identifiants, et ils ne peuvent pas être stockés sans votre portefeuille : rien n’a donc été importé. Ouvrez le portefeuille et réessayez.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Le fichier ne contient aucun paramètre ni historique ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Effets d’image omis, car cette version ne les possède pas :</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Historique : {0} ajoutés, {1} déjà présents, {2} illisibles.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Votre historique précédent a été enregistré dans {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>L’historique n’a pas été importé : {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Dossiers modifiés vers leur emplacement Linux :</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Paramètres remis à leur valeur par défaut, car le chemin n’a pas d’équivalent ici :</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Ce fichier de sauvegarde contient vos identifiants en clair. Supprimez-le dès que l’importation vous convient.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Identifiants récupérés, désormais chiffrés avec votre portefeuille :</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Reconnectez-vous. Ces éléments ont été chiffrés pour une autre machine et ne peuvent pas être lus ici :</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Fichiers de la sauvegarde qui ont été ignorés :</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Sauvegarde importée</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Actions désactivées, afin que rien de la sauvegarde ne s’exécute tout seul. Vérifiez-les et réactivez-les :</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Impossible d’enregistrer {0}. L’importation s’est arrêtée là.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX ne peut être fermé lorsqu'un enregistrement d'écran est en cours.

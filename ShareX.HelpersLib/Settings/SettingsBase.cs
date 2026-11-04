@@ -148,9 +148,22 @@ namespace ShareX.HelpersLib
                         // Serialize before touching the disk: a secret that can't be encrypted throws here,
                         // and the settings file, its backup and any leftover temp file stay as they were.
                         using (MemoryStream memoryStream = SerializeToMemoryStream(true))
-                        using (FileStream fileStream = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, FileOptions.WriteThrough))
                         {
-                            memoryStream.WriteTo(fileStream);
+                            // UnixCreateMode applies only to a new file, and a temp file left by a crash can be 0644. The rename below keeps this mode.
+                            File.Delete(tempFilePath);
+
+                            using (FileStream fileStream = new FileStream(tempFilePath, new FileStreamOptions
+                            {
+                                Mode = FileMode.CreateNew,
+                                Access = FileAccess.Write,
+                                Share = FileShare.Read,
+                                Options = FileOptions.WriteThrough,
+                                // Uploader headers, arguments and some tokens are in these files in the clear, so only this user may read them.
+                                UnixCreateMode = FileHelpers.PrivateFileMode
+                            }))
+                            {
+                                memoryStream.WriteTo(fileStream);
+                            }
                         }
 
                         if (!JsonHelpers.QuickVerifyJsonFile(tempFilePath))
@@ -167,6 +180,9 @@ namespace ShareX.HelpersLib
                                 string fileName = Path.GetFileName(filePath);
                                 backupFilePath = Path.Combine(BackupFolder, fileName);
                                 FileHelpers.CreateDirectory(BackupFolder);
+
+                                // File.Replace renames the old file to the backup, so a file from before 0600 would stay readable there.
+                                FileHelpers.TryMakePrivate(filePath);
                             }
 
                             File.Replace(tempFilePath, filePath, backupFilePath, true);
@@ -179,6 +195,12 @@ namespace ShareX.HelpersLib
                         if (CreateWeeklyBackup && !string.IsNullOrEmpty(BackupFolder))
                         {
                             FileHelpers.BackupFileWeekly(filePath, BackupFolder);
+                        }
+
+                        // Older weekly copies are never rewritten, so closing the folder is what protects them. It holds no screenshots.
+                        if (Directory.Exists(BackupFolder))
+                        {
+                            FileHelpers.TryMakePrivate(BackupFolder, FileHelpers.PrivateFolderMode);
                         }
 
                         isSuccess = true;

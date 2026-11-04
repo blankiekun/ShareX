@@ -2064,9 +2064,64 @@ Soubor byl zachován, ale nemusí jít přehrát:
     <value>Chyba při exportu zálohy:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Záloha ShareX obsahuje vaše přihlašovací údaje a klíče API v prostém textu, aby je bylo možné přenést do jiného počítače. Kdokoli, kdo soubor získá, je může použít.&#xD;
+&#xD;
+Uchovávejte ji v soukromí a po obnovení ji smažte. Přesto exportovat?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Chyba při importu zálohy:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} v záloze je poškozeno, proto nebylo nic importováno.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Záloha obsahuje přihlašovací údaje, které nelze uložit bez vaší úschovny hesel, proto nebylo nic importováno. Otevřete úschovnu a zkuste to znovu.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Soubor neobsahuje žádná nastavení ani historii ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Vynechané efekty obrázku, protože tato verze je nemá:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Historie: přidáno {0}, již zde {1}, nečitelných {2}.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Vaše předchozí historie byla uložena do {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Historie nebyla importována: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Složky změněné na jejich umístění v Linuxu:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Nastavení vrácená na výchozí hodnoty, protože cesta zde nemá obdobu:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Tento soubor zálohy obsahuje vaše přihlašovací údaje v prostém textu. Jakmile budete s importem spokojeni, smažte jej.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Přenesené přihlašovací údaje, nyní zašifrované vaší úschovnou hesel:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Přihlaste se znovu. Tyto údaje byly zašifrovány pro jiný počítač a zde je nelze přečíst:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Soubory v záloze, které byly ignorovány:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Záloha importována</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Vypnuté akce, aby se nic ze zálohy nespustilo samo. Zkontrolujte je a znovu je zapněte:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>{0} nelze uložit. Import se tím zastavil.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nelze zavřít, když probíhá nahrávání obrazovky.

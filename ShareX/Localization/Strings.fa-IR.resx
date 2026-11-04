@@ -2064,9 +2064,64 @@ Please select a different hotkey or quit the conflicting application and reبا�
     <value>خطا هنگام برون‌بری پشتیبان:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>نسخهٔ پشتیبان ShareX اطلاعات ورود و کلیدهای API شما را به‌صورت متن ساده و رمزنشده نگه می‌دارد تا بتوانند به رایانهٔ دیگری منتقل شوند. هر کسی که فایل را به دست آورد می‌تواند از آن‌ها استفاده کند.&#xD;
+&#xD;
+آن را خصوصی نگه دارید و پس از بازیابی حذفش کنید. با این حال برون‌بری شود؟</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>خطا هنگام درون‌ریزی پشتیبان:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} در نسخهٔ پشتیبان آسیب دیده است، بنابراین چیزی وارد نشد.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>نسخهٔ پشتیبان اطلاعات ورود دارد و بدون کیف پول شما نمی‌توان آن‌ها را ذخیره کرد، بنابراین چیزی وارد نشد. کیف پول را باز کنید و دوباره تلاش کنید.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>این فایل هیچ تنظیمات یا تاریخچه‌ای از ShareX ندارد.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>جلوه‌های تصویری که کنار گذاشته شدند، زیرا این نسخه آن‌ها را ندارد:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>تاریخچه: {0} اضافه شد، {1} از قبل موجود بود، {2} خواندنی نبود.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>تاریخچهٔ قبلی شما در {0} ذخیره شد</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>تاریخچه وارد نشد: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>پوشه‌هایی که به مکان Linux خود تغییر یافتند:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>تنظیماتی که به مقدار پیش‌فرض برگشتند، زیرا مسیر اینجا معادلی ندارد:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>این فایل پشتیبان اطلاعات ورود شما را به‌صورت متن ساده و رمزنشده نگه می‌دارد. وقتی از نتیجهٔ وارد کردن راضی بودید، آن را حذف کنید.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>اطلاعات ورودی که منتقل شدند و اکنون با کیف پول شما رمزگذاری شده‌اند:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>دوباره وارد شوید. این موارد برای رایانهٔ دیگری رمزگذاری شده‌اند و اینجا قابل خواندن نیستند:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>فایل‌هایی از نسخهٔ پشتیبان که نادیده گرفته شدند:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>نسخهٔ پشتیبان وارد شد</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>کنش‌هایی که خاموش شدند تا چیزی از نسخهٔ پشتیبان خودبه‌خود اجرا نشود. آن‌ها را بررسی کنید و دوباره روشن کنید:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>{0} ذخیره نشد. وارد کردن همان‌جا متوقف شد.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>تا زمانی که ضبط صفحه فعال است، نمی‌توان ShareX را بست.

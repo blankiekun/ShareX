@@ -1134,6 +1134,9 @@ A vágólap nem tartalmaz képet.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Emojik betöltése...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>Nem található emoji-betűtípus, ezért az emojik nem rajzolhatók meg. Telepítse a noto-fonts-emoji csomagot, és indítsa újra a ShareX-et.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Egyetlen emoji sem felel meg a keresésnek.</value>
   </data>

@@ -29,10 +29,13 @@ using System.Drawing;
 
 namespace ShareX.Tools;
 
+/// <summary>Removes decorations through KWin, the only thing that can touch another program's window on Wayland.</summary>
 public static class BorderlessWindowManager
 {
-    private static readonly ConcurrentDictionary<IntPtr, BorderlessWindowInfo> BorderlessWindows = new();
+    // shortcut: only in memory, so after ShareX restarts, a window filling the working area gets its frame back but keeps its size.
+    private static readonly ConcurrentDictionary<string, Rectangle> PreviousGeometry = new();
 
+    /// <returns>False when no window has that title.</returns>
     public static bool ToggleBorderlessWindow(string windowTitle, bool useWorkingArea = false)
     {
         if (string.IsNullOrWhiteSpace(windowTitle))
@@ -40,67 +43,39 @@ public static class BorderlessWindowManager
             return false;
         }
 
-        IntPtr handle = NativeMethods.SearchWindow(windowTitle);
-        if (handle == IntPtr.Zero)
-        {
-            return false;
-        }
+        KWinWindow? window = KWinDesktop.Query().FindWindowByTitle(windowTitle, Environment.ProcessId);
 
-        ToggleBorderlessWindow(handle, useWorkingArea);
-        return true;
+        return window != null && Toggle(window.Id, useWorkingArea);
     }
 
-    public static void ToggleBorderlessWindow(IntPtr handle, bool useWorkingArea = false)
+    /// <returns>False when there is no window to toggle.</returns>
+    public static bool ToggleActiveWindow(bool useWorkingArea = false)
     {
-        if (BorderlessWindows.TryGetValue(handle, out BorderlessWindowInfo? info))
-        {
-            RestoreWindow(handle, info);
-        }
-        else
-        {
-            MakeWindowBorderless(handle, useWorkingArea);
-        }
+        KWinWindow? window = KWinDesktop.Query().ActiveOrLastUsedWindow(Environment.ProcessId);
+
+        return window != null && Toggle(window.Id, useWorkingArea);
     }
 
-    private static void RestoreWindow(IntPtr handle, BorderlessWindowInfo info)
+    private static bool Toggle(string windowId, bool useWorkingArea)
     {
-        WindowInfo window = new(handle);
-        if (window.IsMinimized)
+        Rectangle? restore = PreviousGeometry.TryGetValue(windowId, out Rectangle saved) ? saved : null;
+
+        switch (KWinDesktop.ToggleBorderless(windowId, useWorkingArea, restore, out Rectangle previous))
         {
-            window.Restore();
+            case KWinBorderlessResult.NotFound:
+                return false;
+            case KWinBorderlessResult.NotSupported:
+                throw new InvalidOperationException(Localization.Strings.BorderlessWindowManager_Not_supported_by_KWin);
+            case KWinBorderlessResult.MadeBorderless:
+                if (!previous.IsEmpty)
+                {
+                    PreviousGeometry[windowId] = previous;
+                }
+
+                return true;
+            default:
+                PreviousGeometry.TryRemove(windowId, out _);
+                return true;
         }
-
-        window.Style = info.Style;
-        window.ExStyle = info.ExStyle;
-        window.SetWindowPos(info.Rectangle, SetWindowPosFlags.SWP_FRAMECHANGED |
-            SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOZORDER);
-        BorderlessWindows.TryRemove(handle, out _);
-    }
-
-    private static void MakeWindowBorderless(IntPtr handle, bool useWorkingArea)
-    {
-        WindowInfo window = new(handle);
-        if (window.IsMinimized)
-        {
-            window.Restore();
-        }
-
-        BorderlessWindowInfo info = new(window);
-        window.Style &= ~(WindowStyles.WS_CAPTION | WindowStyles.WS_MAXIMIZEBOX |
-            WindowStyles.WS_SYSMENU | WindowStyles.WS_THICKFRAME);
-        window.ExStyle &= ~(WindowStyles.WS_EX_CLIENTEDGE | WindowStyles.WS_EX_DLGMODALFRAME |
-            WindowStyles.WS_EX_STATICEDGE);
-
-        Rectangle bounds = CaptureHelpers.GetScreenBounds(handle, useWorkingArea);
-        SetWindowPosFlags flags = SetWindowPosFlags.SWP_FRAMECHANGED |
-            SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOZORDER;
-
-        if (bounds.IsEmpty)
-        {
-            flags |= SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE;
-        }
-
-        window.SetWindowPos(bounds, flags);
-        BorderlessWindows.TryAdd(handle, info);
     }
 }

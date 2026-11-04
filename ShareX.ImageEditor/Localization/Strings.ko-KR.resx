@@ -1134,6 +1134,9 @@
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>이모지 로드 중...</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>이모지 글꼴을 찾을 수 없어 이모지를 그릴 수 없습니다. noto-fonts-emoji 패키지를 설치하고 ShareX를 다시 시작하세요.</value>
+  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>이 검색과 일치하는 이모지가 없습니다.</value>
   </data>

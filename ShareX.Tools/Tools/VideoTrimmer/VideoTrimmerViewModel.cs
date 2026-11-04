@@ -35,7 +35,7 @@ public sealed record VideoTrimmerThumbnail(double Position, Bitmap Image);
 public sealed partial class VideoTrimmerViewModel : ViewModelBase, IDisposable
 {
     private readonly VideoTrimmerService _service;
-    private readonly WindowsMediaPlayer _player;
+    private readonly MpvPlayer _player;
     private readonly Func<string?>? _resolveFFmpegPath;
     private readonly Action? _playNotificationSound;
     private readonly CancellationTokenSource _lifetime = new();
@@ -58,7 +58,7 @@ public sealed partial class VideoTrimmerViewModel : ViewModelBase, IDisposable
     [ObservableProperty] private bool _isExporting;
     [ObservableProperty] private double _progress;
 
-    public VideoTrimmerViewModel(string ffmpegPath, WindowsMediaPlayer player, Action? playNotificationSound = null,
+    public VideoTrimmerViewModel(string ffmpegPath, MpvPlayer player, Action? playNotificationSound = null,
         Func<string?>? resolveFFmpegPath = null)
     {
         _service = new(ffmpegPath);
@@ -173,11 +173,11 @@ public sealed partial class VideoTrimmerViewModel : ViewModelBase, IDisposable
                 Position = 0;
             }
             finally { _updatingPlaybackPosition = false; }
-            // The filmstrip has its own persistent decoder. Building it cannot move the playback cursor.
-            // Thumbnail failures are nonfatal; native playback may support formats the reader cannot convert.
+            // FFmpeg decodes the filmstrip apart from mpv, so building it cannot move the playback cursor.
+            // Thumbnail failures are nonfatal: playback works without FFmpeg, which is only required for export.
             try
             {
-                var thumbnails = await NativeVideoThumbnails.CreateAsync(file, info.Duration, token);
+                var thumbnails = await _service.CreateThumbnailsAsync(file, info.Duration, token);
                 if (token.IsCancellationRequested || _disposed)
                 {
                     foreach (var thumbnail in thumbnails) thumbnail.Image.Dispose();
@@ -201,7 +201,7 @@ public sealed partial class VideoTrimmerViewModel : ViewModelBase, IDisposable
         {
             if (!token.IsCancellationRequested)
             {
-                StatusText = string.Format(Strings.VideoTrimmer_PlaybackError, ex.Message);
+                StatusText = string.Format(Strings.VideoPlayer_PlaybackError, ex.Message);
                 ShowErrorRequested?.Invoke(StatusText);
             }
         }
@@ -249,7 +249,7 @@ public sealed partial class VideoTrimmerViewModel : ViewModelBase, IDisposable
         _loadCancellation?.Cancel();
         Duration = 0;
         ClearThumbnails();
-        StatusText = string.Format(Strings.VideoTrimmer_PlaybackError, error.Message);
+        StatusText = string.Format(Strings.VideoPlayer_PlaybackError, error.Message);
         ShowErrorRequested?.Invoke(StatusText);
     }
 

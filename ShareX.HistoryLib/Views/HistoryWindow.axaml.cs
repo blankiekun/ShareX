@@ -49,6 +49,8 @@ namespace ShareX.HistoryLib;
 
 public partial class HistoryWindow : Window
 {
+    private const int VideoPreviewWidth = 960;
+    private const int VideoPreviewHeight = 540;
     private static readonly HttpClient PreviewHttpClient = new();
 
     private readonly HistoryManagerSQLite _historyManager;
@@ -428,6 +430,7 @@ public partial class HistoryWindow : Window
 
         string? imageSource = null;
         bool localFile = false;
+        bool localVideo = !string.IsNullOrWhiteSpace(item.FilePath) && File.Exists(item.FilePath) && FileHelpers.IsVideoFile(item.FilePath);
 
         if (!string.IsNullOrWhiteSpace(item.FilePath) && File.Exists(item.FilePath) && FileHelpers.IsImageFile(item.FilePath))
         {
@@ -439,7 +442,7 @@ public partial class HistoryWindow : Window
             imageSource = item.URL;
         }
 
-        if (imageSource == null)
+        if (imageSource == null && !localVideo)
         {
             return;
         }
@@ -449,11 +452,19 @@ public partial class HistoryWindow : Window
             Bitmap bitmap;
             if (localFile)
             {
-                bitmap = await Task.Run(() => new Bitmap(imageSource), token);
+                bitmap = await Task.Run(() => new Bitmap(imageSource!), token);
             }
             else
             {
-                byte[] data = await PreviewHttpClient.GetByteArrayAsync(imageSource, token);
+                byte[]? data = localVideo
+                    ? await VideoThumbnailHelper.ReadFrameAsync(item.FilePath, VideoPreviewWidth, VideoPreviewHeight, token)
+                    : await PreviewHttpClient.GetByteArrayAsync(imageSource!, token);
+
+                if (data == null)
+                {
+                    return;
+                }
+
                 bitmap = await Task.Run(() =>
                 {
                     using MemoryStream stream = new(data, writable: false);

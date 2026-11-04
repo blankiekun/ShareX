@@ -85,7 +85,7 @@ public sealed class EmojiPreviewImage : Image
         await PreviewRenderThrottle.WaitAsync();
         try
         {
-            var bitmap = await Task.Run(() => WindowsEmojiBitmapRenderer.RenderPreviewBitmap(unicodeSequence, previewSize));
+            var bitmap = await Task.Run(() => EmojiBitmapRenderer.RenderPreviewBitmap(unicodeSequence, previewSize));
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {

@@ -2064,9 +2064,64 @@ A fájl megmaradt, de lehet, hogy nem játszható le:
     <value>Hiba a biztonsági mentés exportálásakor:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>A ShareX biztonsági mentés egyszerű szövegként tartalmazza a bejelentkezési adatait és API-kulcsait, hogy átvihetők legyenek egy másik gépre. Bárki, aki megszerzi a fájlt, felhasználhatja őket.&#xD;
+&#xD;
+Tartsa titokban, és törölje, miután visszaállította. Exportálja mégis?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Hiba a biztonsági mentés importálásakor:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>A biztonsági mentésben a(z) {0} sérült, ezért semmi sem lett importálva.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>A biztonsági mentés bejelentkezési adatokat tartalmaz, és ezek nem tárolhatók a jelszótárca nélkül, ezért semmi sem lett importálva. Nyissa meg a jelszótárcát, és próbálja újra.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>A fájl nem tartalmaz ShareX-beállításokat vagy előzményeket.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Kihagyott képeffektusok, mert ez a verzió nem tartalmazza őket:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Előzmények: {0} hozzáadva, {1} már megvolt, {2} olvashatatlan.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>A korábbi előzményei ide lettek mentve: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Az előzmények importálása nem történt meg: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Linuxos helyükre módosított mappák:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Alapértékre visszaállított beállítások, mert az elérési útnak itt nincs megfelelője:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Ez a biztonsági mentés fájl egyszerű szövegként tartalmazza a bejelentkezési adatait. Törölje, ha elégedett az importálással.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Átkerült bejelentkezési adatok, most a jelszótárcájával titkosítva:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Jelentkezzen be újra. Ezek egy másik géphez lettek titkosítva, és itt nem olvashatók:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>A biztonsági mentés figyelmen kívül hagyott fájljai:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Biztonsági mentés importálva</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Kikapcsolt műveletek, hogy a biztonsági mentésből semmi ne fusson magától. Ellenőrizze és kapcsolja vissza őket:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>A(z) {0} nem menthető. Az importálás itt leállt.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>A ShareX nem zárható be, amíg a képernyőfelvétel aktív.

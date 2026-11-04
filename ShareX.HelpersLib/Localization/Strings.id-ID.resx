@@ -867,6 +867,12 @@ Apakah Anda tetap ingin menjalankannya?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Berkas gambar</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Tidak dapat membuka «{0}» karena format ini memerlukan ImageMagick, dan perintah magick tidak ditemukan. Instal paket imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Menyimpan TIFF memerlukan ImageMagick, dan perintah magick tidak ditemukan. Instal paket imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Buka gambar</value>
   </data>
@@ -986,6 +992,11 @@ Apakah Anda tetap ingin menjalankannya?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nama printer tidak valid</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX tidak dapat mencetak: {0}
+
+Pencetakan dilakukan melalui portal cetak desktop. Pastikan xdg-desktop-portal dan xdg-desktop-portal-kde terinstal, serta cups untuk printer sungguhan.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Izinkan gambar diperbesar</value>

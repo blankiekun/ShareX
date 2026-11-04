@@ -128,12 +128,6 @@ namespace ShareX.HelpersLib
         UpToDate
     }
 
-    public enum PrintType
-    {
-        Image,
-        Text
-    }
-
     public enum DrawStyle
     {
         Hue,

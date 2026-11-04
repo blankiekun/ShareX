@@ -195,6 +195,11 @@ namespace ShareX.ImageEditor.Localization {
                 return ResourceManager.GetString("EmojiPickerDialogView_Cancel", resourceCulture);
             }
         }
+        public static string EmojiPickerDialogView_NoEmojiFont {
+            get {
+                return ResourceManager.GetString("EmojiPickerDialogView_NoEmojiFont", resourceCulture);
+            }
+        }
         public static string EmojiPickerDialogView_PreviewsLoading {
             get {
                 return ResourceManager.GetString("EmojiPickerDialogView_PreviewsLoading", resourceCulture);

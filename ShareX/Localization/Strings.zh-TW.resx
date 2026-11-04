@@ -2064,9 +2064,64 @@
     <value>匯出備份時發生錯誤：
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>ShareX 備份以純文字形式儲存您的登入資訊和 API 金鑰，以便移轉到另一台電腦。任何取得此檔案的人都可以使用它們。&#xD;
+&#xD;
+請妥善保密，並在還原後將其刪除。仍要匯出嗎？</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>匯入備份時發生錯誤：
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>備份中的 {0} 已損毀，因此未匯入任何內容。</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>備份包含登入資訊，而沒有您的錢包就無法儲存，因此未匯入任何內容。請開啟錢包後重試。&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>此檔案中沒有 ShareX 設定或歷史記錄。</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>已略過的圖片效果，因為此版本不包含它們：</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>歷史記錄：已新增 {0} 筆，已存在 {1} 筆，無法讀取 {2} 筆。</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>您先前的歷史記錄已儲存至 {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>歷史記錄未匯入：{0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>已變更為對應 Linux 位置的資料夾：</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>已還原為預設值的設定，因為該路徑在此沒有對應項目：</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>此備份檔案以純文字形式儲存您的登入資訊。確認匯入無誤後，請將其刪除。</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>已移轉的登入資訊，現已使用您的錢包加密：</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>請重新登入。這些資料是為另一台電腦加密的，在此無法讀取：</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>備份中被略過的檔案：</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>備份已匯入</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>已關閉的動作，以免備份中的內容自行執行。請檢查後重新開啟：</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>無法儲存 {0}。匯入已在此處停止。</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>錄製螢幕時無法關閉 ShareX。

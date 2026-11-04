@@ -2064,9 +2064,64 @@ Plik został zachowany, ale może nie dać się odtworzyć:
     <value>Błąd podczas eksportowania kopii zapasowej:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Kopia zapasowa ShareX zawiera Twoje dane logowania i klucze API w postaci zwykłego tekstu, aby można je było przenieść na inny komputer. Każdy, kto zdobędzie ten plik, może z nich skorzystać.&#xD;
+&#xD;
+Zachowaj ją w tajemnicy i usuń po przywróceniu. Mimo to wyeksportować?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Błąd podczas importowania kopii zapasowej:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} w kopii zapasowej jest uszkodzony, więc nic nie zaimportowano.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Kopia zapasowa zawiera dane logowania, których nie można zapisać bez Twojego portfela, więc nic nie zaimportowano. Otwórz portfel i spróbuj ponownie.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Plik nie zawiera ustawień ani historii ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Pominięte efekty obrazu, ponieważ ta wersja ich nie ma:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Historia: dodano {0}, już obecnych {1}, nieczytelnych {2}.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Poprzednia historia została zapisana w {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Historia nie została zaimportowana: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Foldery zmienione na ich lokalizację w systemie Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Ustawienia przywrócone do wartości domyślnych, ponieważ ścieżka nie ma tu odpowiednika:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Ten plik kopii zapasowej zawiera Twoje dane logowania w postaci zwykłego tekstu. Usuń go, gdy będziesz zadowolony z importu.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Przeniesione dane logowania, teraz zaszyfrowane Twoim portfelem:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Zaloguj się ponownie. Te dane zostały zaszyfrowane dla innego komputera i nie można ich tutaj odczytać:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Zignorowane pliki z kopii zapasowej:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Zaimportowano kopię zapasową</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Wyłączone akcje, aby nic z kopii zapasowej nie uruchamiało się samo. Sprawdź je i włącz ponownie:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Nie można zapisać {0}. Import zatrzymał się w tym miejscu.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nie może zostać zamknięty, gdy aktywne jest nagrywanie ekranu.

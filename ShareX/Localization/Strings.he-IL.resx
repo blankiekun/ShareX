@@ -2064,9 +2064,64 @@
     <value>שגיאה בייצוא הגיבוי:
 {0}</value>
   </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>גיבוי ShareX מכיל את פרטי הכניסה ומפתחות ה-API שלך בטקסט גלוי, כדי שניתן יהיה להעביר אותם למחשב אחר. כל מי שיקבל את הקובץ יוכל להשתמש בהם.&#xD;
+&#xD;
+שמור עליו פרטי ומחק אותו לאחר ששחזרת אותו. לייצא בכל זאת?</value>
+  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>שגיאה בייבוא הגיבוי:
 {0}</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} בגיבוי פגום, ולכן שום דבר לא יובא.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>הגיבוי מכיל פרטי כניסה, ולא ניתן לאחסן אותם בלי הארנק שלך, ולכן שום דבר לא יובא. פתח את הארנק ונסה שוב.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>הקובץ אינו מכיל הגדרות או היסטוריה של ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>אפקטי תמונה שהושמטו, כי הגרסה הזו לא כוללת אותם:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>היסטוריה: {0} נוספו, {1} כבר קיימים, {2} לא קריאים.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>ההיסטוריה הקודמת שלך נשמרה אל {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>ההיסטוריה לא יובאה: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>תיקיות ששונו למיקום שלהן ב-Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>הגדרות שהוחזרו לברירת המחדל, כי לנתיב אין מקבילה כאן:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>קובץ הגיבוי הזה מכיל את פרטי הכניסה שלך בטקסט גלוי. מחק אותו ברגע שאתה מרוצה מהייבוא.</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>פרטי כניסה שהועברו, ומוצפנים כעת בארנק שלך:</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>היכנס שוב. פריטים אלה הוצפנו עבור מחשב אחר ולא ניתן לקרוא אותם כאן:</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>קבצים בגיבוי שהמערכת התעלמה מהם:</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>הגיבוי יובא</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>פעולות שכובו, כדי ששום דבר מהגיבוי לא יפעל מעצמו. בדוק אותן והפעל אותן מחדש:</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>לא ניתן היה לשמור את {0}. הייבוא נעצר שם.</value>
   </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>לא ניתן לסגור את ShareX בזמן שהקלטת מסך פעילה.

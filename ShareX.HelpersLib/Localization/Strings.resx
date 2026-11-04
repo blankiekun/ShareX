@@ -972,6 +972,12 @@ Do you still want to run it?</value>
   <data name="PingResult_Reply_from" xml:space="preserve">
     <value>Reply from {0}: bytes={1} time={2}ms TTL={3}</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>Could not open "{0}" because this format needs ImageMagick, and the magick command was not found. Install the imagemagick package.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Saving TIFF needs ImageMagick, and the magick command was not found. Install the imagemagick package.</value>
+  </data>
   <data name="PingResult_Request_timed_out" xml:space="preserve">
     <value>Request timed out.</value>
   </data>
@@ -986,6 +992,11 @@ Do you still want to run it?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Invalid printer name</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX could not print: {0}
+
+Printing goes through the desktop's print portal. Check that xdg-desktop-portal and xdg-desktop-portal-kde are installed, and cups for a real printer.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Allow image to enlarge</value>

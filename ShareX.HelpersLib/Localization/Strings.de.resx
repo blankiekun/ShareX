@@ -867,6 +867,12 @@ Möchten Sie es dennoch ausführen?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Bilddateien</value>
   </data>
+  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
+    <value>„{0}“ konnte nicht geöffnet werden, weil dieses Format ImageMagick benötigt und der Befehl magick nicht gefunden wurde. Installieren Sie das Paket imagemagick.</value>
+  </data>
+  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
+    <value>Das Speichern als TIFF benötigt ImageMagick, und der Befehl magick wurde nicht gefunden. Installieren Sie das Paket imagemagick.</value>
+  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Bild öffnen</value>
   </data>
@@ -986,6 +992,11 @@ Möchten Sie es dennoch ausführen?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Ungültiger Druckername</value>
+  </data>
+  <data name="PrintHelper_Print_failed" xml:space="preserve">
+    <value>ShareX konnte nicht drucken: {0}
+
+Gedruckt wird über das Druckportal des Desktops. Prüfen Sie, ob xdg-desktop-portal und xdg-desktop-portal-kde installiert sind, und für einen echten Drucker auch cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Vergrößern des Bildes zulassen</value>

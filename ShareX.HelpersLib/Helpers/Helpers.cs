@@ -33,7 +33,6 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Media;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Resources;
@@ -382,43 +381,20 @@ namespace ShareX.HelpersLib
         {
             if (stream != null)
             {
-                Task.Run(() =>
-                {
-                    using (stream)
-                    using (SoundPlayer soundPlayer = new SoundPlayer(stream))
-                    {
-                        soundPlayer.Play();
-                    }
-                });
+                Task.Run(() => HostSoundPlayer.PlayStreamAsync(stream, Environment.GetEnvironmentVariable("PATH")));
             }
         }
 
         public static void PlaySoundSync(Stream stream)
         {
-            if (stream != null)
-            {
-                Task.Run(() =>
-                {
-                    using (stream)
-                    using (SoundPlayer soundPlayer = new SoundPlayer(stream))
-                    {
-                        soundPlayer.PlaySync();
-                    }
-                });
-            }
+            PlaySound(stream);
         }
 
         public static void PlaySoundAsync(string filePath)
         {
             if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
             {
-                Task.Run(() =>
-                {
-                    using (SoundPlayer soundPlayer = new SoundPlayer(filePath))
-                    {
-                        soundPlayer.PlaySync();
-                    }
-                });
+                Task.Run(() => HostSoundPlayer.PlayFileAsync(filePath, Environment.GetEnvironmentVariable("PATH")));
             }
         }
 
@@ -638,7 +614,17 @@ namespace ShareX.HelpersLib
 
         public static string GetOperatingSystemProductName(bool includeBit = false)
         {
-            string productName = RegistryHelpers.GetValueString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName", RegistryHive.LocalMachine);
+            string productName = null;
+
+            try
+            {
+                string prettyName = File.ReadLines("/etc/os-release").FirstOrDefault(x => x.StartsWith("PRETTY_NAME=", StringComparison.Ordinal));
+                productName = prettyName?["PRETTY_NAME=".Length..].Trim('"', '\'');
+            }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+            {
+                // Falls back to the kernel version below.
+            }
 
             if (string.IsNullOrEmpty(productName))
             {

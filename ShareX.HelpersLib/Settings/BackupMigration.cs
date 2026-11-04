@@ -73,8 +73,8 @@ namespace ShareX.HelpersLib
         private const string ShareXEncryptedTag = "$ShareXEncrypted$";
         // Base64 of the version and provider GUID every DPAPI blob starts with, for blobs that lost their tag.
         private const string DpapiBlobHeader = "AQAAANCMnd8BFdER";
-        // An OAuth client secret ships with the app, so carrying it says nothing about the user being signed in.
-        private const string AppClientSecretProperty = "Client_Secret";
+        // OAuth 2 and OAuth 1 client secrets ship with the app, so carrying one says nothing about the user being signed in.
+        private static readonly HashSet<string> appClientSecretProperties = new(StringComparer.Ordinal) { "Client_Secret", "ConsumerSecret" };
 
         private static readonly Regex drivePath = new(@"^[A-Za-z]:[\\/]", RegexOptions.CultureInvariant);
         private static readonly Regex uncPath = new(@"^\\\\[^\\/]+[\\/]", RegexOptions.CultureInvariant);
@@ -282,7 +282,7 @@ namespace ShareX.HelpersLib
                     report.NeedsSecretStorage = true;
                     report.HasPlaintextSecrets = true;
 
-                    if (property != AppClientSecretProperty)
+                    if (!appClientSecretProperties.Contains(property))
                     {
                         report.SecretsImported.Add(GetDestinationName(value));
                     }
@@ -297,6 +297,9 @@ namespace ShareX.HelpersLib
                     RewritePath(value, text, property, folders, report);
                 }
             }
+
+            // Windows ShareX encrypts OAuth 1's UserSecret but not its UserToken, so the same account would show up in both lists.
+            report.SecretsImported.ExceptWith(report.SignInAgain);
         }
 
         private static void RewritePath(JValue value, string text, string property, LinuxFolders folders, BackupMigrationReport report)

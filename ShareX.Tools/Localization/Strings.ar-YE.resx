@@ -388,6 +388,9 @@
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - إزالة الخلفية</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>لا يستطيع KWin تنفيذ ذلك لهذه النافذة: فهي ترسم شريط عنوانها بنفسها، أو لا يمكنها الانتقال إلى ملء الشاشة.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>تعذّر تبديل النافذة المحددة. {0}</value>
   </data>
@@ -1162,11 +1165,20 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>عنصر التحكم</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>ملف desktop</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>أنماط النافذة الموسعة</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>لم يتم تحديد هدف</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>الشاشة</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>اختر نافذة لفحص خصائصها.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>اختر نافذة أو عنصر تحكم لفحص خصائصه</value>
@@ -1183,6 +1195,9 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  العرض: {2}  الارتفاع: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>اسم المورد</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>نافذة بلا عنوان</value>
   </data>
@@ -1192,14 +1207,26 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>مقبض النافذة</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>معرّف النافذة</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>مستطيل النافذة</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>دور النافذة</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>حالة النافذة</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>أنماط النافذة</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>عنوان النافذة</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>نوع النافذة</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>دائمًا في المقدمة</value>
@@ -1450,6 +1477,9 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>وضع التمييز:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>يميّز المؤشر، وكذلك في التسجيلات عند تفعيل خيار تمييز الماوس في إعدادات المهمة → الالتقاط → مسجل الشاشة. لا يمكن تمييز النقرات: لا يسمح Wayland للتطبيقات برؤيتها.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>لون الزر الأساسي:</value>
   </data>
@@ -1600,11 +1630,26 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>الهدف</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>فشل Tesseract بالرمز {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>لا تتوفر لدى Tesseract بيانات للغة «{0}». ثبّتها باستخدام مدير الحزم، على سبيل المثال: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>اللغة {0} غير متاحة لنظام OCR في هذا النظام.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>لا توجد بيانات لغات مثبتة لدى Tesseract. ثبّت لغة باستخدام مدير الحزم، على سبيل المثال: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>التعرف البصري على الأحرف متاح فقط في الإصدار {0} من Windows أو أحدث.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>يتطلب OCR برنامج tesseract، ولم يتم العثور عليه في PATH. ثبّته باستخدام مدير الحزم، على سبيل المثال: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>لم ينتهِ Tesseract خلال {0} ثانية فتم إيقافه.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2152,8 +2197,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>جارٍ تحميل الفيديو...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>يتطلب تشغيل الفيديو libmpv. ثبّت الحزمة mpv.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>كتم الصوت</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>تعذّر تشغيل هذا الفيديو. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>موضع التشغيل</value>

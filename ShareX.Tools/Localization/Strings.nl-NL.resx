@@ -389,6 +389,9 @@ Bestandspad: {0}</value>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - Achtergrondverwijderaar</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin kan dit niet doen voor dit venster: het tekent zijn eigen titelbalk of kan niet naar volledig scherm.</value>
+  </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Kan het geselecteerde venster niet omschakelen. {0}</value>
   </data>
@@ -1166,11 +1169,20 @@ Bestandspad: {0}</value>
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Besturingselement</value>
   </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop-bestand</value>
+  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Uitgebreide vensterstijlen</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Geen doel geselecteerd</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Beeldscherm</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Kies een venster om de eigenschappen te inspecteren.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Kies een venster of besturingselement om de eigenschappen te inspecteren</value>
@@ -1187,6 +1199,9 @@ Bestandspad: {0}</value>
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Breedte: {2}  Hoogte: {3}</value>
   </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Resourcenaam</value>
+  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Naamloos venster</value>
   </data>
@@ -1196,14 +1211,26 @@ Bestandspad: {0}</value>
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Vensterhandvat</value>
   </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>Venster-ID</value>
+  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Vensterrechthoek</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Vensterrol</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Vensterstatus</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Vensterstijlen</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Venstertitel</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Venstertype</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Altijd op de voorgrond</value>
@@ -1456,6 +1483,9 @@ Bestandspad: {0}</value>
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Hoogtepuntmodus:</value>
   </data>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Markeert de aanwijzer, ook in opnamen wanneer de optie voor muisklikmarkering is ingeschakeld in Taakinstellingen → Vastleggen → Schermrecorder. Klikken kunnen niet worden gemarkeerd: Wayland laat apps ze niet zien.</value>
+  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Kleur primaire knop:</value>
   </data>
@@ -1606,11 +1636,26 @@ Bestandspad: {0}</value>
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Doel</value>
   </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract is mislukt met code {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract heeft geen gegevens voor de taal ‘{0}’. Installeer deze met uw pakketbeheerder, bijvoorbeeld: sudo pacman -S tesseract-data-{0}</value>
+  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>De taal {0} is op dit systeem niet beschikbaar voor OCR.</value>
   </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract heeft geen taalgegevens geïnstalleerd. Installeer een taal met uw pakketbeheerder, bijvoorbeeld: sudo pacman -S tesseract-data-eng</value>
+  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Optische tekenherkenning is alleen beschikbaar vanaf Windows-versie {0}.</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR heeft het programma tesseract nodig, dat niet is gevonden in PATH. Installeer het met uw pakketbeheerder, bijvoorbeeld: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract was niet binnen {0} seconden klaar en is gestopt.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2158,8 +2203,14 @@ Bestandspad: {0}</value>
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Video laden...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>Video afspelen vereist libmpv. Installeer het pakket mpv.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Dempen</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Deze video kon niet worden afgespeeld. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Afspeelpositie</value>
