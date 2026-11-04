@@ -2168,8 +2168,14 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Loading video...</value>
   </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>Video playback needs libmpv. Install the mpv package.</value>
+  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Mute</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>This video could not be played. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Playback position</value>
@@ -2324,9 +2330,6 @@
   </data>
   <data name="VideoTrimmer_OutputExtension" xml:space="preserve">
     <value>Use the {0} extension for this export mode.</value>
-  </data>
-  <data name="VideoTrimmer_PlaybackError" xml:space="preserve">
-    <value>Windows could not play this video. Check that Windows supports its format and that the Windows media components are installed. {0}</value>
   </data>
   <data name="VideoTrimmer_Precise" xml:space="preserve">
     <value>Re-encode</value>

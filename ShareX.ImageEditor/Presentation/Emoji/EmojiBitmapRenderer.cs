@@ -24,20 +24,19 @@
 #endregion License Information (GPL v3)
 
 using Avalonia.Media.Imaging;
+using ShareX.ImageEditor.Integration;
 using SkiaSharp;
 using System.Runtime.InteropServices;
-using Vortice.Direct2D1;
-using Vortice.DirectWrite;
-using Vortice.Mathematics;
-using Vortice.WIC;
-using static Vortice.Direct2D1.D2D1;
-using static Vortice.DirectWrite.DWrite;
+using HarfBuzzBlob = HarfBuzzSharp.Blob;
+using HarfBuzzBuffer = HarfBuzzSharp.Buffer;
+using HarfBuzzFace = HarfBuzzSharp.Face;
+using HarfBuzzFont = HarfBuzzSharp.Font;
 
 namespace ShareX.ImageEditor.Presentation.Emoji;
 
-public static class WindowsEmojiBitmapRenderer
+public static class EmojiBitmapRenderer
 {
-    private const string EmojiFontFamily = "Segoe UI Emoji";
+    private const int GrinningFace = 0x1F600;
     private const int PreviewPadding = 6;
     private const int StickerPadding = 14;
     private const int MaxStickerCacheEntries = 256;
@@ -47,20 +46,41 @@ public static class WindowsEmojiBitmapRenderer
     private static readonly object SyncRoot = new();
     private static readonly Dictionary<string, WeakReference<Bitmap>> PreviewCache = new(StringComparer.Ordinal);
     private static readonly Dictionary<string, SKBitmap> StickerCache = new(StringComparer.Ordinal);
-    private static readonly ID2D1Factory7? D2DFactory;
-    private static readonly IDWriteFactory? DWriteFactoryInstance;
-    private static readonly IWICImagingFactory? WicFactory;
+    private static readonly Lazy<SKTypeface?> EmojiTypeface = new(FindEmojiTypeface);
+    private static readonly Lazy<(HarfBuzzFont Font, int UnitsPerEm)?> Shaper = new(CreateShaper);
 
-    static WindowsEmojiBitmapRenderer()
+    /// <summary>No installed font has emoji. The emoji font is a host dependency: noto-fonts-emoji on Arch.</summary>
+    public static bool FontIsMissing => EmojiTypeface.Value == null;
+
+    // "emoji" is fontconfig's generic family, so this is the font `fc-match emoji` names.
+    private static SKTypeface? FindEmojiTypeface()
     {
-        if (!OperatingSystem.IsWindows())
-        {
-            return;
-        }
+        SKTypeface? typeface = SKFontManager.Default.MatchFamily("emoji");
+        if (typeface?.ContainsGlyph(GrinningFace) == true) return typeface;
+        typeface?.Dispose();
+        typeface = SKFontManager.Default.MatchCharacter(GrinningFace);
+        if (typeface?.ContainsGlyph(GrinningFace) == true) return typeface;
+        typeface?.Dispose();
+        return null;
+    }
 
-        D2D1CreateFactory(out D2DFactory);
-        DWriteCreateFactory(out DWriteFactoryInstance);
-        WicFactory = new IWICImagingFactory();
+    // Skia's DrawText maps one code point to one glyph, which splits flags and joined sequences such as families.
+    // The font's own substitution rules, through HarfBuzz, turn those into their single glyph.
+    private static (HarfBuzzFont Font, int UnitsPerEm)? CreateShaper()
+    {
+        if (EmojiTypeface.Value is not SKTypeface typeface) return null;
+        using SKStreamAsset stream = typeface.OpenStream(out int index);
+        int length = stream.Length;
+        // In native memory for the life of the process. A blob from Blob.FromStream crashed the shaper
+        // with SIGSEGV as it read the font's tables.
+        IntPtr data = Marshal.AllocHGlobal(length);
+        stream.Read(data, length);
+        using HarfBuzzBlob blob = new(data, length, HarfBuzzSharp.MemoryMode.ReadOnly);
+        using HarfBuzzFace face = new(blob, index);
+        HarfBuzzFont font = new(face);
+        font.SetFunctionsOpenType();
+        font.SetScale(face.UnitsPerEm, face.UnitsPerEm);
+        return (font, face.UnitsPerEm);
     }
 
     public static Bitmap? RenderPreviewBitmap(string unicodeSequence, int size)
@@ -139,7 +159,7 @@ public static class WindowsEmojiBitmapRenderer
             int rawCanvasSize = Math.Max(64, (int)Math.Ceiling(size * RawCanvasScale));
             float rawFontSize = Math.Max(24, size * RawFontScale);
 
-            using SKBitmap? rawBitmap = RenderWithDirect2D(glyph, rawCanvasSize, rawFontSize) ?? RenderWithSkiaFallback(glyph, rawCanvasSize);
+            using SKBitmap? rawBitmap = RenderGlyph(glyph, rawCanvasSize, rawFontSize);
             if (rawBitmap == null)
             {
                 return null;
@@ -148,71 +168,65 @@ public static class WindowsEmojiBitmapRenderer
             using SKBitmap trimmedBitmap = TrimTransparentBounds(rawBitmap) ?? rawBitmap.Copy();
             return FitIntoSquare(trimmedBitmap, size, padding);
         }
-        catch
+        catch (Exception e)
         {
-            return RenderWithSkiaFallback(glyph, size);
+            EditorServices.ReportWarning(nameof(EmojiBitmapRenderer), "Emoji rendering failed.", e);
+            return null;
         }
     }
 
-    private static SKBitmap? RenderWithDirect2D(string glyph, int canvasSize, float fontSize)
+    private static SKBitmap? RenderGlyph(string glyph, int canvasSize, float fontSize)
     {
-        if (!OperatingSystem.IsWindows() || D2DFactory == null || DWriteFactoryInstance == null || WicFactory == null)
+        if (EmojiTypeface.Value is not SKTypeface typeface || Shaper.Value is not (HarfBuzzFont shaper, int unitsPerEm))
         {
             return null;
         }
 
-        using IWICBitmap wicBitmap = WicFactory.CreateBitmap((uint)canvasSize, (uint)canvasSize, PixelFormat.Format32bppPBGRA, BitmapCreateCacheOption.CacheOnLoad);
-        using ID2D1RenderTarget renderTarget = D2DFactory.CreateWicBitmapRenderTarget(wicBitmap, new RenderTargetProperties());
-        using ID2D1SolidColorBrush brush = renderTarget.CreateSolidColorBrush(new Color4(1f, 1f, 1f, 1f));
-        using IDWriteTextFormat textFormat = DWriteFactoryInstance.CreateTextFormat(EmojiFontFamily, FontWeight.Normal, FontStyle.Normal, FontStretch.Normal, fontSize);
-        using IDWriteTextLayout textLayout = DWriteFactoryInstance.CreateTextLayout(glyph, textFormat, canvasSize, canvasSize);
+        using HarfBuzzBuffer buffer = new();
+        buffer.AddUtf16(glyph);
+        buffer.GuessSegmentProperties();
+        shaper.Shape(buffer);
 
-        textFormat.TextAlignment = TextAlignment.Center;
-        textFormat.ParagraphAlignment = ParagraphAlignment.Center;
+        HarfBuzzSharp.GlyphInfo[] infos = buffer.GlyphInfos;
+        HarfBuzzSharp.GlyphPosition[] positions = buffer.GlyphPositions;
 
-        renderTarget.TextAntialiasMode = Vortice.Direct2D1.TextAntialiasMode.Grayscale;
-        renderTarget.BeginDraw();
-        renderTarget.Clear(new Color4(0f, 0f, 0f, 0f));
-        renderTarget.DrawTextLayout(new System.Numerics.Vector2(0f, 0f), textLayout, brush, DrawTextOptions.EnableColorFont);
-        renderTarget.EndDraw();
-
-        return CopyWicBitmapToSkBitmap(wicBitmap, canvasSize, canvasSize);
-    }
-
-    private static SKBitmap? RenderWithSkiaFallback(string glyph, int canvasSize)
-    {
-        using SKTypeface? typeface = SKFontManager.Default.MatchFamily(EmojiFontFamily) ?? SKTypeface.Default;
-        using var rawBitmap = new SKBitmap(new SKImageInfo(canvasSize, canvasSize, SKColorType.Bgra8888, SKAlphaType.Premul));
-        using var canvas = new SKCanvas(rawBitmap);
-        using var font = new SKFont(typeface, canvasSize * 0.68f);
-        using var paint = new SKPaint
+        // Glyph 0 is the font's missing-glyph box: an emoji newer than the font gets nothing rather than a box.
+        if (infos.Length == 0 || infos.Any(info => info.Codepoint == 0))
         {
-            IsAntialias = true,
-            Color = SKColors.White
-        };
+            return null;
+        }
 
+        using SKFont font = new(typeface, fontSize) { EmbeddedBitmaps = true, Edging = SKFontEdging.Antialias };
+        float scale = fontSize / unitsPerEm;
+        using SKTextBlobBuilder builder = new();
+        SKPositionedRunBuffer run = builder.AllocatePositionedRun(font, infos.Length);
+        Span<ushort> runGlyphs = run.GetGlyphSpan();
+        Span<SKPoint> runPositions = run.GetPositionSpan();
+        float advance = 0;
+        for (int i = 0; i < infos.Length; i++)
+        {
+            runGlyphs[i] = (ushort)infos[i].Codepoint;
+            runPositions[i] = new SKPoint(advance + positions[i].XOffset * scale, -positions[i].YOffset * scale);
+            advance += positions[i].XAdvance * scale;
+        }
+
+        using SKTextBlob? blob = builder.Build();
+        if (blob == null)
+        {
+            return null;
+        }
+
+        var bitmap = new SKBitmap(new SKImageInfo(canvasSize, canvasSize, SKColorType.Bgra8888, SKAlphaType.Premul));
+        using var canvas = new SKCanvas(bitmap);
+        using var paint = new SKPaint { IsAntialias = true, Color = SKColors.White };
         canvas.Clear(SKColors.Transparent);
 
-        SKRect bounds = default;
-        font.MeasureText(glyph, out bounds);
-
-        float x = (canvasSize - bounds.Width) / 2f - bounds.Left;
-        float y = (canvasSize - bounds.Height) / 2f - bounds.Top;
-
-        canvas.DrawText(glyph, x, y, font, paint);
+        // The caller trims to what was drawn, so this only has to keep it all on the canvas.
+        float fit = Math.Min(1, canvasSize / Math.Max(advance, 1));
+        canvas.Translate(canvasSize / 2f, canvasSize / 2f);
+        canvas.Scale(fit);
+        canvas.DrawText(blob, -advance / 2f, fontSize * 0.35f, paint);
         canvas.Flush();
-
-        return rawBitmap.Copy();
-    }
-
-    private static SKBitmap CopyWicBitmapToSkBitmap(IWICBitmap wicBitmap, int width, int height)
-    {
-        int stride = width * 4;
-        byte[] pixels = new byte[stride * height];
-        wicBitmap.CopyPixels((uint)stride, pixels);
-
-        var bitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888, SKAlphaType.Premul));
-        Marshal.Copy(pixels, 0, bitmap.GetPixels(), pixels.Length);
         return bitmap;
     }
 

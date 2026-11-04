@@ -6112,15 +6112,6 @@ namespace ShareX.Tools.Localization {
         }
 
         /// <summary>
-        ///   Windows could not play this video. Check that Windows supports its format and that the Windows media components are installed. {0}
-        /// </summary>
-        public static string VideoTrimmer_PlaybackError {
-            get {
-                return ResourceManager.GetString("VideoTrimmer_PlaybackError", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Re-encodes to H.264 / AAC MP4 for exact cut points.
         /// </summary>
         public static string VideoTrimmer_PreciseHint {
@@ -6341,5 +6332,7 @@ namespace ShareX.Tools.Localization {
         public static string VideoPlayer_Unmute => ResourceManager.GetString("VideoPlayer_Unmute", resourceCulture);
         public static string VideoPlayer_Seek => ResourceManager.GetString("VideoPlayer_Seek", resourceCulture);
         public static string VideoPlayer_Volume => ResourceManager.GetString("VideoPlayer_Volume", resourceCulture);
+        public static string VideoPlayer_MpvMissing => ResourceManager.GetString("VideoPlayer_MpvMissing", resourceCulture);
+        public static string VideoPlayer_PlaybackError => ResourceManager.GetString("VideoPlayer_PlaybackError", resourceCulture);
     }
 }

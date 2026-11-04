@@ -535,21 +535,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
     public bool DontShowPrintSettingsDialog { get => Settings.DontShowPrintSettingsDialog; set => SetSetting(Settings.DontShowPrintSettingsDialog, value, x => Settings.DontShowPrintSettingsDialog = x); }
 
-    public bool DontShowWindowsPrintDialog
-    {
-        get => !Settings.PrintSettings.ShowPrintDialog;
-        set
-        {
-            if (SetSetting(Settings.PrintSettings.ShowPrintDialog, !value, x => Settings.PrintSettings.ShowPrintDialog = x))
-            {
-                OnPropertyChanged(nameof(DefaultPrinterOverrideVisible));
-            }
-        }
-    }
-
-    public bool DefaultPrinterOverrideVisible => !Settings.PrintSettings.ShowPrintDialog;
-    public string DefaultPrinterOverride { get => Settings.PrintSettings.DefaultPrinterOverride; set => SetSetting(Settings.PrintSettings.DefaultPrinterOverride, value, x => Settings.PrintSettings.DefaultPrinterOverride = x); }
-
     public EnumOption<ProxyMethod>? SelectedProxyMethod
     {
         get => Find(ProxyMethodOptions, Settings.ProxySettings.ProxyMethod);

@@ -491,33 +491,6 @@ namespace ShareX.HelpersLib
             return icon;
         }
 
-        public static SkiaSharp.SKBitmap GetFileThumbnail(string filePath, Size thumbnailSize)
-        {
-            Guid guid = typeof(IShellItemImageFactory).GUID;
-            IShellItemImageFactory imageFactory = null;
-            IntPtr hbitmap = IntPtr.Zero;
-
-            try
-            {
-                SHCreateItemFromParsingName(filePath, IntPtr.Zero, guid, out imageFactory);
-                SIZE size = new SIZE(thumbnailSize.Width, thumbnailSize.Height);
-                imageFactory.GetImage(size, SIIGBF.SIIGBF_RESIZETOFIT, out hbitmap);
-                return hbitmap != IntPtr.Zero ? WindowsImageInterop.FromHBitmap(hbitmap) : null;
-            }
-            finally
-            {
-                if (hbitmap != IntPtr.Zero)
-                {
-                    DeleteObject(hbitmap);
-                }
-
-                if (imageFactory != null && Marshal.IsComObject(imageFactory))
-                {
-                    Marshal.ReleaseComObject(imageFactory);
-                }
-            }
-        }
-
         public static float GetScreenScalingFactor()
         {
             float scalingFactor;

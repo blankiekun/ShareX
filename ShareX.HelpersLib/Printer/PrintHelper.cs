@@ -23,10 +23,12 @@
 
 #endregion License Information (GPL v3)
 
+using Avalonia.Controls;
+using ShareX.AvaloniaUI.Integration;
 using SkiaSharp;
 using System;
 using System.Drawing;
-using System.Drawing.Printing;
+using System.IO;
 using Image = SkiaSharp.SKBitmap;
 using MessageBox = ShareX.AvaloniaUI.MessageBox;
 using MessageBoxButtons = ShareX.AvaloniaUI.MessageBoxButtons;
@@ -34,153 +36,112 @@ using MessageBoxIcon = ShareX.AvaloniaUI.MessageBoxIcon;
 
 namespace ShareX.HelpersLib
 {
-    public class PrintHelper : IDisposable
+    public class PrintHelper
     {
-        public PrintType PrintType { get; private set; }
+        // Sizes are in hundredths of an inch; a PDF page is measured in points, 72 to the inch.
+        private const float PointsPerUnit = 0.72f;
+
         public Image Image { get; private set; }
-        public string Text { get; private set; }
         public PrintSettings Settings { get; set; }
 
-        public bool Printable
-        {
-            get
-            {
-                return Settings != null && ((PrintType == PrintType.Image && Image != null) ||
-                    (PrintType == PrintType.Text && !string.IsNullOrEmpty(Text) && Settings.TextFont != null));
-            }
-        }
-
-        private PrintDocument printDocument;
-        private PrintTextHelper printTextHelper;
+        private bool Printable => Settings != null && Image != null;
 
         public PrintHelper(Image image)
         {
-            PrintType = PrintType.Image;
             Image = image;
-            InitPrint();
         }
-
-        public PrintHelper(string text)
-        {
-            PrintType = PrintType.Text;
-            Text = text;
-            printTextHelper = new PrintTextHelper();
-            printTextHelper.Text = Text;
-            InitPrint();
-        }
-
-        private void InitPrint()
-        {
-            if (OperatingSystem.IsWindows())
-            {
-                printDocument = new PrintDocument { PrintController = new StandardPrintController() };
-                printDocument.BeginPrint += printDocument_BeginPrint;
-                printDocument.PrintPage += printDocument_PrintPage;
-            }
-        }
-
-        public void Dispose() => printDocument?.Dispose();
 
         public void ShowPreview()
         {
             if (Printable) PrintPreviewWindow.ShowPreview(RenderPreviewPage, Print);
         }
 
-        internal (SKBitmap Bitmap, bool HasMore) RenderPreviewPage(int pageIndex)
-        {
-            PageSettings pageSettings = printDocument?.PrinterSettings.IsValid == true ? printDocument.DefaultPageSettings : null;
-            Size size = pageSettings?.Bounds.Size ?? new Size(850, 1100);
-            if (PrintType == PrintType.Image) return (RenderImagePage(Image, size, Settings), false);
-            PrintTextHelper renderer = new() { Text = Text, Font = Settings.TextFont };
-            renderer.BeginPrint();
-            Margins margins = pageSettings?.Margins ?? new Margins(100, 100, 100, 100);
-            Rectangle margin = new(margins.Left, margins.Top, size.Width - margins.Left - margins.Right, size.Height - margins.Top - margins.Bottom);
-            SKBitmap page = null;
-            bool hasMore = false;
-            for (int index = 0; index <= pageIndex; index++)
-            {
-                page?.Dispose();
-                page = renderer.RenderPage(size, margin, out hasMore);
-                if (!hasMore) break;
-            }
-            return (page, hasMore);
-        }
+        // The preview runs before the print dialog, so the paper chosen there isn't known yet.
+        internal (SKBitmap Bitmap, bool HasMore) RenderPreviewPage(int pageIndex) =>
+            (RenderImagePage(Image, PortalPrint.DefaultPageSize, Settings), false);
 
-        public void TryDefaultPrinterOverride()
-        {
-            string defaultPrinterName = printDocument.PrinterSettings.PrinterName;
-
-            if (!string.IsNullOrEmpty(Settings.DefaultPrinterOverride))
-            {
-                printDocument.PrinterSettings.PrinterName = Settings.DefaultPrinterOverride;
-            }
-
-            if (!printDocument.PrinterSettings.IsValid)
-            {
-                printDocument.PrinterSettings.PrinterName = defaultPrinterName;
-
-                MessageBox.Show(string.Format(Localization.Strings.PrintHelper_Invalid_printer_message, Settings.DefaultPrinterOverride),
-                    Localization.Strings.PrintHelper_Invalid_printer_name, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
+        /// <summary>Shows the desktop's print dialog, then prints on the paper chosen there. Returns false if cancelled or failed.</summary>
         public bool Print()
         {
-            if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("A printing backend is required for this platform.");
-            if (Printable && (!Settings.ShowPrintDialog || WindowsPrintDialog.Show(printDocument)))
-            {
-                if (PrintType == PrintType.Text)
-                {
-                    printTextHelper.Font = Settings.TextFont;
-                }
+            if (!Printable) return false;
 
-                TryDefaultPrinterOverride();
-                printDocument.Print();
-                return true;
+            try
+            {
+                return DesktopServices.Run(() => PortalPrint.PrintAsync(ParentWindow(), "ShareX", pageSize => WritePdfFile(Image, pageSize, Settings)));
             }
-
-            return false;
-        }
-
-        private void printDocument_BeginPrint(object sender, PrintEventArgs e)
-        {
-            if (PrintType == PrintType.Text)
+            catch (Exception e)
             {
-                printTextHelper.BeginPrint();
+                DebugHelper.WriteException(e, "Printing failed");
+                MessageBox.Show(string.Format(Localization.Strings.PrintHelper_Print_failed, e.Message),
+                    Localization.Strings.PrintForm_LoadSettings_Print, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
 
-        private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
+        // The portal's form for a parent window. ShareX runs under XWayland, so an X11 window ID is what it has.
+        private static string ParentWindow()
         {
-            if (PrintType == PrintType.Image)
-            {
-                PrintImage(e);
-            }
-            else if (PrintType == PrintType.Text)
-            {
-                printTextHelper.Font = Settings.TextFont;
-                printTextHelper.PrintPage(e);
-            }
+            Window window = DesktopServices.GetWindow();
+            return window.IsVisible && window.TryGetPlatformHandle() is { HandleDescriptor: "XID" } handle ? $"x11:{handle.Handle:x}" : "";
         }
 
-        private void PrintImage(PrintPageEventArgs args)
+        // The image goes in at its own resolution, so what prints isn't limited by a rasterized page.
+        internal static void WritePdf(Stream stream, SKBitmap image, Size pageSize, PrintSettings settings)
         {
-            using SKBitmap page = RenderImagePage(Image, args.PageBounds.Size, Settings);
-            WindowsPrintInterop.DrawImage(args, page, args.PageBounds);
+            using SKDocument document = SKDocument.CreatePdf(stream) ?? throw new NotSupportedException("This SkiaSharp build can't write PDF files.");
+            SKCanvas canvas = document.BeginPage(pageSize.Width * PointsPerUnit, pageSize.Height * PointsPerUnit);
+            canvas.Scale(PointsPerUnit);
+            DrawImagePage(canvas, image, pageSize, settings);
+            document.EndPage();
+            document.Close();
+        }
+
+        private static string WritePdfFile(SKBitmap image, Size pageSize, PrintSettings settings)
+        {
+            string path = Path.Combine(Path.GetTempPath(), $"sharex-print-{Guid.NewGuid():N}.pdf");
+            FileStreamOptions options = new()
+            {
+                Mode = FileMode.CreateNew,
+                Access = FileAccess.Write,
+                UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite
+            };
+
+            try
+            {
+                using FileStream stream = new(path, options);
+                WritePdf(stream, image, pageSize, settings);
+                return path;
+            }
+            catch
+            {
+                File.Delete(path);
+                throw;
+            }
         }
 
         internal static SKBitmap RenderImagePage(SKBitmap source, Size pageSize, PrintSettings settings)
         {
-            SKBitmap rotated = null;
-            SKBitmap image = source;
             SKBitmap page = SkiaImageHelpers.CreateBitmap(pageSize.Width * 3, pageSize.Height * 3);
-            Rectangle rectangle = new(0, 0, pageSize.Width, pageSize.Height);
-            rectangle.Inflate(-settings.Margin, -settings.Margin);
             try
             {
                 using SKCanvas canvas = new(page);
                 canvas.Clear(SKColors.White);
-                if (rectangle.Width <= 0 || rectangle.Height <= 0) return page;
+                canvas.Scale(3, 3);
+                DrawImagePage(canvas, source, pageSize, settings);
+                return page;
+            }
+            catch { page.Dispose(); throw; }
+        }
+
+        private static void DrawImagePage(SKCanvas canvas, SKBitmap source, Size pageSize, PrintSettings settings)
+        {
+            SKBitmap rotated = null;
+            SKBitmap image = source;
+            Rectangle rectangle = new(0, 0, pageSize.Width, pageSize.Height);
+            rectangle.Inflate(-settings.Margin, -settings.Margin);
+            if (rectangle.Width <= 0 || rectangle.Height <= 0) return;
+            try
+            {
                 if (settings.AutoRotateImage && ((rectangle.Width > rectangle.Height && source.Width < source.Height) ||
                     (rectangle.Width < rectangle.Height && source.Width > source.Height)))
                 {
@@ -188,7 +149,6 @@ namespace ShareX.HelpersLib
                     SkiaImageHelpers.RotateFlipInPlace(rotated, 1);
                     image = rotated;
                 }
-                canvas.Scale(3, 3);
                 canvas.ClipRect(rectangle.ToSKRect());
                 if (settings.AutoScaleImage)
                 {
@@ -207,9 +167,7 @@ namespace ShareX.HelpersLib
                 {
                     canvas.DrawBitmap(image, rectangle.X, rectangle.Y);
                 }
-                return page;
             }
-            catch { page.Dispose(); throw; }
             finally { rotated?.Dispose(); }
         }
     }

@@ -1137,6 +1137,9 @@ Clipboard does not contain an image.</value>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>No emojis match this search.</value>
   </data>
+  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
+    <value>No emoji font was found, so emoji can't be drawn. Install the noto-fonts-emoji package and restart ShareX.</value>
+  </data>
   <data name="EmojiPickerDialogView_PreviewsLoading" xml:space="preserve">
     <value>The picker is ready. Emoji previews are loading in the background.</value>
   </data>
