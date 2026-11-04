@@ -181,6 +181,9 @@ public sealed class VideoThumbnailHelperTests : IDisposable
         string ffmpeg = FakeFFmpeg($"""
             #!/bin/sh
             echo + >> "{log}"
+            # Wait for a second one, so a slow machine can't pass them off one at a time and hide what the limit allows.
+            i=0
+            while [ "$(grep -c + "{log}")" -lt 2 ] && [ $i -lt 50 ]; do sleep 0.1; i=$((i+1)); done
             sleep 0.2
             echo - >> "{log}"
             """);
