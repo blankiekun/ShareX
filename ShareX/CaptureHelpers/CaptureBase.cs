@@ -111,7 +111,7 @@ namespace ShareX
                 }
             }
 
-            if (taskSettings.CaptureSettings.CaptureAutoHideDesktopIcons &&!CaptureHelpers.IsActiveWindowFullscreen() && DesktopIconManager.AreDesktopIconsVisible())
+            if (taskSettings.CaptureSettings.CaptureAutoHideDesktopIcons && !CaptureHelpers.IsActiveWindowFullscreen() && DesktopIconManager.AreDesktopIconsVisible())
             {
                 DesktopIconManager.SetDesktopIconsVisibility(false);
                 showDesktopIcons = true;
