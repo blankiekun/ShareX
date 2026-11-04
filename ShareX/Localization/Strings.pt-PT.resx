@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Deseja repor as definições do ShareX?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Inicio com o Windows foi desativado pela sua organização</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>Inicio com o Windows foi desativado no gestor de tarefas</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Inicio com o WIndows foi activado pela sua organização</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Iniciar o ShareX com o Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Para que as definições sejam alteradas ShareX necessita de ser re-aberto pela Steam</value>
   </data>
@@ -2102,9 +2090,6 @@ Pretende parar a gravação de ecrã ativa e guardá-la?</value>
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Personalize o ShareX</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Código aberto • Criado para Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Pode alterar estas opções a qualquer momento nas definições da aplicação.</value>

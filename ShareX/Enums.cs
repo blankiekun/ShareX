@@ -27,10 +27,6 @@ using ShareX.HelpersLib;
 using System;
 using System.ComponentModel;
 
-#if MicrosoftStore
-using Windows.ApplicationModel;
-#endif
-
 namespace ShareX
 {
     public enum ShareXBuild
@@ -416,25 +412,11 @@ namespace ShareX
         HorizontalLines
     }
 
-#if !MicrosoftStore
     public enum StartupState
     {
         Disabled,
-        DisabledByUser,
-        Enabled,
-        DisabledByPolicy,
-        EnabledByPolicy
+        Enabled
     }
-#else
-    public enum StartupState
-    {
-        Disabled = StartupTaskState.Disabled,
-        DisabledByUser = StartupTaskState.DisabledByUser,
-        Enabled = StartupTaskState.Enabled,
-        DisabledByPolicy = StartupTaskState.DisabledByPolicy,
-        EnabledByPolicy = StartupTaskState.EnabledByPolicy
-    }
-#endif
 
     public enum NativeMessagingAction
     {

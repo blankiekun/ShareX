@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>¿Desea restablecer la configuración de ShareX?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Iniciarup has been disabled by your organization</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>Iniciarup has been disabled in Task Manager</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Iniciarup has been enabled by your organization</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Ejecutar ShareX al iniciar Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Para que la configuración surta efecto, ShareX debe volver a abrirse desde Steam.</value>
   </data>
@@ -2102,9 +2090,6 @@ El archivo se conservó, pero es posible que no se pueda reproducir:
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Haz que ShareX sea tuyo</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Código abierto • Creado para Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Puedes cambiar estas opciones en cualquier momento en la configuración de la aplicación.</value>

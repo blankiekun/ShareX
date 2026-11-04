@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Would you like to visszaállítás ShareX beállítások?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Indításup has been letiltva by your organization</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>Az indítás le lett tiltva a Feladatkezelőben</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Indításup has been engedélyezve by your organization</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>A ShareX futtatása a Windows indításakor</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>For beállítások to take effektus ShareX needs to be remegnyitásed from Steam.</value>
   </data>
@@ -2102,9 +2090,6 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Tegye egyedivé a ShareX-et</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Nyílt forráskódú • Windowshoz készült</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Ezeket a beállításokat bármikor módosíthatja az alkalmazás beállításaiban.</value>

@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Vuoi reimpostare le impostazioni di ShareX?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Avviaup has been disabled by your organization</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>L'avvio automatico è stato disattivato in Gestione Attività</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Avviaup has been enabled by your organization</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Esegui ShareX all'Avvio di Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Riavviare ShareX da Steam per applicare i cambiamenti.</value>
   </data>
@@ -2102,9 +2090,6 @@ Arrestare la registrazione schermo attiva e salvarla?</value>
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Rendi ShareX davvero tuo</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Open source • Creato per Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Puoi modificare queste opzioni in qualsiasi momento nelle impostazioni dell'applicazione.</value>

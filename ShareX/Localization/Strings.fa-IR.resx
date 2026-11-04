@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>آیا می خواهید تنظیمات ShareX را به حالت اولیه برگردانید؟</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>شروعup has been disabled by your organization</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>شروع خودکار در Task Manager غیرفعال شده است.</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>شروعup has been enabled by your organization</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>هنگام شروع ویندوز، ShareX را اجرا کن</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>برای اعمال تنظیمات نرم افزار باید بسته و سپس باز شود.</value>
   </data>
@@ -2102,9 +2090,6 @@ Please select a different hotkey or quit the conflicting application and reبا�
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>ShareX را مطابق سلیقه خود تنظیم کنید</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>متن‌باز • ساخته‌شده برای Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>می‌توانید هر زمان این گزینه‌ها را در تنظیمات برنامه تغییر دهید.</value>

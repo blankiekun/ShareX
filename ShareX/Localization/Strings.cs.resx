@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Chcete obnovit nastavení ShareX?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Spouštění bylo zakázáno vaší organizací</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>Spouštění bylo zakázáno ve Správci úloh</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Spouštění bylo povoleno vaší organizací</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Spouštět ShareX při spuštění Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Aby se nastavení projevilo, je nutné ShareX znovu otevřít ze služby Steam.</value>
   </data>
@@ -2102,9 +2090,6 @@ Chcete aktivní nahrávání obrazovky zastavit a uložit?</value>
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Přizpůsobte si ShareX</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Open source • Vytvořeno pro Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Tyto možnosti můžete kdykoli změnit v nastavení aplikace.</value>

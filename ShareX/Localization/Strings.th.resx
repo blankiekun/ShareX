@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>คุณต้องการ รีเซ็ต ShareX การตั้งค่า?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>การเริ่มระบบถูกปิดใช้งานโดยองค์กรของคุณ</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>การเริ่มระบบถูกปิดใช้งานในตัวจัดการงาน</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>การเริ่มระบบถูกเปิดใช้งานโดยองค์กรของคุณ</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>เรียกใช้ ShareX เมื่อ Windows เริ่มทำงาน</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>ต้องเปิด ShareX ใหม่จาก Steam เพื่อให้การตั้งค่ามีผล</value>
   </data>
@@ -2102,9 +2090,6 @@
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>ปรับ ShareX ให้เป็นแบบคุณ</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>โอเพนซอร์ส • สร้างขึ้นสำหรับ Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>คุณสามารถเปลี่ยนตัวเลือกเหล่านี้ได้ทุกเมื่อในการตั้งค่าแอปพลิเคชัน</value>

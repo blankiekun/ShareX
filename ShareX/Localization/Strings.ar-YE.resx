@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>هل تريد استعادة الإعدادات الافتراضية؟</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>تم تعطيل البدء التلقائي للتطبيق بواسطة مؤسستك</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>تم تعطيل البدء التلقائي للتطبيق بواسطة مدير المهام</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>تم تفعيل البدء التلقائي للتطبيق بواسطة مؤسستك</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>تشغيل ShareX عند بدء نظام Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>لكي تظهر التغببرات يجب إعادة فتح ShareX من خلال Steam.</value>
   </data>
@@ -2102,9 +2090,6 @@
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>اجعل ShareX مناسبًا لك</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>مفتوح المصدر • مصمم لنظام Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>يمكنك تغيير هذه الخيارات في أي وقت من إعدادات التطبيق.</value>

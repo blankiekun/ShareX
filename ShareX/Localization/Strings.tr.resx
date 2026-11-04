@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>ShareX ayarlarını sıfırlamak ister misiniz?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Başlangıç, kuruluşunuz tarafından devre dışı bırakıldı</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>Başlangıç görev yöneticisinden devre dışı bırakılmış</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Başlangıç, kuruluşunuz tarafından etkinleştirildi</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Windows başladığında ShareX'i çalıştır</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Ayarların geçerli olabilmesi için ShareX in Steam den yeniden açılması gerekmektedir.</value>
   </data>
@@ -2102,9 +2090,6 @@ Aktif ekran kaydını durdurup kaydetmek istiyor musunuz?</value>
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>ShareX'i kendinize göre özelleştirin</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Açık kaynak • Windows için geliştirildi</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Bu seçenekleri istediğiniz zaman Uygulama ayarlarından değiştirebilirsiniz.</value>

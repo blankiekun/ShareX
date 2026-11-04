@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>ShareX の設定を初期化しますか？</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>スタートアップの設定は組織によって無効にされています</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>スタートアップの設定はタスクマネージャーで無効にされています</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>スタートアップの設定は組織によって有効にされています</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Windows開始時に ShareX を起動</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>設定を反映するには、Steam から ShareX を開きなおしてください。</value>
   </data>
@@ -2102,9 +2090,6 @@
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>ShareX を自分好みに</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>オープンソース • Windows 向け</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>これらのオプションは、アプリケーション設定でいつでも変更できます。</value>

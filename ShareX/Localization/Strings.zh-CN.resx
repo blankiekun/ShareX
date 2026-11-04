@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>要重置 ShareX 设置项吗？</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>开机启动项已被你的组织禁用</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>开机启动项已被任务管理器禁用</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>启动已由你的组织启用</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Windows 启动时运行 ShareX</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>为使设置生效，ShareX 需从 Steam 重新启动。</value>
   </data>
@@ -2102,9 +2090,6 @@
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>打造你的 ShareX</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>开源 • 专为 Windows 打造</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>你可以随时在应用程序设置中更改这些选项。</value>

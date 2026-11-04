@@ -23,70 +23,57 @@
 
 #endregion License Information (GPL v3)
 
-using Microsoft.Win32;
-using ShareX.HelpersLib;
+using Newtonsoft.Json;
 using System;
+using System.IO;
 
 namespace ShareX
 {
     public static class SystemOptions
     {
-        private const string RegistryPath = @"SOFTWARE\ShareX";
+        // Only root can write here, so these can't be undone by the user they apply to. The registry's per-user fallback had no such
+        // protection and isn't kept.
+        internal const string FilePath = "/etc/ShareX/SystemOptions.json";
 
         public static bool DisableUpdateCheck { get; private set; }
         public static bool DisableUpload { get; private set; }
         public static bool DisableLogging { get; private set; }
         public static string PersonalPath { get; private set; }
 
+        /// <summary>Why the file couldn't be read. It is read before the log exists, so <see cref="Program"/> logs this afterward.</summary>
+        public static string ReadError { get; private set; }
+
         public static void UpdateSystemOptions()
         {
-            DisableUpdateCheck = GetSystemOptionBoolean("DisableUpdateCheck");
-            DisableUpload = GetSystemOptionBoolean("DisableUpload");
-            DisableLogging = GetSystemOptionBoolean("DisableLogging");
-            PersonalPath = GetSystemOptionString("PersonalPath");
+            if (!File.Exists(FilePath))
+            {
+                return;
+            }
+
+            try
+            {
+                // Not JsonHelpers: it hides syntax errors and returns what it read so far, so a broken file would look like one that restricts nothing.
+                Options options = JsonConvert.DeserializeObject<Options>(File.ReadAllText(FilePath)) ?? throw new InvalidDataException("The file is empty.");
+                DisableUpdateCheck = options.DisableUpdateCheck;
+                DisableUpload = options.DisableUpload;
+                DisableLogging = options.DisableLogging;
+                PersonalPath = options.PersonalPath;
+            }
+            catch (Exception e)
+            {
+                // Someone put this file here to restrict ShareX, so a mistake in it shouldn't lift the restrictions.
+                ReadError = $"{FilePath} could not be read, so uploads and update checks are off: {e.Message}";
+                DisableUpdateCheck = true;
+                DisableUpload = true;
+            }
         }
 
-        private static bool GetSystemOptionBoolean(string name)
+        private sealed class Options
         {
-            object value = RegistryHelpers.GetValue(RegistryPath, name, RegistryHive.LocalMachine);
-
-            if (value != null)
-            {
-                try
-                {
-                    return Convert.ToBoolean(value);
-                }
-                catch
-                {
-                }
-            }
-
-            value = RegistryHelpers.GetValue(RegistryPath, name, RegistryHive.CurrentUser);
-
-            if (value != null)
-            {
-                try
-                {
-                    return Convert.ToBoolean(value);
-                }
-                catch
-                {
-                }
-            }
-
-            return false;
-        }
-
-        private static string GetSystemOptionString(string name)
-        {
-            string value = RegistryHelpers.GetValueString(RegistryPath, name, RegistryHive.LocalMachine);
-
-            if (value == null)
-            {
-                value = RegistryHelpers.GetValueString(RegistryPath, name, RegistryHive.CurrentUser);
-            }
-
-            return value;
+            public bool DisableUpdateCheck { get; set; }
+            public bool DisableUpload { get; set; }
+            public bool DisableLogging { get; set; }
+            public string PersonalPath { get; set; }
         }
     }
 }

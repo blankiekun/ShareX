@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Apakah Anda ingin mengatur ulang pengaturan ShareX?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Startup telah dinonaktifkan oleh organisasi Anda</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>Pengaktifan telah dinonaktifkan di Pengelola Tugas</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Startup telah diaktifkan oleh organisasi Anda</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Jalankan ShareX saat memulai Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Agar pengaturan diterapkan, ShareX perlu dibuka kembali dari Steam.</value>
   </data>
@@ -2102,9 +2090,6 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Jadikan ShareX milik Anda</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Sumber terbuka • Dibuat untuk Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Anda dapat mengubah opsi ini kapan saja di pengaturan aplikasi.</value>

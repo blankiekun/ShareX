@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Bạn có muốn đặt lại các cài đặt cho ShareX không?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>Tự khởi động đã bị vô hiệu bởi tổ chức của bạn</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>Tự khởi động đã bị vô hiệu trong Task Manager</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>Tự khởi động đã được kích hoạt bởi tổ chức của bạn</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Chạy ShareX cùng Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Để thiết lập có tác dụng ShareX cần được mở lại từ Steam.</value>
   </data>
@@ -2102,9 +2090,6 @@ Bạn có muốn dừng phiên quay màn hình đang hoạt động và lưu l�
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Biến ShareX thành của riêng bạn</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Mã nguồn mở • Được xây dựng cho Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Bạn có thể thay đổi các tùy chọn này bất cứ lúc nào trong cài đặt ứng dụng.</value>

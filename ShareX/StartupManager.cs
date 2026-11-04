@@ -58,13 +58,9 @@ namespace ShareX
                         "Terminal=false",
                         "StartupWMClass=ShareX"));
                 }
-                else if (value == StartupState.Disabled)
-                {
-                    DesktopEntryHelpers.Delete(AutostartPath);
-                }
                 else
                 {
-                    throw new NotSupportedException();
+                    DesktopEntryHelpers.Delete(AutostartPath);
                 }
             }
         }

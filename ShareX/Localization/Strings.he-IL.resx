@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>האם תרצה לאפס את הגדרות ShareX?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>האתחול הושבת על ידי הארגון שלך</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>האתחול הושבת במנהל המשימות</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>האתחול הופעל על ידי הארגון שלך</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>הפעל את ShareX בעת עליית Windows</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>כדי שההגדרות ייכנסו לתוקף, יש לפתוח מחדש את ShareX מ-Steam.</value>
   </data>
@@ -2102,9 +2090,6 @@
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>התאימו את ShareX לטעמכם</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>קוד פתוח • נבנה עבור Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>ניתן לשנות אפשרויות אלה בכל עת בהגדרות היישום.</value>

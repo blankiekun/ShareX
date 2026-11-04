@@ -238,18 +238,6 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>क्या आप ShareX सेटिंग रीसेट करना चाहते हैं?</value>
   </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
-    <value>आपके संगठन ने स्टार्टअप अक्षम किया है</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
-    <value>टास्क मैनेजर में स्टार्टअप अक्षम किया गया है</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
-    <value>आपके संगठन ने स्टार्टअप सक्षम किया है</value>
-  </data>
-  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
-    <value>Windows आरंभ होने पर ShareX चलाएँ</value>
-  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>सेटिंग प्रभावी करने के लिए ShareX को Steam से फिर खोलना होगा।</value>
   </data>
@@ -2102,9 +2090,6 @@
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>ShareX को अपना बनाएँ</value>
-  </data>
-  <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>ओपन सोर्स • Windows के लिए निर्मित</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>आप इन विकल्पों को एप्लिकेशन सेटिंग में कभी भी बदल सकते हैं।</value>

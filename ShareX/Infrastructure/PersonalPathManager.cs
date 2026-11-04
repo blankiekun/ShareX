@@ -76,7 +76,7 @@ internal static class PersonalPathManager
         else if (!string.IsNullOrEmpty(SystemOptions.PersonalPath))
         {
             CustomPersonalPath = SystemOptions.PersonalPath;
-            DetectionMethod = "Registry";
+            DetectionMethod = $"System options file ({SystemOptions.FilePath})";
         }
         else
         {
