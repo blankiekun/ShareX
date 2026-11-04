@@ -733,6 +733,18 @@
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Alkalmazás beállítások</value>
   </data>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>Asztal</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>ShareX futtatása bejelentkezéskor</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>"Szerkesztés ShareX-szel" megjelenítése a Dolphin helyi menüjében</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>"Feltöltés ShareX használatával" megjelenítése a Dolphin helyi menüjében</value>
+  </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
   </data>
@@ -1508,6 +1520,9 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Nincsenek képeffektus-előbeállítások</value>
   </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>Nincs más rögzíthető ablak. Nyissa meg a kívánt ablakot, majd próbálja újra.</value>
+  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Nem találhatók ablakok</value>
   </data>
@@ -2090,6 +2105,9 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Tegye egyedivé a ShareX-et</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>Nyílt forráskódú • Linux rendszerre készült</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Ezeket a beállításokat bármikor módosíthatja az alkalmazás beállításaiban.</value>

@@ -733,6 +733,18 @@
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Paramètres de l’application</value>
   </data>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>Bureau</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>Lancer ShareX à l’ouverture de session</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Afficher « Modifier avec ShareX » dans le menu contextuel de Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Afficher « Mettre en ligne avec ShareX » dans le menu contextuel de Dolphin</value>
+  </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
   </data>
@@ -1508,6 +1520,9 @@ Veuillez sélectionner un raccourci différent ou quitter l'application en confl
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Aucun préréglage d’effet d’image</value>
   </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>Il n’y a aucune autre fenêtre à capturer. Ouvrez la fenêtre souhaitée, puis réessayez.</value>
+  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Aucune fenêtre trouvée</value>
   </data>
@@ -2090,6 +2105,9 @@ Voulez-vous arrêter l'enregistrement d'écran en cours et le sauvegarder ?</val
   </data>
   <data name="StartScreen_PersonalizeTitle" xml:space="preserve">
     <value>Personnalisez ShareX</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>Open source • Conçu pour Linux</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Vous pouvez modifier ces options à tout moment dans les paramètres de l’application.</value>
