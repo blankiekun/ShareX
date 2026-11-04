@@ -59,17 +59,19 @@ public sealed class VideoThumbnailHelperTests : IDisposable
         return path;
     }
 
-    /// <summary>The checkout has CRLF in this file, and a shell can't run a script with CRLF line endings.</summary>
+    /// <summary>
+    /// The checkout has CRLF in this file, and a shell can't run a script with CRLF line endings. FakeHost swaps the process-wide PATH while other
+    /// test classes run, and a fake inherits it: with no PATH of its own it can't find grep or sleep, so it ends in milliseconds with exit code 0.
+    /// </summary>
     private string FakeFFmpeg(string script)
     {
         string path = Path.Combine(_folder, "fake-ffmpeg");
-        File.WriteAllText(path, script.ReplaceLineEndings("\n"));
+        File.WriteAllText(path, "#!/bin/sh\nPATH=/usr/bin:/bin\n" + script.ReplaceLineEndings("\n") + "\n");
         File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
         return path;
     }
 
     private string HangingFFmpeg(string pidFile) => FakeFFmpeg($"""
-        #!/bin/sh
         echo $$ >> "{pidFile}"
         exec sleep 60
         """);
@@ -179,7 +181,6 @@ public sealed class VideoThumbnailHelperTests : IDisposable
     {
         string log = Path.Combine(_folder, "log");
         string ffmpeg = FakeFFmpeg($"""
-            #!/bin/sh
             echo + >> "{log}"
             # Wait for a second one, so a slow machine can't pass them off one at a time and hide what the limit allows.
             i=0
