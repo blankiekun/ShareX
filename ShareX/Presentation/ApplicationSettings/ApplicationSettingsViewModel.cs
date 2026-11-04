@@ -589,7 +589,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
     public bool ShowClipboardContentViewer { get => Settings.ShowClipboardContentViewer; set => SetSetting(Settings.ShowClipboardContentViewer, value, x => Settings.ShowClipboardContentViewer = x); }
     public bool DefaultClipboardCopyImageFillBackground { get => Settings.DefaultClipboardCopyImageFillBackground; set => SetSetting(Settings.DefaultClipboardCopyImageFillBackground, value, x => Settings.DefaultClipboardCopyImageFillBackground = x); }
-    public bool UseAlternativeClipboardCopyImage { get => Settings.UseAlternativeClipboardCopyImage; set => SetSetting(Settings.UseAlternativeClipboardCopyImage, value, x => Settings.UseAlternativeClipboardCopyImage = x); }
     public bool UseAlternativeClipboardGetImage { get => Settings.UseAlternativeClipboardGetImage; set => SetSetting(Settings.UseAlternativeClipboardGetImage, value, x => Settings.UseAlternativeClipboardGetImage = x); }
 
     public bool RotateImageByExifOrientationData { get => Settings.RotateImageByExifOrientationData; set => SetSetting(Settings.RotateImageByExifOrientationData, value, x => Settings.RotateImageByExifOrientationData = x); }

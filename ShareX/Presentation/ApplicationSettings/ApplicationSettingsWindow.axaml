@@ -614,9 +614,6 @@
                                         <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_DefaultClipboardCopyImageFillBackground}" IsChecked="{Binding DefaultClipboardCopyImageFillBackground, Mode=TwoWay}"/>
                                     </StackPanel>
                                     <StackPanel>
-                                        <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_UseAlternativeClipboardCopyImage}" IsChecked="{Binding UseAlternativeClipboardCopyImage, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <StackPanel>
                                         <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_UseAlternativeClipboardGetImage}" IsChecked="{Binding UseAlternativeClipboardGetImage, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </StackPanel>
