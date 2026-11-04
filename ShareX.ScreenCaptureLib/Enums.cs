@@ -245,14 +245,7 @@ namespace ShareX.ScreenCaptureLib
     {
         Failed,
         PartiallySuccessful,
-        Successful
-    }
-
-    public enum ScrollMethod // Localized
-    {
-        MouseWheel,
-        DownArrow,
-        PageDown,
-        ScrollMessage
+        Successful,
+        HeightLimitReached
     }
 }

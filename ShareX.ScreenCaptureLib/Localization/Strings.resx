@@ -485,6 +485,21 @@
   <data name="ScreenRecordWindow_Title" xml:space="preserve">
     <value>ShareX - Screen recording</value>
   </data>
+  <data name="ScrollingCaptureWindow_Press_start" xml:space="preserve">
+    <value>Press Start, then scroll by hand.</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_now" xml:space="preserve">
+    <value>Scroll now, top to bottom. Press Stop or the hotkey when done.</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_back" xml:space="preserve">
+    <value>Not capturing here. Scroll back to the last captured part.</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Height_limit_reached" xml:space="preserve">
+    <value>Stopped at the height limit</value>
+  </data>
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>Auto ignore bottom edge</value>
   </data>

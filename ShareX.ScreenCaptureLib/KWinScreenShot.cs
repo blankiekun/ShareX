@@ -110,6 +110,14 @@ internal static class KWinScreenShot
         return TryRequest("CaptureWindow", windowId, mode, includeCursor, out windowGone);
     }
 
+    /// <summary>What the desktop shows in a rectangle, less ShareX's own windows.</summary>
+    /// <param name="area">In KWin logical coordinates.</param>
+    /// <param name="includeCursor">Draw the pointer into the image.</param>
+    public static SpectacleImage? TryCaptureArea(Rectangle area, bool includeCursor)
+    {
+        return TryRequest("CaptureArea", null, SpectacleMode.AllMonitors, includeCursor, out _, area);
+    }
+
     // KWin draws the whole rectangle, so a window or shadow hanging off a monitor would show in the space beside it, where nobody can see it on screen.
     private static void ClearOutsideOutputs(SKBitmap bitmap)
     {
@@ -143,7 +151,7 @@ internal static class KWinScreenShot
         }
     }
 
-    private static SpectacleImage? TryRequest(string method, string? windowId, SpectacleMode mode, bool includeCursor, out bool windowGone)
+    private static SpectacleImage? TryRequest(string method, string? windowId, SpectacleMode mode, bool includeCursor, out bool windowGone, Rectangle? area = null)
     {
         windowGone = false;
 
@@ -155,7 +163,7 @@ internal static class KWinScreenShot
         try
         {
             // The same way out of a synchronization context as KWinScript.Run, as this can be called from the UI thread.
-            SpectacleImage image = Task.Run(() => RequestAsync(method, windowId, mode, includeCursor)).GetAwaiter().GetResult();
+            SpectacleImage image = Task.Run(() => RequestAsync(method, windowId, mode, includeCursor, area)).GetAwaiter().GetResult();
 
             if (Interlocked.Exchange(ref _loggedInUse, 1) == 0)
             {
@@ -190,7 +198,7 @@ internal static class KWinScreenShot
             "org.freedesktop.DBus.Error.UnknownMethod";
     }
 
-    private static async Task<SpectacleImage> RequestAsync(string method, string? windowId, SpectacleMode mode, bool includeCursor)
+    private static async Task<SpectacleImage> RequestAsync(string method, string? windowId, SpectacleMode mode, bool includeCursor, Rectangle? area)
     {
         string sessionBus = DBusAddress.Session ?? throw new ScreenCaptureException("There is no D-Bus session bus.");
         using DBusConnection connection = new(sessionBus);
@@ -204,7 +212,7 @@ internal static class KWinScreenShot
         try
         {
             // KWin sends the reply first and writes from another thread afterwards, so waiting for it can't block on a full pipe.
-            (ScreenShotLayout? known, screen) = await CallAsync(connection, method, windowId, mode, includeCursor, pipe.ClientSafePipeHandle)
+            (ScreenShotLayout? known, screen) = await CallAsync(connection, method, windowId, area, mode, includeCursor, pipe.ClientSafePipeHandle)
                 .WaitAsync(ReplyTimeout).ConfigureAwait(false);
 
             // KWin has its own copy now. With this one still open, a write that stops early would never reach end of file.
@@ -260,7 +268,7 @@ internal static class KWinScreenShot
         return bitmap;
     }
 
-    private static Task<(ScreenShotLayout? Layout, string? Screen)> CallAsync(DBusConnection connection, string method, string? windowId, SpectacleMode mode,
+    private static Task<(ScreenShotLayout? Layout, string? Screen)> CallAsync(DBusConnection connection, string method, string? windowId, Rectangle? area, SpectacleMode mode,
         bool includeCursor, SafeHandle pipe)
     {
         MessageBuffer call;
@@ -268,18 +276,27 @@ internal static class KWinScreenShot
 
         try
         {
-            writer.WriteMethodCallHeader(Service, ObjectPath, Interface, method, windowId != null ? "sa{sv}h" : "a{sv}h");
+            writer.WriteMethodCallHeader(Service, ObjectPath, Interface, method, windowId != null ? "sa{sv}h" : area != null ? "iiuua{sv}h" : "a{sv}h");
 
             if (windowId != null)
             {
                 writer.WriteString(windowId);
             }
 
+            if (area is Rectangle rectangle)
+            {
+                writer.WriteInt32(rectangle.X);
+                writer.WriteInt32(rectangle.Y);
+                writer.WriteUInt32((uint)rectangle.Width);
+                writer.WriteUInt32((uint)rectangle.Height);
+            }
+
             ArrayStart options = writer.WriteDictionaryStart();
             WriteOption(ref writer, "include-cursor", includeCursor);
             WriteOption(ref writer, "native-resolution", true);
             // On by default, and would drop ShareX's main window, pinned images and mouse highlighter from every screen capture.
-            WriteOption(ref writer, "hide-caller-windows", false);
+            // Only an area is asked for by a tool whose own windows can be in the way.
+            WriteOption(ref writer, "hide-caller-windows", area != null);
             WriteOption(ref writer, "include-decoration", mode is SpectacleMode.ActiveWindow or SpectacleMode.ActiveWindowNoShadow);
             WriteOption(ref writer, "include-shadow", mode == SpectacleMode.ActiveWindow);
             writer.WriteDictionaryEnd(options);

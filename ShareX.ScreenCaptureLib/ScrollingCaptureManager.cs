@@ -28,25 +28,45 @@ using SkiaSharp;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Bitmap = SkiaSharp.SKBitmap;
 
 namespace ShareX.ScreenCaptureLib
 {
+    internal enum ScrollingFrameResult
+    {
+        Added,
+
+        /// <summary>Nothing below what is already stitched, for example after scrolling back up.</summary>
+        NoNewRows,
+
+        /// <summary>The frame doesn't overlap the end of the stitched image, so there is no telling where it belongs.</summary>
+        NoOverlap,
+
+        HeightLimitReached
+    }
+
+    /// <summary>Captures a window or an area on a timer while the user scrolls it by hand, and stitches the frames.</summary>
     internal class ScrollingCaptureManager : IDisposable
     {
+        // Short, because hand scrolling only stitches while frames overlap. Frames with no change cost little.
+        private const int CaptureInterval = 100;
+
         public ScrollingCaptureOptions Options { get; private set; }
         public Bitmap Result { get; private set; }
         public bool IsCapturing { get; private set; }
+        public Rectangle SelectedRectangle { get; private set; }
 
-        private Bitmap lastScreenshot;
-        private Bitmap previousScreenshot;
+        /// <summary>True when frames overlap the stitched image again, false when they stopped. Raised on the thread that started the capture.</summary>
+        public event Action<bool> OverlapChanged;
+
         private bool stopRequested;
-        private ScrollingCaptureStatus status;
-        private int bestMatchCount, bestMatchIndex, bestIgnoreBottomOffset;
-        private WindowInfo selectedWindow;
-        private Rectangle selectedRectangle;
+        private bool overlapLost;
+        private int bestMatchCount, bestIgnoreBottomOffset, frameHeight;
+        private int? lastFrameHash;
+        private KWinWindow selectedWindow;
+        private bool wholeWindowSelected;
+        private Rectangle selectedLogicalArea;
 
         public ScrollingCaptureManager(ScrollingCaptureOptions options)
         {
@@ -55,151 +75,93 @@ namespace ShareX.ScreenCaptureLib
 
         public void Dispose()
         {
-            Reset();
-        }
-
-        private void Reset(bool keepResult = false)
-        {
-            if (lastScreenshot != null)
-            {
-                lastScreenshot.Dispose();
-                lastScreenshot = null;
-            }
-
-            if (previousScreenshot != null)
-            {
-                previousScreenshot.Dispose();
-                previousScreenshot = null;
-            }
-
-            if (!keepResult && Result != null)
-            {
-                Result.Dispose();
-                Result = null;
-            }
+            Result?.Dispose();
+            Result = null;
         }
 
         public async Task<ScrollingCaptureStatus> StartCapture()
         {
-            if (!IsCapturing && selectedWindow != null && !selectedRectangle.IsEmpty)
+            if (IsCapturing || SelectedRectangle.IsEmpty)
             {
-                IsCapturing = true;
-                stopRequested = false;
-                status = ScrollingCaptureStatus.Failed;
-                bestMatchCount = 0;
-                bestMatchIndex = 0;
-                bestIgnoreBottomOffset = 0;
-                Reset();
-
-                ScrollingCaptureRegionWindow regionWindow = null;
-
-                if (Options.ShowRegion)
-                {
-                    regionWindow = new ScrollingCaptureRegionWindow(selectedRectangle);
-                    regionWindow.Show();
-                }
-
-                try
-                {
-                    selectedWindow.Activate();
-
-                    await Task.Delay(Options.StartDelay);
-
-                    if (Options.AutoScrollTop)
-                    {
-                        InputHelpers.SendKeyPress(VirtualKeyCode.HOME);
-                        NativeMethods.SendMessage(selectedWindow.Handle, (int)WindowsMessages.VSCROLL, (int)ScrollBarCommands.SB_TOP, 0);
-
-                        await Task.Delay(Options.ScrollDelay);
-                    }
-
-                    Screenshot screenshot = new Screenshot()
-                    {
-                        CaptureCursor = false
-                    };
-
-                    while (!stopRequested)
-                    {
-                        lastScreenshot = screenshot.CaptureRectangle(selectedRectangle);
-
-                        if (CompareLastTwoImages())
-                        {
-                            break;
-                        }
-
-                        switch (Options.ScrollMethod)
-                        {
-                            case ScrollMethod.MouseWheel:
-                                InputHelpers.SendMouseWheel(-120 * Options.ScrollAmount);
-                                break;
-                            case ScrollMethod.DownArrow:
-                                for (int i = 0; i < Options.ScrollAmount; i++)
-                                {
-                                    InputHelpers.SendKeyPress(VirtualKeyCode.DOWN);
-                                }
-                                break;
-                            case ScrollMethod.PageDown:
-                                InputHelpers.SendKeyPress(VirtualKeyCode.NEXT);
-                                break;
-                            case ScrollMethod.ScrollMessage:
-                                for (int i = 0; i < Options.ScrollAmount; i++)
-                                {
-                                    NativeMethods.SendMessage(selectedWindow.Handle, (int)WindowsMessages.VSCROLL, (int)ScrollBarCommands.SB_LINEDOWN, 0);
-                                }
-                                break;
-                        }
-
-                        Stopwatch timer = Stopwatch.StartNew();
-
-                        if (lastScreenshot != null)
-                        {
-                            Bitmap newResult = await CombineImagesAsync(Result, lastScreenshot);
-
-                            if (newResult != null)
-                            {
-                                Result?.Dispose();
-                                Result = newResult;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-
-                        if (stopRequested)
-                        {
-                            break;
-                        }
-
-                        if (lastScreenshot != null)
-                        {
-                            if (previousScreenshot != null)
-                            {
-                                previousScreenshot.Dispose();
-                            }
-
-                            previousScreenshot = lastScreenshot;
-                            lastScreenshot = null;
-                        }
-
-                        int delay = Options.ScrollDelay - (int)timer.ElapsedMilliseconds;
-
-                        if (delay > 0)
-                        {
-                            await Task.Delay(delay);
-                        }
-                    }
-                }
-                finally
-                {
-                    regionWindow?.Close();
-
-                    Reset(true);
-                    IsCapturing = false;
-                }
+                return ScrollingCaptureStatus.Failed;
             }
 
-            return status;
+            IsCapturing = true;
+            stopRequested = false;
+            overlapLost = false;
+            bestMatchCount = 0;
+            bestIgnoreBottomOffset = 0;
+            lastFrameHash = null;
+            Dispose();
+
+            ScrollingCaptureRegionWindow regionWindow = null;
+
+            if (Options.ShowRegion)
+            {
+                regionWindow = new ScrollingCaptureRegionWindow(SelectedRectangle);
+                X11WindowState.SkipSwitcher(regionWindow);
+                regionWindow.Show();
+                // The outline only marks the area: the wheel has to reach what is under it.
+                X11InputShape.SetEmpty(regionWindow);
+            }
+
+            try
+            {
+                // Pressing Start made ShareX active, and scrolling with the keyboard goes to the active window.
+                if (selectedWindow != null && selectedWindow.Pid != Environment.ProcessId)
+                {
+                    await Task.Run(() => KWinDesktop.ActivateWindow(selectedWindow.Id));
+                }
+
+                await Task.Delay(Options.StartDelay);
+
+                ScrollingCaptureStatus? ended = null;
+
+                while (!stopRequested && ended == null)
+                {
+                    Stopwatch timer = Stopwatch.StartNew();
+
+                    using (Bitmap frame = await Task.Run(CaptureFrame))
+                    {
+                        if (frame == null)
+                        {
+                            ended = ScrollingCaptureStatus.PartiallySuccessful;
+                        }
+                        else
+                        {
+                            bool wasLost = overlapLost;
+
+                            if (await Task.Run(() => AddChangedFrame(frame)) == ScrollingFrameResult.HeightLimitReached)
+                            {
+                                ended = ScrollingCaptureStatus.HeightLimitReached;
+                            }
+                            else if (overlapLost != wasLost)
+                            {
+                                OverlapChanged?.Invoke(!overlapLost);
+                            }
+                        }
+                    }
+
+                    int delay = CaptureInterval - (int)timer.ElapsedMilliseconds;
+
+                    if (delay > 0 && ended == null && !stopRequested)
+                    {
+                        await Task.Delay(delay);
+                    }
+                }
+
+                if (Result == null)
+                {
+                    return ScrollingCaptureStatus.Failed;
+                }
+
+                return ended ?? (overlapLost ? ScrollingCaptureStatus.PartiallySuccessful : ScrollingCaptureStatus.Successful);
+            }
+            finally
+            {
+                regionWindow?.Close();
+                IsCapturing = false;
+            }
         }
 
         public void StopCapture()
@@ -218,81 +180,109 @@ namespace ShareX.ScreenCaptureLib
                 return false;
             }
 
-            // shortcut: scrolling still needs an HWND, so it finds no window on Linux until its own row is ported.
-            selectedRectangle = selection.Value.Rectangle;
-            selectedWindow = null;
-            return false;
+            DesktopCoordinates coordinates = (await Task.Run(KWinDesktop.Query)).Coordinates;
+
+            SelectedRectangle = selection.Value.Rectangle;
+            selectedWindow = selection.Value.WindowInfo;
+            selectedLogicalArea = coordinates.X11ToLogical(SelectedRectangle);
+            // The region overlay names the window under any selection. Only one that fills the selection was picked as a window.
+            wholeWindowSelected = selectedWindow != null && coordinates.LogicalToX11(selectedWindow.FrameGeometry) == SelectedRectangle;
+            return true;
         }
 
-        private bool IsScrollReachedBottom(IntPtr handle)
+        /// <returns>Null when the window is gone or KWin refused, which is where the capture ends. Neither fallback fits here: spectacle
+        /// is far too slow for a timer, and <see cref="Screenshot.CaptureWindow"/> would activate the window each time.</returns>
+        private Bitmap CaptureFrame()
         {
-            SCROLLINFO scrollInfo = new SCROLLINFO();
-            scrollInfo.cbSize = (uint)Marshal.SizeOf(scrollInfo);
-            scrollInfo.fMask = (uint)(ScrollInfoMask.SIF_RANGE | ScrollInfoMask.SIF_PAGE | ScrollInfoMask.SIF_TRACKPOS);
+            SpectacleImage image = wholeWindowSelected
+                ? KWinScreenShot.TryCaptureWindow(selectedWindow.Id, SpectacleMode.ActiveWindowClientArea, false, out _)
+                : KWinScreenShot.TryCaptureArea(selectedLogicalArea, false);
 
-            if (NativeMethods.GetScrollInfo(handle, (int)SBOrientation.SB_VERT, ref scrollInfo))
+            return image?.Bitmap;
+        }
+
+        private ScrollingFrameResult AddChangedFrame(Bitmap frame)
+        {
+            // A hash, so only one frame is in memory at a time. A collision only skips this frame, and the next one has the same rows.
+            HashCode hash = new();
+            hash.AddBytes(frame.GetPixelSpan());
+            int frameHash = hash.ToHashCode();
+
+            if (frameHash == lastFrameHash)
             {
-                return scrollInfo.nMax == scrollInfo.nTrackPos + scrollInfo.nPage - 1;
+                return ScrollingFrameResult.NoNewRows;
             }
 
-            return CompareLastTwoImages();
-        }
+            lastFrameHash = frameHash;
 
-        private bool CompareLastTwoImages()
-        {
-            if (lastScreenshot != null && previousScreenshot != null)
+            ScrollingFrameResult result = AddFrame(frame);
+
+            if (result != ScrollingFrameResult.HeightLimitReached)
             {
-                return SkiaImageHelpers.CompareImages(lastScreenshot, previousScreenshot);
+                overlapLost = result == ScrollingFrameResult.NoOverlap;
             }
 
-            return false;
+            return result;
         }
 
-        private async Task<Bitmap> CombineImagesAsync(Bitmap result, Bitmap currentImage)
+        /// <summary>Stitches one frame onto <see cref="Result"/>.</summary>
+        internal ScrollingFrameResult AddFrame(Bitmap frame)
         {
-            return await Task.Run(() => CombineImages(result, currentImage));
-        }
-
-        private static unsafe int CompareRows(IntPtr first, IntPtr second, int count)
-            => new ReadOnlySpan<byte>(first.ToPointer(), count).SequenceEqual(new ReadOnlySpan<byte>(second.ToPointer(), count)) ? 0 : 1;
-
-        private unsafe Bitmap CombineImages(Bitmap result, Bitmap currentImage)
-        {
-            if (result == null)
+            if (Result == null)
             {
-                status = ScrollingCaptureStatus.Successful;
-
-                return currentImage.Copy();
+                Result = frame.Copy();
+                frameHeight = frame.Height;
+                return ScrollingFrameResult.Added;
             }
 
-            int matchCount = 0;
-            int matchIndex = 0;
-            int matchLimit = currentImage.Height / 2;
+            // A window that was resized no longer lines up.
+            if (frame.Width != Result.Width || frame.Height != frameHeight)
+            {
+                return ScrollingFrameResult.NoOverlap;
+            }
+
+            ScrollingFrameResult result = CombineImages(Result, frame, out Bitmap newResult);
+
+            if (newResult != null)
+            {
+                Result.Dispose();
+                Result = newResult;
+            }
+
+            return result;
+        }
+
+        private static unsafe bool RowsEqual(byte* first, byte* second, int count)
+            => new ReadOnlySpan<byte>(first, count).SequenceEqual(new ReadOnlySpan<byte>(second, count));
+
+        // One colour from side to side. Such rows look alike all over a page, so they say nothing about where a frame belongs.
+        private static unsafe bool IsPlainRow(byte* row, int count)
+            => RowsEqual(row, row + 4, count - 4);
+
+        private unsafe ScrollingFrameResult CombineImages(Bitmap result, Bitmap currentImage, out Bitmap newResult)
+        {
+            newResult = null;
 
             int ignoreSideOffset = Math.Max(50, currentImage.Width / 20);
             ignoreSideOffset = Math.Min(ignoreSideOffset, currentImage.Width / 3);
 
-            Rectangle rect = new Rectangle(ignoreSideOffset, result.Height - currentImage.Height, currentImage.Width - ignoreSideOffset * 2, currentImage.Height);
-
-            using SkiaPixelBuffer bdResult = new(result, true, PixelAccess.ReadOnly);
-            using SkiaPixelBuffer bdCurrentImage = new(currentImage, true, PixelAccess.ReadOnly);
-            int stride = result.Width * 4;
-            int pixelSize = stride / result.Width;
-            IntPtr resultScan0 = (IntPtr)bdResult.Pointer + pixelSize * ignoreSideOffset;
-            IntPtr currentImageScan0 = (IntPtr)bdCurrentImage.Pointer + pixelSize * ignoreSideOffset;
-            int compareLength = pixelSize * rect.Width;
+            // The bitmaps' own pixels: a copy of the stitched image for each frame would take a lot of memory.
+            int stride = result.RowBytes;
+            byte* resultScan0 = (byte*)result.GetPixels() + 4 * ignoreSideOffset;
+            byte* currentImageScan0 = (byte*)currentImage.GetPixels() + 4 * ignoreSideOffset;
+            int compareLength = 4 * (currentImage.Width - ignoreSideOffset * 2);
 
             int ignoreBottomOffsetMax = currentImage.Height / 3;
             int ignoreBottomOffset = Math.Max(50, currentImage.Height / 10);
 
             if (Options.AutoIgnoreBottomEdge)
             {
-                IntPtr resultScan0Last = resultScan0 + (result.Height - 1) * stride;
-                IntPtr currentImageScan0Last = currentImageScan0 + (currentImage.Height - 1) * stride;
+                byte* resultScan0Last = resultScan0 + (result.Height - 1) * stride;
+                byte* currentImageScan0Last = currentImageScan0 + (currentImage.Height - 1) * stride;
 
                 for (int i = 0; i <= ignoreBottomOffsetMax; i++)
                 {
-                    if (CompareRows(resultScan0Last - i * stride, currentImageScan0Last - i * stride, compareLength) != 0)
+                    if (!RowsEqual(resultScan0Last - i * stride, currentImageScan0Last - i * stride, compareLength))
                     {
                         ignoreBottomOffset += i;
                         break;
@@ -304,81 +294,78 @@ namespace ShareX.ScreenCaptureLib
 
             ignoreBottomOffset = Math.Min(ignoreBottomOffset, ignoreBottomOffsetMax);
 
-            int rectBottom = rect.Bottom - ignoreBottomOffset - 1;
+            int resultBottom = result.Height - ignoreBottomOffset - 1;
 
-            for (int currentImageY = currentImage.Height - 1; currentImageY >= 0 && matchCount < matchLimit; currentImageY--)
+            // usefulRows[n]: how many of the n rows going up from resultBottom have something on them.
+            int[] usefulRows = new int[currentImage.Height + 1];
+
+            for (int y = 0; y < currentImage.Height; y++)
             {
-                int currentMatchCount = 0;
+                usefulRows[y + 1] = usefulRows[y] + (resultBottom - y >= 0 && !IsPlainRow(resultScan0 + (resultBottom - y) * stride, compareLength) ? 1 : 0);
+            }
 
-                for (int y = 0; currentImageY - y >= 0 && currentMatchCount < matchLimit; y++)
+            // A smaller overlap could allow bigger steps, but content that repeats would then match in the wrong place.
+            int matchMinimum = Math.Max(24, currentImage.Height / 16);
+            int matchCount = 0;
+            int matchIndex = 0;
+
+            if (usefulRows[currentImage.Height] >= matchMinimum)
+            {
+                for (int currentImageY = currentImage.Height - 1; currentImageY >= 0; currentImageY--)
                 {
-                    if (CompareRows(resultScan0 + ((rectBottom - y) * stride), currentImageScan0 + ((currentImageY - y) * stride), compareLength) == 0)
+                    int currentMatchCount = 0;
+
+                    while (currentImageY - currentMatchCount >= 0 && resultBottom - currentMatchCount >= 0 &&
+                        RowsEqual(resultScan0 + (resultBottom - currentMatchCount) * stride, currentImageScan0 + (currentImageY - currentMatchCount) * stride, compareLength))
                     {
                         currentMatchCount++;
                     }
-                    else
-                    {
-                        break;
-                    }
-                }
 
-                if (currentMatchCount > matchCount)
-                {
-                    matchCount = currentMatchCount;
-                    matchIndex = currentImageY;
+                    if (usefulRows[currentMatchCount] > matchCount)
+                    {
+                        matchCount = usefulRows[currentMatchCount];
+                        matchIndex = currentImageY;
+                    }
                 }
             }
 
-            bool bestGuess = false;
-
-            if (matchCount == 0 && bestMatchCount > 0)
+            if (matchCount < matchMinimum)
             {
-                matchCount = bestMatchCount;
-                matchIndex = bestMatchIndex;
-                ignoreBottomOffset = bestIgnoreBottomOffset;
-                bestGuess = true;
+                return ScrollingFrameResult.NoOverlap;
             }
 
-            if (matchCount > 0)
+            int matchHeight = currentImage.Height - matchIndex - 1;
+
+            if (matchHeight <= ignoreBottomOffset)
             {
-                int matchHeight = currentImage.Height - matchIndex - 1;
-
-                if (matchHeight > 0)
-                {
-                    if (matchCount > bestMatchCount)
-                    {
-                        bestMatchCount = matchCount;
-                        bestMatchIndex = matchIndex;
-                        bestIgnoreBottomOffset = ignoreBottomOffset;
-                    }
-
-                    Bitmap newResult = SkiaImageHelpers.CreateBitmap(result.Width, result.Height - ignoreBottomOffset + matchHeight);
-
-                    using (SKCanvas g = new(newResult))
-                    using (SKPaint paint = new() { BlendMode = SKBlendMode.Src })
-                    {
-                        g.DrawBitmap(result, SKRect.Create(0, 0, result.Width, result.Height - ignoreBottomOffset),
-                            SKRect.Create(0, 0, result.Width, result.Height - ignoreBottomOffset), paint);
-                        g.DrawBitmap(currentImage, SKRect.Create(0, matchIndex + 1, currentImage.Width, matchHeight),
-                            SKRect.Create(0, result.Height - ignoreBottomOffset, currentImage.Width, matchHeight), paint);
-                    }
-
-                    if (bestGuess)
-                    {
-                        status = ScrollingCaptureStatus.PartiallySuccessful;
-                    }
-                    else if (status != ScrollingCaptureStatus.PartiallySuccessful)
-                    {
-                        status = ScrollingCaptureStatus.Successful;
-                    }
-
-                    return newResult;
-                }
+                return ScrollingFrameResult.NoNewRows;
             }
 
-            status = ScrollingCaptureStatus.Failed;
+            int newHeight = result.Height - ignoreBottomOffset + matchHeight;
 
-            return null;
+            if (newHeight > Options.MaxStitchedHeight)
+            {
+                return ScrollingFrameResult.HeightLimitReached;
+            }
+
+            if (matchCount > bestMatchCount)
+            {
+                bestMatchCount = matchCount;
+                bestIgnoreBottomOffset = ignoreBottomOffset;
+            }
+
+            newResult = SkiaImageHelpers.CreateBitmap(result.Width, newHeight);
+
+            using (SKCanvas g = new(newResult))
+            using (SKPaint paint = new() { BlendMode = SKBlendMode.Src })
+            {
+                g.DrawBitmap(result, SKRect.Create(0, 0, result.Width, result.Height - ignoreBottomOffset),
+                    SKRect.Create(0, 0, result.Width, result.Height - ignoreBottomOffset), paint);
+                g.DrawBitmap(currentImage, SKRect.Create(0, matchIndex + 1, currentImage.Width, matchHeight),
+                    SKRect.Create(0, result.Height - ignoreBottomOffset, currentImage.Width, matchHeight), paint);
+            }
+
+            return ScrollingFrameResult.Added;
         }
     }
 }
