@@ -216,6 +216,9 @@ public sealed class ImageHistoryThumbnailLoader : IDisposable
     {
         if (_disposed || token.IsCancellationRequested || string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath)) return null;
 
+        // Not through _workers: videos have their own limit, and waiting for it here would hold up the images.
+        if (FileHelpers.IsVideoFile(filePath)) return await LoadVideoFrameAsync(filePath, width, height, token);
+
         try
         {
             await _workers.WaitAsync(token);
@@ -235,11 +238,22 @@ public sealed class ImageHistoryThumbnailLoader : IDisposable
         }
     }
 
+    private static async Task<AvaloniaBitmap?> LoadVideoFrameAsync(string filePath, int width, int height, CancellationToken token)
+    {
+        byte[]? frame = await VideoThumbnailHelper.ReadFrameAsync(filePath, width, height, token);
+        if (frame == null || token.IsCancellationRequested) return null;
+
+        return await Task.Run(() =>
+        {
+            using MemoryStream stream = new(frame, writable: false);
+            return new AvaloniaBitmap(stream);
+        });
+    }
+
     private static AvaloniaBitmap? LoadCore(string filePath, int width, int height, CancellationToken token)
     {
         if (token.IsCancellationRequested) return null;
 
-        if (token.IsCancellationRequested || FileHelpers.IsVideoFile(filePath)) return null;
         using FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         AvaloniaBitmap thumbnail = AvaloniaBitmap.DecodeToWidth(stream, width);
         if (token.IsCancellationRequested)
