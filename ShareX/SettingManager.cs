@@ -277,6 +277,7 @@ namespace ShareX
         public static void HistoryConnect()
         {
             HistoryClose();
+            HistoryItem.LocalFolders = LinuxFolders.Current(AppPaths.PersonalFolder);
             ApplicationState.HistoryManager = new HistoryManagerSQLite(AppPaths.HistoryFilePath);
         }
 
