@@ -88,7 +88,8 @@ internal sealed class MainForm
             ApplicationState.HotkeyManager = hotkeyManager;
         }
 
-        hotkeyManager.UpdateHotkeys(ApplicationState.HotkeysConfig.Hotkeys, !StartupOptions.IgnoreHotkeyWarning);
+        // A -multi instance's keys are the first instance's, so its hotkeys always fail and that isn't worth a warning.
+        hotkeyManager.UpdateHotkeys(ApplicationState.HotkeysConfig.Hotkeys, !StartupOptions.IgnoreHotkeyWarning && !StartupOptions.MultiInstance);
         DebugHelper.WriteLine("HotkeyManager started.");
     }
 

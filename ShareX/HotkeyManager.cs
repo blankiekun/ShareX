@@ -100,7 +100,8 @@ namespace ShareX
 
             if (showFailedHotkeys)
             {
-                ShowFailedHotkeys();
+                // Posted, because the box is modal: shown from here it would hold up the rest of startup, including recording recovery, until answered.
+                Avalonia.Threading.Dispatcher.UIThread.Post(ShowFailedHotkeys);
             }
         }
 
