@@ -32,7 +32,7 @@ using Bitmap = SkiaSharp.SKBitmap;
 
 namespace ShareX.ScreenCaptureLib
 {
-    /// <summary>Takes screenshots through <see cref="SpectacleCapture"/>. Rectangles are in X11 coordinates, like DesktopScreen's.</summary>
+    /// <summary>Takes screenshots through KWin's ScreenShot2 or spectacle, see <see cref="SpectacleCapture"/>. Rectangles are in X11 coordinates, like DesktopScreen's.</summary>
     public class Screenshot
     {
         public bool CaptureCursor { get; set; } = false;
@@ -57,16 +57,20 @@ namespace ShareX.ScreenCaptureLib
 
         public Bitmap CaptureActiveWindow()
         {
-            SpectacleMode mode = CaptureClientArea ? SpectacleMode.ActiveWindowClientArea :
-                CaptureShadow ? SpectacleMode.ActiveWindow : SpectacleMode.ActiveWindowNoShadow;
-
-            return SpectacleCapture.Capture(mode, CaptureCursor).Bitmap;
+            return SpectacleCapture.Capture(WindowMode, CaptureCursor).Bitmap;
         }
 
-        /// <summary>Captures a window by making it active first. Spectacle can only capture the active window.</summary>
+        /// <summary>Captures a window as it is, without activating or raising it. Only if KWin won't do that does it make the window active first, as spectacle can only capture the active window.</summary>
         public Bitmap CaptureWindow(string windowId)
         {
-            if (!KWinDesktop.ActivateWindow(windowId))
+            SpectacleImage image = KWinScreenShot.TryCaptureWindow(windowId, WindowMode, CaptureCursor, out bool windowGone);
+
+            if (image != null)
+            {
+                return image.Bitmap;
+            }
+
+            if (windowGone || !KWinDesktop.ActivateWindow(windowId))
             {
                 return null;
             }
@@ -82,11 +86,23 @@ namespace ShareX.ScreenCaptureLib
             return SpectacleCapture.Capture(SpectacleMode.ActiveMonitor, CaptureCursor).Bitmap;
         }
 
+        private SpectacleMode WindowMode => CaptureClientArea ? SpectacleMode.ActiveWindowClientArea :
+            CaptureShadow ? SpectacleMode.ActiveWindow : SpectacleMode.ActiveWindowNoShadow;
+
         internal static Bitmap Crop(Bitmap image, Rectangle rectangle)
         {
-            using Bitmap subset = new Bitmap();
-            image.ExtractSubset(subset, new SKRectI(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom));
-            return subset.Copy();
+            // Not ExtractSubset and Copy: that leaves the crop's height x the whole image's stride for a finalizer to free, each time,
+            // which reached 1 GB in 60 crops of a two-monitor desktop before any GC came.
+            Bitmap output = new Bitmap(new SKImageInfo(rectangle.Width, rectangle.Height, image.ColorType, image.AlphaType, image.ColorSpace));
+            using SKPixmap source = image.PeekPixels();
+
+            if (!source.ReadPixels(output.Info, output.GetPixels(), output.RowBytes, rectangle.X, rectangle.Y))
+            {
+                output.Dispose();
+                return null;
+            }
+
+            return output;
         }
     }
 }

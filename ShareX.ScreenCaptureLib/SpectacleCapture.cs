@@ -53,12 +53,12 @@ public sealed class ScreenCaptureException : Exception
     }
 }
 
-/// <summary>A captured image. <see cref="ScreenName"/> is the output spectacle captured, when it says.</summary>
+/// <summary>A captured image. <see cref="ScreenName"/> is the output captured, when KWin or spectacle says.</summary>
 public sealed record SpectacleImage(SKBitmap Bitmap, string? ScreenName);
 
 /// <summary>
-/// The only place that spawns spectacle, so that KWin's ScreenShot2 interface could replace it without
-/// touching callers.
+/// The only place that spawns spectacle. KWin's ScreenShot2 interface goes first, see <see cref="KWinScreenShot"/>,
+/// and spectacle is what's left when KWin refuses or fails.
 /// </summary>
 public static class SpectacleCapture
 {
@@ -80,6 +80,13 @@ public static class SpectacleCapture
     /// <exception cref="ScreenCaptureException">Spectacle is missing, hung, failed, or wrote no usable image.</exception>
     public static SpectacleImage Capture(SpectacleMode mode, bool includeCursor)
     {
+        SpectacleImage? image = KWinScreenShot.TryCapture(mode, includeCursor);
+
+        if (image != null)
+        {
+            return image;
+        }
+
         DirectoryInfo directory;
 
         try
