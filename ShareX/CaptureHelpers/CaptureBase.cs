@@ -33,6 +33,10 @@ namespace ShareX
 {
     public abstract class CaptureBase
     {
+        // KWin fades the closed menu out for about 410 ms at the default animation speed, so a shorter wait leaves it in the screenshot.
+        // Spectacle's own start covers the rest: 350 was clean in testing and 300 was not, so this leaves a 50 ms margin.
+        private const int HideDelay = 400;
+
         public bool AllowAutoHideForm { get; set; } = true;
         public bool AllowAnnotation { get; set; } = true;
 
@@ -101,7 +105,7 @@ namespace ShareX
 
             if (wait)
             {
-                await Task.Delay(250);
+                await Task.Delay(HideDelay);
             }
 
             TaskMetadata metadata = null;
