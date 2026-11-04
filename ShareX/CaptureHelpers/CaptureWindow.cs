@@ -24,7 +24,6 @@
 #endregion License Information (GPL v3)
 
 using ShareX.HelpersLib;
-using System;
 using System.Linq;
 
 namespace ShareX
@@ -40,7 +39,8 @@ namespace ShareX
         public CaptureWindow(KWinWindow window)
         {
             WindowId = window.Id;
-            AllowAutoHideForm = window.Pid != Environment.ProcessId;
+            // KWin draws the window on its own, so nothing in front of it needs to go, and hiding ShareX's window would move the focus.
+            AllowAutoHideForm = false;
         }
 
         protected override TaskMetadata Execute(TaskSettings taskSettings)

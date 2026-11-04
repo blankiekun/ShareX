@@ -41,7 +41,7 @@ namespace ShareX.HelpersLib;
 /// logical × the largest output scale, or logical × 1 when XwaylandClientsScale is off.</item>
 /// <item>Image: pixels of a screenshot, measured from its top left corner.</item>
 /// </list>
-/// In mixed scale, spectacle's all-monitors image is logical × the largest scale on every monitor, so a
+/// In mixed scale, KWin's all-monitors image is logical × the largest scale on every monitor, so a
 /// low-DPI monitor is upscaled and can't be captured at native resolution that way.
 /// </summary>
 public sealed class DesktopCoordinates

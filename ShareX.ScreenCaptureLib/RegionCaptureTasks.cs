@@ -102,7 +102,7 @@ public static class RegionCaptureTasks
     }
 
     /// <summary>Freezes the desktop for region capture. Windows are listed first, so ShareX's overlay is not among them.</summary>
-    /// <exception cref="ScreenCaptureException">Spectacle failed.</exception>
+    /// <exception cref="ScreenCaptureException">KWin and spectacle both failed.</exception>
     /// <exception cref="KWinScriptException">KWin did not answer.</exception>
     public static Task<AvaloniaRegionCaptureRequest> CreateRequestAsync(RegionCaptureOptions options, ImageEditorOptions imageEditorOptions,
         bool enableAnnotations, bool includeCursor)

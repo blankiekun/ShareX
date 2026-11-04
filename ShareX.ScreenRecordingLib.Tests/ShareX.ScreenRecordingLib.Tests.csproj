@@ -17,6 +17,7 @@
     <ProjectReference Include="..\ShareX.PhotoEditor\ShareX.PhotoEditor.csproj" />
     <ProjectReference Include="..\ShareX.HistoryLib\ShareX.HistoryLib.csproj" />
     <ProjectReference Include="..\ShareX.UploadersLib\ShareX.UploadersLib.csproj" />
+    <ProjectReference Include="..\ShareX.ScreenCaptureLib\ShareX.ScreenCaptureLib.csproj" />
     <ProjectReference Include="..\ShareX.ScreenRecordingLib\ShareX.ScreenRecordingLib.csproj" />
     <ProjectReference Include="..\ShareX.Tools\ShareX.Tools.csproj" />
   </ItemGroup>
