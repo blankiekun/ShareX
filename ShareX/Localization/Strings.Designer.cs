@@ -5384,6 +5384,26 @@ namespace ShareX.Localization {
                 return ResourceManager.GetString("ShareXCannotBeClosedWhileScreenRecordingIsActive", resourceCulture);
             }
         }
+        public static string ApplicationSettingsWindow_Desktop {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsWindow_Desktop", resourceCulture);
+            }
+        }
+        public static string ApplicationSettingsWindow_RunShareXAtLogin {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsWindow_RunShareXAtLogin", resourceCulture);
+            }
+        }
+        public static string ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu", resourceCulture);
+            }
+        }
+        public static string ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu", resourceCulture);
+            }
+        }
         public static string IntegrationHelpers_UploadWithShareX {
             get {
                 return ResourceManager.GetString("IntegrationHelpers_UploadWithShareX", resourceCulture);

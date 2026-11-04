@@ -23,8 +23,8 @@ User-facing features in the checklist (section 5.1), by label:
 | Label | Rows |
 |---|---|
 | `READY` | 39 |
-| `UNVERIFIED` | 57 |
-| `SWAP` | 29 |
+| `UNVERIFIED` | 61 |
+| `SWAP` | 25 |
 | `REWRITE` | 17 |
 | `LIMITED` | 33 |
 | `DROP` | 8 |
@@ -141,7 +141,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | OAuth, browser | ShareX.UploadersLib/OAuth/OAuthListener.cs:70,84; ShareX.HelpersLib/Helpers/URLHelpers.cs:66-70 | Managed HttpListener; migrated `chrome.exe` BrowserPath breaks launch | SWAP | xdg-open (V) | S | Med |
 | FTP/FTPS, SFTP | ShareX.UploadersLib/FileUploaders/FTP.cs:143,148; ShareX.UploadersLib/FileUploaders/SFTP.cs:213 | Packages have portable TFMs (V); Windows key paths; FTPS accepts invalid certificates on every OS | UNVERIFIED | User re-selects files | S | Med |
 | Shared Folder | ShareX.UploadersLib/FileUploaders/LocalhostAccount.cs:75,190 | UNC root becomes a literal relative filename | LIMITED: UNC paths lost | mount.cifs (V), kio-fuse (A) | S | High |
-| `.sxcu`, `.sxie` association | ShareX/IntegrationHelpers.cs:57-73; ShareX/Program.cs:103 | Registry, called at startup | SWAP | xdg-mime, update-desktop-database (V) | S | High |
+| `.sxcu`, `.sxie` association | `IntegrationHelpers.Install` | Done in M5 by `ShareX -install`; no longer registered at every start | UNVERIFIED | MIME package and one hidden `.desktop` per type (virtual session only) | S | High |
 | Microsoft.Data.Sqlite | ShareX.HistoryLib/Managers/HistoryManagerSQLite.cs:48 | Forced RID only; linux-x64 `libe_sqlite3.so` cached (V) | UNVERIFIED | Bundled native | S | Med |
 | HistoryLib System.Drawing | ShareX.HistoryLib/Models/ImageHistorySettings.cs:27; ShareX.HistoryLib/Models/ImageHistoryModels.cs:40 | Primitives only; `DrawingBitmap` aliases SKBitmap | READY | None | S | High |
 | History thumbnails | ShareX.HistoryLib/Models/ImageHistoryModels.cs:244,260 | Shell COM fails per item, caught; videos get none | SWAP | ffmpeg, ~/.cache/thumbnails (V) | S | Med |
@@ -345,10 +345,10 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Backup export and import | ShareX/SettingManager.cs:427,476 | Import skips History.db | SWAP | Fix filter, add path normaliser (A) | S | High |
 | Portable and sandbox modes | ShareX/Infrastructure/PersonalPathManager.cs:58,64 | None found. `-portable` started in M2; sandbox not run | UNVERIFIED | None | S | Med |
 | Policy options | ShareX/SystemOptions.cs:51 | HKLM and HKCU registry | SWAP | System config file (A) | S | High |
-| Start on login | ShareX/StartupManager.cs:62 | Startup shortcut, registry | SWAP | XDG autostart (A); portal Background (V) | S | High |
-| Shell context menu | ShareX/IntegrationHelpers.cs:42 | Registry | SWAP | KIO service menu; /usr/share/kio/servicemenus seen (V) | S | High |
-| Edit with ShareX | ShareX/IntegrationHelpers.cs:51 | Registry | SWAP | KIO service menu (V) | S | High |
-| Send To | ShareX/Presentation/ApplicationSettings/ApplicationSettingsViewModel.cs:388 | Explorer Send To | DROP | Service menu covers it (A) | S | Med |
+| Start on login | `ShareX/StartupManager.cs` | Done in M5 | UNVERIFIED | XDG autostart entry; `systemd-xdg-autostart-generator` accepted it and its line ran (virtual session only). A real login is untested | S | High |
+| Shell context menu | `IntegrationHelpers.SetUploadMenu` | Done in M5 | UNVERIFIED | KIO service menu; clicked in Dolphin in a virtual session. Dolphin/KIO only | S | High |
+| Edit with ShareX | `IntegrationHelpers.SetEditMenu` | Done in M5 | UNVERIFIED | KIO service menu; shown in Dolphin, its `Exec` line ran against a running ShareX (virtual session only) | S | High |
+| Send To | Toggle removed in M5 | Explorer Send To | DROP | "Upload with ShareX" covers it | S | Med |
 | Browser extension hosts | ShareX/IntegrationHelpers.cs:75-78; ShareX.NativeMessagingHost/Program.cs:52 | Registry; hard-coded `ShareX.exe` | SWAP | Per-browser manifest folders (A) | M | High |
 | Tray icon | ShareX/Presentation/MainWindow/TrayIconService.cs:77-85 | Windows path branched | UNVERIFIED | Avalonia TrayIcon on SNI (A) | S | Med |
 | Toast notifications, 12 click actions | ShareX/Enums.cs:373; ShareX/Presentation/Notification/NotificationWindow.cs:564 | Custom positioned window | LIMITED: see Presentation scan | notify-send (V); notification portal (V) | M | Med |
@@ -417,7 +417,7 @@ The only table whose rows were really run; see its evidence column.
 | PKGBUILD/AUR | Not written. Depends: `dotnet-runtime`, `ffmpeg`, `libx11`, `libxcursor`, `libxi`, `libxrandr`, `libice`, `libsm`, `fontconfig` (from `ldd` and mapped libraries) | UNVERIFIED | Framework-dependent `-r linux-x64` | M | Medium |
 | AppImage | Not built. The self-contained editor publish ran: 114 MB against 737 MB for the unpublished Debug output of all RIDs. **Must declare host dependencies for recording:** `gpu-screen-recorder` (the capped `gsr-kms-server` can't run from the AppImage's `nosuid` mount, so neither is bundled), plus `ffmpeg` with `ffprobe`, `kscreen-doctor`, `pactl` and `getcap` | UNVERIFIED | Use that publish as the payload; document the host packages | M | Medium |
 | Flatpak | Not built | UNVERIFIED | X11 socket, portals, .NET extension | L | Low |
-| `.desktop`, icons | None in the repo; only `.ico` and Store PNGs; `WM_CLASS` is `ShareX` | REWRITE | Add a `.desktop` with `StartupWMClass=ShareX`, hicolor PNGs, MIME types | S | High |
+| `.desktop`, icons | `ShareX -install` writes them from the build output. `ShareX/Resources/hicolor` holds the frames of the two `.ico` files (16, 32, 48, 256, none upscaled). `StartupWMClass=ShareX` matches the real `WM_CLASS`, and KWin resolved the window to `ShareX.desktop` (virtual session only). It must stay on that one entry: with it on the hidden file-type entries too, KWin chose one of those | UNVERIFIED | Confirm on the real desktop; a package would ship the same files system-wide | S | High |
 
 
 ### 5.3 HelpersLib platform core
@@ -443,7 +443,7 @@ The only table whose rows were really run; see its evidence column.
 | FileHelpers paths | ShareX.HelpersLib/Helpers/FileHelpers.cs:412 | Empty SpecialFolder likely aborts `Replace` [A]; `:\` root at :211; locks advisory at :470. M3: fixed and checked with a scratch program; locks still advisory | READY | Guard empties, XDG paths | S | Medium |
 | RegistryHelpers | ShareX.HelpersLib/Helpers/RegistryHelpers.cs:41 | Registry stub [A]; callers IntegrationHelpers, ScreenRecordingOptions, SystemOptions, Setup, others | REWRITE | `.desktop`, `xdg-mime`, `kbuildsycoca6` [V]; JSON | M | High |
 | DPAPI | ShareX.HelpersLib/Settings/EncryptedStringValueProvider.cs | `DPAPI.cs` and `ProtectedData` deleted in M2 | READY | Secret Service through `SecretServiceCrypto`; see Secrets in 5.1 | M | High |
-| WshShell, ShortcutHelpers | ShareX.HelpersLib/Helpers/ShortcutHelpers.cs:104 | COM `.lnk` | SWAP | `.desktop`, `~/.config/autostart` [A] | S | High |
+| WshShell, ShortcutHelpers | Deleted in M5; `ShareX.HelpersLib/Helpers/DesktopEntryHelpers.cs` writes `.desktop` files instead | None | READY | None | S | High |
 | MutexManager | ShareX.HelpersLib/MutexManager.cs:43 | None visible; .NET named mutex | UNVERIFIED | Keep; test cross-process | S | Medium |
 | SingleInstanceManager | ShareX.HelpersLib/SingleInstanceManager.cs:96 | Pipe ACL; failure stops the listener (:136) | SWAP | `PipeOptions.CurrentUserOnly` [A] | S | Medium |
 | DesktopIconManager | ShareX.HelpersLib/DesktopIconManager.cs:55 | Explorer windows; caller `ShareX/CaptureHelpers/CaptureBase.cs:86` | DROP | None known. Lost: auto-hide icons | S | Medium |
@@ -567,10 +567,10 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | UseNls | `ShareX/ShareX.csproj:59` | NLS | DROP | ICU, sort order may differ | S | H |
 | Personal folder, portable | `ShareX/Infrastructure/AppPaths.cs:40-42,105`, `PersonalPathManager.cs:42,118` | Confirmed in M2: a missing `~/Documents` made `GetFolderPath` return "" and the path relative. Now `DoNotVerify`, so it's absolute and the folder gets created. A relative `HOME` refuses to start. Case-insensitive compare remains | READY | Keep; portable needs writable app dir | S | M |
 | Policy registry | `ShareX/SystemOptions.cs:34,51-86` | HKLM/HKCU | SWAP | `/etc/xdg/ShareX`, then `~/.config/ShareX` | S | H |
-| Autostart, shortcuts | `ShareX/StartupManager.cs:40,62-98`, `ShareX.HelpersLib/Helpers/ShortcutHelpers.cs:104` | `.lnk`, StartupApproved, WshShell, StartupTask | SWAP | `~/.config/autostart/*.desktop`, `Exec=… -silent`, `Hidden=true` as disabled | S | H |
-| Context menu | `ShareX/IntegrationHelpers.cs:42-55,115-176` | HKCU shell verbs | SWAP | `~/.local/share/kio/servicemenus`; Dolphin/KIO only | M | H |
-| Send To | `ShareX/IntegrationHelpers.cs:368-376` | SendTo `.lnk` | LIMITED | Service-menu action; no separate Send To folder | S | M |
-| `.sxcu`, `.sxie` | `ShareX/IntegrationHelpers.cs:57-73,213-278`, `ShareX/Infrastructure/FileTypeRegistration.cs:38-46` | HKCU Classes, SHChangeNotify, `.ico` | SWAP | MIME XML, `update-mime-database`, `.desktop`, `update-desktop-database`, `xdg-mime`, PNG icons | M | H |
+| Autostart, shortcuts | `ShareX/StartupManager.cs`. `ShortcutHelpers`, `WshShell` deleted. The toggle wrote the entry; `systemd-xdg-autostart-generator` made a unit from it, its line ran `-silent` with no window, and it skipped a `Hidden=true` entry (virtual session only; a real login is untested). `StartupState` values other than `Enabled` and `Disabled` are no longer returned, so the strings for them are dead | None | UNVERIFIED | `$XDG_CONFIG_HOME/autostart/ShareX.desktop`, `Hidden=true` or an entry for another copy reads as off. The first-run welcome window ignores `-silent` | S | H |
+| Context menu | `ShareX/IntegrationHelpers.cs`. In a virtual session Dolphin showed both entries, and clicking one uploaded the file through a running ShareX. The upload `Exec` line also took spaced paths, several files and a folder | None | UNVERIFIED | `$XDG_DATA_HOME/kio/servicemenus`, executable as KIO requires; Dolphin/KIO only. By the code, a selection over 100 files sent to a running ShareX is dropped with only a log line, because `SingleInstanceManager` refuses more arguments. `desktop-file-validate` rejects any `Type=Service` file, KDE's own included | M | H |
+| Send To | Toggle removed in M5, along with its `.lnk` code | None | DROP | "Upload with ShareX" covers it; no separate Send To folder | S | M |
+| `.sxcu`, `.sxie` | `IntegrationHelpers.Install`. `FileTypeRegistration` deleted, so running ShareX no longer registers anything by itself. `kmimetypefinder` and `gio` resolved both types, and `gio open` on a `.sxcu` reached the import prompt of a running ShareX (virtual session only; `xdg-mime query filetype` printed nothing there, even for a PNG) | None | UNVERIFIED | MIME package, one hidden `.desktop` per type because a plain `%F` would upload the file instead of importing it, `update-mime-database`, `update-desktop-database`, PNG icons. `.sxie` import not run | M | H |
 | Browser manifests | `ShareX/IntegrationHelpers.cs:75-78,280-366`, `ShareX/host-manifest-*.json:4` | Registry; relative `.exe` path | SWAP | Generate absolute-path manifests per browser | M | M |
 | Native messaging host | `ShareX.HelpersLib/NativeMessagingHost.cs:38-68`, `ShareX.NativeMessagingHost/Program.cs:52,56` | `ShareX.exe`, CreateProcess | SWAP | Keep protocol; `Process.Start` | S | H |
 | Single instance | `ShareX.HelpersLib/SingleInstanceManager.cs`, `MutexManager.cs:43` | Done: `PipeOptions.CurrentUserOnly` on both ends, with a mutex shared across Unix sessions but not users. Another uid was refused when run from a user namespace. A second process with `-ScreenRecorder` reached the first from the same and a new session (virtual session only, not yet seen by the owner). The socket is in `$TMPDIR`: another uid holding its name first stops arguments being delivered, though none reached that uid (run). By the code, a process with a different `$TMPDIR` won't find the first | UNVERIFIED | None | M | H |
