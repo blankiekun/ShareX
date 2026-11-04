@@ -22,15 +22,17 @@ User-facing features in the checklist (section 5.1), by label:
 
 | Label | Rows |
 |---|---|
-| `READY` | 39 |
-| `UNVERIFIED` | 61 |
-| `SWAP` | 25 |
-| `REWRITE` | 17 |
-| `LIMITED` | 33 |
+| `READY` | 43 |
+| `UNVERIFIED` | 79 |
+| `SWAP` | 17 |
+| `REWRITE` | 2 |
+| `LIMITED` | 34 |
 | `DROP` | 8 |
 | **Total** | **183** |
 
 The other tables overlap with the checklist, so their rows aren't added to these totals.
+
+To recount, where a `LIMITED` cell also says what is lost: `awk -F'|' '/^### 5\.1 /{on=1} /^### 5\.2 /{on=0} on && /^\|/ && $5 !~ /Label|---/ {split($5,a,":"); gsub(/ /,"",a[1]); n[a[1]]++} END {for (l in n) print l, n[l]}' PORTING-LINUX.md`
 
 ## 1. Facts that shape the port
 
@@ -174,7 +176,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | ActiveMonitor | ShareX/CaptureHelpers/CaptureActiveMonitor.cs:35 | Done in M4; new item in the Capture menu | READY | `spectacle -m`, which follows the active window's output, not the cursor (M4; owner confirmed on the real desktop, 2026-11-03). From a hotkey that is the monitor in use. ShareX's own menu first activates the window last used that isn't ShareX's, so it is that window's monitor, or ShareX's when there is no other window (virtual session only; the owner has not run the menu route) | M | Med |
 | Window | ShareX/CaptureHelpers/CaptureWindow.cs:47; ShareX/Presentation/MainWindow/MainMenuBuilder.cs:156 | Done in M4 | LIMITED: spectacle only captures the active window, so the window is activated first. Minimized windows aren't listed, and entries have no icon | KWin script list, `spectacle -a` (M4, virtual session only) | L | Med |
 | ActiveWindow | ShareX/CaptureHelpers/CaptureActiveWindow.cs:33 | Done in M4; new item in the Capture menu | UNVERIFIED | `spectacle -a`, or `-a -S`, `-a -e -S` by setting. A hotkey captures the window in use, since nothing of ShareX takes focus first. ShareX's own menu first activates the window last used that isn't ShareX's, read from KWin's stack as scripts can't read the focus chain; hiding ShareX alone stayed on ShareX's monitor. A minimized window is skipped, a kept-above one only counts if there is nothing else, and with no other window it says so and captures nothing (virtual session only) | M | Med |
-| Region | ShareX/CaptureHelpers/CaptureRegion.cs:46 | Done in M4 | LIMITED: annotations are per monitor; cursor is drawn into the frozen image | One overlay per output over a frozen `spectacle -f` (M4, virtual session only); see 5.4. From the main window's menu it waits 400 ms first, so KWin's fade of the closed menu isn't captured (virtual session, default animation speed; a slower Plasma animation setting would need longer, and hotkeys don't wait) | L | Med |
+| Region | ShareX/CaptureHelpers/CaptureRegion.cs:46 | Done in M4 | LIMITED: annotations are per monitor; cursor is drawn into the frozen image | One overlay per output over a frozen `spectacle -f`. Owner confirmed on two real monitors, 2026-11-04; the active monitor stays undimmed, which is intended; see 5.4. From the main window's menu it waits 400 ms first, so KWin's fade of the closed menu isn't captured (virtual session, default animation speed; a slower Plasma animation setting would need longer, and hotkeys don't wait) | L | Med |
 | CustomRegion | TH:136 | Done in M4: same code as LastRegion, not run itself | UNVERIFIED | `spectacle -f`, cropped | S | Med |
 | LastRegion | TH:142 | Done in M4 | UNVERIFIED | `spectacle -f`, cropped (M4, virtual session only) | S | Med |
 
@@ -215,7 +217,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 
 | Feature | Evidence (file:line) | Windows dependency | Label | KDE Wayland replacement | Effort (S/M/L) | Confidence |
 |---|---|---|---|---|---|---|
-| ScreenRecorder | TH:157; `ShareX/ScreenRecordManager.cs:495` | Owner recording, now host `gpu-screen-recorder` | UNVERIFIED | Done in M6, run against a fake recorder only; see 5.5 | S | Med |
+| ScreenRecorder | TH:157; `ShareX/ScreenRecordManager.cs:495` | Owner recording, now host `gpu-screen-recorder` | READY | Done in M6; owner confirmed a real recording with sound on the real desktop, 2026-11-04; see 5.5 | S | Med |
 | ScreenRecorderActiveWindow | TH:160; ShareX/ScreenRecordManager.cs:172 | Owner recording: GetForegroundWindow | LIMITED: refused with a clear error when a window handle is passed; gsr has no window capture on Wayland | Portal ScreenCast later (V) | L | Med |
 | ScreenRecorderCustomRegion | TH:163 | Owner recording | UNVERIFIED | Done in M6: `-w WxH+X+Y`, must fit one monitor | S | Med |
 | StartScreenRecorder | TH:166 | Owner recording | UNVERIFIED | As ScreenRecorder | S | Med |
@@ -223,7 +225,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | ScreenRecorderGIFActiveWindow | TH:172 | Owner recording | LIMITED: as active window | Portal ScreenCast later (V) | L | Med |
 | ScreenRecorderGIFCustomRegion | TH:175 | Owner recording | UNVERIFIED | As GIF recorder | S | Med |
 | StartScreenRecorderGIF | TH:178 | Owner recording | UNVERIFIED | As GIF recorder | S | Med |
-| StopScreenRecording | TH:181; TH:821 | Owner recording | UNVERIFIED | Done in M6: IPC `stop`, then SIGINT. A stop during a GIF encode keeps the MP4 and discards the partial GIF; run through SIGTERM, the hotkey itself wasn't, because sessions have no global shortcuts | S | Med |
+| StopScreenRecording | TH:181; TH:821 | Owner recording | READY | Done in M6: IPC `stop`, then SIGINT. Owner stopped a real recording from the bar on the real desktop, 2026-11-04. A stop during a GIF encode keeps the MP4 and discards the partial GIF; run through SIGTERM. The stop hotkey wasn't confirmed separately | S | Med |
 | PauseScreenRecording | TH:184; TH:826 | Owner recording | UNVERIFIED | Done in M6: IPC `set-paused` | S | Med |
 | AbortScreenRecording | TH:187; TH:831 | Owner recording | UNVERIFIED | Done in M6: stops gsr and discards the file | S | Med |
 
@@ -349,7 +351,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Custom uploaders, import | TH:2412; ShareX/ShareXCLIManager.cs:103 | Association only | SWAP | See Part 2 | S | High |
 | Image effect import | TH:2509; ShareX/ShareXCLIManager.cs:118 | Association only | SWAP | See Part 2 | S | High |
 | Destination settings | ShareX.UploadersLib/Presentation/DestinationSettings/DestinationSettingsAccounts.cs:427 | Browser and secrets | UNVERIFIED | See Part 2 | S | Med |
-| Task and hotkey workflows | ShareX/CaptureHelpers/CaptureBase.cs:138; TH:77 | Hotkeys done in M5 | UNVERIFIED | KGlobalAccel | M | Med |
+| Task and hotkey workflows | ShareX/CaptureHelpers/CaptureBase.cs:138; TH:77 | Hotkeys done in M5 | READY | KGlobalAccel; owner confirmed on the real desktop, 2026-11-04 | M | Med |
 | Actions presets | TH:748-761 | Registry program search | SWAP | `.desktop` lookup (A) | S | High |
 | Command line | ShareX/ShareXCLIManager.cs:58; ShareX.HelpersLib/CLI/CLIManager.cs:63 | `-` switches, safe for Unix paths | READY | None | S | High |
 | Watch folders | ShareX/WatchFolder.cs:58 | FileSystemWatcher | UNVERIFIED | None | S | Med |
@@ -364,11 +366,11 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | Edit with ShareX | `IntegrationHelpers.SetEditMenu` | Done in M5 | UNVERIFIED | KIO service menu; shown in Dolphin, its `Exec` line ran against a running ShareX (virtual session only) | S | High |
 | Send To | Toggle removed in M5 | Explorer Send To | DROP | "Upload with ShareX" covers it | S | Med |
 | Browser extension hosts | `ShareX/IntegrationHelpers.cs`; `ShareX.NativeMessagingHost/Program.cs` | Done in M5, see 5.7. Registry code deleted | UNVERIFIED | Per-browser manifest folders. No real browser or extension has run it | M | High |
-| Tray icon | ShareX/Presentation/MainWindow/TrayIconService.cs | Windows path deleted in M5 | UNVERIFIED | Avalonia TrayIcon on SNI; ran in a real plasmashell in a virtual session, see 5.6 | S | Med |
+| Tray icon | ShareX/Presentation/MainWindow/TrayIconService.cs | Windows path deleted in M5 | READY | Avalonia TrayIcon on SNI; owner confirmed the right-click menu on the real desktop, 2026-11-04, see 5.6 | S | Med |
 | Toast notifications, 12 click actions | ShareX/Enums.cs:373; ShareX/Presentation/Notification/NotificationWindow.cs:564 | Custom positioned window | LIMITED: see Presentation scan | notify-send (V); notification portal (V) | M | Med |
 | Thumbnail click actions (7) | ShareX/Enums.cs:389 | Open-folder and thumbnail dependencies | UNVERIFIED | See Part 2 | S | Med |
 | File exists prompt (4 actions) | ShareX/Enums.cs:400; TH:782 | None found | UNVERIFIED | None | S | Med |
-| Notification sounds | TH:2220; ShareX.HelpersLib/Helpers/HostSoundPlayer.cs | Done in M7; SoundPlayer deleted | UNVERIFIED | Host `pw-play`, then `paplay` if it's missing or fails, as an argument list. An embedded sound goes to a mode 600 temp file, removed after playing and when ShareX quits. As with Windows' PlaySound, a new sound stops the last. No player: logged once and silent. Ran in a virtual session with fake players only; nobody has heard it yet | S | High |
+| Notification sounds | TH:2220; ShareX.HelpersLib/Helpers/HostSoundPlayer.cs | Done in M7; SoundPlayer deleted | READY | Owner confirmed the sound after a capture on the real desktop, 2026-11-04. Host `pw-play`, then `paplay` if it's missing or fails, as an argument list. An embedded sound goes to a mode 600 temp file, removed after playing and when ShareX quits. As with Windows' PlaySound, a new sound stops the last. No player: logged once and silent. Ran in a virtual session with fake players only; nobody has heard it yet | S | High |
 | Taskbar progress | WT:391; `ShareX.HelpersLib/Native/TaskbarManager.cs` | Done in M5 | UNVERIFIED | Unity LauncherEntry, seen on a real plasmashell in a virtual session | S | Medium |
 | Hide desktop icons | ShareX/CaptureHelpers/CaptureBase.cs:86; ShareX.HelpersLib/DesktopIconManager.cs:30 | Explorer desktop | DROP | None | S | High |
 | Hide taskbar during capture | ShareX/Presentation/TaskSettings/TaskSettingsPageBuilder.cs:458 | Windows taskbar | DROP | None | S | High |
@@ -421,7 +423,7 @@ The only table whose rows were really run; see its evidence column.
 | Global hotkeys | `KGlobalAccelHotkeyHost` since M5; ran in a virtual session, a physical key press is the owner's check | UNVERIFIED | KGlobalAccel; no free key grabbing: a key another program holds shows as failed | L | High |
 | Registry | Logged `PlatformNotSupportedException` from `RegistryHelpers.cs:81`, not fatal | SWAP | Config files | M | High |
 | Portable mode | `AppPaths.cs:42`: folder renamed `ShareXData` in M2. `-portable` run in a virtual session: starts, uses that folder, no "Avalonia is already initialized" | READY | None. An unwritable app folder was still running after 12 s with no crash text; by the code it falls back to `~/Documents/ShareX` | S | High |
-| Tray icon | `TrayIconService.cs:77` uses Avalonia `TrayIcon` | UNVERIFIED | Status Notifier; I did not confirm our item registered | S | Medium |
+| Tray icon | `TrayIconService.cs:77` uses Avalonia `TrayIcon` | READY | Status Notifier; owner confirmed the right-click menu on the real desktop, 2026-11-04 | S | Medium |
 | ShareX.Setup | Removed in M1 | DROP | Packaging script | S | High |
 | ShareX.Steam | Removed in M1 | DROP | None needed | S | High |
 | Steam, MicrosoftStore configs | `Directory.Build.props:21-33`; the `.sln` maps them for all projects | DROP | Leave out of the Linux build matrix | S | High |
