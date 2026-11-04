@@ -106,6 +106,12 @@
                     </Border>
                 </Grid>
 
+                <TextBlock Grid.Row="2"
+                           Text="{Binding StatusText}"
+                           FontWeight="Normal"
+                           Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
+                           VerticalAlignment="Center"/>
+
                 <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="8" HorizontalAlignment="Right">
                     <Button Grid.Column="0" Command="{Binding CopyImageCommand}" IsEnabled="{Binding HasQRCode}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
