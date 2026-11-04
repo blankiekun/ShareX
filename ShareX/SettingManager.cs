@@ -176,18 +176,7 @@ namespace ShareX
 
         private static void Settings_SettingsSaveFailed(Exception e)
         {
-            string message;
-
-            if (e is UnauthorizedAccessException || e is FileNotFoundException)
-            {
-                message = Strings.YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX;
-            }
-            else
-            {
-                message = e.Message;
-            }
-
-            TaskHelpers.ShowNotificationTip(message, "ShareX - " + Strings.FailedToSaveSettings, 5000);
+            TaskHelpers.ShowNotificationTip(e.Message, "ShareX - " + Strings.FailedToSaveSettings, 5000);
         }
 
         public static void LoadUploadersConfig(bool fallbackSupport = true)
