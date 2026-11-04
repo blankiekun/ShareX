@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Лівий притиск по піктограмі у лотку:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Середній притиск по піктограмі у лотку:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Зберігати лише коли посилання не порожнє</value>
   </data>
@@ -1549,9 +1546,6 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Браузер віддаленого сховища...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Перезапустити від імені адміністратора</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Лінійка</value>

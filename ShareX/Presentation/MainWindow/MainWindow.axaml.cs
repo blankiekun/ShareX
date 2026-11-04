@@ -107,10 +107,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         UpdateTitleBarIcon();
         DataContext = this;
 
-        _trayIconService.RightButtonDown += OnTrayIconRightButtonDown;
-        _trayIconService.RightButtonUp += OnTrayIconRightButtonUp;
-
         BuildNavigation();
+        _trayIconService.RefreshMenu();
         ConfigureWindowHeightFromNavigation();
         RestoreWindowBounds();
         RefreshHotkeyTips();
@@ -309,6 +307,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
         BuildNavigation();
+        _trayIconService.RefreshMenu();
         RefreshHotkeyTips();
 
         foreach (ThumbnailItemViewModel item in ThumbnailItems)
@@ -888,6 +887,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                             if (entry.StaysOpenOnClick)
                             {
                                 RefreshMenuHeaders(menu.Items);
+                                _trayIconService.RefreshMenu();
                             }
                             else
                             {
@@ -1990,29 +1990,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
     }
 
-    private void OnTrayIconRightButtonDown()
-    {
-        Dispatcher.UIThread.Post(() =>
-        {
-            if (!_disposed)
-            {
-                CloseActiveContextMenu();
-                CloseTrayMenuAnchor();
-            }
-        });
-    }
-
-    private void OnTrayIconRightButtonUp()
-    {
-        Dispatcher.UIThread.Post(() =>
-        {
-            if (!_disposed)
-            {
-                ShowTrayMenu();
-            }
-        });
-    }
-
     private void OnTrayMenuClosed(object? sender, RoutedEventArgs e)
     {
         if (sender is ContextMenu menu)
@@ -2094,8 +2071,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         ResetThumbnailDrag();
         CloseActiveContextMenu();
         CloseTrayMenuAnchor();
-        _trayIconService.RightButtonDown -= OnTrayIconRightButtonDown;
-        _trayIconService.RightButtonUp -= OnTrayIconRightButtonUp;
         _trayIconService.Visible = false;
         TitleBarIcon?.Dispose();
 

@@ -44,10 +44,13 @@ namespace ShareX;
 internal sealed class MainMenuBuilder
 {
     private readonly bool _trayMenu;
+    private readonly bool _nativeTrayMenu;
 
-    public MainMenuBuilder(bool trayMenu = false)
+    /// <param name="nativeTrayMenu">The menu is built ahead of time for the desktop's tray, so it leaves out what would be stale by the time it opens.</param>
+    public MainMenuBuilder(bool trayMenu = false, bool nativeTrayMenu = false)
     {
         _trayMenu = trayMenu;
+        _nativeTrayMenu = nativeTrayMenu;
     }
 
     public IReadOnlyList<MainNavigationSection> BuildNavigation()
@@ -108,7 +111,6 @@ internal sealed class MainMenuBuilder
             Item(Strings.MainMenuBuilder_History, LucideIcons.history, () => Run(MainFormCommand.History)),
             Item(Strings.MainMenuBuilder_ImageHistory, LucideIcons.images, () => Run(MainFormCommand.ImageHistory)),
             MainMenuEntry.Separator(),
-            Item(Strings.MainMenuBuilder_RestartAsAdministrator, LucideIcons.shield, () => ApplicationLifecycle.Restart(true)),
             Parent(Strings.MainMenuBuilder_RecentItems, LucideIcons.clipboard_list, BuildRecentItemsMenu,
                 ApplicationState.Settings.RecentTasksSave && ApplicationState.Settings.RecentTasksShowInTrayMenu && TaskManager.RecentManager.Tasks.Count > 0),
             Item(Strings.MainMenuBuilder_ActionsToolbar, LucideIcons.panel_top, () => TaskHelpers.ToggleActionsToolbar()),
@@ -125,7 +127,7 @@ internal sealed class MainMenuBuilder
         return new List<MainMenuEntry>
         {
             Item(Strings.MainMenuBuilder_Fullscreen, LucideIcons.maximize, () => new CaptureFullscreen().Capture(autoHide)),
-            Parent(Strings.MainMenuBuilder_Window, LucideIcons.app_window, BuildWindowMenu),
+            Parent(Strings.MainMenuBuilder_Window, LucideIcons.app_window, BuildWindowMenu, !_nativeTrayMenu),
             Parent(Strings.MainMenuBuilder_Monitor, LucideIcons.monitor, BuildMonitorMenu),
             Item(HotkeyType.ActiveWindow.GetLocalizedDescription(), LucideIcons.app_window, () => new CaptureActiveWindow { ActivateLastUsedWindow = true }.Capture(autoHide)),
             Item(HotkeyType.ActiveMonitor.GetLocalizedDescription(), LucideIcons.monitor, () => new CaptureActiveMonitor { ActivateLastUsedWindow = true }.Capture(autoHide)),

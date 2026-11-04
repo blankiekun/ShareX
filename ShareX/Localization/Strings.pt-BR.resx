@@ -535,9 +535,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Ao clicar com o botão esquerdo no ícone:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Ao clicar com o botão do meio no ícone:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Salvar somente se a URL não estiver vazia</value>
   </data>
@@ -1549,9 +1546,6 @@ Por favor, selecione um atalho diferente ou feche o programa conflituoso e reabr
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Navegador de armazenamento remoto...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Reiniciar como administrador</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Régua</value>
