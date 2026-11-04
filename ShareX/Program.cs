@@ -115,6 +115,7 @@ internal static class Program
         CleanupManager.CleanupAsync();
 
         ApplicationLifecycle.RegisterSignalHandlers();
+        ShareX.AvaloniaUI.Windows.ScreenColorPickerWindow.CaptureScreenshotAsync = TaskHelpers.CaptureScreenForToolAsync;
 
         DebugHelper.WriteLine("Avalonia application starting.");
         AvaloniaBootstrapper.Run();

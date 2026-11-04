@@ -36,7 +36,6 @@ public sealed partial class BorderlessWindowViewModel : ViewModelBase, IDisposab
     private readonly Action<BorderlessWindowSettings>? _settingsChanged;
     private readonly Action? _playNotificationSound;
     private bool _updatingWindowList;
-    private IntPtr _ignoredWindowHandle;
 
     public ObservableCollection<InspectWindowListItem> Windows { get; } = [];
 
@@ -80,20 +79,13 @@ public sealed partial class BorderlessWindowViewModel : ViewModelBase, IDisposab
         _windowTitle = options.RememberWindowTitle ? options.WindowTitle : string.Empty;
     }
 
-    public void SetIgnoredWindowHandle(IntPtr handle)
-    {
-        _ignoredWindowHandle = handle;
-        ReloadWindowList();
-    }
-
     public void ReloadWindowList()
     {
         _updatingWindowList = true;
         try
         {
-            DisposeWindowList();
             Windows.Clear();
-            foreach (InspectWindowListItem window in InspectWindowService.GetVisibleWindows(_ignoredWindowHandle))
+            foreach (InspectWindowListItem window in InspectWindowService.GetVisibleWindows())
             {
                 Windows.Add(window);
             }
@@ -169,17 +161,8 @@ public sealed partial class BorderlessWindowViewModel : ViewModelBase, IDisposab
         _settingsChanged?.Invoke(_options);
     }
 
-    private void DisposeWindowList()
-    {
-        foreach (InspectWindowListItem window in Windows)
-        {
-            window.Dispose();
-        }
-    }
-
     public void Dispose()
     {
-        DisposeWindowList();
         Windows.Clear();
     }
 }

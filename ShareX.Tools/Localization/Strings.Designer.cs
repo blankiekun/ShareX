@@ -743,6 +743,87 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KWin can't do this for this window: it draws its own title bar, or can't go full screen..
+        /// </summary>
+        public static string BorderlessWindowManager_Not_supported_by_KWin {
+            get {
+                return ResourceManager.GetString("BorderlessWindowManager_Not_supported_by_KWin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desktop file.
+        /// </summary>
+        public static string InspectWindowViewModel_Desktop_file {
+            get {
+                return ResourceManager.GetString("InspectWindowViewModel_Desktop_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output.
+        /// </summary>
+        public static string InspectWindowViewModel_Output {
+            get {
+                return ResourceManager.GetString("InspectWindowViewModel_Output", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource name.
+        /// </summary>
+        public static string InspectWindowViewModel_Resource_name {
+            get {
+                return ResourceManager.GetString("InspectWindowViewModel_Resource_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window ID.
+        /// </summary>
+        public static string InspectWindowViewModel_Window_id {
+            get {
+                return ResourceManager.GetString("InspectWindowViewModel_Window_id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window role.
+        /// </summary>
+        public static string InspectWindowViewModel_Window_role {
+            get {
+                return ResourceManager.GetString("InspectWindowViewModel_Window_role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window state.
+        /// </summary>
+        public static string InspectWindowViewModel_Window_state {
+            get {
+                return ResourceManager.GetString("InspectWindowViewModel_Window_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window type.
+        /// </summary>
+        public static string InspectWindowViewModel_Window_type {
+            get {
+                return ResourceManager.GetString("InspectWindowViewModel_Window_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pick a window to inspect its properties..
+        /// </summary>
+        public static string InspectWindowViewModel_Pick_a_window {
+            get {
+                return ResourceManager.GetString("InspectWindowViewModel_Pick_a_window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to toggle the selected window. {0}.
         /// </summary>
         public static string BorderlessWindowViewModel_Unable_to_toggle {

@@ -24,7 +24,6 @@
 #endregion License Information (GPL v3)
 
 using Avalonia;
-using ShareX.HelpersLib;
 using SkiaSharp;
 
 using System.Runtime.InteropServices;
@@ -44,14 +43,21 @@ internal sealed class ScreenPixelBuffer
         _pixels = pixels;
     }
 
-    public static ScreenPixelBuffer Capture(PixelRect bounds)
+    /// <summary>Holds a screenshot of the desktop, resampled to <paramref name="bounds"/> when a scale makes their sizes differ.</summary>
+    public static ScreenPixelBuffer FromScreenshot(PixelRect bounds, SKBitmap screenshot)
     {
         if (bounds.Width <= 0 || bounds.Height <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(bounds));
         }
 
-        using SKBitmap bitmap = WindowsImageInterop.Capture(new DrawingRectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height));
+        SKImageInfo info = new(bounds.Width, bounds.Height, SKColorType.Bgra8888, SKAlphaType.Premul);
+        using SKBitmap bitmap = new(info);
+        if (!screenshot.ScalePixels(bitmap, new SKSamplingOptions(SKFilterMode.Nearest)))
+        {
+            throw new InvalidOperationException("The screenshot could not be converted for the ruler.");
+        }
+
         int[] pixels = new int[bitmap.Width * bitmap.Height];
         for (int y = 0; y < bitmap.Height; y++)
             Marshal.Copy(IntPtr.Add(bitmap.GetPixels(), y * bitmap.RowBytes), pixels, y * bitmap.Width, bitmap.Width);
