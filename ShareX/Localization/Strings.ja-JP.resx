@@ -523,9 +523,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>トレイアイコンの左クリック:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>トレイアイコンの中クリック:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>URLが空でない場合のみ保存</value>
   </data>
@@ -1537,9 +1534,6 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>リモート ストレージ ブラウザ...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>管理者として再起動</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>定規</value>

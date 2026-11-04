@@ -267,6 +267,11 @@ namespace ShareX.HelpersLib
             return urls.Aggregate(CombineURL);
         }
 
+        public static bool IsHttpURL(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+        }
+
         public static bool IsValidURL(string url, bool useRegex = true)
         {
             if (string.IsNullOrEmpty(url)) return false;

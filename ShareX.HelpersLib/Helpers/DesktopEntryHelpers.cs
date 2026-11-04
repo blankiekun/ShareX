@@ -74,6 +74,15 @@ namespace ShareX.HelpersLib
             return File.Exists(path) && File.ReadLines(path).Contains("Exec=" + exec);
         }
 
+        /// <summary>File.Delete throws when the folder is missing as well, which is the usual state before anything was installed.</summary>
+        public static void Delete(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
         public static void Write(string path, string contents, bool executable = false)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));

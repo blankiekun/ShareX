@@ -523,9 +523,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>عند النقر بالزر الأيسر على أيقونة الإشعارات:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>عند النقر بالزر الأوسط على أيقونة الإشعارات:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>حفظ الروابط فقط عندما لا تكون فارغة</value>
   </data>
@@ -1537,9 +1534,6 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>متصفح التخزين البعيد...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>إعادة التشغيل كمسؤول</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>المسطرة</value>

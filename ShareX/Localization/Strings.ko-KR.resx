@@ -523,9 +523,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>트레이 아이콘 일반 클릭시:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>트레이 아이콘 가운데 클릭시:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>URL이 비어있지 않을 때만 저장하기</value>
   </data>
@@ -1537,9 +1534,6 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>원격 저장소 브라우저...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>관리자 권한으로 다시 시작</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>측정</value>

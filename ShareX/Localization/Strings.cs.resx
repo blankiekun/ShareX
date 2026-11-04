@@ -523,9 +523,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Při kliknutí levým tlačítkem na ikonu:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Při kliknutí prostředním tlačítkem na ikonu:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Ukládat pouze v případě, že adresa URL není prázdná</value>
   </data>
@@ -1537,9 +1534,6 @@ Vyberte jinou klávesovou zkratku nebo ukončete konfliktní aplikaci a znovu ot
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Prohlížeč vzdáleného úložiště...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Restartovat jako správce</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Pravítko...</value>

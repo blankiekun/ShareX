@@ -523,9 +523,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Ao clicar com o botão esquerdo do rato no ícon da bandeja:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Ao clicar com o scroll do rato no ícon da bandeja do sistema:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Guardar apenas se existir hiperligação</value>
   </data>
@@ -1537,9 +1534,6 @@ Por favor, selecione uma tecla de atalho diferente ou feche o programa que está
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Navegador de armazenamento remoto...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Reiniciar como administrador</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Régua</value>

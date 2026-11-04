@@ -25,46 +25,82 @@
 
 using ShareX.HelpersLib;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
-using MessageBox = ShareX.AvaloniaUI.MessageBox;
-using MessageBoxButtons = ShareX.AvaloniaUI.MessageBoxButtons;
-using MessageBoxIcon = ShareX.AvaloniaUI.MessageBoxIcon;
 
 namespace ShareX.NativeMessagingHost
 {
     internal class Program
     {
-        [STAThread]
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
-            if (args.Length > 0)
+            // A browser always passes the extension's origin or id.
+            if (args.Length == 0)
             {
-                try
-                {
-                    HelpersLib.NativeMessagingHost host = new HelpersLib.NativeMessagingHost();
-                    string input = host.Read();
-
-                    if (!string.IsNullOrEmpty(input))
-                    {
-                        host.Write(input);
-
-                        string filePath = FileHelpers.GetAbsolutePath("ShareX.exe");
-                        string tempFilePath = FileHelpers.GetTempFilePath("json");
-                        File.WriteAllText(tempFilePath, input, Encoding.UTF8);
-                        string argument = $"-NativeMessagingInput \"{tempFilePath}\"";
-                        NativeMethods.CreateProcess(filePath, argument, CreateProcessFlags.CREATE_BREAKAWAY_FROM_JOB);
-                    }
-                }
-                catch (Exception e)
-                {
-                    e.ShowError();
-                }
+                Console.Error.WriteLine("This executable is used to receive data from browser addon and send it to ShareX.");
+                return 1;
             }
-            else
+
+            try
             {
-                MessageBox.Show("This executable is used to receive data from browser addon and send it to ShareX.",
-                    "ShareX NativeMessagingHost", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                HelpersLib.NativeMessagingHost host = new(Console.OpenStandardInput(), Console.OpenStandardOutput());
+                string input = host.Read();
+
+                if (!string.IsNullOrEmpty(input))
+                {
+                    host.Write(input);
+                    StartShareX(WriteInputFile(input));
+                }
+
+                return 0;
+            }
+            catch (Exception e)
+            {
+                // The browser keeps a host's stderr in its own log. A window would open from the browser with no context.
+                Console.Error.WriteLine(e);
+                return 1;
+            }
+        }
+
+        // Page text and addresses can be private and the temp folder is shared, so only this user can read the file,
+        // and CreateNew won't follow a link someone placed at that name.
+        private static string WriteInputFile(string input)
+        {
+            string path = Path.Combine(Path.GetTempPath(), $"ShareX-{Guid.NewGuid():N}.json");
+
+            using FileStream stream = new(path, new FileStreamOptions
+            {
+                Mode = FileMode.CreateNew,
+                Access = FileAccess.Write,
+                UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite
+            });
+            stream.Write(new UTF8Encoding(false).GetBytes(input));
+
+            return path;
+        }
+
+        // A ShareX started here can outlive the host. setsid takes it out of the host's process group, which the browser may kill, and the
+        // redirects keep it off the host's stdin and stdout, which are the browser's connection.
+        private static void StartShareX(string inputPath)
+        {
+            ProcessStartInfo startInfo = new("setsid")
+            {
+                ArgumentList = { FileHelpers.GetAbsolutePath("ShareX"), "-NativeMessagingInput", inputPath },
+                UseShellExecute = false,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+
+            try
+            {
+                using Process process = Process.Start(startInfo);
+            }
+            catch
+            {
+                File.Delete(inputPath);
+                throw;
             }
         }
     }

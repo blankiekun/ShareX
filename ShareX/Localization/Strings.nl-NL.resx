@@ -523,9 +523,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Bij klikken met links op systeemvakpictogram:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Bij klikken met middenknop op systeemvakpictogram:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Alleen opslaan als URL niet leeg is</value>
   </data>
@@ -1537,9 +1534,6 @@ Gelieve een andere sneltoets te selecteren of sluit het conflicterende programma
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Browser voor externe opslag...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Opnieuw starten als beheerder</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Meetlat</value>

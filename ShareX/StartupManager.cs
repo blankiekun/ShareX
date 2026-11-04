@@ -60,7 +60,7 @@ namespace ShareX
                 }
                 else
                 {
-                    File.Delete(AutostartPath);
+                    DesktopEntryHelpers.Delete(AutostartPath);
                 }
             }
         }

@@ -523,9 +523,6 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Tepsi simgesine sol tıklamada:</value>
   </data>
-  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
-    <value>Tepsi simgesine orta tıklamada:</value>
-  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Yalnızca URL boş değilse kaydet</value>
   </data>
@@ -1537,9 +1534,6 @@ Lütfen başka bir kısayol seçin veya çakışan uygulamayı kapatın ve Share
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Uzak depolama tarayıcısı...</value>
-  </data>
-  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
-    <value>Yönetici olarak yeniden başlat</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Cetvel...</value>
