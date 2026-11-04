@@ -37,10 +37,6 @@ namespace ShareX.HelpersLib
 {
     public abstract class SettingsBase<T> where T : SettingsBase<T>, new()
     {
-        // Uploader headers, arguments and some tokens are in these files in the clear, so only this user may read them.
-        private const UnixFileMode PrivateFileMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
-        private const UnixFileMode PrivateFolderMode = PrivateFileMode | UnixFileMode.UserExecute;
-
         public delegate void SettingsSavedEventHandler(T settings, string filePath, bool result);
         public event SettingsSavedEventHandler SettingsSaved;
 
@@ -162,7 +158,8 @@ namespace ShareX.HelpersLib
                                 Access = FileAccess.Write,
                                 Share = FileShare.Read,
                                 Options = FileOptions.WriteThrough,
-                                UnixCreateMode = PrivateFileMode
+                                // Uploader headers, arguments and some tokens are in these files in the clear, so only this user may read them.
+                                UnixCreateMode = FileHelpers.PrivateFileMode
                             }))
                             {
                                 memoryStream.WriteTo(fileStream);
@@ -185,7 +182,7 @@ namespace ShareX.HelpersLib
                                 FileHelpers.CreateDirectory(BackupFolder);
 
                                 // File.Replace renames the old file to the backup, so a file from before 0600 would stay readable there.
-                                TryMakePrivate(filePath, PrivateFileMode);
+                                FileHelpers.TryMakePrivate(filePath);
                             }
 
                             File.Replace(tempFilePath, filePath, backupFilePath, true);
@@ -203,7 +200,7 @@ namespace ShareX.HelpersLib
                         // Older weekly copies are never rewritten, so closing the folder is what protects them. It holds no screenshots.
                         if (Directory.Exists(BackupFolder))
                         {
-                            TryMakePrivate(BackupFolder, PrivateFolderMode);
+                            FileHelpers.TryMakePrivate(BackupFolder, FileHelpers.PrivateFolderMode);
                         }
 
                         isSuccess = true;
@@ -223,19 +220,6 @@ namespace ShareX.HelpersLib
             }
 
             return isSuccess;
-        }
-
-        // A filesystem without Unix modes, such as FAT, refuses this, and that must not cost the user their save.
-        private static void TryMakePrivate(string path, UnixFileMode mode)
-        {
-            try
-            {
-                File.SetUnixFileMode(path, mode);
-            }
-            catch (Exception e) when (e is IOException or UnauthorizedAccessException)
-            {
-                DebugHelper.WriteException(e, $"Could not restrict access to {path}");
-            }
         }
 
         private void SaveToStream(Stream stream, bool encryptSecrets = false, bool leaveOpen = false)
