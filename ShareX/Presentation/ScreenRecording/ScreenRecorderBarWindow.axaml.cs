@@ -71,7 +71,7 @@ internal partial class ScreenRecorderBarWindow : Window
         _gif = gif;
         RecordingRegion = region;
         CaptureWindow = window;
-        _recordButton = ActionButton(Strings.ScreenRecorderBar_Record, LucideIcons.circle, RequestRecord, toolbar: true);
+        _recordButton = ActionButton(Strings.ScreenRecorderBar_Record, LucideIcons.circle, RecordClicked, toolbar: true);
         _recordButton.Classes.Add("recorder-record");
 
         if (!gif)
@@ -148,6 +148,15 @@ internal partial class ScreenRecorderBarWindow : Window
         }
         _completion.TrySetResult(true);
         Close();
+    }
+
+    /// <summary>The bar stays up for the double-click time, with its controls off, so that a second click lands here and not on the window behind.</summary>
+    private async void RecordClicked()
+    {
+        Toolbar.IsEnabled = false;
+        await Task.Delay(Application.Current?.PlatformSettings?.GetDoubleTapTime(PointerType.Mouse) ?? TimeSpan.FromMilliseconds(500));
+        Toolbar.IsEnabled = true;
+        RequestRecord();
     }
 
     public void Cancel()

@@ -58,6 +58,8 @@ internal sealed partial class GsrSession : IDisposable
     private bool killed;
 
     public WaitHandle Exited => exited;
+    /// <summary>setpriv execs the recorder, so this is the recorder's own pid.</summary>
+    public int ProcessId => process.Id;
     public bool HasCaptureFailure => blackVideoMarker != null;
     /// <summary>The video encoder named in gsr's log, for example h264_nvenc.</summary>
     public string? EncoderName { get; private set; }
@@ -154,9 +156,9 @@ internal sealed partial class GsrSession : IDisposable
     {
         if (blackVideoMarker != null)
         {
-            return new IOException($"gpu-screen-recorder couldn't read the screen (\"{blackVideoMarker}\"), so the video would be black and was discarded. Check its helper with: getcap /usr/bin/gsr-kms-server");
+            return new IOException($"gpu-screen-recorder couldn't read the screen (\"{blackVideoMarker}\"), so the video is probably black. Check its helper with: getcap /usr/bin/gsr-kms-server");
         }
-        if (killed) return new IOException($"gpu-screen-recorder didn't stop within {StopTimeout.TotalMinutes:0} minutes and had to be killed, so the recording is lost. {Tail()}");
+        if (killed) return new IOException($"gpu-screen-recorder didn't stop within {StopTimeout.TotalMinutes:0} minutes and had to be killed. {Tail()}");
         if (!process.HasExited) return null;
         string tail = Tail();
         return process.ExitCode switch
@@ -167,8 +169,8 @@ internal sealed partial class GsrSession : IDisposable
             50 => new IOException($"An audio device isn't available (exit 50). Choose the system audio and microphone devices again in the recording settings. {tail}"),
             51 => new IOException($"gpu-screen-recorder doesn't recognise the region or monitor (exit 51). The monitor layout may have changed. {tail}"),
             126 => new UnauthorizedAccessException($"gpu-screen-recorder's helper failed (exit 126), usually because gsr-kms-server is missing its capability. Run: sudo setcap cap_sys_admin+ep /usr/bin/gsr-kms-server. {tail}"),
-            SIGKILL_EXIT_CODE => new IOException("gpu-screen-recorder was killed (SIGKILL) while recording. An MP4 can't be finalized after that, so the recording is lost."),
-            int code => new IOException($"gpu-screen-recorder stopped unexpectedly (exit {code}), so the recording is lost. {tail}")
+            SIGKILL_EXIT_CODE => new IOException("gpu-screen-recorder was killed (SIGKILL) while recording, and an MP4 can't be finalized after that."),
+            int code => new IOException($"gpu-screen-recorder stopped unexpectedly (exit {code}). {tail}")
         };
     }
 

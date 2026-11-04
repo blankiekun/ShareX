@@ -43,7 +43,7 @@ def pdeathsig():
 def save():
     if mode != "no_file":
         with open(out, "wb") as f:
-            f.write(VIDEO)
+            f.write(b"" if mode == "empty_file" else VIDEO)
 
 
 def leave(code):

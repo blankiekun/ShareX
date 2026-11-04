@@ -112,6 +112,8 @@ internal static class Program
         LanguageHelper.ChangeLanguage(ApplicationState.Settings.Language);
         CleanupManager.CleanupAsync();
 
+        ApplicationLifecycle.RegisterSignalHandlers();
+
         DebugHelper.WriteLine("Avalonia application starting.");
         AvaloniaBootstrapper.Run();
 
@@ -140,6 +142,7 @@ internal static class Program
         bool showMainWindow = !(StartupOptions.SilentRun || ApplicationState.Settings.SilentRun) ||
             !ApplicationState.Settings.ShowTray;
         MainWindowIntegration.Initialize(hotkeyHost.TrayIconService, showMainWindow);
+        ScreenRecordManager.RecoverInterruptedRecordings();
         SingleInstanceCommandRouter.MarkReady();
 
         ShareX.Tools.MouseHighlighterManager.ActivateOnStartup(

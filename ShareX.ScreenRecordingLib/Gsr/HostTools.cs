@@ -131,7 +131,8 @@ internal static partial class HostTools
     {
         ToolResult? result = Run("ffprobe", "-v", "error", "-show_entries", "stream=codec_type,nb_frames,bit_rate,duration:format=duration", "-of", "json", path);
         if (result == null) return null;
-        // ffprobe exits 1 when it rejects a file. Other codes mean the tool died: 127 from the loader, 128+N from a signal.
+        // ffprobe exits 1 when it rejects a file, or for reasons of its own that look the same. ScreenRecorder keeps the file either
+        // way. Other codes mean the tool died: 127 from the loader, 128+N from a signal.
         if (result.ExitCode == 1) return new RecordingProbe(false, result.Error.Trim(), null, null, []);
         if (result.ExitCode != 0) throw new IOException($"exit {result.ExitCode}: {result.Error.Trim()}".TrimEnd(' ', ':'));
 

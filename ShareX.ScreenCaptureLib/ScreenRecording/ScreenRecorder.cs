@@ -255,6 +255,7 @@ namespace ShareX.ScreenCaptureLib
             }
         }
 
+        /// <returns>True only for a complete GIF: FFmpeg exits 0 after a stop too, leaving a short one.</returns>
         /// <param name="crop">Keep only this part of the input, in input pixels. Video from gpu-screen-recorder is always even-sized, so an odd-sized GIF is cut from it here.</param>
         public bool FFmpegEncodeAsGIF(string input, string output, Rectangle? crop = null)
         {
@@ -280,7 +281,7 @@ namespace ShareX.ScreenCaptureLib
                 {
                     ffmpeg.TrackEncodeProgress = true;
 
-                    return ffmpeg.Run($"-i \"{input}\" -lavfi \"{cropFilter}{source}split[source][stats];[stats]palettegen=stats_mode=single[palette];[source][palette]{paletteUse}:new=1\" -y \"{output}\"");
+                    return ffmpeg.Run($"-i \"{input}\" -lavfi \"{cropFilter}{source}split[source][stats];[stats]palettegen=stats_mode=single[palette];[source][palette]{paletteUse}:new=1\" -y \"{output}\"") && !ffmpeg.StopRequested;
                 }
 
                 // The other modes make their palette when the input ends, so a single run would hold every frame in memory until then.
@@ -296,7 +297,7 @@ namespace ShareX.ScreenCaptureLib
 
                     ffmpeg.TrackEncodeProgress = true;
 
-                    return ffmpeg.Run($"-i \"{input}\" -i \"{palettePath}\" -lavfi \"{cropFilter}{source}[1:v]{paletteUse}\" -y \"{output}\"");
+                    return ffmpeg.Run($"-i \"{input}\" -i \"{palettePath}\" -lavfi \"{cropFilter}{source}[1:v]{paletteUse}\" -y \"{output}\"") && !ffmpeg.StopRequested;
                 }
                 finally
                 {

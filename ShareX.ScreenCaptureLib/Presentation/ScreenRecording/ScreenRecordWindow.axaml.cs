@@ -660,6 +660,9 @@ public partial class ScreenRecordWindow : Window, IDisposable
 
             Width = contentWidthPixels / _windowScaling;
             Height = frameHeight + gap + ToolbarHeight;
+
+            // Only the toolbar takes input, so a dialog or anything else under the frame can still be clicked.
+            X11InputShape.Set(this, _toolbarLeftPixels, frameHeightPixels + ToolbarGapPixels, toolbarWidthPixels, (int)Math.Ceiling(ToolbarHeight * _windowScaling));
         }
         finally
         {

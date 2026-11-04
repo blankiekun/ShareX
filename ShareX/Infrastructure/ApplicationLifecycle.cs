@@ -31,14 +31,22 @@ using ShareX.AvaloniaUI.Integration;
 using ShareX.HelpersLib;
 using ShareX.Localization;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ShareX;
 
 internal static class ApplicationLifecycle
 {
+    // shortcut: past this the file may still be saving. gsr gets SIGINT when ShareX exits and the next start recovers it. 60 s stays
+    // under systemd's usual 90 s before SIGKILL at logout.
+    private static readonly TimeSpan SignalRecordingLimit = TimeSpan.FromSeconds(60);
+    private static readonly List<PosixSignalRegistration> _signalRegistrations = [];
     private static MainForm? _hotkeyHost;
+    private static int _signalExitStarted;
     private static int _exitStarted;
     private static int _hostClosed;
     private static int _closeSequenceStarted;
@@ -46,6 +54,39 @@ internal static class ApplicationLifecycle
     private static bool _restartAsAdmin;
 
     internal static bool IsClosing => Volatile.Read(ref _exitStarted) != 0 || Volatile.Read(ref _closeSequenceStarted) != 0;
+
+    internal static void RegisterSignalHandlers()
+    {
+        foreach (PosixSignal signal in new[] { PosixSignal.SIGTERM, PosixSignal.SIGINT, PosixSignal.SIGHUP })
+        {
+            _signalRegistrations.Add(PosixSignalRegistration.Create(signal, OnSignal));
+        }
+    }
+
+    private static void OnSignal(PosixSignalContext context)
+    {
+        // With no recording running, the signal keeps its default action.
+        if (!ScreenRecordManager.IsRecording && Volatile.Read(ref _signalExitStarted) == 0)
+        {
+            return;
+        }
+
+        context.Cancel = true;
+        if (Interlocked.Exchange(ref _signalExitStarted, 1) != 0)
+        {
+            return;
+        }
+
+        DebugHelper.WriteLine($"{context.Signal} received while recording: finishing the recording before exit.");
+        _ = Task.Run(async () =>
+        {
+            await ScreenRecordManager.FinishForExitAsync(SignalRecordingLimit);
+            Exit();
+            // A stuck UI thread must not keep the process alive after the system asked it to go.
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            Environment.Exit(1);
+        });
+    }
 
     internal static void AttachHost(MainForm hotkeyHost)
     {

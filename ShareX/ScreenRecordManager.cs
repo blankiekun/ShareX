@@ -31,10 +31,15 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+using Dispatcher = Avalonia.Threading.Dispatcher;
 using MessageBox = ShareX.AvaloniaUI.MessageBox;
 using MessageBoxButtons = ShareX.AvaloniaUI.MessageBoxButtons;
 using MessageBoxIcon = ShareX.AvaloniaUI.MessageBoxIcon;
 using NativeRecordingOptions = ShareX.ScreenRecordingLib.RecordingOptions;
+using RecordingFiles = ShareX.ScreenRecordingLib.RecordingFiles;
+using RecordingJournal = ShareX.ScreenRecordingLib.RecordingJournal;
+using RecordingKeptException = ShareX.ScreenRecordingLib.RecordingKeptException;
+using RecordingRecovery = ShareX.ScreenRecordingLib.RecordingRecovery;
 using NativeScreenRecorder = ShareX.ScreenRecordingLib.ScreenRecorder;
 
 namespace ShareX
@@ -47,6 +52,8 @@ namespace ShareX
         private static NativeScreenRecorder nativeRecorder;
         private static ScreenRecordWindow recordForm;
         private static ScreenRecorderBarWindow configurationBar;
+        private static Task recordingWork = Task.CompletedTask;
+        private static volatile bool exiting;
 
         public static async void StartStopRecording(ScreenRecordOutput outputType, ScreenRecordStartMethod startMethod, TaskSettings taskSettings)
         {
@@ -111,6 +118,41 @@ namespace ShareX
                 case ScreenRecordingStatus.Working:
                     recordForm.AbortRecording();
                     break;
+                case ScreenRecordingStatus.Stopped:
+                    // Saving, or encoding a GIF. Stopping the encode keeps the MP4, and it'd otherwise run on past the exit.
+                    StopRecording();
+                    break;
+            }
+        }
+
+        /// <summary>Stops the recording because of a signal and waits until its file has settled, up to the limit. Nothing asks the user anything from here on.</summary>
+        internal static async Task FinishForExitAsync(TimeSpan limit)
+        {
+            exiting = true;
+            // One deadline for both waits: a stuck UI thread must not hold up the exit, and WhenAny also ignores a failure in either.
+            Task deadline = Task.Delay(limit);
+            await Task.WhenAny(Dispatcher.UIThread.InvokeAsync(FinishRecording).GetTask(), deadline);
+            await Task.WhenAny(recordingWork, deadline);
+        }
+
+        /// <summary>Called once at startup, for recordings left behind by a ShareX that was killed.</summary>
+        internal static void RecoverInterruptedRecordings()
+        {
+            try
+            {
+                RecordingRecovery recovery = RecordingJournal.Recover(AppPaths.RecordingJournalFolder);
+                foreach (string problem in recovery.Problems) DebugHelper.WriteLine("Recording recovery: " + problem);
+                if (recovery.StillRecording > 0) DebugHelper.WriteLine($"Recording recovery: skipped {recovery.StillRecording} recording(s) still being written.");
+                if (recovery.Recovered.Count > 0)
+                {
+                    string files = string.Join(Environment.NewLine, recovery.Recovered);
+                    DebugHelper.WriteLine("Recording recovery: recovered " + files);
+                    TaskHelpers.ShowNotificationTip(string.Format(Strings.ScreenRecord_RecordingsRecovered, files), "ShareX", 10000);
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.WriteException(ex);
             }
         }
 
@@ -276,7 +318,9 @@ namespace ShareX
             recordForm.StopRequested += StopRecording;
             recordForm.Show();
 
-            _ = Task.Run(async () =>
+            bool failed = false;
+
+            recordingWork = Task.Run(async () =>
             {
                 try
                 {
@@ -419,11 +463,12 @@ namespace ShareX
                 }
                 catch (Exception e)
                 {
+                    failed = true;
                     DebugHelper.WriteException(e);
                     if (useNative)
                     {
                         abortRequested = true;
-                        recordForm.InvokeSafe(() => MessageBox.Show(e.Message, "ShareX", MessageBoxButtons.OK, MessageBoxIcon.Error));
+                        if (!exiting) recordForm.InvokeSafe(() => MessageBox.Show(e.Message, "ShareX", MessageBoxButtons.OK, MessageBoxIcon.Error));
                     }
                 }
 
@@ -460,9 +505,15 @@ namespace ShareX
                     FileHelpers.DeleteFile(path);
                 }
 
-                FileHelpers.DeleteFile(concatPath);
-                FileHelpers.DeleteFile(tempPath);
-            }).ContinueInCurrentContext(() =>
+                // After a failure these can hold the only copy of what was recorded.
+                if (!failed)
+                {
+                    FileHelpers.DeleteFile(concatPath);
+                    FileHelpers.DeleteFile(tempPath);
+                }
+            });
+
+            _ = recordingWork.ContinueInCurrentContext(() =>
             {
                 void FinishRecording(AfterCaptureWindowResult result)
                 {
@@ -489,7 +540,7 @@ namespace ShareX
                     IsRecording = false;
                 }
 
-                if (!abortRequested && !string.IsNullOrEmpty(path) && File.Exists(path))
+                if (!exiting && !abortRequested && !string.IsNullOrEmpty(path) && File.Exists(path))
                 {
                     TaskHelpers.ShowAfterCaptureWindow(taskSettings, FinishRecording, null, path);
                 }
@@ -535,7 +586,9 @@ namespace ShareX
                     CameraMargin = settings.CaptureSettings.ScreenRecordCameraMargin,
                     RequireHardwareEncoder = settings.CaptureSettings.ScreenRecordRequireHardwareEncoder,
                     IncludeCursor = settings.CaptureSettings.ScreenRecordShowCursor,
-                    Duration = settings.CaptureSettings.ScreenRecordFixedDuration ? TimeSpan.FromSeconds(settings.CaptureSettings.ScreenRecordDuration) : TimeSpan.Zero
+                    Duration = settings.CaptureSettings.ScreenRecordFixedDuration ? TimeSpan.FromSeconds(settings.CaptureSettings.ScreenRecordDuration) : TimeSpan.Zero,
+                    JournalFolder = AppPaths.RecordingJournalFolder,
+                    RecoveryPath = Path.ChangeExtension(path, ".mp4")
                 };
                 nativeRecorder = CreateNativeRecorder(options);
                 try
@@ -584,6 +637,10 @@ namespace ShareX
                 {
                     // A stop during preparation or before the first frame removes the incomplete file.
                 }
+                catch (RecordingKeptException kept)
+                {
+                    throw new IOException(string.Format(Strings.ScreenRecord_RecordingKept, kept.Reason, KeepRecording(kept.KeptPath, path)), kept);
+                }
                 finally
                 {
                     await nativeRecorder.DisposeAsync();
@@ -600,7 +657,7 @@ namespace ShareX
                 if (aborted) FileHelpers.DeleteFile(recordingPath);
                 if (!aborted && completed && isGif)
                 {
-                    recordingPath = EncodeNativeGif(recordingPath, gifCrop, settings);
+                    recordingPath = EncodeNativeGif(recordingPath, path, gifCrop, settings);
                     aborted = recordForm.Status == ScreenRecordingStatus.Aborted;
                     if (aborted) FileHelpers.DeleteFile(recordingPath);
                 }
@@ -623,8 +680,22 @@ namespace ShareX
             return recorder;
         }
 
-        /// <summary>Turns a finished MP4 into a GIF beside it and returns the GIF's path. The MP4 is kept if encoding fails, so the recording isn't lost.</summary>
-        private static string EncodeNativeGif(string input, Rectangle crop, TaskSettings settings)
+        /// <summary>Puts a recording that isn't the finished result under the name the user expects, as an MP4, and never over another file. Returns where it is.</summary>
+        private static string KeepRecording(string recording, string path)
+        {
+            try
+            {
+                return RecordingFiles.MoveWithoutOverwrite(recording, Path.ChangeExtension(path, ".mp4"));
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                DebugHelper.WriteException(ex);
+                return recording;
+            }
+        }
+
+        /// <summary>Turns a finished MP4 into a GIF beside it and returns the GIF's path. Unless the user aborted, the MP4 only goes once the GIF is complete: a failed or stopped encode throws, saying where it is.</summary>
+        private static string EncodeNativeGif(string input, string path, Rectangle crop, TaskSettings settings)
         {
             string output = Path.ChangeExtension(input, "gif");
             recordForm.ChangeState(ScreenRecordState.Encoding);
@@ -640,7 +711,8 @@ namespace ShareX
             try
             {
                 screenRecorder.EncodingProgressChanged += ScreenRecorder_EncodingProgressChanged;
-                encoded = screenRecorder.FFmpegEncodeAsGIF(input, output, crop);
+                // With an exit pending, an encode could outlast the time ShareX has left, and the MP4 is safe as it is.
+                encoded = !exiting && screenRecorder.FFmpegEncodeAsGIF(input, output, crop);
             }
             finally
             {
@@ -652,12 +724,10 @@ namespace ShareX
                 FileHelpers.DeleteFile(input);
                 return output;
             }
-            if (!encoded)
+            if (!RecordingFiles.SettleGifEncode(input, output, encoded))
             {
-                FileHelpers.DeleteFile(output);
-                throw new IOException($"The recording finished, but FFmpeg couldn't encode the GIF. The completed recording is available at '{input}'.");
+                throw new IOException(string.Format(Strings.ScreenRecord_GifNotFinished, KeepRecording(input, path)));
             }
-            FileHelpers.DeleteFile(input);
             return output;
         }
 
@@ -676,27 +746,29 @@ namespace ShareX
             string screenshotsFolder = TaskHelpers.GetScreenshotsFolder(taskSettings, metadata);
             string fileName = TaskHelpers.GetFileName(taskSettings, taskSettings.CaptureSettings.FFmpegOptions.Extension, metadata);
             string output = Path.Combine(screenshotsFolder, fileName);
+            bool encoded = false;
 
             try
             {
                 if (taskSettings.CaptureSettings.FFmpegOptions.VideoCodec == FFmpegVideoCodec.gif)
                 {
-                    screenRecorder.FFmpegEncodeAsGIF(input, output);
+                    encoded = screenRecorder.FFmpegEncodeAsGIF(input, output);
                 }
                 else
                 {
-                    screenRecorder.FFmpegEncodeVideo(input, output);
+                    encoded = screenRecorder.FFmpegEncodeVideo(input, output);
                 }
             }
             finally
             {
-                if (deleteInputFile && !input.Equals(output, StringComparison.OrdinalIgnoreCase) && File.Exists(input))
+                // A failed encode leaves the input as the only copy of the recording.
+                if (encoded && deleteInputFile && !input.Equals(output, StringComparison.OrdinalIgnoreCase) && File.Exists(input))
                 {
                     File.Delete(input);
                 }
             }
 
-            return output;
+            return encoded ? output : input;
         }
     }
 }

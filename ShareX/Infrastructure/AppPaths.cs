@@ -50,6 +50,7 @@ internal static class AppPaths
     internal static string? HistoryFilePath => StartupOptions.Sandbox ? null : Path.Combine(PersonalFolder, HistoryFileName);
     internal static string? HistoryFilePathOld => StartupOptions.Sandbox ? null : Path.Combine(PersonalFolder, HistoryFileNameOld);
     internal static string LogsFolder => Path.Combine(PersonalFolder, LogsFolderName);
+    internal static string RecordingJournalFolder => Path.Combine(PersonalFolder, "RecordingJournal");
 
     internal static string? LogsFilePath
     {
