@@ -131,13 +131,10 @@ namespace ShareX.ImageEditor.Presentation.Views
                         return;
                     }
 
-                    // Check for bitmap
-                    // Use TryGetBitmapAsync for reliable cross-format bitmap detection instead of
-                    // hardcoded format name strings which are platform-specific and may not match.
-                    var clipboardBitmap = await clipboard.TryGetBitmapAsync();
-                    if (clipboardBitmap != null)
+                    // Check for image
+                    using var clipboardImage = await TryGetClipboardImageAsync(clipboard);
+                    if (clipboardImage != null)
                     {
-                        (clipboardBitmap as IDisposable)?.Dispose();
                         await PasteImageFromClipboard();
                         return;
                     }
@@ -214,6 +211,20 @@ namespace ShareX.ImageEditor.Presentation.Views
         }
 
         /// <summary>
+        /// Reads an image from the system clipboard. image/png comes first: ShareX's own copy is those bytes with no Bitmap format,
+        /// and Avalonia returns that same transfer while ShareX owns the selection, so TryGetBitmapAsync alone finds nothing.
+        /// </summary>
+        private static async Task<SKBitmap?> TryGetClipboardImageAsync(IClipboard clipboard)
+        {
+            byte[]? png = await clipboard.TryGetValueAsync(DataFormat.CreateBytesPlatformFormat("image/png"));
+            SKBitmap? decoded = png != null ? SKBitmap.Decode(png) : null;
+            if (decoded != null) return decoded;
+
+            using var bitmap = await clipboard.TryGetBitmapAsync();
+            return bitmap != null ? BitmapConversionHelpers.ToSKBitmap(bitmap) : null;
+        }
+
+        /// <summary>
         /// Handles Ctrl+V paste of images from clipboard (both bitmap data and file references).
         /// </summary>
         private async Task PasteImageFromClipboard()
@@ -257,16 +268,12 @@ namespace ShareX.ImageEditor.Presentation.Views
                     }
                 }
 
-                // Try clipboard bitmap data (e.g. PrintScreen, copy from image app)
-                var clipboardBitmap = await clipboard.TryGetBitmapAsync();
-                if (clipboardBitmap != null)
+                // Try clipboard image data (e.g. ShareX's own copy, copy from image app)
+                var clipboardImage = await TryGetClipboardImageAsync(clipboard);
+                if (clipboardImage != null)
                 {
-                    var skBitmap = BitmapConversionHelpers.ToSKBitmap(clipboardBitmap);
-                    if (skBitmap != null)
-                    {
-                        await InsertExternalImageAsync(skBitmap);
-                        return;
-                    }
+                    await InsertExternalImageAsync(clipboardImage);
+                    return;
                 }
             }
             catch (Exception ex)
@@ -307,15 +314,8 @@ namespace ShareX.ImageEditor.Presentation.Views
                         }
                         else
                         {
-                            // Use TryGetBitmapAsync for reliable cross-format bitmap detection.
-                            // Format name strings (e.g. "PNG", "Bitmap") are platform-specific and
-                            // unreliable; TryGetBitmapAsync handles all native image clipboard formats.
-                            var bitmap = await clipboard.TryGetBitmapAsync();
-                            if (bitmap != null)
-                            {
-                                (bitmap as IDisposable)?.Dispose();
-                                canPaste = true;
-                            }
+                            using var clipboardImage = await TryGetClipboardImageAsync(clipboard);
+                            canPaste = clipboardImage != null;
                         }
                     }
                     catch (Exception ex)
