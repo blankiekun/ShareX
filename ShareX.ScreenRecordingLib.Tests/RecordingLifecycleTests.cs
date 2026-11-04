@@ -258,6 +258,66 @@ public sealed class RecordingLifecycleTests : IDisposable
         Assert.Contains(outcome.Diagnostics, message => message.Contains("ffprobe"));
     }
 
+    // The recording stays when only the check failed: same result as having no ffprobe, plus the reason.
+    private void AssertDeliveredUnchecked(Outcome outcome, string reason)
+    {
+        Assert.Null(outcome.Error);
+        Assert.Equal(FakeHost.Video, File.ReadAllText(host.OutputPath));
+        Assert.Equal(-1, outcome.Result!.VideoFrames);
+        Assert.Contains(outcome.Diagnostics, message => message.Contains("ffprobe") && message.Contains(reason));
+    }
+
+    // Catches: deleting a finished recording because ffprobe answered with something unparseable. The parse throws, which
+    // isn't a verdict on the file.
+    [Theory]
+    [InlineData("not json", "invalid")]
+    [InlineData("{}", "key")]
+    public async Task ProbeThatAnswersNonsense_StillDeliversTheFile(string json, string reason)
+    {
+        Environment.SetEnvironmentVariable("FAKE_FFPROBE_JSON", json);
+
+        Outcome outcome = await Record(host.Options());
+
+        AssertDeliveredUnchecked(outcome, reason);
+    }
+
+    // Catches: deleting a finished recording because ffprobe can't be started. Process.Start throws for this.
+    [Fact]
+    public async Task ProbeThatCantStart_StillDeliversTheFile()
+    {
+        File.SetUnixFileMode(HostTools.FindOnPath("ffprobe")!, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+
+        Outcome outcome = await Record(host.Options());
+
+        AssertDeliveredUnchecked(outcome, "denied");
+    }
+
+    // Catches: blaming the recording when ffprobe itself is broken, as after a partial upgrade on a rolling distribution. The
+    // loader exits 127 for any file, so a nonzero exit alone doesn't mean the file is bad.
+    [Fact]
+    public async Task ProbeWithMissingLibraries_StillDeliversTheFile()
+    {
+        File.WriteAllText(HostTools.FindOnPath("ffprobe")!, "#!/bin/sh\necho 'ffprobe: error while loading shared libraries: libavcodec.so.99' >&2\nexit 127\n");
+
+        Outcome outcome = await Record(host.Options());
+
+        AssertDeliveredUnchecked(outcome, "shared libraries");
+    }
+
+    // Catches: deleting a finished recording because ffprobe died while reading it, as in an OOM kill (137, here a real
+    // SIGKILL) or a crash (139). Only exit 1 is ffprobe rejecting the file.
+    [Theory]
+    [InlineData("KILL", "exit 137")]
+    [InlineData("139", "exit 139")]
+    public async Task ProbeThatDies_StillDeliversTheFile(string death, string reason)
+    {
+        Environment.SetEnvironmentVariable("FAKE_FFPROBE_DIE", death);
+
+        Outcome outcome = await Record(host.Options());
+
+        AssertDeliveredUnchecked(outcome, reason);
+    }
+
     // Catches: abort keeping a partial file, reporting a finished recording, or leaving the recorder running.
     [Fact]
     public async Task Abort_RemovesThePartialFileAndStopsTheRecorder()
@@ -346,6 +406,24 @@ public sealed class RecordingLifecycleTests : IDisposable
         string kept = Assert.Single(Directory.GetFiles(host.Work, ".out-*.mp4"));
         Assert.Contains(kept, outcome.Error!.Message);
         Assert.Equal(FakeHost.Video, File.ReadAllText(kept));
+    }
+
+    // Catches: a failed recording deleting a real file that something else put at the reserved name. Only the empty
+    // reservation may go, on failure as on success.
+    [Fact]
+    public async Task FailureAfterTheNameWasTaken_LeavesTheOtherFileAlone()
+    {
+        host.SetMode("die_mid");
+
+        Outcome outcome = await Record(host.Options(), _ =>
+        {
+            File.WriteAllText(host.OutputPath, "someone else's file");
+            host.Trigger();
+        }, stop: false);
+
+        Assert.Contains("exit 139", outcome.Error?.Message);
+        Assert.Equal("someone else's file", File.ReadAllText(host.OutputPath));
+        Assert.Equal([host.OutputPath], Directory.GetFileSystemEntries(host.Work));
     }
 
     // Catches: the region check being bypassed on the way to the recorder, so a spanning region silently gives wrong pixels.

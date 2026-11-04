@@ -221,7 +221,12 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
         {
             if (ownsOutput)
             {
-                try { File.Delete(options.OutputPath); }
+                try
+                {
+                    // Only the empty reservation may go, here as on the way to success.
+                    FileInfo reservation = new(options.OutputPath);
+                    if (reservation.Exists && reservation.Length == 0) reservation.Delete();
+                }
                 catch (Exception cleanup) { ex = new AggregateException("Recording failed and its incomplete output could not be removed.", ex, cleanup); }
             }
             prepared.TrySetException(ex); started.TrySetException(ex); completed.TrySetException(ex);
@@ -275,10 +280,18 @@ public sealed class ScreenRecorder : IDisposable, IAsyncDisposable
         if (!file.Exists || file.Length == 0) throw new IOException("gpu-screen-recorder exited normally but wrote no video.");
         VideoEncoderInfo encoder = Encoder!;
 
-        RecordingProbe? probe = HostTools.ProbeRecording(path);
+        RecordingProbe? probe;
+        string notChecked = "ffprobe isn't installed or timed out";
+        try { probe = HostTools.ProbeRecording(path); }
+        catch (Exception ex)
+        {
+            // The recorder finished, and a check that didn't finish says nothing about the file, so it's no reason to lose it.
+            probe = null;
+            notChecked = $"ffprobe failed ({ex.Message})";
+        }
         if (probe == null)
         {
-            ReportDiagnostic("ffprobe isn't installed, so the frame count and microphone track weren't checked.");
+            ReportDiagnostic($"{notChecked}, so the frame count and microphone track weren't checked.");
             return new RecordingResult(options.OutputPath, Elapsed, -1, -1, -1, encoder);
         }
         if (!probe.IsReadable) throw new IOException($"gpu-screen-recorder wrote a file that can't be read: {probe.Error}");
