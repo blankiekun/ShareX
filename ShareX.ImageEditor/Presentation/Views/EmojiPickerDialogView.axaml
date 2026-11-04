@@ -52,8 +52,14 @@
             </Grid>
 
             <Grid Grid.Row="1"
+                  RowDefinitions="Auto,*"
                   Margin="12,8,12,12">
-                <ScrollViewer IsVisible="{Binding !IsLoading}"
+                <TextBlock Text="{x:Static res:Strings.EmojiPickerDialogView_NoEmojiFont}"
+                           IsVisible="{x:Static emoji:EmojiBitmapRenderer.FontIsMissing}"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,8"/>
+                <ScrollViewer Grid.Row="1"
+                              IsVisible="{Binding !IsLoading}"
                               HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Auto">
                     <Grid>
@@ -101,7 +107,8 @@
                     </Grid>
                 </ScrollViewer>
 
-                <StackPanel IsVisible="{Binding IsLoading}"
+                <StackPanel Grid.Row="1"
+                            IsVisible="{Binding IsLoading}"
                             Spacing="14"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
