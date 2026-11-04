@@ -52,6 +52,22 @@ internal sealed class LinuxDesktopWallpaperService : IDesktopWallpaperService
     private const int GdkPixbufWallpaperSize = 4096;
     private static readonly object[] WallpaperConversionLocks = Enumerable.Range(0, 64).Select(_ => new object()).ToArray();
 
+    private const string KdeDefaultWallpaperFolder = "/usr/share/wallpapers/Next";
+    private static readonly string[] KdeWallpaperFragments = ["#dark", "#light", "#day-night"];
+
+    private sealed class KdeContainment
+    {
+        public int Screen { get; set; } = -1;
+        public string? ActivityId { get; set; }
+        public string? WallpaperPlugin { get; set; }
+        public string? Image { get; set; }
+        public string? FillMode { get; set; }
+
+        // Panels have no activity, and an Image can stay behind after a switch to another wallpaper plugin.
+        public bool IsImageDesktop => (!string.IsNullOrEmpty(ActivityId) || Image != null) &&
+                                      (WallpaperPlugin == null || WallpaperPlugin == "org.kde.image");
+    }
+
     private enum Provider
     {
         Gnome,
@@ -404,9 +420,37 @@ internal sealed class LinuxDesktopWallpaperService : IDesktopWallpaperService
             return false;
         }
 
-        string? path = null;
-        string? fillMode = null;
-        bool inWallpaperSection = false;
+        // This service isn't told which output the editor is on, so the primary one (lastScreen 0) goes first. -1 is an output no longer there.
+        IEnumerable<KdeContainment> desktops = ReadKdeContainments(configPath)
+            .Where(containment => containment.IsImageDesktop)
+            .OrderBy(containment => containment.Screen < 0 ? int.MaxValue : containment.Screen);
+
+        foreach (KdeContainment desktop in desktops)
+        {
+            string? path = ResolveAccessibleWallpaperPath(ResolveKdePackageImage(GetKdeWallpaperLocation(desktop.Image), IsKdeWallpaperDark(desktop.Image)));
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                wallpaper = new DesktopWallpaperInfo
+                {
+                    Path = path,
+                    Layout = MapKdeFillMode(desktop.FillMode)
+                };
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static IEnumerable<KdeContainment> ReadKdeContainments(string configPath)
+    {
+        const string prefix = "[Containments][";
+        const string wallpaperGroup = "[Wallpaper][org.kde.image][General]";
+
+        Dictionary<string, KdeContainment> containments = new(StringComparer.Ordinal);
+        KdeContainment? containment = null;
+        bool inWallpaperGroup = false;
 
         foreach (string rawLine in File.ReadLines(configPath))
         {
@@ -418,22 +462,26 @@ internal sealed class LinuxDesktopWallpaperService : IDesktopWallpaperService
 
             if (line.StartsWith('[') && line.EndsWith(']'))
             {
-                if (!string.IsNullOrWhiteSpace(path) && File.Exists(path))
+                int idEnd = line.StartsWith(prefix, StringComparison.Ordinal) ? line.IndexOf(']', prefix.Length) : -1;
+                string group = idEnd < 0 ? string.Empty : line.Substring(idEnd + 1);
+                inWallpaperGroup = group.Equals(wallpaperGroup, StringComparison.Ordinal);
+                containment = null;
+
+                if (idEnd >= 0 && (group.Length == 0 || inWallpaperGroup))
                 {
-                    break;
+                    string id = line.Substring(prefix.Length, idEnd - prefix.Length);
+                    if (!containments.TryGetValue(id, out containment))
+                    {
+                        containment = new KdeContainment();
+                        containments.Add(id, containment);
+                    }
                 }
 
-                inWallpaperSection = line.Contains("Wallpaper][org.kde.image][General]", StringComparison.Ordinal);
-                continue;
-            }
-
-            if (!inWallpaperSection)
-            {
                 continue;
             }
 
             int separatorIndex = line.IndexOf('=');
-            if (separatorIndex <= 0)
+            if (containment == null || separatorIndex <= 0)
             {
                 continue;
             }
@@ -441,33 +489,96 @@ internal sealed class LinuxDesktopWallpaperService : IDesktopWallpaperService
             string key = line.Substring(0, separatorIndex).Trim();
             string value = line.Substring(separatorIndex + 1).Trim();
 
-            if (key.Equals("Image", StringComparison.Ordinal))
+            if (inWallpaperGroup)
             {
-                string? candidatePath = ResolveAccessibleWallpaperPath(ResolveKdePackageImage(ParseWallpaperPath(value)));
-                if (!string.IsNullOrWhiteSpace(candidatePath))
+                if (key.Equals("Image", StringComparison.Ordinal))
                 {
-                    path = candidatePath;
+                    containment.Image = value;
+                }
+                else if (key.Equals("FillMode", StringComparison.Ordinal))
+                {
+                    containment.FillMode = value;
                 }
             }
-            else if (key.Equals("FillMode", StringComparison.Ordinal))
+            else if (key.Equals("lastScreen", StringComparison.Ordinal))
             {
-                fillMode = value;
+                containment.Screen = int.TryParse(value, out int screen) ? screen : -1;
+            }
+            else if (key.Equals("activityId", StringComparison.Ordinal))
+            {
+                containment.ActivityId = value;
+            }
+            else if (key.Equals("wallpaperplugin", StringComparison.Ordinal))
+            {
+                containment.WallpaperPlugin = value;
             }
         }
 
-        path = ResolveAccessibleWallpaperPath(path);
-        if (string.IsNullOrWhiteSpace(path))
+        return containments.Values;
+    }
+
+    // Plasma writes no Image until one is picked, and until then draws its default.
+    private static string? GetKdeWallpaperLocation(string? image)
+    {
+        if (string.IsNullOrWhiteSpace(image))
+        {
+            return KdeDefaultWallpaperFolder;
+        }
+
+        foreach (string fragment in KdeWallpaperFragments)
+        {
+            if (image.EndsWith(fragment, StringComparison.Ordinal))
+            {
+                image = image.Substring(0, image.Length - fragment.Length);
+                break;
+            }
+        }
+
+        return ParseWallpaperPath(image);
+    }
+
+    private static bool IsKdeWallpaperDark(string? image)
+    {
+        if (image != null && image.EndsWith("#dark", StringComparison.Ordinal))
+        {
+            return true;
+        }
+
+        return (image == null || !image.EndsWith("#light", StringComparison.Ordinal)) && IsKdeColorSchemeDark();
+    }
+
+    // Plasma's test: gray of the Window background under 192. Its #day-night mode follows the sun instead, which isn't known here.
+    private static bool IsKdeColorSchemeDark()
+    {
+        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config", "kdeglobals");
+        if (!File.Exists(path))
         {
             return false;
         }
 
-        wallpaper = new DesktopWallpaperInfo
-        {
-            Path = path,
-            Layout = MapKdeFillMode(fillMode)
-        };
+        bool inWindowColors = false;
 
-        return true;
+        foreach (string rawLine in File.ReadLines(path))
+        {
+            string line = rawLine.Trim();
+
+            if (line.StartsWith('[') && line.EndsWith(']'))
+            {
+                inWindowColors = line.Equals("[Colors:Window]", StringComparison.Ordinal);
+            }
+            else if (inWindowColors && line.StartsWith("BackgroundNormal=", StringComparison.Ordinal))
+            {
+                string[] parts = line.Substring("BackgroundNormal=".Length).Split(',');
+
+                return parts.Length >= 3 &&
+                       int.TryParse(parts[0], out int red) &&
+                       int.TryParse(parts[1], out int green) &&
+                       int.TryParse(parts[2], out int blue) &&
+                       (red * 11 + green * 16 + blue * 5) / 32 < 192;
+            }
+        }
+
+        return false;
     }
 
     private static bool TryGetPcmanfmWallpaper(
@@ -985,14 +1096,16 @@ internal sealed class LinuxDesktopWallpaperService : IDesktopWallpaperService
     }
 
     // A wallpaper from Plasma's own list is a package folder with one image per resolution. The largest file is the sharpest.
-    private static string? ResolveKdePackageImage(string? path)
+    private static string? ResolveKdePackageImage(string? path, bool dark)
     {
-        if (path == null || !Directory.Exists(Path.Combine(path, "contents", "images")))
+        if (path == null)
         {
-            return path;
+            return null;
         }
 
-        return Directory.EnumerateFiles(Path.Combine(path, "contents", "images")).MaxBy(file => new FileInfo(file).Length);
+        string folder = Path.Combine(path, "contents", dark && Directory.Exists(Path.Combine(path, "contents", "images_dark")) ? "images_dark" : "images");
+
+        return Directory.Exists(folder) ? Directory.EnumerateFiles(folder).MaxBy(file => new FileInfo(file).Length) : path;
     }
 
     private static bool CommandExists(string command)
