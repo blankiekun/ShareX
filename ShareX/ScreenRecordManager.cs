@@ -129,8 +129,10 @@ namespace ShareX
         internal static async Task FinishForExitAsync(TimeSpan limit)
         {
             exiting = true;
-            await Dispatcher.UIThread.InvokeAsync(FinishRecording);
-            await Task.WhenAny(recordingWork, Task.Delay(limit));
+            // One deadline for both waits: a stuck UI thread must not hold up the exit, and WhenAny also ignores a failure in either.
+            Task deadline = Task.Delay(limit);
+            await Task.WhenAny(Dispatcher.UIThread.InvokeAsync(FinishRecording).GetTask(), deadline);
+            await Task.WhenAny(recordingWork, deadline);
         }
 
         /// <summary>Called once at startup, for recordings left behind by a ShareX that was killed.</summary>
