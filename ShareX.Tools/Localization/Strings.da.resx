@@ -350,9 +350,6 @@ Filsti: {0}</value>
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Gennemse...</value>
   </data>
-  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
-    <value>Enhed</value>
-  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Billede</value>
   </data>
@@ -364,9 +361,6 @@ Filsti: {0}</value>
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Åbn modelmappen</value>
-  </data>
-  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
-    <value>Behandlingsenhed</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Opdater modeller</value>
@@ -1265,23 +1259,14 @@ Filsti: {0}</value>
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Vinduesindstillinger</value>
   </data>
-  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
-    <value>Automatisk</value>
-  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Diagonal tilbage</value>
-  </data>
-  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
-    <value>Processor</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Skakmønster</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Diagonal frem</value>
-  </data>
-  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
-    <value>Grafikprocessor</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>

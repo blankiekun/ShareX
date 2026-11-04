@@ -350,9 +350,6 @@ Cesta k souboru: {0}</value>
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Procházet...</value>
   </data>
-  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
-    <value>Zařízení</value>
-  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Obrázek</value>
   </data>
@@ -364,9 +361,6 @@ Cesta k souboru: {0}</value>
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Otevřít složku modelů</value>
-  </data>
-  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
-    <value>Obnovit modely</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Zařízení pro zpracování</value>
@@ -1265,23 +1259,14 @@ Cesta k souboru: {0}</value>
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Nastavení okna</value>
   </data>
-  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
-    <value>Automaticky</value>
-  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Úhlopříčně vzad</value>
-  </data>
-  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
-    <value>Procesor</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Šachovnice</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Úhlopříčně vpřed</value>
-  </data>
-  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
-    <value>Grafický procesor</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>

@@ -23,8 +23,8 @@ User-facing features in the checklist (section 5.1), by label:
 | Label | Rows |
 |---|---|
 | `READY` | 43 |
-| `UNVERIFIED` | 96 |
-| `SWAP` | 1 |
+| `UNVERIFIED` | 97 |
+| `SWAP` | 0 |
 | `REWRITE` | 0 |
 | `LIMITED` | 35 |
 | `DROP` | 8 |
@@ -73,7 +73,7 @@ To recount, where a `LIMITED` cell also says what is lost: `awk -F'|' '/^### 5\.
 5. **Desktop integration:** KGlobalAccel hotkeys, tray, single instance, `.desktop` file, icons, MIME types, autostart,
    service menu, then an AppImage.
 6. **Recording:** M6 drives the host's `gpu-screen-recorder` as a process; nothing has run on real captures yet. Window recording records the window's rectangle, so it stays LIMITED; following the window itself needs the portal later.
-7. **Remaining tools:** Tesseract OCR, ONNX on CUDA, `libmpv` video player, printing, notifications.
+7. **Remaining tools:** Tesseract OCR, ONNX on the CPU, `libmpv` video player, printing, notifications.
 8. **Migration from Windows:** settings import, path rewriting, history. In scope: the owner has an install to move.
 
 ## 4. Design notes and open decisions
@@ -248,7 +248,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | ImageBeautifier | TH:245; TH:1533 | Owner tools: Skia | UNVERIFIED | None | S | Med |
 | ImageEffects | TH:255; TH:1589 | Owner editors: Skia | UNVERIFIED | None | S | Med |
 | ImageViewer | TH:265; TH:1653 | Owner tools. Files with more than one frame now play and loop in the viewer (frame delays honoured, 10 ms or less shown as 100 ms); zoom survives frame changes. A double-click opens one viewer that stays open: the second click no longer closes it, and it can't open another. The cost is that a click in the first 500 ms after opening does nothing. Run in a virtual KWin session only, not yet seen by the owner | UNVERIFIED | None | S | Low |
-| BackgroundRemover | TH:275; ShareX.Tools/Tools/BackgroundRemover/BackgroundRemovalService.cs:140 | Owner tools: DirectML package ships Windows runtimes only (V) | SWAP | `Microsoft.ML.OnnxRuntime` linux-x64 (V). Not started: adding the package is waiting on the owner | M | High |
+| BackgroundRemover | TH:275; ShareX.Tools/Tools/BackgroundRemover/BackgroundRemovalService.cs | Done: DirectML and DXGI removed, CPU only, no device choice | UNVERIFIED | Bundled `Microsoft.ML.OnnxRuntime` 1.23.2, linux-x64 only (22 MB). The user puts any `.onnx` model in `Documents/ShareX/Models`; nothing is downloaded, and the window says so while there is none. Virtual session with tiny hand-written models: the mask reaches the saved file's alpha; missing, damaged and wrong-shape models give a message and no crash. A real background removal model's speed and memory haven't been measured | M | Med |
 | ImageComparer | TH:278; TH:1089 | None found | READY | None | S | Med |
 | IconConverter | TH:281; TH:1094 | None found | READY | None | S | Med |
 | ImageCombiner | TH:284; TH:1038 | None found | READY | None | S | Med |
@@ -415,8 +415,8 @@ The only table whose rows were really run; see its evidence column.
 | SQLite | `libe_sqlite3.so` shipped, `History.db` created; `Directory.Packages.props:7` is an 11.0 RC | READY | Consider a stable version | S | High |
 | ScreenRecordingLib | 0 errors. M6 replaced the D3D and Media Foundation pipeline with a `gpu-screen-recorder` wrapper; no package or project references remain | UNVERIFIED | Confirm on real captures | S | Medium |
 | ShareX.Tools OCR | 0 errors. M7: `OCRHelper.cs` runs the host `tesseract` | SWAP | Tesseract (M7, virtual session) | M | High |
-| ONNX provider | `BackgroundRemovalService.cs:163` uses DML; compiles, but `runtimes/linux-x64` has no onnxruntime library | SWAP | `Microsoft.ML.OnnxRuntime`, CPU first | S | Medium |
-| Vortice.Direct2D1 | Only `WindowsEmojiBitmapRenderer.cs`; guarded by `IsWindows` at lines 56 and 159; compiles | SWAP | Skia with Noto Color Emoji | S | Medium |
+| ONNX provider | `BackgroundRemovalService.cs` uses the default CPU provider; the bundled `libonnxruntime.so` needs only glibc and libstdc++ | UNVERIFIED | `Microsoft.ML.OnnxRuntime`, CPU only. No GPU provider | S | Medium |
+| Vortice.Direct2D1 | Deleted from the editor in M7; nothing uses Vortice any more | DROP | Skia with Noto Color Emoji | S | Medium |
 | PhotoEditor, NativeMessagingHost | 0 errors; CA1416 6 (`ImageIO.cs`) and 0; host manifests are generated with an absolute path, see 5.7 | SWAP | Linux manifest with an absolute path, installed in browser native-messaging folders | S | Medium |
 | ShareX project | 0 errors; main window ran with a throwaway home and no session bus; `Windows.ApplicationModel` is behind `#if MicrosoftStore` | READY | None needed to build and open; tray not exercised | S | High |
 | `UseNls` | `ShareX.csproj:59`; present in the runtime config and the app still ran | READY | Remove on Linux for tidiness | S | Medium |
@@ -514,7 +514,7 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 
 | Feature | Evidence (file:line) | Dependency | Label | State on KDE Wayland | Effort | Confidence |
 |---|---|---|---|---|---|---|
-| Build, GPU, COM plumbing | `Audio/`, `Encoding/`, `Native/`, `Video/` deleted; SRL csproj | None | DROP | Deleted; Vortice stays only for other projects | S | High |
+| Build, GPU, COM plumbing | `Audio/`, `Encoding/`, `Native/`, `Video/` deleted; SRL csproj | None | DROP | Deleted | S | High |
 | Region, custom, last | `SRL/Gsr/GsrCommand.cs`; `SX/ScreenRecordManager.cs` | gsr KMS capture, `kscreen-doctor` | LIMITED: must fit one monitor, spanning or overhanging regions are refused before starting; scale other than 1 is refused (not tested) | `-w WxH+X+Y`; stub for arguments and refusals | S | Med |
 | Monitor capture | `SRL/Gsr/GsrCommand.cs` | gsr | UNVERIFIED | A whole monitor is a region that fits it; stub | S | Med |
 | Move region on resume | `SRL/ScreenRecorder.cs` `Resume(Rectangle)`; `SCL/Presentation/ScreenRecording/ScreenRecordWindow.axaml.cs` | gsr has no such request | LIMITED: can't move while recording; frame drag is off during a pause, and a moved rectangle is logged and ignored | None; stub | S | High |
@@ -647,7 +647,7 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | AnalyzeImage | `ShareX.Tools/Tools/AnalyzeImage/AIOptions.cs:44` | API keys live in `ApplicationConfig.json` and `HotkeysConfig.json`, which never encrypted before M2. Both do now; save and reload run. The tool itself not run | UNVERIFIED | Secret Service | S | M |
 | AnimatedGifMaker | `ShareX.Tools/Tools/AnimatedGifMaker/AnimatedGifMakerViewModel.cs:239` | Fix A | SWAP | FileManager1 | S | H |
 | AnimatedGifTrimmer | `ShareX.Tools/Tools/AnimatedGifTrimmer/AnimatedGifTrimmerViewModel.cs:314` | Fix A | SWAP | FileManager1 | S | H |
-| BackgroundRemover | `ShareX.Tools/Tools/BackgroundRemover/BackgroundRemovalService.cs:163`, `:215` | DirectML, DXGI | SWAP | ONNX Runtime CUDA 1.27+; existing CPU fallback | S | M |
+| BackgroundRemover | `ShareX.Tools/Tools/BackgroundRemover/BackgroundRemovalService.cs` | DirectML, DXGI removed | UNVERIFIED | ONNX Runtime 1.23.2 on the CPU only | S | M |
 | BorderlessWindow | `ShareX.Tools/Tools/BorderlessWindow/BorderlessWindowManager.cs` | Done in M7 | LIMITED | KWin script, see 5.1. Lost: direct control, and a program can tell it's full screen | M | M |
 | ClipboardViewer | `ShareX.Tools/Tools/ClipboardViewer/ClipboardViewerData.cs:93` | DIB branches only | UNVERIFIED | Avalonia clipboard; MIME names | S | M |
 | DirectoryIndexer | `ShareX.Tools/Tools/DirectoryIndexer/Indexer.cs:78` | None | READY | None needed | S | H |

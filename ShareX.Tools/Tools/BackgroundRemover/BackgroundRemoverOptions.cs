@@ -28,5 +28,4 @@ namespace ShareX.Tools;
 public class BackgroundRemoverOptions
 {
     public string SelectedModelFileName { get; set; } = "";
-    public BackgroundRemovalDevice SelectedDevice { get; set; } = BackgroundRemovalDevice.Auto;
 }
