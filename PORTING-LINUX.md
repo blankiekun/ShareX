@@ -255,9 +255,9 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | VideoThumbnailer | TH:318; ShareX.Tools/Tools/VideoThumbnailer/VideoThumbnailer.cs:53 | Owner tools: `.exe` guard. M3: ran end to end in a virtual KWin session | READY | /usr/bin/ffmpeg (V) | S | High |
 | AnalyzeImage | TH:321; TH:1872 | Owner tools: HTTP AI; `[JsonEncrypt]` options at ShareX.Tools/Tools/AnalyzeImage/AIOptions.cs:44 | UNVERIFIED | None | S | Med |
 | OCR | TH:324; ShareX.Tools/Tools/OCR/OCRHelper.cs (stubbed in M1, always fails) | Owner tools: was `Windows.Media.Ocr` | REWRITE | tesseract (V) | M | High |
-| QRCode | TH:334; TH:1730 | Owner tools: ZXing, Skia | UNVERIFIED | None | S | Med |
-| QRCodeDecodeFromScreen | TH:344; TH:1749 | Owner tools plus capture | SWAP | Portal Screenshot (V) | S | Med |
-| QRCodeScanRegion | TH:347; TH:1754 | Owner tools plus capture | LIMITED: as Region | As Region | S | Med |
+| QRCode | TH:334; TH:1730 | Owner tools: ZXing, Skia | UNVERIFIED | None needed. Generating from the clipboard and scanning an image file ran: zbarimg reads the generated code back as the same text. Save, copy and upload not run (M7, virtual session only) | S | Med |
+| QRCodeDecodeFromScreen | TH:344; TH:1749 | Done in M4 and M7 | UNVERIFIED | `spectacle -f` through `Screenshot`. A known code in another window decodes. Off the UI thread since M7; a missing spectacle shows an error box. Scanned text only fills the text box and is never opened as a URL (M7, virtual session only) | S | Med |
+| QRCodeScanRegion | TH:347; TH:1754 | Owner tools plus capture | LIMITED: as Region | As Region. A dragged selection around a known code decodes (M7, virtual session only) | S | Med |
 | HashCheck | TH:350; TH:960 | None found | READY | None | S | Med |
 | Metadata | TH:353; TH:984 | None found | READY | None | S | Med |
 | StripMetadata | TH:356; TH:1002 | None found | READY | None | S | Med |
@@ -659,7 +659,7 @@ systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 env MSBUILDDISA
 | NetworkMonitor | `ShareX.Tools/Tools/NetworkMonitor/NetworkMonitorProbe.cs:83` | None | READY | None needed | S | H |
 | OCR | `ShareX.Tools/Tools/OCR/OCRHelper.cs` (stubbed in M1, always fails) | Was `Windows.Media.Ocr` | SWAP | Tesseract CLI; map language tags, add language packs | S | H |
 | PinToScreen | `ShareX.Tools/Tools/PinToScreen/PinToScreenWindow.axaml.cs:101`, `:109` | `GetCursorPos`, uncaught | LIMITED | XWayland `Topmost`; no KWin rule or layer-shell. Lost: reliable cursor-monitor placement | S | M |
-| QRCode | `ShareX/TaskHelpers.cs:1792` | Screen capture in main app | SWAP | Spectacle or portal for scan modes | S | M |
+| QRCode | `ShareX/TaskHelpers.cs:1792` | Screen capture in main app, through `SpectacleCapture` since M4 | UNVERIFIED | Spectacle for both scan modes. M7: capture and decoding left the UI thread, a capture failure shows an error box, and the window now shows its status line, which nothing displayed before, so "No QR code was found." was never seen. Virtual session only | S | M |
 | RemoteStorageBrowser | `ShareX/TaskHelpers.cs:1724` | None in tool; providers unaudited | UNVERIFIED | None needed | S | M |
 | Ruler | `ShareX.Tools/Tools/Ruler/ScreenPixelBuffer.cs:54` | BitBlt; single spanning window | SWAP | `spectacle -b -n -f -o`; one overlay per output | M | M |
 | VideoConverter | `ShareX/TaskHelpers.cs:1212` | Fix B. M3: Fix B done; ran end to end in a virtual KWin session. GIF two-run palette not yet run through the window | READY | System FFmpeg; hide AMF/QSV | S | H |
