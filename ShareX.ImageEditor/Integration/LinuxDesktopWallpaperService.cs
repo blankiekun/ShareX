@@ -443,7 +443,7 @@ internal sealed class LinuxDesktopWallpaperService : IDesktopWallpaperService
 
             if (key.Equals("Image", StringComparison.Ordinal))
             {
-                string? candidatePath = ResolveAccessibleWallpaperPath(ParseWallpaperPath(value));
+                string? candidatePath = ResolveAccessibleWallpaperPath(ResolveKdePackageImage(ParseWallpaperPath(value)));
                 if (!string.IsNullOrWhiteSpace(candidatePath))
                 {
                     path = candidatePath;
@@ -982,6 +982,17 @@ internal sealed class LinuxDesktopWallpaperService : IDesktopWallpaperService
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             ".config",
             "plasma-org.kde.plasma.desktop-appletsrc");
+    }
+
+    // A wallpaper from Plasma's own list is a package folder with one image per resolution. The largest file is the sharpest.
+    private static string? ResolveKdePackageImage(string? path)
+    {
+        if (path == null || !Directory.Exists(Path.Combine(path, "contents", "images")))
+        {
+            return path;
+        }
+
+        return Directory.EnumerateFiles(Path.Combine(path, "contents", "images")).MaxBy(file => new FileInfo(file).Length);
     }
 
     private static bool CommandExists(string command)
