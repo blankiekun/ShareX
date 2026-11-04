@@ -2550,6 +2550,17 @@ namespace ShareX
 
                 if (nativeMessagingInput != null)
                 {
+                    // A page chooses its own link and image addresses, file: ones included, so only what a web download can fetch goes on.
+                    string url = nativeMessagingInput.URL;
+                    bool isImageData = nativeMessagingInput.Action == NativeMessagingAction.UploadImage &&
+                        url != null && url.StartsWith("data:", StringComparison.OrdinalIgnoreCase);
+
+                    if (!string.IsNullOrEmpty(url) && !isImageData && !URLHelpers.IsHttpURL(url))
+                    {
+                        DebugHelper.WriteLine("Native messaging input refused: its URL is not http or https.");
+                        return;
+                    }
+
                     if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
 
                     PlayNotificationSoundAsync(NotificationSound.ActionCompleted, taskSettings);
@@ -2587,7 +2598,7 @@ namespace ShareX
                                 {
                                     UploadManager.RunImageTask(bmp, taskSettings);
                                 }
-                                else
+                                else if (!isImageData)
                                 {
                                     UploadManager.DownloadAndUploadFile(nativeMessagingInput.URL, taskSettings);
                                 }

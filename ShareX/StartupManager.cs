@@ -60,7 +60,7 @@ namespace ShareX
                 }
                 else if (value == StartupState.Disabled)
                 {
-                    File.Delete(AutostartPath);
+                    DesktopEntryHelpers.Delete(AutostartPath);
                 }
                 else
                 {
