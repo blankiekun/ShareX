@@ -316,7 +316,8 @@ namespace ShareX
                         }
                     }
 
-                    FileHelpers.MoveFile(AppPaths.HistoryFilePathOld, BackupFolder);
+                    // Its deletion URLs are as sensitive there as they were here.
+                    FileHelpers.TryMakePrivate(FileHelpers.MoveFile(AppPaths.HistoryFilePathOld, BackupFolder));
                 }
                 catch (Exception e)
                 {
@@ -506,7 +507,13 @@ namespace ShareX
                     {
                         Directory.CreateDirectory(workFolder);
 
-                        using (FileStream file = File.Create(Path.Combine(workFolder, name)))
+                        // The older format leaves this folder with the mode it gets here and waits for the next start in the personal folder.
+                        using (FileStream file = new FileStream(Path.Combine(workFolder, name), new FileStreamOptions
+                        {
+                            Mode = FileMode.Create,
+                            Access = FileAccess.Write,
+                            UnixCreateMode = FileHelpers.PrivateFileMode
+                        }))
                         {
                             stream.CopyTo(file);
                         }
@@ -663,6 +670,8 @@ namespace ShareX
                 {
                     FileHelpers.CreateDirectory(BackupFolder);
                     report.HistoryBackupPath = Path.Combine(BackupFolder, $"History-before-import-{DateTime.Now:yyyyMMdd-HHmmss-fff}.db");
+                    // File.Copy gives the copy the source's mode, so this keeps the copy private from its first byte.
+                    FileHelpers.TryMakePrivate(historyFilePath);
                     File.Copy(historyFilePath, report.HistoryBackupPath);
                 }
 

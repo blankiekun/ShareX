@@ -30,10 +30,10 @@ using ShareX.HelpersLib;
 using System;
 using System.Runtime.InteropServices;
 
-namespace ShareX.ScreenCaptureLib;
+namespace ShareX.HelpersLib;
 
 /// <summary>Limits where an X11 window takes pointer input. It still draws everywhere: this is the input shape, not the bounding shape.</summary>
-internal static class X11InputShape
+public static class X11InputShape
 {
     private const int ShapeSet = 0;
     private const int ShapeInput = 2;
@@ -42,13 +42,23 @@ internal static class X11InputShape
     /// <summary>Only this rectangle, in window pixels, takes input. Without it the window just keeps taking clicks everywhere, so a failure is only logged.</summary>
     public static void Set(Window window, int x, int y, int width, int height)
     {
+        Apply(window, [new((short)x, (short)y, (ushort)width, (ushort)height)]);
+    }
+
+    /// <summary>The window takes no input at all, so every click and hover reaches what is under it. A failure leaves it taking clicks, and is only logged too.</summary>
+    public static void SetEmpty(Window window)
+    {
+        Apply(window, []);
+    }
+
+    private static void Apply(Window window, XRectangle[] rectangles)
+    {
         if (window.TryGetPlatformHandle() is not { HandleDescriptor: "XID" } handle) return;
         try
         {
             // Avalonia keeps its own connection private. XCloseDisplay flushes this one's single request.
             IntPtr display = XOpenDisplay(IntPtr.Zero);
             if (display == IntPtr.Zero) return;
-            XRectangle[] rectangles = [new((short)x, (short)y, (ushort)width, (ushort)height)];
             XShapeCombineRectangles(display, handle.Handle, ShapeInput, 0, 0, rectangles, rectangles.Length, ShapeSet, Unsorted);
             XCloseDisplay(display);
         }
