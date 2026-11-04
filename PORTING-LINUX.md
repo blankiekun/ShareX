@@ -234,7 +234,7 @@ Paths: `TH` = `ShareX/TaskHelpers.cs`, `UM` = `ShareX/UploadManager.cs`, `WT` = 
 | PinToScreenFromClipboard | TH:216; TH:2108 | Owner tools plus clipboard | LIMITED: as PinToScreen | As above | S | Med |
 | PinToScreenFromFile | TH:219; TH:2122 | Owner tools | LIMITED: as PinToScreen | As above | S | Med |
 | PinToScreenCloseAll | TH:229; TH:2132 | None found | READY | None | S | Med |
-| ImageEditor | TH:232 | M7: emoji and cursor renderers done, see 5.10; wallpaper service is its own row | UNVERIFIED | Skia and HarfBuzz; `noto-fonts-emoji` and a cursor theme from the host | M | Med |
+| ImageEditor | TH:232; ShareX.ImageEditor/Integration/WindowsDesktopWallpaperService.cs:1 | Owner editors: wallpaper, emoji, cursor renderers | SWAP | Plasma wallpaper API, Skia rendering (A) | M | Med |
 | PhotoEditor | TH:242; ShareX.PhotoEditor/Core/ImageIO.cs:208 | Owner editors: TIFF export Windows-only | SWAP | Non-WIC TIFF encoder (A) | M | Med |
 | ImageBeautifier | TH:245; TH:1533 | Owner tools: Skia | UNVERIFIED | None | S | Med |
 | ImageEffects | TH:255; TH:1589 | Owner editors: Skia | UNVERIFIED | None | S | Med |
