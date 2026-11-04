@@ -742,24 +742,36 @@ namespace ShareX
                 taskSettings.ExternalPrograms = new List<ExternalProgram>();
             }
 
-            AddExternalProgramFromPath(taskSettings, "KolourPaint", "kolourpaint");
-            AddExternalProgramFromPath(taskSettings, "Krita", "krita");
-            AddExternalProgramFromPath(taskSettings, "GIMP", "gimp");
-            AddExternalProgramFromPath(taskSettings, "Pinta", "pinta");
-            AddExternalProgramFromPath(taskSettings, "Inkscape", "inkscape");
+            AddExternalProgram(taskSettings, "KolourPaint", "kolourpaint", "org.kde.kolourpaint");
+            AddExternalProgram(taskSettings, "Krita", "krita", "org.kde.krita");
+            AddExternalProgram(taskSettings, "GIMP", "gimp", "org.gimp.GIMP");
+            AddExternalProgram(taskSettings, "Pinta", "pinta", "com.github.PintaProject.Pinta");
+            AddExternalProgram(taskSettings, "Inkscape", "inkscape", "org.inkscape.Inkscape");
         }
 
-        private static void AddExternalProgramFromPath(TaskSettings taskSettings, string name, string fileName)
+        private static void AddExternalProgram(TaskSettings taskSettings, string name, string fileName, string flatpakId)
         {
             if (!taskSettings.ExternalPrograms.Exists(x => x.Name == name))
             {
-                string filePath = FileHelpers.FindExecutableOnPath(fileName);
+                string filePath = FileHelpers.FindExecutableOnPath(fileName) ?? FindFlatpakLauncher(flatpakId);
 
                 if (!string.IsNullOrEmpty(filePath))
                 {
                     taskSettings.ExternalPrograms.Add(new ExternalProgram(name, filePath));
                 }
             }
+        }
+
+        // An action needs a real file to run. Flatpak writes one per app, named after its id, that passes its arguments on to the app.
+        private static string FindFlatpakLauncher(string flatpakId)
+        {
+            string[] folders =
+            [
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.DoNotVerify), "flatpak", "exports", "bin"),
+                "/var/lib/flatpak/exports/bin"
+            ];
+
+            return folders.Select(x => Path.Combine(x, flatpakId)).FirstOrDefault(File.Exists);
         }
 
         public static string HandleExistsFile(string folder, string fileName, TaskSettings taskSettings)
