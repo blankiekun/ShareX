@@ -66,6 +66,7 @@ public partial class NotificationWindow : Window
     private Bitmap? _previewBitmap;
     private bool _durationEnded;
     private bool _pointerInside;
+    private bool _stillPointerInside;
     private bool _isCardPressed;
     private bool _isDragCandidate;
     private bool _fileDragStarted;
@@ -147,6 +148,7 @@ public partial class NotificationWindow : Window
         _fadeStopwatch.Reset();
         _durationEnded = false;
         _pointerInside = false;
+        _stillPointerInside = false;
         ResetPointerInteraction();
         Opacity = 1;
 
@@ -329,7 +331,20 @@ public partial class NotificationWindow : Window
         int offset = Math.Max(0, _config.Offset) - (int)Math.Round(ShadowMargin * screen.Scaling);
         int x = GetHorizontalPosition(_config.Placement, area, size.Width, offset);
         int y = GetVerticalPosition(_config.Placement, area, size.Height, offset);
-        Position = new PixelPoint(x, y);
+        PixelPoint position = new(x, y);
+        Position = position;
+
+        // A pointer that doesn't move sends no event, so IsPointerOver stays false under it. A toast with no duration has no timer to look again.
+        _stillPointerInside = _config.Duration > 0 && IsOverCard(cursor, position, screen.Scaling);
+    }
+
+    private bool IsOverCard(System.Drawing.Point cursor, PixelPoint windowPosition, double scaling)
+    {
+        Point? cardPosition = NotificationCard.TranslatePoint(default, this);
+
+        return cardPosition != null &&
+            new PixelRect(windowPosition + PixelPoint.FromPoint(cardPosition.Value, scaling), PixelSize.FromSize(NotificationCard.Bounds.Size, scaling))
+                .Contains(new PixelPoint(cursor.X, cursor.Y));
     }
 
     private static int GetHorizontalPosition(DrawingContentAlignment placement, PixelRect area, int width, int offset) => placement switch
@@ -350,6 +365,17 @@ public partial class NotificationWindow : Window
 
     private void EndDuration()
     {
+        // Nothing reports a still pointer jumping straight out of the toast, so look again, once per duration and only while it is held this way.
+        if (_stillPointerInside)
+        {
+            if (IsOverCard(CaptureHelpers.GetCursorPosition(), Position, RenderScaling))
+            {
+                return;
+            }
+
+            _stillPointerInside = false;
+        }
+
         _durationEnded = true;
         _durationTimer.Stop();
 
@@ -405,7 +431,12 @@ public partial class NotificationWindow : Window
         }
 
         // Not GetCursorPosition: this runs every 40 ms, and that loads a KWin script per call.
-        bool isInside = NotificationCard.IsPointerOver;
+        if (IsPointerOver)
+        {
+            _stillPointerInside = false;
+        }
+
+        bool isInside = NotificationCard.IsPointerOver || _stillPointerInside;
 
         if (isInside == _pointerInside)
         {

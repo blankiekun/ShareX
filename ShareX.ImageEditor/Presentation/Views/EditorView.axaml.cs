@@ -2068,22 +2068,13 @@ namespace ShareX.ImageEditor.Presentation.Views
             {
                 var clipboard = topLevel.Clipboard;
 
-                // Try to get bitmap from clipboard
-                var clipboardBitmap = await clipboard.TryGetBitmapAsync();
-                if (clipboardBitmap != null)
+                // Try to get an image from clipboard
+                var clipboardImage = await TryGetClipboardImageAsync(clipboard);
+                if (clipboardImage != null)
                 {
-                    using var ms = new MemoryStream();
-                    clipboardBitmap.Save(ms, PngBitmapEncoderOptions.Default);
-                    (clipboardBitmap as IDisposable)?.Dispose();
-                    ms.Position = 0;
-
-                    var skBitmap = SKBitmap.Decode(ms);
-                    if (skBitmap != null)
-                    {
-                        vm.CloseModalCommand.Execute(null);
-                        LoadBitmapIntoEditor(vm, skBitmap, null);
-                        return;
-                    }
+                    vm.CloseModalCommand.Execute(null);
+                    LoadBitmapIntoEditor(vm, clipboardImage, null);
+                    return;
                 }
 
                 // Try files
