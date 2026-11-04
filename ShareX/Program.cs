@@ -50,12 +50,10 @@ internal static class Program
         _startTimer = Stopwatch.StartNew();
         ApplicationCommandLine.Initialize(args);
 
-#if STEAM
-        if (ApplicationCommandLine.TryHandleUninstall())
+        if (ApplicationCommandLine.TryHandleInstall() || ApplicationCommandLine.TryHandleUninstall())
         {
             return;
         }
-#endif
 
         SystemOptions.UpdateSystemOptions();
         PersonalPathManager.Initialize();
@@ -100,7 +98,6 @@ internal static class Program
         StartupOptions.IgnoreHotkeyWarning = ApplicationCommandLine.IsCommandPresent("NoHotkeys");
 
         PersonalPathManager.CreateApplicationFolders();
-        FileTypeRegistration.RegisterMissingExtensions();
         ApplicationDiagnostics.WriteStartupFlags();
 
         DebugHelper.WriteLine("Avalonia application initializing.");

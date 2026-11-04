@@ -62,7 +62,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     private string _startWithWindowsText = string.Empty;
     private bool _shellContextMenu;
     private bool _editWithShareX;
-    private bool _sendToMenu;
     private bool _chromeExtensionSupport;
     private bool _firefoxAddonSupport;
     private bool _steamShowInApp;
@@ -374,18 +373,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
             if (SetField(ref _editWithShareX, value))
             {
                 InvokeOnMainThread(() => IntegrationHelpers.CreateEditShellContextMenuButton(value));
-            }
-        }
-    }
-
-    public bool SendToMenu
-    {
-        get => _sendToMenu;
-        set
-        {
-            if (SetField(ref _sendToMenu, value))
-            {
-                InvokeOnMainThread(() => IntegrationHelpers.CreateSendToMenuButton(value));
             }
         }
     }
@@ -897,7 +884,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 #if !MicrosoftStore
         _shellContextMenu = IntegrationHelpers.CheckShellContextMenuButton();
         _editWithShareX = IntegrationHelpers.CheckEditShellContextMenuButton();
-        _sendToMenu = IntegrationHelpers.CheckSendToMenuButton();
         _chromeExtensionSupport = IntegrationHelpers.CheckChromeExtensionSupport();
         _firefoxAddonSupport = IntegrationHelpers.CheckFirefoxAddonSupport();
 #endif
@@ -908,7 +894,7 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
     private void RefreshStartWithWindows()
     {
-        StartWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_Text;
+        StartWithWindowsText = Strings.ApplicationSettingsWindow_RunShareXAtLogin;
         StartWithWindowsEnabled = false;
 
         try

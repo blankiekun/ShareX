@@ -45,7 +45,7 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
 {
     private bool _startWithWindows;
     private bool _startWithWindowsEnabled;
-    private string _startWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_Text;
+    private string _startWithWindowsText = Strings.ApplicationSettingsWindow_RunShareXAtLogin;
 
     private ApplicationConfig Settings => ApplicationState.Settings;
 
@@ -185,7 +185,7 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
 
     private void RefreshStartWithWindows()
     {
-        _startWithWindowsText = Strings.ApplicationSettingsForm_cbStartWithWindows_Text;
+        _startWithWindowsText = Strings.ApplicationSettingsWindow_RunShareXAtLogin;
         _startWithWindowsEnabled = false;
 
         try
