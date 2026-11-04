@@ -198,17 +198,6 @@ public partial class HotkeySettingsWindow : Window
         }
     }
 
-    private void OnHotkeyKeyUp(object? sender, KeyEventArgs e)
-    {
-        if (sender is Control { DataContext: HotkeySettingsItem item }
-            && item.IsCapturing
-            && e.Key == Key.PrintScreen)
-        {
-            e.Handled = true;
-            OnHotkeyKeyDown(sender, e);
-        }
-    }
-
     private void OnHotkeyLostFocus(object? sender, RoutedEventArgs e)
     {
         if (sender is Control { DataContext: HotkeySettingsItem item } && item.IsCapturing)

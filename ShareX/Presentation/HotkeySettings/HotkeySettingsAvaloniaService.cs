@@ -127,7 +127,16 @@ internal sealed class HotkeySettingsAvaloniaService : IHotkeySettingsService
     public void SetTask(HotkeySettingsItem item, int taskValue)
     {
         HotkeySettings settings = GetSettings(item);
-        InvokeOnMainThread(() => settings.TaskSettings.Job = (HotkeyType)taskValue);
+        InvokeOnMainThread(() =>
+        {
+            settings.TaskSettings.Job = (HotkeyType)taskValue;
+
+            // Registering again updates the name System Settings shows for it.
+            if (settings.HotkeyInfo.Status == HotkeyStatus.Registered)
+            {
+                _manager.RegisterHotkey(settings);
+            }
+        });
     }
 
     public void EditTask(HotkeySettingsItem item)
@@ -245,6 +254,8 @@ internal sealed class HotkeySettingsAvaloniaService : IHotkeySettingsService
             nameof(Avalonia.Input.Key.PageUp) => InputKey.PageUp,
             nameof(Avalonia.Input.Key.PageDown) => InputKey.PageDown,
             nameof(Avalonia.Input.Key.PrintScreen) => InputKey.PrintScreen,
+            // Avalonia's X11 backend reports the Print Screen key as Key.Print, which is otherwise the rare VK_PRINT.
+            nameof(Avalonia.Input.Key.Print) => InputKey.PrintScreen,
             _ when Enum.TryParse(gesture.KeyName, true, out InputKey parsed) => parsed,
             _ => InputKey.None
         };

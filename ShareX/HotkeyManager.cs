@@ -37,7 +37,19 @@ namespace ShareX
     public class HotkeyManager
     {
         public List<HotkeySettings> Hotkeys { get; private set; }
-        public bool IgnoreHotkeys { get; set; }
+
+        private bool ignoreHotkeys;
+
+        /// <summary>On while a press-any-key box is open: ShareX ignores its hotkeys, and the desktop's stop swallowing keys.</summary>
+        public bool IgnoreHotkeys
+        {
+            get => ignoreHotkeys;
+            set
+            {
+                ignoreHotkeys = value;
+                hotkeyHost.SetKeyCaptureActive(value);
+            }
+        }
 
         public delegate void HotkeyTriggerEventHandler(HotkeySettings hotkeySetting);
         public delegate void HotkeysToggledEventHandler(bool hotkeysEnabled);
@@ -105,7 +117,7 @@ namespace ShareX
 
                 if (hotkeySetting.HotkeyInfo.Status != HotkeyStatus.Registered && hotkeySetting.HotkeyInfo.IsValidHotkey)
                 {
-                    hotkeyHost.RegisterHotkey(hotkeySetting.HotkeyInfo);
+                    hotkeyHost.RegisterHotkey(hotkeySetting.HotkeyInfo, hotkeySetting.TaskSettings.ToString());
 
                     if (hotkeySetting.HotkeyInfo.Status == HotkeyStatus.Registered)
                     {
@@ -146,7 +158,8 @@ namespace ShareX
 
         public void UnregisterHotkey(HotkeySettings hotkeySetting, bool removeFromList = true)
         {
-            if (hotkeySetting.HotkeyInfo.Status == HotkeyStatus.Registered)
+            // A nonzero ID means the host still has an action for it, even if it went Failed.
+            if (hotkeySetting.HotkeyInfo.Status == HotkeyStatus.Registered || hotkeySetting.HotkeyInfo.ID != 0)
             {
                 hotkeyHost.UnregisterHotkey(hotkeySetting.HotkeyInfo);
 
@@ -196,6 +209,13 @@ namespace ShareX
 
         public void ShowFailedHotkeys()
         {
+            // The message says to pick another key, which can't help here. The settings window still shows them as failed.
+            if (!hotkeyHost.IsServiceAvailable)
+            {
+                DebugHelper.WriteLine("No global shortcut service on this desktop, so hotkeys are not available.");
+                return;
+            }
+
             List<HotkeySettings> failedHotkeysList = Hotkeys.Where(x => x.HotkeyInfo.Status == HotkeyStatus.Failed).ToList();
 
             if (failedHotkeysList.Count > 0)
@@ -225,9 +245,10 @@ namespace ShareX
             return new List<HotkeySettings>
             {
                 new HotkeySettings(HotkeyType.RectangleRegion, InputKey.Control | InputKey.PrintScreen),
-                new HotkeySettings(HotkeyType.PrintScreen, InputKey.PrintScreen),
+                // Print and Shift+Print belong to Spectacle on KDE. Meta+Ctrl+F and Meta+Ctrl+V are free in KWin, Spectacle and Plasma's defaults.
+                new HotkeySettings(HotkeyType.PrintScreen, InputKey.Control | InputKey.F) { HotkeyInfo = { Win = true } },
                 new HotkeySettings(HotkeyType.ActiveWindow, InputKey.Alt | InputKey.PrintScreen),
-                new HotkeySettings(HotkeyType.ScreenRecorder, InputKey.Shift | InputKey.PrintScreen),
+                new HotkeySettings(HotkeyType.ScreenRecorder, InputKey.Control | InputKey.V) { HotkeyInfo = { Win = true } },
                 new HotkeySettings(HotkeyType.ScreenRecorderGIF, InputKey.Control | InputKey.Shift | InputKey.PrintScreen)
             };
         }
