@@ -48,13 +48,8 @@ public partial class BorderlessWindowWindow : Window
         AvaloniaXamlLoader.Load(this);
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
         _viewModel.CloseRequested = Close;
-        Opened += OnOpened;
+        Opened += (_, _) => _viewModel.ReloadWindowList();
         Closed += (_, _) => _viewModel.Dispose();
-    }
-
-    private void OnOpened(object? sender, EventArgs e)
-    {
-        _viewModel.SetIgnoredWindowHandle(TryGetPlatformHandle()?.Handle ?? IntPtr.Zero);
     }
 
     private void OnWindowListDropDownOpened(object? sender, EventArgs e)

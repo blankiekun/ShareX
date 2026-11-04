@@ -28,7 +28,6 @@ using CommunityToolkit.Mvvm.Input;
 using ShareX.HelpersLib;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using AvaloniaBitmap = Avalonia.Media.Imaging.Bitmap;
 
 namespace ShareX.Tools;
 
@@ -36,9 +35,8 @@ public sealed record InspectWindowProperty(string Name, string Value, bool IsMul
 
 public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
 {
-    private WindowInfo? _selectedWindow;
+    private string? _selectedWindowId;
     private bool _updating;
-    private IntPtr _ignoredWindowHandle;
 
     public ObservableCollection<InspectWindowListItem> Windows { get; } = [];
 
@@ -50,20 +48,10 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
     private bool _hasSelection;
 
     [ObservableProperty]
-    private bool _isTopLevelWindow;
-
-    [ObservableProperty]
     private string _selectedTitle = Localization.Strings.InspectWindowViewModel_No_target_selected;
 
     [ObservableProperty]
-    private string _selectedSubtitle = Localization.Strings.InspectWindowViewModel_Pick_target;
-
-    [ObservableProperty]
-    private string _selectedType = string.Empty;
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasSelectedIcon))]
-    private AvaloniaBitmap? _selectedIcon;
+    private string _selectedSubtitle = Localization.Strings.InspectWindowViewModel_Pick_a_window;
 
     [ObservableProperty]
     private IReadOnlyList<InspectWindowProperty> _details = [];
@@ -75,25 +63,17 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
     private double _opacity = 100;
 
     public bool CanRefresh => HasSelection;
-    public bool HasSelectedIcon => SelectedIcon != null;
     public string ClipboardText => string.Join(Environment.NewLine + Environment.NewLine,
         Details.Select(x => $"{x.Name}{Environment.NewLine}{x.Value}"));
 
-    public void SetIgnoredWindowHandle(IntPtr handle)
+    public void SelectWindow(string? windowId)
     {
-        _ignoredWindowHandle = handle;
-        ReloadWindowList();
-    }
-
-    public void SelectWindow(IntPtr handle, bool isTopLevelWindow)
-    {
-        if (handle == IntPtr.Zero || handle == _ignoredWindowHandle)
+        if (string.IsNullOrEmpty(windowId))
         {
             return;
         }
 
-        _selectedWindow = new WindowInfo(handle);
-        IsTopLevelWindow = isTopLevelWindow;
+        _selectedWindowId = windowId;
         SelectedListItem = null;
         UpdateWindowInfo();
     }
@@ -102,7 +82,8 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
     {
         if (!_updating && value != null)
         {
-            SelectWindow(value.Handle, true);
+            _selectedWindowId = value.WindowId;
+            UpdateWindowInfo();
         }
     }
 
@@ -111,9 +92,8 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
         _updating = true;
         try
         {
-            DisposeWindowList();
             Windows.Clear();
-            foreach (InspectWindowListItem window in InspectWindowService.GetVisibleWindows(_ignoredWindowHandle))
+            foreach (InspectWindowListItem window in InspectWindowService.GetVisibleWindows())
             {
                 Windows.Add(window);
             }
@@ -128,26 +108,22 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
     [RelayCommand]
     private void Refresh()
     {
-        if (_selectedWindow != null)
-        {
-            _selectedWindow = new WindowInfo(_selectedWindow.Handle);
-            UpdateWindowInfo();
-        }
+        UpdateWindowInfo();
     }
 
     partial void OnIsTopMostChanged(bool value)
     {
-        if (_updating || !IsTopLevelWindow || _selectedWindow == null)
+        if (_updating || _selectedWindowId == null)
         {
             return;
         }
 
         try
         {
-            new WindowInfo(_selectedWindow.Handle).TopMost = value;
-            Refresh();
+            KWinDesktop.SetKeepAbove(_selectedWindowId, value);
+            UpdateWindowInfo();
         }
-        catch (Exception ex)
+        catch (KWinScriptException ex)
         {
             ToolsDiagnostics.ReportWarning(nameof(InspectWindowViewModel), "Failed to change window topmost state.", ex);
         }
@@ -155,17 +131,16 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
 
     partial void OnOpacityChanged(double value)
     {
-        if (_updating || !IsTopLevelWindow || _selectedWindow == null)
+        if (_updating || _selectedWindowId == null)
         {
             return;
         }
 
         try
         {
-            double percentage = Math.Clamp(value, 10, 100);
-            new WindowInfo(_selectedWindow.Handle).Opacity = (byte)Math.Round(percentage / 100d * 255d);
+            KWinDesktop.SetOpacity(_selectedWindowId, Math.Clamp(value, 10, 100) / 100d);
         }
-        catch (Exception ex)
+        catch (KWinScriptException ex)
         {
             ToolsDiagnostics.ReportWarning(nameof(InspectWindowViewModel), "Failed to change window opacity.", ex);
         }
@@ -173,7 +148,7 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
 
     private void UpdateWindowInfo()
     {
-        if (_selectedWindow == null)
+        if (_selectedWindowId == null)
         {
             ClearSelection();
             return;
@@ -182,47 +157,27 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
         _updating = true;
         try
         {
-            IntPtr handle = _selectedWindow.Handle;
-            string title = TryGet(() => _selectedWindow.Text);
-            string className = TryGet(() => _selectedWindow.ClassName);
-            string processName = TryGet(() => _selectedWindow.ProcessName);
-            string processFileName = TryGet(() => _selectedWindow.ProcessFileName);
-            string processId = TryGet(() => _selectedWindow.ProcessId.ToString());
-            Rectangle windowRectangle = TryGet(() => _selectedWindow.Rectangle, Rectangle.Empty);
-            Rectangle clientRectangle = TryGet(() => _selectedWindow.ClientRectangle, Rectangle.Empty);
-            string styles = TryGet(() => _selectedWindow.Style.ToString().Replace(", ", Environment.NewLine));
-            string extendedStyles = TryGet(() => _selectedWindow.ExStyle.ToString().Replace(", ", Environment.NewLine));
+            KWinWindowDetails? window = KWinDesktop.GetWindowDetails(_selectedWindowId);
 
-            SelectedTitle = string.IsNullOrWhiteSpace(title) ? Localization.Strings.InspectWindowViewModel_Untitled_window : title;
-            SelectedSubtitle = string.IsNullOrWhiteSpace(processName)
-                ? className
-                : string.IsNullOrWhiteSpace(className) ? processName : $"{processName}  |  {className}";
-            SelectedType = IsTopLevelWindow ? Localization.Strings.InspectWindowViewModel_Window : Localization.Strings.InspectWindowViewModel_Control;
-            ReplaceSelectedIcon(InspectWindowService.GetWindowIcon(handle));
-            Details =
-            [
-                new(Localization.Strings.InspectWindowViewModel_Window_handle, $"0x{handle.ToInt64():X8}"),
-                new(Localization.Strings.InspectWindowViewModel_Window_title, title),
-                new(Localization.Strings.InspectWindowViewModel_Class_name, className),
-                new(Localization.Strings.InspectWindowViewModel_Process_name, processName),
-                new(Localization.Strings.InspectWindowViewModel_Process_file_name, processFileName),
-                new(Localization.Strings.InspectWindowViewModel_Process_identifier, processId),
-                new(Localization.Strings.InspectWindowViewModel_Window_rectangle, FormatRectangle(windowRectangle)),
-                new(Localization.Strings.InspectWindowViewModel_Client_rectangle, FormatRectangle(clientRectangle)),
-                new(Localization.Strings.InspectWindowViewModel_Window_styles, styles, true),
-                new(Localization.Strings.InspectWindowViewModel_Extended_window_styles, extendedStyles, true)
-            ];
-
-            if (IsTopLevelWindow)
+            if (window == null)
             {
-                IsTopMost = TryGet(() => _selectedWindow.TopMost, false);
-                byte opacity = TryGet(() => _selectedWindow.Opacity, (byte)255);
-                Opacity = Math.Round(opacity / 255d * 100d);
+                ClearSelection();
+                return;
             }
 
+            string processName = ReadFromProc(() => File.ReadAllText($"/proc/{window.Pid}/comm").TrimEnd());
+            string processFileName = ReadFromProc(() => File.ResolveLinkTarget($"/proc/{window.Pid}/exe", false)?.FullName);
+
+            SelectedTitle = string.IsNullOrWhiteSpace(window.Caption) ? Localization.Strings.InspectWindowViewModel_Untitled_window : window.Caption;
+            SelectedSubtitle = string.IsNullOrWhiteSpace(processName)
+                ? window.ResourceClass
+                : string.IsNullOrWhiteSpace(window.ResourceClass) ? processName : $"{processName}  |  {window.ResourceClass}";
+            Details = BuildDetails(window, processName, processFileName);
+            IsTopMost = window.IsKeepAbove;
+            Opacity = Math.Round(window.Opacity * 100d);
             HasSelection = true;
         }
-        catch (Exception ex)
+        catch (KWinScriptException ex)
         {
             ToolsDiagnostics.ReportWarning(nameof(InspectWindowViewModel), "Failed to update inspected window information.", ex);
             ClearSelection();
@@ -233,15 +188,48 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
         }
     }
 
+    /// <summary>A row with nothing to say is left out, so a field that doesn't apply to this window isn't shown blank.</summary>
+    internal static IReadOnlyList<InspectWindowProperty> BuildDetails(KWinWindowDetails window, string processName, string processFileName)
+    {
+        InspectWindowProperty[] rows =
+        [
+            new(Localization.Strings.InspectWindowViewModel_Window_id, window.Id),
+            new(Localization.Strings.InspectWindowViewModel_Window_title, window.Caption),
+            new(Localization.Strings.InspectWindowViewModel_Class_name, window.ResourceClass),
+            new(Localization.Strings.InspectWindowViewModel_Resource_name, window.ResourceName),
+            new(Localization.Strings.InspectWindowViewModel_Window_role, window.WindowRole),
+            new(Localization.Strings.InspectWindowViewModel_Desktop_file, window.DesktopFileName),
+            new(Localization.Strings.InspectWindowViewModel_Process_name, processName),
+            new(Localization.Strings.InspectWindowViewModel_Process_file_name, processFileName),
+            new(Localization.Strings.InspectWindowViewModel_Process_identifier, window.Pid > 0 ? window.Pid.ToString() : string.Empty),
+            new(Localization.Strings.InspectWindowViewModel_Window_rectangle, FormatRectangle(window.FrameGeometry)),
+            new(Localization.Strings.InspectWindowViewModel_Client_rectangle, FormatRectangle(window.ClientGeometry)),
+            new(Localization.Strings.InspectWindowViewModel_Output, window.OutputName),
+            new(Localization.Strings.InspectWindowViewModel_Window_type, window.WindowType),
+            new(Localization.Strings.InspectWindowViewModel_Window_state, string.Join(Environment.NewLine, window.State), true)
+        ];
+
+        return rows.Where(x => !string.IsNullOrWhiteSpace(x.Value)).ToArray();
+    }
+
+    private static string ReadFromProc(Func<string?> read)
+    {
+        try
+        {
+            return read() ?? string.Empty;
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+        {
+            return string.Empty;
+        }
+    }
+
     private void ClearSelection()
     {
-        _selectedWindow = null;
+        _selectedWindowId = null;
         HasSelection = false;
-        IsTopLevelWindow = false;
         SelectedTitle = Localization.Strings.InspectWindowViewModel_No_target_selected;
-        SelectedSubtitle = Localization.Strings.InspectWindowViewModel_Pick_target;
-        SelectedType = string.Empty;
-        ReplaceSelectedIcon(null);
+        SelectedSubtitle = Localization.Strings.InspectWindowViewModel_Pick_a_window;
         Details = [];
         IsTopMost = false;
         Opacity = 100;
@@ -254,48 +242,8 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
             : string.Format(Localization.Strings.InspectWindowViewModel_Rectangle_format, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
     }
 
-    private static string TryGet(Func<string> valueFactory)
-    {
-        try
-        {
-            return valueFactory() ?? string.Empty;
-        }
-        catch
-        {
-            return string.Empty;
-        }
-    }
-
-    private static T TryGet<T>(Func<T> valueFactory, T fallback)
-    {
-        try
-        {
-            return valueFactory();
-        }
-        catch
-        {
-            return fallback;
-        }
-    }
-
-    private void DisposeWindowList()
-    {
-        foreach (InspectWindowListItem window in Windows)
-        {
-            window.Dispose();
-        }
-    }
-
-    private void ReplaceSelectedIcon(AvaloniaBitmap? icon)
-    {
-        SelectedIcon?.Dispose();
-        SelectedIcon = icon;
-    }
-
     public void Dispose()
     {
-        ReplaceSelectedIcon(null);
-        DisposeWindowList();
         Windows.Clear();
     }
 }

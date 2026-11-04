@@ -2373,4 +2373,31 @@
   <data name="VideoTrimmer_VideoFiles" xml:space="preserve">
     <value>Video files</value>
   </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin can't do this for this window: it draws its own title bar, or can't go full screen.</value>
+  </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>Desktop file</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Resource name</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>Window ID</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Window role</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Window state</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Window type</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Pick a window to inspect its properties.</value>
+  </data>
 </root>

@@ -32,25 +32,38 @@ using Avalonia.Platform;
 using ShareX.AvaloniaUI.Theming;
 using ShareX.Tools.Controls;
 using ShareX.Tools.Ruler;
+using SkiaSharp;
 
 namespace ShareX.Tools;
 
 public partial class RulerWindow : Window
 {
     private RulerOverlayControl _overlay = null!;
+    private PixelPoint _desktopPosition;
 
-    public RulerWindow()
+    public RulerWindow() : this(new SKBitmap(1, 1))
+    {
+    }
+
+    /// <param name="screenshot">The whole desktop, taken before this window opens. The window takes ownership of it.</param>
+    public RulerWindow(SKBitmap screenshot)
     {
         AvaloniaXamlLoader.Load(this);
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
         _overlay = this.FindControl<RulerOverlayControl>("RulerOverlay")!;
 
-        ConfigureOverlayAndCaptureScreen();
+        using (screenshot)
+        {
+            ConfigureOverlay(screenshot);
+        }
 
         KeyDown += OnKeyDown;
         AddHandler(PointerReleasedEvent, OnWindowPointerReleased);
         Opened += (_, _) =>
         {
+            // KWin places a new window out from under a panel's reserved strip, and this one spans every monitor, so FullScreen
+            // can't help. A move after mapping is left alone.
+            Position = _desktopPosition;
             Activate();
             _overlay.Focus();
         };
@@ -65,7 +78,7 @@ public partial class RulerWindow : Window
         }
     }
 
-    private void ConfigureOverlayAndCaptureScreen()
+    private void ConfigureOverlay(SKBitmap screenshot)
     {
         IReadOnlyList<Screen> screens = Screens.All;
         if (screens.Count == 0)
@@ -80,9 +93,9 @@ public partial class RulerWindow : Window
         PixelRect bounds = new(left, top, right - left, bottom - top);
         double scaling = Screens.ScreenFromPoint(bounds.Position)?.Scaling ?? screens[0].Scaling;
 
-        ScreenPixelBuffer screenPixelBuffer = ScreenPixelBuffer.Capture(bounds);
-        _overlay.SetScreenPixelBuffer(screenPixelBuffer);
+        _overlay.SetScreenPixelBuffer(ScreenPixelBuffer.FromScreenshot(bounds, screenshot));
 
+        _desktopPosition = bounds.Position;
         Position = bounds.Position;
         Width = bounds.Width / scaling;
         Height = bounds.Height / scaling;

@@ -23,91 +23,48 @@
 
 #endregion License Information (GPL v3)
 
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Platform;
 using ShareX.AvaloniaUI.Theming;
+using ShareX.HelpersLib;
 
 namespace ShareX.Tools;
 
 public partial class InspectWindowWindow : Window
 {
     private readonly InspectWindowViewModel _viewModel = new();
-    private readonly List<InspectWindowPickerOverlay> _pickerOverlays = [];
 
     public InspectWindowWindow()
     {
         DataContext = _viewModel;
         AvaloniaXamlLoader.Load(this);
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
-        Opened += OnOpened;
-        Closed += (_, _) =>
-        {
-            ClosePickerOverlays();
-            _viewModel.Dispose();
-        };
+        Opened += (_, _) => _viewModel.ReloadWindowList();
+        Closed += (_, _) => _viewModel.Dispose();
     }
 
-    private void OnOpened(object? sender, EventArgs e)
+    private async void OnPickWindowClick(object? sender, RoutedEventArgs e)
     {
-        IntPtr handle = TryGetPlatformHandle()?.Handle ?? IntPtr.Zero;
-        _viewModel.SetIgnoredWindowHandle(handle);
-    }
+        Hide();
 
-    private void OnPickWindowClick(object? sender, RoutedEventArgs e) => StartPicking(true);
-    private void OnPickControlClick(object? sender, RoutedEventArgs e) => StartPicking(false);
+        try
+        {
+            _viewModel.SelectWindow(await KWinDesktop.PickWindowAsync());
+        }
+        catch (KWinScriptException ex)
+        {
+            ToolsDiagnostics.ReportWarning(nameof(InspectWindowWindow), "Failed to pick a window.", ex);
+        }
+
+        Show();
+        Activate();
+    }
 
     private void OnWindowListDropDownOpened(object? sender, EventArgs e)
     {
         _viewModel.ReloadWindowList();
-    }
-
-    private void StartPicking(bool selectTopLevelWindow)
-    {
-        ClosePickerOverlays();
-        Hide();
-
-        foreach (Screen screen in Screens.All)
-        {
-            InspectWindowPickerOverlay overlay = new(screen, selectTopLevelWindow);
-            overlay.TargetPicked += (_, point) => CompletePicking(point, selectTopLevelWindow);
-            overlay.PickingCanceled += (_, _) => CancelPicking();
-            _pickerOverlays.Add(overlay);
-            overlay.Show();
-        }
-    }
-
-    private void CompletePicking(PixelPoint point, bool selectTopLevelWindow)
-    {
-        foreach (InspectWindowPickerOverlay overlay in _pickerOverlays)
-        {
-            overlay.Hide();
-        }
-
-        IntPtr handle = InspectWindowService.GetWindowAtPoint(point.X, point.Y, selectTopLevelWindow);
-        ClosePickerOverlays();
-        Show();
-        Activate();
-        _viewModel.SelectWindow(handle, selectTopLevelWindow);
-    }
-
-    private void CancelPicking()
-    {
-        ClosePickerOverlays();
-        Show();
-        Activate();
-    }
-
-    private void ClosePickerOverlays()
-    {
-        foreach (InspectWindowPickerOverlay overlay in _pickerOverlays)
-        {
-            overlay.Close();
-        }
-        _pickerOverlays.Clear();
     }
 
     private async void OnCopyClick(object? sender, RoutedEventArgs e)

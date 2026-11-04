@@ -30,7 +30,7 @@
         <Grid Background="{DynamicResource ShareX.Brush.Background.Main}">
             <Grid Margin="16" RowDefinitions="Auto,*" RowSpacing="12">
                 <Border Grid.Row="0" Classes="tool-panel">
-                    <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                             <Button Grid.Column="0" Click="OnPickWindowClick">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock Text="{x:Static theming:LucideIcons.scan}"
@@ -39,15 +39,7 @@
                                     <TextBlock Text="{x:Static localization:Strings.InspectWindowWindow_Pick_window}"/>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="1" Click="OnPickControlClick">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Text="{x:Static theming:LucideIcons.mouse_pointer_2}"
-                                               FontFamily="{DynamicResource ShareX.FontFamily.Icon}"
-                                               FontWeight="Normal"/>
-                                    <TextBlock Text="{x:Static localization:Strings.InspectWindowWindow_Pick_control}"/>
-                                </StackPanel>
-                            </Button>
-                            <ComboBox Grid.Column="2"
+                            <ComboBox Grid.Column="1"
                                       ItemsSource="{Binding Windows}"
                                       SelectedItem="{Binding SelectedListItem}"
                                       PlaceholderText="{x:Static localization:Strings.InspectWindowWindow_Select_window}"
@@ -56,19 +48,12 @@
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="vm:InspectWindowListItem">
                                         <Grid ColumnDefinitions="20,*" ColumnSpacing="8">
-                                            <Grid Grid.Column="0" Width="20" Height="20">
-                                                <Image Source="{Binding Icon}"
-                                                       Width="20"
-                                                       Height="20"
-                                                       Stretch="Uniform"/>
-                                                <TextBlock IsVisible="{Binding !HasIcon}"
-                                                           Text="{x:Static theming:LucideIcons.app_window}"
-                                                           FontFamily="{DynamicResource ShareX.FontFamily.Icon}"
-                                                           FontWeight="Normal"
-                                                           Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"/>
-                                            </Grid>
+                                            <TextBlock Text="{x:Static theming:LucideIcons.app_window}"
+                                                       FontFamily="{DynamicResource ShareX.FontFamily.Icon}"
+                                                       FontWeight="Normal"
+                                                       Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
                                             <TextBlock Grid.Column="1"
                                                        Text="{Binding DisplayName}"
                                                        FontWeight="Normal"
@@ -86,20 +71,13 @@
                         <Border Classes="tool-panel" Padding="16">
                             <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
                                 <Grid Grid.Row="0" ColumnDefinitions="16,*" ColumnSpacing="8">
-                                    <Grid Grid.Column="0" Width="16" Height="16" VerticalAlignment="Center">
-                                        <Image Source="{Binding SelectedIcon}"
-                                               Width="16"
-                                               Height="16"
-                                               Stretch="None"/>
-                                        <TextBlock IsVisible="{Binding !HasSelectedIcon}"
-                                                   Text="{x:Static theming:LucideIcons.app_window}"
-                                                   FontFamily="{DynamicResource ShareX.FontFamily.Icon}"
-                                                   FontWeight="Normal"
-                                                   FontSize="16"
-                                                   Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-                                    </Grid>
+                                    <TextBlock Text="{x:Static theming:LucideIcons.app_window}"
+                                               FontFamily="{DynamicResource ShareX.FontFamily.Icon}"
+                                               FontWeight="Normal"
+                                               FontSize="16"
+                                               Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
                                     <TextBlock Grid.Column="1"
                                                Text="{Binding SelectedTitle}"
                                                Classes="section-heading"
@@ -107,25 +85,15 @@
                                                MaxLines="3"
                                                VerticalAlignment="Center"/>
                                 </Grid>
-                                <StackPanel Grid.Row="1" Spacing="5">
-                                    <TextBlock Text="{Binding SelectedSubtitle}"
-                                               FontWeight="Normal"
-                                               Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
-                                               TextWrapping="Wrap"/>
-                                    <Border IsVisible="{Binding HasSelection}"
-                                            Background="{DynamicResource ShareX.Brush.Control.Background}"
-                                            BorderBrush="{DynamicResource ShareX.Brush.Border}"
-                                            BorderThickness="1"
-                                            CornerRadius="4"
-                                            Padding="7,3"
-                                            HorizontalAlignment="Left">
-                                        <TextBlock Text="{Binding SelectedType}" FontWeight="Normal"/>
-                                    </Border>
-                                </StackPanel>
+                                <TextBlock Grid.Row="1"
+                                           Text="{Binding SelectedSubtitle}"
+                                           FontWeight="Normal"
+                                           Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
+                                           TextWrapping="Wrap"/>
                             </Grid>
                         </Border>
 
-                        <Border Classes="tool-panel" Padding="16" IsVisible="{Binding IsTopLevelWindow}">
+                        <Border Classes="tool-panel" Padding="16" IsVisible="{Binding HasSelection}">
                             <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
                                 <TextBlock Grid.Row="0" Classes="section-heading" Text="{x:Static localization:Strings.InspectWindowWindow_Window_settings}"/>
                                 <ToggleSwitch Grid.Row="1"

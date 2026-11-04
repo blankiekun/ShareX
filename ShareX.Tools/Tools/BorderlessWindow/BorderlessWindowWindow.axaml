@@ -30,14 +30,10 @@
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="vm:InspectWindowListItem">
                                         <Grid ColumnDefinitions="16,*" ColumnSpacing="8">
-                                            <Grid Grid.Column="0" Width="16" Height="16">
-                                                <Image Source="{Binding Icon}" Width="16" Height="16" Stretch="None"/>
-                                                <TextBlock IsVisible="{Binding !HasIcon}"
-                                                           Classes="icon"
-                                                           Text="{x:Static theming:LucideIcons.app_window}"
-                                                           Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
-                                                           HorizontalAlignment="Center"/>
-                                            </Grid>
+                                            <TextBlock Classes="icon"
+                                                       Text="{x:Static theming:LucideIcons.app_window}"
+                                                       Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
+                                                       HorizontalAlignment="Center"/>
                                             <TextBlock Grid.Column="1"
                                                        Text="{Binding DisplayName}"
                                                        FontWeight="Normal"
