@@ -1,0 +1,8 @@
+#!/bin/sh
+# Field names copied from real kscreen-doctor -j output. Two monitors side by side, one turned off, one rotated.
+printf '%s\n' '{"outputs":[
+ {"connected":true,"enabled":true,"id":1,"name":"DP-1","pos":{"x":0,"y":0},"rotation":1,"scale":1,"size":{"height":1440,"width":2560},"type":0},
+ {"connected":true,"enabled":true,"id":2,"name":"DP-3","pos":{"x":2560,"y":0},"rotation":1,"scale":1,"size":{"height":1440,"width":2560},"type":0},
+ {"connected":true,"enabled":false,"id":3,"name":"HDMI-OFF","pos":{"x":5120,"y":0},"rotation":1,"scale":1,"size":{"height":1080,"width":1920},"type":0},
+ {"connected":true,"enabled":true,"id":4,"name":"DP-ROT","pos":{"x":0,"y":2000},"rotation":2,"scale":1,"size":{"height":1080,"width":1920},"type":0}
+],"screen":{}}'

@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+# Fake gpu-screen-recorder for the regression tests. Never touches a monitor, the GPU or audio.
+# Follows what the real recorder was measured doing: JSON lines on the -ipc socket, <output>.ts at the first frame,
+# the output file saved on stop, and the socket removed on exit.
+#
+# FAKE_GSR_MODE picks the behaviour. Modes that misbehave mid-recording wait for the FAKE_GSR_TRIGGER file to appear,
+# so a test decides the moment without sleeping.
+import ctypes, json, os, signal, socket, stat, sys, threading, time
+
+PR_GET_PDEATHSIG = 2
+VIDEO = b"fake video\n"
+
+argv = sys.argv[1:]
+mode = os.environ.get("FAKE_GSR_MODE", "normal")
+log_path = os.environ["FAKE_GSR_LOG"]
+trigger = os.environ["FAKE_GSR_TRIGGER"]
+
+
+def opt(name):
+    return argv[argv.index(name) + 1]
+
+
+out = opt("-o")
+sock_path = opt("-ipc")
+
+
+def log(event, **fields):
+    with open(log_path, "a") as f:
+        f.write(json.dumps({"event": event, **fields}) + "\n")
+
+
+def err(line):
+    sys.stderr.write(line + "\n")
+    sys.stderr.flush()
+
+
+def pdeathsig():
+    value = ctypes.c_int()
+    ctypes.CDLL(None).prctl(PR_GET_PDEATHSIG, ctypes.byref(value), 0, 0, 0)
+    return value.value
+
+
+def save():
+    if mode != "no_file":
+        with open(out, "wb") as f:
+            f.write(VIDEO)
+
+
+def leave(code):
+    try:
+        os.unlink(sock_path)
+    except OSError:
+        pass
+    log("exit", code=code)
+    os._exit(code)
+
+
+def reply(conn, request_id, result, data=None):
+    message = {"id": request_id, "result": result}
+    if data is not None:
+        message["data"] = data
+    conn.sendall(json.dumps(message).encode() + b"\n")
+
+
+def serve(conn):
+    stream = conn.makefile("rb")
+    for raw in stream:
+        request = json.loads(raw)
+        log("ipc", name=request.get("name"))
+        request_id = request.get("id", 0)
+        if request.get("name") != "stop":
+            reply(conn, request_id, "ok")
+        elif mode == "ipc_close":
+            stream.close()
+            conn.close()
+            return
+        elif mode == "ipc_stop_error":
+            reply(conn, request_id, "error", "failed to save the recording")
+            leave(0)
+        else:
+            save()
+            reply(conn, request_id, "ok", out)
+            leave(0)
+
+
+def listen():
+    server = socket.socket(socket.AF_UNIX)
+    server.bind(sock_path)
+    server.listen(4)
+    while True:
+        conn, _ = server.accept()
+        threading.Thread(target=serve, args=(conn,), daemon=True).start()
+
+
+def on_signal(number, frame):
+    log("signal", num=number)
+    save()
+    leave(0)
+
+
+log("start", pid=os.getpid(), argv=argv, pdeathsig=pdeathsig(), ld_library_path=os.environ.get("LD_LIBRARY_PATH"),
+    stdout_fifo=stat.S_ISFIFO(os.fstat(1).st_mode), stderr_fifo=stat.S_ISFIFO(os.fstat(2).st_mode))
+
+if mode.startswith("exit"):
+    err("gsr error: fake reason")
+    sys.exit(int(mode[len("exit"):]))
+
+err("[h264_nvenc @ 0x55d] using something")
+err("update fps: 30, damage fps: 30")
+signal.signal(signal.SIGINT, on_signal)
+signal.signal(signal.SIGTERM, on_signal)
+threading.Thread(target=listen, daemon=True).start()
+
+if mode == "black_start":
+    err("gsr error: gsr_capture_kms_pre_capture: no drm found, capture will fail")
+if mode != "no_first_frame":
+    with open(out + ".ts", "w") as f:
+        f.write("monotonic_microsec\trealtime_microsec\n1\t2\n")
+
+# Gives up by itself, so a test run that dies can't leave this behind for long.
+deadline = time.monotonic() + 60
+triggered = False
+while time.monotonic() < deadline:
+    time.sleep(0.005)
+    if triggered or not os.path.exists(trigger):
+        continue
+    triggered = True
+    if mode == "black_late":
+        err("kms server error: drmfb handle is NULL")
+    elif mode == "die_mid":
+        err("gsr error: encoder went away")
+        leave(139)
+    elif mode == "killed_mid":
+        # What SIGKILL really left behind: an 88-byte MP4 with no moov atom.
+        with open(out, "wb") as f:
+            f.write(b"\0" * 88)
+        os.kill(os.getpid(), signal.SIGKILL)
+    elif mode == "self_exit":
+        save()
+        leave(0)
+os._exit(3)

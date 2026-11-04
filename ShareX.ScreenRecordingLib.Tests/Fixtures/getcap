@@ -1,0 +1,4 @@
+#!/bin/sh
+# Same output format as the real getcap. FAKE_GETCAP=none prints nothing, as getcap does for a file with no capability.
+[ "$FAKE_GETCAP" = none ] && exit 0
+echo "$1 ${FAKE_GETCAP:-cap_sys_admin=ep}"

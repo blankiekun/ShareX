@@ -6,4 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Description>Screen recording through the host's gpu-screen-recorder</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="ShareX.ScreenRecordingLib.Tests" />
+  </ItemGroup>
 </Project>
