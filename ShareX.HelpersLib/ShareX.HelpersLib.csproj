@@ -12,7 +12,6 @@
     <!-- Compile only: these throw or do nothing on Linux until the code using them is replaced. -->
     <PackageReference Include="System.Drawing.Common" />
     <PackageReference Include="System.Management" />
-    <PackageReference Include="System.Windows.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ShareX.Avalonia\ShareX.Avalonia.csproj" />
