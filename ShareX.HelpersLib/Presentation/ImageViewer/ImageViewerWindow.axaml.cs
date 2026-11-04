@@ -49,6 +49,8 @@ public partial class ImageViewerWindow : Window
     private readonly ImageViewerViewModel _viewModel = new();
     private readonly MatrixTransform _previewTransform = new() { Matrix = Matrix.Identity };
     private bool _closeOnDeactivate;
+    private long _openedAt;
+    private bool _acceptRelease;
 
     public ImageViewerWindow()
     {
@@ -87,9 +89,27 @@ public partial class ImageViewerWindow : Window
         Position = new PixelPoint(activeScreen.X, activeScreen.Y);
         RequestedThemeVariant = ThemeManager.GetCurrentTheme();
         Title = Localization.Strings.ImageViewerWindow_Title;
+        Opened += (_, _) => _openedAt = Environment.TickCount64;
         KeyDown += OnKeyDown;
         Deactivated += OnDeactivated;
         Closed += (_, _) => _viewModel.Dispose();
+    }
+
+    /// <summary>True while a click could still be the second half of the double-click that opened this window.</summary>
+    internal bool IsWithinOpeningDoubleClick
+    {
+        get
+        {
+            TimeSpan doubleClickTime = Application.Current?.PlatformSettings?.GetDoubleTapTime(PointerType.Mouse) ?? TimeSpan.FromMilliseconds(500);
+            return IsVisible && Environment.TickCount64 - _openedAt < doubleClickTime.TotalMilliseconds;
+        }
+    }
+
+    /// <summary>Takes the focus back from the window behind. App focus is separate from KWin's, so Esc would otherwise reach that window.</summary>
+    internal void TakeFocus()
+    {
+        Activate();
+        Focus();
     }
 
     private async void OnOpened(object? sender, EventArgs e)
@@ -122,8 +142,18 @@ public partial class ImageViewerWindow : Window
     private void OnPreviousClick(object? sender, RoutedEventArgs e) => _viewModel.Navigate(-1);
     private void OnNextClick(object? sender, RoutedEventArgs e) => _viewModel.Navigate(1);
 
+    // The window is up within 50 ms of the click that opens it, so a double-click's second press lands here.
+    private void OnPreviewPointerPressed(object? sender, PointerPressedEventArgs e) => _acceptRelease = !IsWithinOpeningDoubleClick;
+
     private void OnPreviewPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
+        if (!_acceptRelease)
+        {
+            return;
+        }
+
+        _acceptRelease = false;
+
         if (e.InitialPressMouseButton is MouseButton.Left or MouseButton.Right)
         {
             Close();
@@ -190,7 +220,17 @@ public partial class ImageViewerWindow : Window
 
     private void OnDeactivated(object? sender, EventArgs e)
     {
-        if (_closeOnDeactivate)
+        if (!_closeOnDeactivate)
+        {
+            return;
+        }
+
+        // A double-click's second press can reach the window behind just as this one comes up, and KWin then activates that window.
+        if (IsWithinOpeningDoubleClick)
+        {
+            TakeFocus();
+        }
+        else
         {
             Close();
         }

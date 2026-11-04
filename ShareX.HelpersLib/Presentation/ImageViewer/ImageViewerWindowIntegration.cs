@@ -39,6 +39,8 @@ namespace ShareX.HelpersLib;
 
 public static class ImageViewerWindowIntegration
 {
+    private static ImageViewerWindow? _latestViewer;
+
     public static void ShowImage() => ShowWindow(() => new ImageViewerWindow());
 
     public static void ShowImage(string? filePath, Window? owner = null)
@@ -105,7 +107,7 @@ public static class ImageViewerWindowIntegration
         }
     }
 
-    private static void ShowWindow(Func<Window> windowFactory, Window? owner = null)
+    private static void ShowWindow(Func<ImageViewerWindow> windowFactory, Window? owner = null)
     {
         AvaloniaBootstrapper.EnsureInitialized();
 
@@ -113,7 +115,23 @@ public static class ImageViewerWindowIntegration
         {
             try
             {
-                Window window = windowFactory();
+                // A viewer that takes a while to load leaves a double-click's second click to the window behind, which opens it again.
+                if (_latestViewer?.IsWithinOpeningDoubleClick == true)
+                {
+                    _latestViewer.TakeFocus();
+                    return;
+                }
+
+                ImageViewerWindow window = windowFactory();
+                _latestViewer = window;
+                window.Closed += (_, _) =>
+                {
+                    if (ReferenceEquals(_latestViewer, window))
+                    {
+                        _latestViewer = null;
+                    }
+                };
+
                 if (owner is { IsVisible: true } visibleOwner)
                 {
                     IInputElement? focusedElement = visibleOwner.FocusManager?.GetFocusedElement();

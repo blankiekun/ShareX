@@ -15,11 +15,13 @@
         WindowDecorations="None"
         CanResize="False"
         CanMaximize="False"
-        Topmost="True">
+        Topmost="True"
+        Focusable="True">
 
         <Grid Background="{DynamicResource ShareX.Brush.Background.Main}">
             <Border Background="{DynamicResource ShareX.Brush.Checkered}"
                     ClipToBounds="True"
+                    PointerPressed="OnPreviewPointerPressed"
                     PointerReleased="OnPreviewPointerReleased"
                     PointerWheelChanged="OnPreviewPointerWheelChanged">
                 <Image x:Name="PreviewImage"
