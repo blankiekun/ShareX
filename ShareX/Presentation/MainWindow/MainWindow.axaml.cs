@@ -78,6 +78,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private bool _suppressThumbnailClickAction;
     private bool _allowClose;
     private bool _disposed;
+    private Thickness _frameExtents;
+    private PixelPoint? _hiddenPosition;
     private readonly List<ThumbnailItemViewModel> _selectionOrder = new();
     private ThumbnailItemViewModel? _selectionAnchor;
 
@@ -145,6 +147,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         if (!IsVisible)
         {
+            if (_hiddenPosition is PixelPoint position)
+            {
+                Position = position;
+            }
+
             Show();
         }
 
@@ -160,6 +167,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public void HideToTray()
     {
         SaveWindowBounds();
+        _hiddenPosition = Position;
         Hide();
         MainWindowIntegration.ReportVisibility(false);
     }
@@ -2107,7 +2115,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             return;
         }
 
-        ApplicationState.Settings.MainFormPosition = new DrawingPoint(Position.X, Position.Y);
+        ApplicationState.Settings.MainFormPosition = new DrawingPoint(OpeningPosition.X, OpeningPosition.Y);
         ApplicationState.Settings.MainFormSize = new DrawingSize((int)Math.Round(ClientSize.Width), (int)Math.Round(ClientSize.Height));
     }
 
@@ -2135,6 +2143,30 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         else if (change.Property == IconProperty)
         {
             UpdateTitleBarIcon();
+        }
+        else if (change.Property == BoundsProperty)
+        {
+            UpdateFrameExtents();
+        }
+    }
+
+    /// <summary>Position is where the frame is, but a window that opens at a position has its margin start there.</summary>
+    private PixelPoint OpeningPosition => new(
+        Position.X - (int)Math.Round(_frameExtents.Left * RenderScaling),
+        Position.Y - (int)Math.Round(_frameExtents.Top * RenderScaling));
+
+    /// <summary>
+    /// Avalonia draws a shadow and a border around this window, the same width on every side, and places the window's content inside
+    /// them, so its offset is that margin. It's zero while maximized or full screen, where KWin would otherwise push the window off the screen by the margin.
+    /// </summary>
+    private void UpdateFrameExtents()
+    {
+        Thickness margin = new(Bounds.Left, Bounds.Top);
+
+        if (margin != _frameExtents)
+        {
+            _frameExtents = margin;
+            X11FrameExtents.Set(this, margin);
         }
     }
 
