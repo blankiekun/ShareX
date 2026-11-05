@@ -2048,9 +2048,6 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>सिस्टम ऑडियो</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>रिकॉर्डिंग के लिए चुनी गई विंडो अब उपलब्ध नहीं है।</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>रिकॉर्डिंग की आवाज़ (%)</value>
   </data>
@@ -3190,9 +3187,6 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>क्या आप क्लिपबोर्ड अपलोड फिर आज़माना चाहते हैं?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>आपका एंटीवायरस सॉफ़्टवेयर या Windows की नियंत्रित फ़ोल्डर पहुँच सुविधा ShareX को रोक सकती है।</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>आपके सिस्टम व्यवस्थापक ने अपलोड सुविधा अक्षम की है।</value>

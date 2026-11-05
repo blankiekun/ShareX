@@ -2048,9 +2048,6 @@ A fájl megmaradt, de lehet, hogy nem játszható le:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Rendszerhang</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>A felvételhez kiválasztott ablak már nem érhető el.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Felvételi hangerő (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ You can later disable it from "Rögzítés után tasks" menü.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to újrapróbálás vágólap feltöltés?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Your anti-virus software or the controlled mappa access feature in Ablaks could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin letiltva the feltöltés feature.</value>

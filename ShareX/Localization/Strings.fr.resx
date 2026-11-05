@@ -2048,9 +2048,6 @@ Le fichier a été conservé, mais il ne pourra peut-être pas être lu :
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio système</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>La fenêtre sélectionnée pour l’enregistrement n’est plus disponible.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volume d’enregistrement (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Vous pourrez les désactiver plus tard depuis le manu "Tâches après la capture
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Voulez-vous réessayer la mise en ligne depuis le presse-papier ?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Votre logiciel anti-virus ou le control des répertoires Windows pourrait bloquer ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Votre administrateur système a désactivé la fonctionnalité de mise en ligne.</value>

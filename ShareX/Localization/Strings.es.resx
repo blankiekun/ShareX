@@ -2048,9 +2048,6 @@ El archivo se conservó, pero es posible que no se pueda reproducir:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio del sistema</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>La ventana seleccionada para grabar ya no está disponible.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volumen de grabación (%)</value>
   </data>
@@ -3189,9 +3186,6 @@ You can later disable it from "After captura tasks" menú.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry portapapeles subida?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Your anti-virus software or the controlled carpeta access feature in Ventanas could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin disabled the subida feature.</value>

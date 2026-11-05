@@ -1217,18 +1217,6 @@
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>ปี (2 digits)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>ลง ลูกศร</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>เมาส์ ล้อเมาส์</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>หน้า ลง</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>เลื่อน ข้อความ</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>อัตโนมัติ</value>
   </data>

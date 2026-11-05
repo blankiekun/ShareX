@@ -2048,9 +2048,6 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>系統音訊</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>所選錄製視窗已無法使用。</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>錄製音量 (%)</value>
   </data>
@@ -3190,9 +3187,6 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>是否要重試剪貼簿上傳？</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>你的防毒軟體或 Windows 的受控資料夾存取權功能可能阻擋了 ShareX。</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>你的系統管理員已停用上傳功能。</value>

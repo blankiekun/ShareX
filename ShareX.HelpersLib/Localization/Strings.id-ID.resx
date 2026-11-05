@@ -1217,18 +1217,6 @@ Pencetakan dilakukan melalui portal cetak desktop. Pastikan xdg-desktop-portal d
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Tahun ini (2 digit)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>Panah bawah</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>Roda mouse</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>Halaman ke bawah</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>Pesan gulir</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Otomatis</value>
   </data>

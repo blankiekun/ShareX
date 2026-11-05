@@ -2048,9 +2048,6 @@ Filen blev beholdt, men den kan muligvis ikke afspilles:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Systemlyd</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Det valgte optagelsesvindue er ikke længere tilgængeligt.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Optagelseslydstyrke (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Du kan deaktivere dem senere fra menuen ”Opgaver efter optagelse”.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Vil du forsøge upload fra udklipsholder igen?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Dit antivirusprogram eller funktionen Kontrolleret mappeadgang i Windows kan blokere ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Din systemadministrator har deaktiveret uploadfunktionen.</value>

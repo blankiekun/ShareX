@@ -2048,9 +2048,6 @@ Il file è stato conservato, ma potrebbe non essere riproducibile:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio di sistema</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>La finestra selezionata per la registrazione non è più disponibile.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volume di registrazione (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ You can later disable it from "After acquisizione tasks" menu.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry appunti caricamento?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Your anti-virus software or the controlled cartella access feature in Finestras could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin disabled the caricamento feature.</value>

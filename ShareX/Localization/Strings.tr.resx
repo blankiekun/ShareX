@@ -2048,9 +2048,6 @@ Dosya saklandı ancak oynatılamayabilir:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Sistem sesi</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Kayıt için seçilen pencere artık kullanılamıyor.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Kayıt ses düzeyi (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Daha sonra "Yakalama sonrası" menüsünden devre dışı bırakabilirsiniz.</va
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Panodan yüklemeyi tekrar denemek ister misiniz?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Antivirüs yazılımınız veya Windows'daki kontrollü klasör erişimi özelliği ShareX'i engelliyor olabilir.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Sistem yöneticiniz yükleme özelliğini devre dışı bıraktı.</value>

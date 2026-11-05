@@ -482,9 +482,6 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>ละเว้นขอบล่างอัตโนมัติ</value>
   </data>
-  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
-    <value>เลื่อนไปด้านบนโดยอัตโนมัติ</value>
-  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>อัปโหลด / บันทึกโดยอัตโนมัติ</value>
   </data>
@@ -502,9 +499,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>จับภาพ สำเร็จ</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
-    <value>กำลังจับภาพ...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>คัดลอก</value>
@@ -527,15 +521,6 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>พร้อม</value>
   </data>
-  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
-    <value>เลื่อน ปริมาณ:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
-    <value>เลื่อน หน่วงเวลา:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
-    <value>เลื่อน วิธี:</value>
-  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>เลือกหน้าต่างที่เลื่อนได้เพื่อเริ่ม</value>
   </data>
@@ -550,9 +535,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>กำลังหยุด จับภาพ...</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
-    <value>ครั้ง</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX - จับภาพแบบเลื่อน</value>

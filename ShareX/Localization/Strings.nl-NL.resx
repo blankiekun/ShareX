@@ -2048,9 +2048,6 @@ Het bestand is bewaard, maar kan mogelijk niet worden afgespeeld:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Systeemaudio</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Het geselecteerde opnamevenster is niet meer beschikbaar.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Opnamevolume (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ You can later disable it from "After opname taken" menu.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry klembord uploaden?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Your anti-virus software or the besturingselementled map access feature in Vensters could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin uitgeschakeld the uploaden feature.</value>
