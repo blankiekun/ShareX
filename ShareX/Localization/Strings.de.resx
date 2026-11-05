@@ -2048,9 +2048,6 @@ Die Datei wurde behalten, lässt sich aber möglicherweise nicht abspielen:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Systemaudio</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Das ausgewählte Aufnahmefenster ist nicht mehr verfügbar.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Aufnahmelautstärke (%)</value>
   </data>
@@ -3189,9 +3186,6 @@ Sie können sie später im Menü „Aufgaben nach der Aufnahme“ deaktivieren.<
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Möchten Sie das Hochladen der Zwischenablage wiederholen?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Ihre Antiviren-Software oder die Funktion für kontrollierten Ordnerzugriff in Windows könnte ShareX blockieren.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Ihr Systemadministrator hat diese Funktion ausgeschaltet.</value>

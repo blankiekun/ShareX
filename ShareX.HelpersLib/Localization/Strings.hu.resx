@@ -1217,18 +1217,6 @@ A nyomtatás az asztali környezet nyomtatási portálján keresztül történik
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Jelenlegi év (2 számjegy)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>Lefelé nyíl</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>Egérgörgő</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>Egy oldallal lejjebb</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>Görgetési üzenet</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automatikus</value>
   </data>

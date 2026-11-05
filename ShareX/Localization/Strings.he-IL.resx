@@ -2048,9 +2048,6 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>שמע המערכת</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>החלון שנבחר להקלטה אינו זמין עוד.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>עוצמת הקול בהקלטה (%)</value>
   </data>
@@ -3190,9 +3187,6 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>האם תרצה לנסות להעלות את לוח הגזירה שוב?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>תוכנת האנטי-וירוס שלך או אפשרות גישה מבוקרת לתיקיות ב-Windows עלולים לחסום את ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>מנהל המערכת שלך השבית את תכונת ההעלאה.</value>

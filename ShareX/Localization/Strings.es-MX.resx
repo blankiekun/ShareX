@@ -2048,9 +2048,6 @@ El archivo se conservó, pero es posible que no se pueda reproducir:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio del sistema</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>La ventana seleccionada para grabar ya no está disponible.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volumen de grabación (%)</value>
   </data>
@@ -3189,9 +3186,6 @@ Puedes desactivarlo más adelante desde el menú "Tareas después de capturar".<
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>¿Te gustaría reintentar la carga del portapapeles?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Tu antivirus o la característica de control de carpetas en Windows podría estar bloqueando ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>El administrador de tu sistema desactivó la característica de carga.</value>

@@ -482,9 +482,6 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>Automaticky ignorovat dolní okraj</value>
   </data>
-  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
-    <value>Automaticky posunout nahoru</value>
-  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>Automaticky nahrát / uložit</value>
   </data>
@@ -502,9 +499,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>Zachycení bylo úspěšné</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
-    <value>Zachytává se...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>Kopírovat</value>
@@ -527,15 +521,6 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>Připraveno</value>
   </data>
-  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
-    <value>Míra posunutí:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
-    <value>Prodleva posouvání:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
-    <value>Způsob posouvání:</value>
-  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>Začněte výběrem posouvatelného okna</value>
   </data>
@@ -550,9 +535,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>Zachytávání se zastavuje...</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
-    <value>krát</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX – Posouvající se snímek</value>

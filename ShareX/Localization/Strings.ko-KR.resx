@@ -2048,9 +2048,6 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>시스템 오디오</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>녹화 대상으로 선택한 창을 더 이상 사용할 수 없습니다.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>녹음 볼륨 (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ You can later disable it from "After 캡처 tasks" 메뉴.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry 클립보드 업로드?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Your anti-virus software or the controlled 폴더 access feature in 창s could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin disabled the 업로드 feature.</value>

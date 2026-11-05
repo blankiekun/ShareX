@@ -482,9 +482,6 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>निचला किनारा स्वतः अनदेखा करें</value>
   </data>
-  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
-    <value>स्वतः ऊपर तक स्क्रॉल करें</value>
-  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>स्वतः अपलोड / सहेजें</value>
   </data>
@@ -502,9 +499,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>कैप्चर सफल</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
-    <value>कैप्चर हो रहा है...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>कॉपी करें</value>
@@ -527,15 +521,6 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>तैयार</value>
   </data>
-  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
-    <value>स्क्रॉल मात्रा:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
-    <value>स्क्रॉल विलंब:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
-    <value>स्क्रॉल विधि:</value>
-  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>आरंभ करने के लिए स्क्रॉल करने योग्य विंडो चुनें</value>
   </data>
@@ -550,9 +535,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>कैप्चर रोका जा रहा है...</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
-    <value>बार</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX - स्क्रॉलिंग कैप्चर</value>

@@ -1217,18 +1217,6 @@
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>वर्ष (2 अंक)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>नीचे तीर</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>माउस व्हील</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>पृष्ठ नीचे</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>स्क्रॉल संदेश</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>स्वचालित</value>
   </data>

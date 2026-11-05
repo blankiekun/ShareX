@@ -1217,18 +1217,6 @@ Afdrukken verloopt via het afdrukportaal van de desktop. Controleer of xdg-deskt
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Huidig jaar (2 cijfers)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>Pijl omlaag</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>Muiswiel</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>Pagina omlaag</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>Scrollbericht</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automatisch</value>
   </data>

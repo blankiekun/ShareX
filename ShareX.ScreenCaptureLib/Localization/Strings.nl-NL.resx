@@ -478,9 +478,6 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>Onderrand automatisch negeren</value>
   </data>
-  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
-    <value>Automatisch naar boven scrollen</value>
-  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>Automatisch uploaden / opslaan</value>
   </data>
@@ -498,9 +495,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>Opname geslaagd</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
-    <value>Bezig met vastleggen...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>Kopiëren</value>
@@ -523,15 +517,6 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>Gereed</value>
   </data>
-  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
-    <value>Aantal scrollbewegingen:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
-    <value>Scrollvertraging:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
-    <value>Scrollmethode:</value>
-  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>Selecteer een scrollbaar venster om te beginnen</value>
   </data>
@@ -546,9 +531,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>Opname stoppen...</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
-    <value>keer</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX - Scrollende opname</value>

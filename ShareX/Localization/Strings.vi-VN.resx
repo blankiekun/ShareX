@@ -2048,9 +2048,6 @@ Tệp đã được giữ lại nhưng có thể không phát được:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Âm thanh hệ thống</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Cửa sổ đã chọn để ghi không còn khả dụng.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Âm lượng bản ghi (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Sau đó, bạn có thể tắt nó từ menu "Sau khi chụp tác vụ".</value
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry clipboard tải lên?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Phần mềm chống vi-rút của bạn hoặc tính năng truy cập thư mục được kiểm soát trong Windows có thể đang chặn ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Quản trị viên hệ thống của bạn đã tắt tính năng tải lên.</value>

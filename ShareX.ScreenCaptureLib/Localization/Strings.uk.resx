@@ -478,9 +478,6 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>Автоматично ігнорувати нижній край</value>
   </data>
-  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
-    <value>Автоматично прокрутити вгору</value>
-  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>Автоматично надсилати / зберігати</value>
   </data>
@@ -498,9 +495,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>Захоплення успішне</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
-    <value>Виконується захоплення...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>Копіювати</value>
@@ -523,15 +517,6 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>Готово</value>
   </data>
-  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
-    <value>Кількість прокручувань:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
-    <value>Затримка прокручування:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
-    <value>Спосіб прокручування:</value>
-  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>Виберіть вікно з прокручуванням, щоб почати</value>
   </data>
@@ -546,9 +531,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>Зупинення захоплення...</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
-    <value>разів</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX — Захоплення з прокручуванням</value>

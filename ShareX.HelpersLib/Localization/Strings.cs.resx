@@ -1217,18 +1217,6 @@ Tisk probíhá přes tiskový portál plochy. Zkontrolujte, zda jsou nainstalov�
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Rok (2 číslice)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>Šipka dolů</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>Kolečko myši</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>O stránku dolů</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>Zpráva posunutí</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automaticky</value>
   </data>

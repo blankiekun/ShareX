@@ -2048,9 +2048,6 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>เสียงระบบ</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>หน้าต่างที่เลือกสำหรับบันทึกไม่พร้อมใช้งานแล้ว</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>ระดับเสียงในบันทึก (%)</value>
   </data>
@@ -3190,9 +3187,6 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>คุณต้องการ ลองอีกครั้ง การอัปโหลดคลิปบอร์ด?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>ซอฟต์แวร์ป้องกันไวรัสหรือคุณลักษณะการควบคุมการเข้าถึงโฟลเดอร์ใน Windows อาจกำลังบล็อก ShareX</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>ผู้ดูแลระบบของคุณปิดใช้งานคุณลักษณะการอัปโหลด</value>

@@ -100,7 +100,8 @@ public partial class NotificationWindow : Window
             return;
         }
 
-        if (config.Image == null)
+        // A recording's toast carries its video file, which isn't an image to decode.
+        if (config.Image == null && FileHelpers.IsImageFile(config.FilePath))
         {
             config.Image = SkiaImageHelpers.LoadImage(config.FilePath);
         }
@@ -182,7 +183,7 @@ public partial class NotificationWindow : Window
     {
         DrawingBitmap? source = config.Image;
 
-        if (source == null && !string.IsNullOrEmpty(config.FilePath))
+        if (source == null && FileHelpers.IsImageFile(config.FilePath))
         {
             source = SkiaImageHelpers.LoadImage(config.FilePath);
             config.Image = source;

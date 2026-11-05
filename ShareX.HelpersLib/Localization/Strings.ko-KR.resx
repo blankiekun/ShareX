@@ -1217,18 +1217,6 @@
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>현재 년도 (2자리)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>아래쪽 화살표</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>마우스 휠</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>페이지 아래로</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>스크롤 메시지</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>자동</value>
   </data>

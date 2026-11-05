@@ -2048,9 +2048,6 @@ File tetap disimpan, tetapi mungkin tidak dapat diputar:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio sistem</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Jendela yang dipilih untuk direkam tidak lagi tersedia.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volume rekaman (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Anda dapat menonaktifkannya nanti dari menu "Tugas setelah tangkapan".</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Apakah Anda ingin mencoba ulang unggahan clipboard?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Perangkat lunak antivirus Anda atau fitur akses folder terkontrol di Windows mungkin memblokir ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Admin sistem Anda menonaktifkan fitur unggah.</value>

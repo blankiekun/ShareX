@@ -2048,9 +2048,6 @@ O ficheiro foi mantido, mas pode não ser reproduzido:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Áudio do sistema</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>A janela selecionada para gravar já não está disponível.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volume da gravação (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Pode desativá-los mais tarde no menu "Tarefas após captura".</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Pretende tentar novamente o carregamento da área de transferência?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>O seu antivírus ou a funcionalidade de acesso controlado a pastas do Windows pode estar a bloquear o ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>O administrador do sistema desativou a funcionalidade de carregamento.</value>

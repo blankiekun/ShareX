@@ -2057,9 +2057,6 @@ The file was kept, but it may not play:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>System audio</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>The selected recording window is no longer available.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Recording volume (%)</value>
   </data>
@@ -3150,9 +3147,6 @@ You can later disable it from "After capture tasks" menu.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry clipboard upload?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Your anti-virus software or the controlled folder access feature in Windows could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin disabled the upload feature.</value>

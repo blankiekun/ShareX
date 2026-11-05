@@ -51,7 +51,6 @@ namespace ShareX.Localization {
         public static string ScreenRecorderBar_Overlay => ResourceManager.GetString("ScreenRecorderBar_Overlay", resourceCulture);
         public static string ScreenRecorderBar_Capture => ResourceManager.GetString("ScreenRecorderBar_Capture", resourceCulture);
         public static string ScreenRecorderBar_Bar => ResourceManager.GetString("ScreenRecorderBar_Bar", resourceCulture);
-        public static string ScreenRecorderBar_TargetUnavailable => ResourceManager.GetString("ScreenRecorderBar_TargetUnavailable", resourceCulture);
 
         private static global::System.Resources.ResourceManager resourceMan;
         public static string ScreenRecorderBar_RefreshDevices => ResourceManager.GetString("ScreenRecorderBar_RefreshDevices", resourceCulture);
@@ -5377,11 +5376,6 @@ namespace ShareX.Localization {
         public static string TaskManager_task_UploadCompleted_Error {
             get {
                 return ResourceManager.GetString("TaskManager_task_UploadCompleted_Error", resourceCulture);
-            }
-        }
-        public static string YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX {
-            get {
-                return ResourceManager.GetString("YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX", resourceCulture);
             }
         }
         public static string TaskManager_task_UploadCompleted_ShareX___Task_completed {

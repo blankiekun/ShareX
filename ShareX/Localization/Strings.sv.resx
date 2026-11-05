@@ -2048,9 +2048,6 @@ Filen behölls, men den kanske inte går att spela upp:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Systemljud</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Det valda inspelningsfönstret är inte längre tillgängligt.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Inspelningsvolym (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Du kan inaktivera dem senare från menyn "Uppgifter efter bildtagning".</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Vill du försöka ladda upp från urklipp igen?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Ditt antivirusprogram eller funktionen Kontrollerad mappåtkomst i Windows kan blockera ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Din systemadministratör har inaktiverat uppladdningsfunktionen.</value>

@@ -478,9 +478,6 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>Alsó szél automatikus figyelmen kívül hagyása</value>
   </data>
-  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
-    <value>Automatikus görgetés a tetejére</value>
-  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>Automatikus feltöltés / mentés</value>
   </data>
@@ -498,9 +495,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>A rögzítés sikeres</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
-    <value>Rögzítés...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>Másolás</value>
@@ -523,15 +517,6 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>Kész</value>
   </data>
-  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
-    <value>Görgetések száma:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
-    <value>Görgetési késleltetés:</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
-    <value>Görgetési mód:</value>
-  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>Válasszon egy görgethető ablakot a kezdéshez</value>
   </data>
@@ -546,9 +531,6 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>Rögzítés leállítása...</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
-    <value>alkalom</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX - Görgetéses rögzítés</value>

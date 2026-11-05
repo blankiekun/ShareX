@@ -1217,18 +1217,6 @@ Utskrift går via skrivbordets utskriftsportal. Kontrollera att xdg-desktop-port
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>År (2 siffror)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>Nedåtpil</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>Mushjul</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>Sida ned</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>Rullningsmeddelande</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automatiskt</value>
   </data>

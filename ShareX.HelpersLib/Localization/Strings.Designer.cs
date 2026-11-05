@@ -1222,18 +1222,6 @@ namespace ShareX.HelpersLib.Localization {
         public static string ReplCodeMenuEntry_yy_Current_year__2_digits_ {
             get { return ResourceManager.GetString("ReplCodeMenuEntry_yy_Current_year__2_digits_", resourceCulture); }
         }
-        public static string ScrollMethod_DownArrow {
-            get { return ResourceManager.GetString("ScrollMethod_DownArrow", resourceCulture); }
-        }
-        public static string ScrollMethod_MouseWheel {
-            get { return ResourceManager.GetString("ScrollMethod_MouseWheel", resourceCulture); }
-        }
-        public static string ScrollMethod_PageDown {
-            get { return ResourceManager.GetString("ScrollMethod_PageDown", resourceCulture); }
-        }
-        public static string ScrollMethod_ScrollMessage {
-            get { return ResourceManager.GetString("ScrollMethod_ScrollMessage", resourceCulture); }
-        }
         public static string SupportedLanguage_Automatic {
             get { return ResourceManager.GetString("SupportedLanguage_Automatic", resourceCulture); }
         }

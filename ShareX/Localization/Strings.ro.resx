@@ -2048,9 +2048,6 @@ Fișierul a fost păstrat, dar s-ar putea să nu poată fi redat:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Sunetul sistemului</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Fereastra selectată pentru înregistrare nu mai este disponibilă.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volumul înregistrării (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Puteți să le dezactivați ulterior din meniul "Sarcini după captură".</value
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Vrei să reîncerci încărcarea din clipboard?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Este posibil ca software-ul antivirus sau funcția de acces controlat la foldere din Windows să blocheze ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Administratorul de sistem a dezactivat funcția de încărcare.</value>

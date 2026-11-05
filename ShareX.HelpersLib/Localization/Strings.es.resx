@@ -1217,18 +1217,6 @@ La impresión pasa por el portal de impresión del escritorio. Compruebe que xdg
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Año actual (2 dígitos)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>Flecha abajo</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>Rueda del ratón</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>Página abajo</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>Mensaje de desplazamiento</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automático</value>
   </data>

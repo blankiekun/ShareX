@@ -1217,18 +1217,6 @@ Yazdırma, masaüstünün yazdırma portalı üzerinden yapılır. xdg-desktop-p
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Güncel yıl (2 hane)</value>
   </data>
-  <data name="ScrollMethod_DownArrow" xml:space="preserve">
-    <value>Aşağı ok</value>
-  </data>
-  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
-    <value>Mouse tekerleği</value>
-  </data>
-  <data name="ScrollMethod_PageDown" xml:space="preserve">
-    <value>Sayfa aşağı</value>
-  </data>
-  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
-    <value>Kaydırma mesajı</value>
-  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Otomatik</value>
   </data>

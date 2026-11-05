@@ -2048,9 +2048,6 @@ Soubor byl zachován, ale nemusí jít přehrát:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Systémový zvuk</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Vybrané nahrávané okno již není dostupné.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Hlasitost nahrávky (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Později je můžete zakázat v nabídce „Úlohy po zachycení“.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Chcete nahrání schránky zkusit znovu?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Antivirový software nebo funkce Řízený přístup ke složkám ve Windows mohou blokovat ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Správce systému zakázal funkci nahrávání.</value>

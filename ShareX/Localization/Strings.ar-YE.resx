@@ -2048,9 +2048,6 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>صوت النظام</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>لم تعد النافذة المحددة للتسجيل متاحة.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>مستوى صوت التسجيل (%)</value>
   </data>
@@ -3190,9 +3187,6 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>هل تريد إعادة محاولة رفع الحافظة؟</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>كلًا من مكافح الفيروسات أو خيار التحكم بالمجلدات في نظام التشغيل قد يؤديان لتعطيل التطبيق.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>مسؤول النظام قام بإيقاف وظيفة الرفع.</value>

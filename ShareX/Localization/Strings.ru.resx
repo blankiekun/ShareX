@@ -2048,9 +2048,6 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Системный звук</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Выбранное для записи окно больше недоступно.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Громкость записи (%)</value>
   </data>
@@ -3190,9 +3187,6 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Хотите еще раз попробовать загрузить из буфера?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Ваш антивирус или контролируемый доступ к файлам в Windows могут блокировать ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Ваш системный администратор отключил возможность загрузки.</value>

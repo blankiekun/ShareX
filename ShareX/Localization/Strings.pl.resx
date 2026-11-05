@@ -2048,9 +2048,6 @@ Plik został zachowany, ale może nie dać się odtworzyć:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Dźwięk systemowy</value>
   </data>
-  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
-    <value>Wybrane okno do nagrywania nie jest już dostępne.</value>
-  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Głośność nagrania (%)</value>
   </data>
@@ -3190,9 +3187,6 @@ Możesz je później wyłączyć w menu "Zadania po przechwyceniu".</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Czy chcesz ponowić próbę przesłania schowka?</value>
-  </data>
-  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
-    <value>Twoje oprogramowanie antywirusowe lub funkcja kontrolowanego dostępu do folderów w systemie Windows może blokować ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Administrator systemu wyłączył funkcję przesyłania.</value>
