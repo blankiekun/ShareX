@@ -38,7 +38,11 @@ using Tmds.DBus.Protocol;
 
 namespace ShareX.HelpersLib;
 
-public sealed record KWinOutput(string Name, Rectangle Geometry, double Scale);
+/// <param name="WorkArea">
+/// The output less the panels on its edges, from KWin's PlacementArea. X11's one _NET_WORKAREA, and so Avalonia's WorkingArea, can't leave
+/// out a panel on an edge between two outputs; this does.
+/// </param>
+public sealed record KWinOutput(string Name, Rectangle Geometry, double Scale, Rectangle WorkArea = default);
 
 /// <summary>A window as KWin sees it. Geometry is in KWin logical coordinates.</summary>
 public sealed record KWinWindow(string Id, string Caption, string ResourceClass, int Pid, Rectangle FrameGeometry,
@@ -97,7 +101,10 @@ public sealed class KWinDesktop
             });
         }
         report(JSON.stringify({
-            outputs: workspace.screens.map(function (s) { return { name: s.name, geometry: rect(s.geometry), scale: s.devicePixelRatio }; }),
+            outputs: workspace.screens.map(function (s) {
+                return { name: s.name, geometry: rect(s.geometry), scale: s.devicePixelRatio,
+                    workArea: rect(workspace.clientArea(KWin.PlacementArea, s, workspace.currentDesktop)) };
+            }),
             activeOutput: workspace.activeScreen ? workspace.activeScreen.name : null,
             activeWindow: workspace.activeWindow ? String(workspace.activeWindow.internalId) : null,
             cursor: { x: workspace.cursorPos.x, y: workspace.cursorPos.y },
@@ -173,6 +180,16 @@ public sealed class KWinDesktop
         List<Rectangle> parts = Outputs.Select(x => Rectangle.Intersect(x.Geometry, rectangle)).Where(x => x.Width > 0 && x.Height > 0).ToList();
 
         return parts.Count == 1 ? parts[0] : null;
+    }
+
+    /// <summary>The work area of the output under an X11 point, in X11 coordinates. See <see cref="KWinOutput.WorkArea"/>.</summary>
+    /// <returns>Null when the point is on no output.</returns>
+    public Rectangle? X11WorkAreaAt(Point x11Point)
+    {
+        Point logical = new((int)Math.Floor(x11Point.X / Coordinates.X11Scale), (int)Math.Floor(x11Point.Y / Coordinates.X11Scale));
+        KWinOutput? output = Outputs.FirstOrDefault(x => x.Geometry.Contains(logical));
+
+        return output == null ? null : Coordinates.LogicalToX11(output.WorkArea);
     }
 
     /// <exception cref="KWinScriptException">KWin is unavailable, or did not answer in time.</exception>
@@ -384,7 +401,7 @@ public sealed class KWinDesktop
             throw new KWinScriptException("KWin's helper script reported nothing.");
 
         List<KWinOutput> outputs = root["outputs"]!.Select(x => new KWinOutput(
-            (string?)x["name"] ?? "", ReadRectangle(x["geometry"]!), (double)x["scale"]!)).ToList();
+            (string?)x["name"] ?? "", ReadRectangle(x["geometry"]!), (double)x["scale"]!, ReadRectangle(x["workArea"]!))).ToList();
 
         // KWin lists the bottom of the stack first.
         List<KWinWindow> windows = root["windows"]!.Reverse().Select(x => new KWinWindow(
