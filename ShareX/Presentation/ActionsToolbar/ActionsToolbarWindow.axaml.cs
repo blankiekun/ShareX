@@ -47,6 +47,7 @@ public partial class ActionsToolbarWindow : Window
     private PixelPoint? _requestedPosition;
     private bool _adjustingPosition;
     private bool _closing;
+    private PixelPoint? _dragStartPosition;
 
     public ActionsToolbarWindow()
     {
@@ -232,6 +233,7 @@ public partial class ActionsToolbarWindow : Window
         if (kind == PointerUpdateKind.LeftButtonPressed && !ApplicationState.Settings.ActionsToolbarLockPosition)
         {
             _positionReady = true;
+            _dragStartPosition = Position;
             BeginMoveDrag(e);
             e.Handled = true;
         }
@@ -268,7 +270,8 @@ public partial class ActionsToolbarWindow : Window
             }
         }
 
-        DrawingPoint cursor = CaptureHelpers.GetCursorPosition();
+        KWinDesktop? desktop = QueryDesktop();
+        DrawingPoint cursor = desktop == null ? DrawingPoint.Empty : desktop.Coordinates.LogicalToX11(desktop.Cursor);
         Screen? screen = Screens.ScreenFromPoint(new PixelPoint(cursor.X, cursor.Y)) ?? Screens.Primary;
         if (screen == null)
         {
@@ -276,9 +279,46 @@ public partial class ActionsToolbarWindow : Window
             return;
         }
 
-        PixelRect area = screen.WorkingArea;
+        PixelRect area = WorkArea(desktop, cursor) ?? screen.WorkingArea;
         PixelSize size = PixelSize.FromSize(ClientSize, screen.Scaling);
         RequestPosition(new PixelPoint(area.Right - size.Width, area.Bottom - size.Height));
+    }
+
+    /// <returns>Null when KWin can't be asked, which is logged.</returns>
+    private static KWinDesktop? QueryDesktop()
+    {
+        try
+        {
+            return KWinDesktop.Query();
+        }
+        catch (KWinScriptException e)
+        {
+            DebugHelper.WriteException(e);
+            return null;
+        }
+    }
+
+    /// <summary>KWin's work area of the output under an X11 point, which unlike Avalonia's leaves out a panel on an edge between two monitors.</summary>
+    private static PixelRect? WorkArea(KWinDesktop? desktop, DrawingPoint x11Point)
+    {
+        return desktop?.X11WorkAreaAt(x11Point) is System.Drawing.Rectangle r ? new PixelRect(r.X, r.Y, r.Width, r.Height) : null;
+    }
+
+    /// <summary>
+    /// KWin holds the pointer while it moves the window and gives it back when the drag ends, so the first pointer event after the window
+    /// has moved means the drag is over, and the toolbar is clamped to KWin's work area. Only then is KWin asked, once, as each ask loads
+    /// a KWin script and blocks for a few ms. A pointer event that comes before KWin takes the pointer finds the window not moved yet.
+    /// The button state can't tell them apart: XWayland still reports the button down after KWin's drag.
+    /// </summary>
+    protected override void OnPointerMoved(PointerEventArgs e)
+    {
+        base.OnPointerMoved(e);
+
+        if (_dragStartPosition is PixelPoint start && Position != start)
+        {
+            _dragStartPosition = null;
+            ClampAndSavePosition(QueryDesktop());
+        }
     }
 
     /// <summary>
@@ -301,7 +341,10 @@ public partial class ActionsToolbarWindow : Window
         }
     }
 
-    private void ClampAndSavePosition()
+    private void ClampAndSavePosition() => ClampAndSavePosition(null);
+
+    /// <param name="desktop">When given, clamps to KWin's work area of the output under the toolbar's middle instead of Avalonia's.</param>
+    private void ClampAndSavePosition(KWinDesktop? desktop)
     {
         if (!_positionReady || _adjustingPosition)
         {
@@ -314,8 +357,8 @@ public partial class ActionsToolbarWindow : Window
             return;
         }
 
-        PixelRect area = screen.WorkingArea;
         PixelSize size = PixelSize.FromSize(ClientSize, screen.Scaling);
+        PixelRect area = WorkArea(desktop, new DrawingPoint(Position.X + size.Width / 2, Position.Y + size.Height / 2)) ?? screen.WorkingArea;
         int maxX = Math.Max(area.X, area.Right - size.Width);
         int maxY = Math.Max(area.Y, area.Bottom - size.Height);
         PixelPoint adjusted = new(
