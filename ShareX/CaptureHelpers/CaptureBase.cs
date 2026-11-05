@@ -34,7 +34,7 @@ namespace ShareX
 {
     public abstract class CaptureBase
     {
-        // KWin fades the closed menu out for about 415 ms at the default animation speed, so a shorter wait leaves it in the screenshot.
+        // KWin fades the closed menu or toast out for about 415 ms at the default animation speed, so a shorter wait leaves it in the screenshot.
         // ScreenShot2 takes it within milliseconds of this wait ending, so this is all of the margin: 400 and 470 left a faint menu in most captures.
         private const int HideDelay = 530;
 
@@ -91,9 +91,9 @@ namespace ShareX
             bool showDesktopIcons = false;
             bool showMainForm = false;
 
-            if (taskSettings.GeneralSettings.ToastWindowAutoHide)
+            if (taskSettings.GeneralSettings.ToastWindowAutoHide && await NotificationWindow.CloseActiveWindowAsync())
             {
-                await NotificationWindow.CloseActiveWindowAsync();
+                wait = true;
             }
 
             if (ActivateLastUsedWindow)

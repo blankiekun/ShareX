@@ -131,14 +131,20 @@ public partial class NotificationWindow : Window
         });
     }
 
-    public static async Task CloseActiveWindowAsync()
+    /// <returns>True when a toast was on screen. KWin then still fades it out, so a capture right away would show it.</returns>
+    public static async Task<bool> CloseActiveWindowAsync()
     {
         if (Application.Current == null)
         {
-            return;
+            return false;
         }
 
-        await Dispatcher.UIThread.InvokeAsync(() => _instance?.Close());
+        return await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            bool visible = _instance?.IsVisible == true;
+            _instance?.Close();
+            return visible;
+        });
     }
 
     public void LoadConfig(NotificationWindowConfig config)
