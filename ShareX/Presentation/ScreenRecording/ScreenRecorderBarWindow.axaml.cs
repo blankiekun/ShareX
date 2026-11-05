@@ -58,6 +58,7 @@ internal partial class ScreenRecorderBarWindow : Window
     private ScrollingCaptureRegionWindow? _regionWindow;
     private string? _activePanel;
     private bool _closed;
+    private PixelPoint? _dragStartPosition;
 
     public DrawingRectangle RecordingRegion { get; private set; }
     private TaskSettingsCapture Capture => _draft.Capture;
@@ -166,7 +167,9 @@ internal partial class ScreenRecorderBarWindow : Window
         };
         grip.PointerPressed += (_, e) =>
         {
-            if (e.GetCurrentPoint(grip).Properties.IsLeftButtonPressed) BeginMoveDrag(e);
+            if (!e.GetCurrentPoint(grip).Properties.IsLeftButtonPressed) return;
+            _dragStartPosition = Position;
+            BeginMoveDrag(e);
         };
         actions.Children.Add(grip);
         // Rebuild toolbar content when its labels change, keeping the active settings panel open.
@@ -485,17 +488,44 @@ internal partial class ScreenRecorderBarWindow : Window
         ClampToScreen();
     }
 
-    private void ClampToScreen()
+    /// <summary>
+    /// KWin holds the pointer while it moves the window and gives it back when the drag ends, so the first pointer event after the window
+    /// has moved means the drag is over. Then the bar is clamped to KWin's work area, which unlike Avalonia's leaves out a panel on an edge
+    /// between two monitors. KWin is asked only then, once, as each ask loads a KWin script and blocks for a few ms. See the same in
+    /// ActionsToolbarWindow.
+    /// </summary>
+    protected override void OnPointerMoved(PointerEventArgs e)
+    {
+        base.OnPointerMoved(e);
+
+        if (_dragStartPosition is not PixelPoint start || Position == start) return;
+        _dragStartPosition = null;
+        try
+        {
+            ClampToScreen(KWinDesktop.Query());
+        }
+        catch (KWinScriptException ex)
+        {
+            DebugHelper.WriteException(ex);
+        }
+    }
+
+    private void ClampToScreen() => ClampToScreen(null);
+
+    /// <param name="desktop">When given, clamps to KWin's work area of the output under the bar's middle instead of Avalonia's.</param>
+    private void ClampToScreen(KWinDesktop? desktop)
     {
         if (_closed || !IsVisible) return;
         var screen = Screens.ScreenFromPoint(Position) ?? Screens.Primary;
         if (screen == null) return;
-        PixelRect work = screen.WorkingArea;
         double scaling = screen.Scaling;
-        MaxWidth = Math.Max(280, work.Width / scaling - 16);
-        PanelScroll.MaxHeight = Math.Max(100, work.Height / scaling - Toolbar.Bounds.Height - 110);
         int width = (int)Math.Ceiling(Bounds.Width * scaling);
         int height = (int)Math.Ceiling(Bounds.Height * scaling);
+        PixelRect work = desktop?.X11WorkAreaAt(new System.Drawing.Point(Position.X + width / 2, Position.Y + height / 2)) is DrawingRectangle r
+            ? new PixelRect(r.X, r.Y, r.Width, r.Height)
+            : screen.WorkingArea;
+        MaxWidth = Math.Max(280, work.Width / scaling - 16);
+        PanelScroll.MaxHeight = Math.Max(100, work.Height / scaling - Toolbar.Bounds.Height - 110);
         PixelPoint clamped = new(Math.Clamp(Position.X, work.X, Math.Max(work.X, work.Right - width)),
             Math.Clamp(Position.Y, work.Y, Math.Max(work.Y, work.Bottom - height)));
         if (clamped != Position) Position = clamped;
