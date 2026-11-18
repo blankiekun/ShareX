@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>ShareX の設定を初期化しますか？</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>スタートアップの設定は組織によって無効にされています</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>スタートアップの設定はタスクマネージャーで無効にされています</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>スタートアップの設定は組織によって有効にされています</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Windows開始時に ShareX を起動</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>設定を反映するには、Steam から ShareX を開きなおしてください。</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>トレイアイコンの左クリック:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>トレイアイコンの中クリック:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>URLが空でない場合のみ保存</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - アプリの設定</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>デスクトップ</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>ログイン時に ShareX を起動</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Dolphin のコンテキストメニューに「ShareX で画像編集」を表示</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Dolphin のコンテキストメニューに「ShareX でアップロード」を表示</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>画像効果のプリセットがありません</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>キャプチャできる他のウィンドウがありません。目的のウィンドウを開いてから、もう一度お試しください。</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>ウィンドウが見つかりません</value>
   </data>
@@ -1549,6 +1549,9 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>リモート ストレージ ブラウザ...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>管理者として再起動</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>定規</value>
@@ -1971,20 +1974,6 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>スクリーン カラーピッカー</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIFが完成しなかったため、破棄されました。録画はMP4として次の場所に保持されています:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-ファイルは保持されましたが、再生できない可能性があります:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>録画中にShareXが予期せず終了しました。録画は次の場所に保存されました:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>バー</value>
   </data>
@@ -2048,6 +2037,9 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>システム音声</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>録画対象として選択したウィンドウは利用できなくなりました。</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>録音音量 (%)</value>
   </data>
@@ -2061,69 +2053,14 @@
     <value>バックアップのエクスポート中にエラーが発生しました:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>ShareX バックアップには、別のマシンへ移行できるよう、ログイン情報と API キーが平文で保存されています。ファイルを入手した人は誰でもそれらを使用できます。&#xD;
-&#xD;
-ファイルは他人に渡さず、復元後は削除してください。それでもエクスポートしますか？</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>バックアップのインポート中にエラーが発生しました:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>バックアップ内の {0} が破損しているため、何もインポートされませんでした。</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>バックアップにはログイン情報が含まれていますが、ウォレットがないと保存できないため、何もインポートされませんでした。ウォレットを開いてもう一度お試しください。&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>ファイルに ShareX の設定も履歴も含まれていません。</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>このバージョンにないため除外された画像効果:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>履歴: {0} 件追加、{1} 件は既に存在、{2} 件は読み取り不可。</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>以前の履歴を {0} に保存しました</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>履歴はインポートされませんでした: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Linux の場所に変更されたフォルダー:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>パスに相当するものがここにないため、既定値に戻された設定:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>このバックアップ ファイルにはログイン情報が平文で保存されています。インポートの結果に問題がなければ削除してください。</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>引き継がれたログイン情報 (ウォレットで暗号化済み):</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>もう一度ログインしてください。これらは別のマシン用に暗号化されているため、ここでは読み取れません:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>バックアップ内の無視されたファイル:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>バックアップをインポートしました</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>バックアップの内容が勝手に実行されないよう、オフにしたアクション。確認してからオンに戻してください:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>{0} を保存できませんでした。インポートはそこで停止しました。</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>画面録画中はShareXを閉じることができません。
 
-現在の画面録画を停止して保存しますか？</value>
+現在の画面録画を中止しますか？</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX はシステムトレイに最小化されています。</value>
@@ -2159,7 +2096,7 @@
     <value>ShareX を自分好みに</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>オープンソース • Linux 向け</value>
+    <value>オープンソース • Windows 向け</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>これらのオプションは、アプリケーション設定でいつでも変更できます。</value>
@@ -3187,6 +3124,9 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>クリップボードのアップロードを再試行しますか？</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>アンチウィルスソフトやWindowsのフォルダアクセス権限により、ShareX の使用が阻止されている可能性があります。</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>お使いのシステムの管理者がアップロード機能を無効にしています。</value>

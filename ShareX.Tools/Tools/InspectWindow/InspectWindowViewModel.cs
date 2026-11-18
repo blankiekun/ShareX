@@ -51,7 +51,7 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
     private string _selectedTitle = Localization.Strings.InspectWindowViewModel_No_target_selected;
 
     [ObservableProperty]
-    private string _selectedSubtitle = Localization.Strings.InspectWindowViewModel_Pick_a_window;
+    private string _selectedSubtitle = Localization.LinuxStrings.InspectWindowViewModel_Pick_a_window;
 
     [ObservableProperty]
     private IReadOnlyList<InspectWindowProperty> _details = [];
@@ -193,20 +193,20 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
     {
         InspectWindowProperty[] rows =
         [
-            new(Localization.Strings.InspectWindowViewModel_Window_id, window.Id),
+            new(Localization.LinuxStrings.InspectWindowViewModel_Window_id, window.Id),
             new(Localization.Strings.InspectWindowViewModel_Window_title, window.Caption),
             new(Localization.Strings.InspectWindowViewModel_Class_name, window.ResourceClass),
-            new(Localization.Strings.InspectWindowViewModel_Resource_name, window.ResourceName),
-            new(Localization.Strings.InspectWindowViewModel_Window_role, window.WindowRole),
-            new(Localization.Strings.InspectWindowViewModel_Desktop_file, window.DesktopFileName),
+            new(Localization.LinuxStrings.InspectWindowViewModel_Resource_name, window.ResourceName),
+            new(Localization.LinuxStrings.InspectWindowViewModel_Window_role, window.WindowRole),
+            new(Localization.LinuxStrings.InspectWindowViewModel_Desktop_file, window.DesktopFileName),
             new(Localization.Strings.InspectWindowViewModel_Process_name, processName),
             new(Localization.Strings.InspectWindowViewModel_Process_file_name, processFileName),
             new(Localization.Strings.InspectWindowViewModel_Process_identifier, window.Pid > 0 ? window.Pid.ToString() : string.Empty),
             new(Localization.Strings.InspectWindowViewModel_Window_rectangle, FormatRectangle(window.FrameGeometry)),
             new(Localization.Strings.InspectWindowViewModel_Client_rectangle, FormatRectangle(window.ClientGeometry)),
-            new(Localization.Strings.InspectWindowViewModel_Output, window.OutputName),
-            new(Localization.Strings.InspectWindowViewModel_Window_type, window.WindowType),
-            new(Localization.Strings.InspectWindowViewModel_Window_state, string.Join(Environment.NewLine, window.State), true)
+            new(Localization.LinuxStrings.InspectWindowViewModel_Output, window.OutputName),
+            new(Localization.LinuxStrings.InspectWindowViewModel_Window_type, window.WindowType),
+            new(Localization.LinuxStrings.InspectWindowViewModel_Window_state, string.Join(Environment.NewLine, window.State), true)
         ];
 
         return rows.Where(x => !string.IsNullOrWhiteSpace(x.Value)).ToArray();
@@ -229,7 +229,7 @@ public sealed partial class InspectWindowViewModel : ViewModelBase, IDisposable
         _selectedWindowId = null;
         HasSelection = false;
         SelectedTitle = Localization.Strings.InspectWindowViewModel_No_target_selected;
-        SelectedSubtitle = Localization.Strings.InspectWindowViewModel_Pick_a_window;
+        SelectedSubtitle = Localization.LinuxStrings.InspectWindowViewModel_Pick_a_window;
         Details = [];
         IsTopMost = false;
         Opacity = 100;

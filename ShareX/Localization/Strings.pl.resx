@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Czy chcesz zresetować ustawienia ShareX?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Uruchomienie zostało wyłączone przez Twoją organizację</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Uruchamianie zostało wyłączone w menedżerze zadań</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Uruchomienie zostało włączone przez Twoją organizację</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Uruchom ShareX przy starcie systemu Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Aby ustawienia zaczęły obowiązywać, należy ponownie uruchomić ShareX ze Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Po kliknięciu lewym na ikonę w zasobniku:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Po kliknięciu środkowym na ikonę w zasobniku:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Zapisuj tylko wtedy, gdy adres URL nie jest pusty</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Ustawienia aplikacji</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Pulpit</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Uruchamiaj ShareX po zalogowaniu</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Pokaż "Edytuj za pomocą ShareX" w menu kontekstowym programu Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Pokaż "Prześlij za pomocą ShareX" w menu kontekstowym programu Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Proszę wybrać inny skrót klawiszowy lub zamknąć konfliktową aplikację i p
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Brak ustawień wstępnych efektów obrazu</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Nie ma innego okna do przechwycenia. Otwórz okno, które chcesz przechwycić, a następnie spróbuj ponownie.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Nie znaleziono okien</value>
   </data>
@@ -1549,6 +1549,9 @@ Proszę wybrać inny skrót klawiszowy lub zamknąć konfliktową aplikację i p
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Przeglądarka pamięci zdalnej...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Uruchom ponownie jako administrator</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Linijka</value>
@@ -1971,20 +1974,6 @@ Proszę uruchomić ShareX jako administrator, aby zmienić ścieżkę folderu os
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Selektor kolorów ekranu</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF nie został ukończony, więc go odrzucono. Nagranie zachowano jako MP4 w lokalizacji:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-Plik został zachowany, ale może nie dać się odtworzyć:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX został nieoczekiwanie zamknięty podczas nagrywania. Nagranie zapisano w lokalizacji:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Pasek</value>
   </data>
@@ -2048,6 +2037,9 @@ Plik został zachowany, ale może nie dać się odtworzyć:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Dźwięk systemowy</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Wybrane okno do nagrywania nie jest już dostępne.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Głośność nagrania (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ Plik został zachowany, ale może nie dać się odtworzyć:
     <value>Błąd podczas eksportowania kopii zapasowej:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Kopia zapasowa ShareX zawiera Twoje dane logowania i klucze API w postaci zwykłego tekstu, aby można je było przenieść na inny komputer. Każdy, kto zdobędzie ten plik, może z nich skorzystać.&#xD;
-&#xD;
-Zachowaj ją w tajemnicy i usuń po przywróceniu. Mimo to wyeksportować?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Błąd podczas importowania kopii zapasowej:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} w kopii zapasowej jest uszkodzony, więc nic nie zaimportowano.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Kopia zapasowa zawiera dane logowania, których nie można zapisać bez Twojego portfela, więc nic nie zaimportowano. Otwórz portfel i spróbuj ponownie.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>Plik nie zawiera ustawień ani historii ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Pominięte efekty obrazu, ponieważ ta wersja ich nie ma:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Historia: dodano {0}, już obecnych {1}, nieczytelnych {2}.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Poprzednia historia została zapisana w {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Historia nie została zaimportowana: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Foldery zmienione na ich lokalizację w systemie Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Ustawienia przywrócone do wartości domyślnych, ponieważ ścieżka nie ma tu odpowiednika:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Ten plik kopii zapasowej zawiera Twoje dane logowania w postaci zwykłego tekstu. Usuń go, gdy będziesz zadowolony z importu.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Przeniesione dane logowania, teraz zaszyfrowane Twoim portfelem:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Zaloguj się ponownie. Te dane zostały zaszyfrowane dla innego komputera i nie można ich tutaj odczytać:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Zignorowane pliki z kopii zapasowej:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Zaimportowano kopię zapasową</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Wyłączone akcje, aby nic z kopii zapasowej nie uruchamiało się samo. Sprawdź je i włącz ponownie:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Nie można zapisać {0}. Import zatrzymał się w tym miejscu.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nie może zostać zamknięty, gdy aktywne jest nagrywanie ekranu.
 
-Czy chcesz zatrzymać aktywne nagrywanie ekranu i zapisać nagranie?</value>
+Czy chcesz przerwać aktywne nagrywanie ekranu?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX jest zminimalizowany do zasobnika systemowego.</value>
@@ -2159,7 +2096,7 @@ Czy chcesz zatrzymać aktywne nagrywanie ekranu i zapisać nagranie?</value>
     <value>Dostosuj ShareX do siebie</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Open source • Stworzone dla systemu Linux</value>
+    <value>Otwarte źródło • Stworzone dla Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Te opcje możesz w każdej chwili zmienić w ustawieniach aplikacji.</value>
@@ -3187,6 +3124,9 @@ Możesz je później wyłączyć w menu "Zadania po przechwyceniu".</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Czy chcesz ponowić próbę przesłania schowka?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Twoje oprogramowanie antywirusowe lub funkcja kontrolowanego dostępu do folderów w systemie Windows może blokować ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Administrator systemu wyłączył funkcję przesyłania.</value>

@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>คุณต้องการ รีเซ็ต ShareX การตั้งค่า?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>การเริ่มระบบถูกปิดใช้งานโดยองค์กรของคุณ</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>การเริ่มระบบถูกปิดใช้งานในตัวจัดการงาน</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>การเริ่มระบบถูกเปิดใช้งานโดยองค์กรของคุณ</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>เรียกใช้ ShareX เมื่อ Windows เริ่มทำงาน</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>ต้องเปิด ShareX ใหม่จาก Steam เพื่อให้การตั้งค่ามีผล</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>บน ไอคอนถาดระบบ คลิกซ้าย:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>เมื่อคลิกกลางไอคอนถาดระบบ:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>บันทึกเฉพาะเมื่อ URL ไม่ว่างเปล่า</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - การตั้งค่าแอปพลิเคชัน</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>เดสก์ท็อป</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>เรียกใช้ ShareX เมื่อเข้าสู่ระบบ</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>แสดง "แก้ไขด้วย ShareX" ในเมนูบริบทของ Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>แสดง "อัปโหลดด้วย ShareX" ในเมนูบริบทของ Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>หน้าต่าง</value>
@@ -1520,9 +1523,6 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>ไม่มีค่าที่ตั้งไว้ของเอฟเฟกต์รูปภาพ</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>ไม่มีหน้าต่างอื่นให้จับภาพ เปิดหน้าต่างที่คุณต้องการ แล้วลองอีกครั้ง</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>ไม่พบหน้าต่าง</value>
   </data>
@@ -1549,6 +1549,9 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>เบราว์เซอร์จัดเก็บข้อมูลระยะไกล...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>เริ่มใหม่ในฐานะผู้ดูแลระบบ</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>ไม้บรรทัด...</value>
@@ -1971,20 +1974,6 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>หน้าจอ ตัวเลือกสี</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF ไม่เสร็จสมบูรณ์จึงถูกทิ้งไป ไฟล์ที่บันทึกไว้ถูกเก็บเป็น MP4 ที่:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-เก็บไฟล์ไว้แล้ว แต่อาจเล่นไม่ได้:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX ถูกปิดโดยไม่คาดคิดระหว่างการบันทึก ไฟล์ที่บันทึกไว้ถูกเก็บที่:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>แถบ</value>
   </data>
@@ -2048,6 +2037,9 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>เสียงระบบ</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>หน้าต่างที่เลือกสำหรับบันทึกไม่พร้อมใช้งานแล้ว</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>ระดับเสียงในบันทึก (%)</value>
   </data>
@@ -2061,69 +2053,14 @@
     <value>ข้อผิดพลาด ขณะที่ กำลังส่งออก สำรองข้อมูล:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>ข้อมูลสำรอง ShareX เก็บข้อมูลเข้าสู่ระบบและคีย์ API ของคุณเป็นข้อความธรรมดาที่ไม่ได้เข้ารหัส เพื่อให้ย้ายไปยังเครื่องอื่นได้ ใครก็ตามที่ได้ไฟล์นี้ไปจะสามารถใช้ข้อมูลเหล่านั้นได้&#xD;
-&#xD;
-เก็บไฟล์นี้ไว้เป็นความลับ และลบทิ้งเมื่อกู้คืนเสร็จแล้ว ต้องการส่งออกต่อไปหรือไม่?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>ข้อผิดพลาด ขณะที่ กำลังนำเข้า สำรองข้อมูล:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} ในข้อมูลสำรองเสียหาย จึงไม่ได้นำเข้าสิ่งใด</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>ข้อมูลสำรองมีข้อมูลเข้าสู่ระบบ ซึ่งไม่สามารถเก็บได้หากไม่มีวอลเล็ตของคุณ จึงไม่ได้นำเข้าสิ่งใด เปิดวอลเล็ตแล้วลองอีกครั้ง&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>ไฟล์นี้ไม่มีการตั้งค่าหรือประวัติของ ShareX</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>เอฟเฟกต์รูปภาพที่ถูกข้าม เนื่องจากเวอร์ชันนี้ไม่มีเอฟเฟกต์เหล่านั้น:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>ประวัติ: เพิ่ม {0}, มีอยู่แล้ว {1}, อ่านไม่ได้ {2}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>บันทึกประวัติก่อนหน้าของคุณไปยัง {0} แล้ว</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>ไม่ได้นำเข้าประวัติ: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>โฟลเดอร์ที่เปลี่ยนเป็นตำแหน่งใน Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>การตั้งค่าที่กลับเป็นค่าเริ่มต้น เนื่องจากเส้นทางไม่มีตำแหน่งที่เทียบเท่าที่นี่:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>ไฟล์ข้อมูลสำรองนี้เก็บข้อมูลเข้าสู่ระบบของคุณเป็นข้อความธรรมดาที่ไม่ได้เข้ารหัส ลบทิ้งเมื่อคุณพอใจกับการนำเข้าแล้ว</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>ข้อมูลเข้าสู่ระบบที่ย้ายมาแล้ว ซึ่งตอนนี้เข้ารหัสด้วยวอลเล็ตของคุณ:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>เข้าสู่ระบบอีกครั้ง รายการเหล่านี้ถูกเข้ารหัสสำหรับเครื่องอื่นและไม่สามารถอ่านได้ที่นี่:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>ไฟล์ในข้อมูลสำรองที่ถูกละเว้น:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>นำเข้าข้อมูลสำรองแล้ว</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>การดำเนินการที่ถูกปิด เพื่อไม่ให้สิ่งใดจากข้อมูลสำรองทำงานเอง ตรวจสอบแล้วเปิดใช้งานอีกครั้ง:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>ไม่สามารถบันทึก {0} ได้ การนำเข้าหยุดที่จุดนั้น</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ไม่สามารถปิด ShareX ขณะกำลังบันทึกหน้าจอ
 
-ต้องการหยุดการบันทึกหน้าจอที่กำลังทำงานและบันทึกไฟล์หรือไม่</value>
+ต้องการยกเลิกการบันทึกหน้าจอที่กำลังทำงานหรือไม่</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX ย่อเล็กสุดแล้ว เพื่อ ถาดระบบ.</value>
@@ -2159,7 +2096,7 @@
     <value>ปรับ ShareX ให้เป็นแบบคุณ</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>โอเพนซอร์ส • สร้างมาเพื่อ Linux</value>
+    <value>โอเพนซอร์ส • สร้างขึ้นสำหรับ Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>คุณสามารถเปลี่ยนตัวเลือกเหล่านี้ได้ทุกเมื่อในการตั้งค่าแอปพลิเคชัน</value>
@@ -3187,6 +3124,9 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>คุณต้องการ ลองอีกครั้ง การอัปโหลดคลิปบอร์ด?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>ซอฟต์แวร์ป้องกันไวรัสหรือคุณลักษณะการควบคุมการเข้าถึงโฟลเดอร์ใน Windows อาจกำลังบล็อก ShareX</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>ผู้ดูแลระบบของคุณปิดใช้งานคุณลักษณะการอัปโหลด</value>

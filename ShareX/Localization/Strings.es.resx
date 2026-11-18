@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>¿Desea restablecer la configuración de ShareX?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Iniciarup has been disabled by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Iniciarup has been disabled in Task Manager</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Iniciarup has been enabled by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Ejecutar ShareX al iniciar Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Para que la configuración surta efecto, ShareX debe volver a abrirse desde Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Al hacer clic izquierdo en el icono de bandeja:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Al hacer clic central en el icono de bandeja:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Guardar solo si la URL no está vacía</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Configuración de la aplicación</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Escritorio</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Ejecutar ShareX al iniciar sesión</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Mostrar "Editar con ShareX" en el menú contextual de Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Mostrar "Subir con ShareX" en el menú contextual de Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Por favor seleccione una tecla de acceso directo diferente o salir de la aplicac
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>No hay ajustes preestablecidos de efectos de imagen</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>No hay ninguna otra ventana para capturar. Abre la ventana que quieras y vuelve a intentarlo.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>No se encontraron ventanas</value>
   </data>
@@ -1549,6 +1549,9 @@ Por favor seleccione una tecla de acceso directo diferente o salir de la aplicac
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Navegador de almacenamiento remoto...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Reiniciar como administrador</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Regla</value>
@@ -1971,20 +1974,6 @@ Por favor ejecute ShareX como administrador para cambiar ruta de la carpeta pers
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Pantalla color picker</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>El GIF no se terminó, así que se descartó. La grabación se conservó como MP4 en:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-El archivo se conservó, pero es posible que no se pueda reproducir:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX se cerró inesperadamente durante una grabación. La grabación se guardó en:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Barra</value>
   </data>
@@ -2048,6 +2037,9 @@ El archivo se conservó, pero es posible que no se pueda reproducir:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio del sistema</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>La ventana seleccionada para grabar ya no está disponible.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volumen de grabación (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ El archivo se conservó, pero es posible que no se pueda reproducir:
     <value>Error al exportar la copia de seguridad:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Una copia de seguridad de ShareX guarda sus inicios de sesión y claves de API en texto sin cifrar, para que puedan pasar a otro equipo. Cualquiera que obtenga el archivo puede usarlos.&#xD;
-&#xD;
-Manténgala en privado y elimínela cuando la haya restaurado. ¿Exportar de todos modos?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Error al importar la copia de seguridad:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} en la copia de seguridad está dañado, por lo que no se importó nada.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>La copia de seguridad contiene inicios de sesión, y no se pueden guardar sin su cartera, por lo que no se importó nada. Abra la cartera e inténtelo de nuevo.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>El archivo no contiene configuración ni historial de ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Efectos de imagen omitidos, porque esta versión no los incluye:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Historial: {0} añadidos, {1} ya presentes, {2} ilegibles.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Su historial anterior se guardó en {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>El historial no se importó: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Carpetas cambiadas a su ubicación en Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Configuración devuelta a su valor predeterminado, porque la ruta no tiene equivalente aquí:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Este archivo de copia de seguridad guarda sus inicios de sesión en texto sin cifrar. Elimínelo cuando esté conforme con la importación.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Inicios de sesión que se transfirieron, ahora cifrados con su cartera:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Inicie sesión de nuevo. Estos datos se cifraron para otro equipo y no se pueden leer aquí:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Archivos de la copia de seguridad que se ignoraron:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Copia de seguridad importada</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Acciones desactivadas, para que nada de la copia de seguridad se ejecute por sí solo. Revíselas y vuelva a activarlas:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>No se pudo guardar {0}. La importación se detuvo ahí.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>ShareX no se puede cerrar mientras la grabación de pantalla está activa.
+    <value>ShareX cannot be closed while grabación de pantalla is active.
 
-¿Desea detener la grabación de pantalla activa y guardarla?</value>
+Do you want to abort the active grabación de pantalla?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX está minimizado en la bandeja del sistema.</value>
@@ -2159,7 +2096,7 @@ Manténgala en privado y elimínela cuando la haya restaurado. ¿Exportar de tod
     <value>Haz que ShareX sea tuyo</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Código abierto • Creado para Linux</value>
+    <value>Código abierto • Creado para Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Puedes cambiar estas opciones en cualquier momento en la configuración de la aplicación.</value>
@@ -3186,6 +3123,9 @@ You can later disable it from "After captura tasks" menú.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry portapapeles subida?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Your anti-virus software or the controlled carpeta access feature in Ventanas could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin disabled the subida feature.</value>

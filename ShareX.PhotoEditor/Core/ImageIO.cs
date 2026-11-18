@@ -116,7 +116,7 @@ public static class ImageIO
         };
         if (coder == null) return null;
         string magick = FileHelpers.FindExecutableOnPath("magick") ?? throw new InvalidDataException(
-            string.Format(ShareX.HelpersLib.Localization.Strings.ImageIO_Open_needs_ImageMagick, Path.GetFileName(path)));
+            string.Format(ShareX.HelpersLib.Localization.LinuxStrings.ImageIO_Open_needs_ImageMagick, Path.GetFileName(path)));
         try
         {
             using FileStream input = File.OpenRead(path);
@@ -253,7 +253,7 @@ public static class ImageIO
 
     private static void SaveTiff(SKBitmap bitmap, Stream stream)
     {
-        string magick = FileHelpers.FindExecutableOnPath("magick") ?? throw new InvalidOperationException(ShareX.HelpersLib.Localization.Strings.ImageIO_Save_needs_ImageMagick);
+        string magick = FileHelpers.FindExecutableOnPath("magick") ?? throw new InvalidOperationException(ShareX.HelpersLib.Localization.LinuxStrings.ImageIO_Save_needs_ImageMagick);
         using MemoryStream png = new();
         bitmap.Save(png, SKEncodedImageFormat.Png);
         png.Position = 0;

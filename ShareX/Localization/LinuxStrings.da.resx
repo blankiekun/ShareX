@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>Skrivebord</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>Kør ShareX, når du logger på</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Vis ”Rediger med ShareX” i hurtigmenuen i Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Vis ”Upload med ShareX” i hurtigmenuen i Dolphin</value>
+  </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>Der er ikke noget andet vindue at optage. Åbn det ønskede vindue, og prøv igen.</value>
+  </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF'en blev ikke færdig, så den blev kasseret. Optagelsen blev beholdt som MP4 her:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Filen blev beholdt, men den kan muligvis ikke afspilles:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX blev lukket uventet under en optagelse. Optagelsen blev gemt her:
+{0}</value>
+  </data>
+  <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
+    <value>ShareX kan ikke lukkes, mens en skærmoptagelse er i gang.
+
+Vil du stoppe den aktive skærmoptagelse og gemme den?</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>Open source • Bygget til Linux</value>
+  </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>En ShareX-sikkerhedskopi indeholder dine logins og API-nøgler i klartekst, så de kan flyttes til en anden maskine. Enhver, der får fat i filen, kan bruge dem.&#xD;
+&#xD;
+Hold den privat, og slet den, når du har gendannet den. Eksportér alligevel?</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Sikkerhedskopi importeret</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Log ind igen. Disse blev krypteret til en anden maskine og kan ikke læses her:</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Logins, der kom med over, nu krypteret med din tegnebog:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Mapper ændret til deres Linux-placering:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Indstillinger sat tilbage til standard, fordi stien ikke har noget tilsvarende her:</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Handlinger slået fra, så intet fra sikkerhedskopien kører af sig selv. Kontrollér dem, og slå dem til igen:</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Billedeffekter udeladt, fordi denne version ikke har dem:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Historik: {0} tilføjet, {1} findes allerede, {2} ulæselige.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Din tidligere historik blev gemt i {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Historikken blev ikke importeret: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Filer i sikkerhedskopien, der blev ignoreret:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Denne sikkerhedskopifil indeholder dine logins i klartekst. Slet den, når du er tilfreds med importen.</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Filen indeholder ingen ShareX-indstillinger eller historik.</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} i sikkerhedskopien er beskadiget, så intet blev importeret.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Sikkerhedskopien indeholder logins, og de kan ikke gemmes uden din tegnebog, så intet blev importeret. Åbn tegnebogen, og prøv igen.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Kunne ikke gemme {0}. Importen stoppede der.</value>
+  </data>
+</root>

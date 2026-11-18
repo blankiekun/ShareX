@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Would you like to visszaállítás ShareX beállítások?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Indításup has been letiltva by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Az indítás le lett tiltva a Feladatkezelőben</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Indításup has been engedélyezve by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>A ShareX futtatása a Windows indításakor</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>For beállítások to take effektus ShareX needs to be remegnyitásed from Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Bal kattintás a tálcaikonon:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Középső kattintás a tálcaikonon:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Only mentés if URL is not empty</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Alkalmazás beállítások</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Asztal</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>ShareX futtatása bejelentkezéskor</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>"Szerkesztés ShareX-szel" megjelenítése a Dolphin helyi menüjében</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>"Feltöltés ShareX használatával" megjelenítése a Dolphin helyi menüjében</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Nincsenek képeffektus-előbeállítások</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Nincs más rögzíthető ablak. Nyissa meg a kívánt ablakot, majd próbálja újra.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Nem találhatók ablakok</value>
   </data>
@@ -1549,6 +1549,9 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Távoli tároló böngésző...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Újraindítás rendszergazdaként</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Vonalzó</value>
@@ -1971,20 +1974,6 @@ Kérlek futtasd a ShareX-et adminisztrátori jogosultságokkal a személyes mapp
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Képernyő szín picker</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>A GIF nem készült el, ezért a program elvetette. A felvétel MP4-ként megmaradt itt:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-A fájl megmaradt, de lehet, hogy nem játszható le:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>A ShareX váratlanul bezárult egy felvétel közben. A felvétel ide lett mentve:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Sáv</value>
   </data>
@@ -2048,6 +2037,9 @@ A fájl megmaradt, de lehet, hogy nem játszható le:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Rendszerhang</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>A felvételhez kiválasztott ablak már nem érhető el.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Felvételi hangerő (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ A fájl megmaradt, de lehet, hogy nem játszható le:
     <value>Hiba a biztonsági mentés exportálásakor:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>A ShareX biztonsági mentés egyszerű szövegként tartalmazza a bejelentkezési adatait és API-kulcsait, hogy átvihetők legyenek egy másik gépre. Bárki, aki megszerzi a fájlt, felhasználhatja őket.&#xD;
-&#xD;
-Tartsa titokban, és törölje, miután visszaállította. Exportálja mégis?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Hiba a biztonsági mentés importálásakor:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>A biztonsági mentésben a(z) {0} sérült, ezért semmi sem lett importálva.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>A biztonsági mentés bejelentkezési adatokat tartalmaz, és ezek nem tárolhatók a jelszótárca nélkül, ezért semmi sem lett importálva. Nyissa meg a jelszótárcát, és próbálja újra.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>A fájl nem tartalmaz ShareX-beállításokat vagy előzményeket.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Kihagyott képeffektusok, mert ez a verzió nem tartalmazza őket:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Előzmények: {0} hozzáadva, {1} már megvolt, {2} olvashatatlan.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>A korábbi előzményei ide lettek mentve: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Az előzmények importálása nem történt meg: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Linuxos helyükre módosított mappák:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Alapértékre visszaállított beállítások, mert az elérési útnak itt nincs megfelelője:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Ez a biztonsági mentés fájl egyszerű szövegként tartalmazza a bejelentkezési adatait. Törölje, ha elégedett az importálással.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Átkerült bejelentkezési adatok, most a jelszótárcájával titkosítva:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Jelentkezzen be újra. Ezek egy másik géphez lettek titkosítva, és itt nem olvashatók:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>A biztonsági mentés figyelmen kívül hagyott fájljai:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Biztonsági mentés importálva</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Kikapcsolt műveletek, hogy a biztonsági mentésből semmi ne fusson magától. Ellenőrizze és kapcsolja vissza őket:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>A(z) {0} nem menthető. Az importálás itt leállt.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>A ShareX nem zárható be, amíg a képernyőfelvétel aktív.
+    <value>ShareX cannot be closed while képernyőfelvétel is active.
 
-Leállítja és menti az aktív képernyőfelvételt?</value>
+Do you want to megszakítás the active képernyőfelvétel?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>A ShareX a rendszertálcára van kicsinyítve.</value>
@@ -2159,7 +2096,7 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
     <value>Tegye egyedivé a ShareX-et</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Nyílt forráskódú • Linux rendszerre készült</value>
+    <value>Nyílt forráskódú • Windowshoz készült</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Ezeket a beállításokat bármikor módosíthatja az alkalmazás beállításaiban.</value>
@@ -3187,6 +3124,9 @@ You can later disable it from "Rögzítés után tasks" menü.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to újrapróbálás vágólap feltöltés?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Your anti-virus software or the controlled mappa access feature in Ablaks could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin letiltva the feltöltés feature.</value>

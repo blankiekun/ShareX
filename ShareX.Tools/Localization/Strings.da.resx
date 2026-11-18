@@ -350,6 +350,9 @@ Filsti: {0}</value>
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Gennemse...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>Enhed</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Billede</value>
   </data>
@@ -361,6 +364,9 @@ Filsti: {0}</value>
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Åbn modelmappen</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>Behandlingsenhed</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Opdater modeller</value>
@@ -382,9 +388,6 @@ Filsti: {0}</value>
   </data>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX – Fjern baggrund</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin kan ikke gøre dette for dette vindue: det tegner sin egen titellinje eller kan ikke vises i fuld skærm.</value>
   </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Det valgte vindue kunne ikke skiftes. {0}</value>
@@ -1163,20 +1166,11 @@ Filsti: {0}</value>
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Kontrolelement</value>
   </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>.desktop-fil</value>
-  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Udvidede vinduestyper</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Intet mål er valgt</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>Skærm</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>Vælg et vindue for at undersøge dets egenskaber.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Vælg et vindue eller kontrolelement for at undersøge dets egenskaber</value>
@@ -1193,9 +1187,6 @@ Filsti: {0}</value>
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Bredde: {2}  Højde: {3}</value>
   </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>Ressourcenavn</value>
-  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Unavngivet vindue</value>
   </data>
@@ -1205,26 +1196,14 @@ Filsti: {0}</value>
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Vinduesreference</value>
   </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>Vindues-id</value>
-  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Vinduesrektangel</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>Vinduesrolle</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>Vinduestilstand</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Vinduestyper</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Vinduestitel</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>Vinduestype</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Altid øverst</value>
@@ -1259,14 +1238,23 @@ Filsti: {0}</value>
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Vinduesindstillinger</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>Automatisk</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Diagonal tilbage</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>Processor</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Skakmønster</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Diagonal frem</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>Grafikprocessor</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1468,9 +1456,6 @@ Filsti: {0}</value>
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Fremhæv tilstand:</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>Fremhæver markøren, også i optagelser, når indstillingen for musemarkering er slået til under Opgaveindstillinger → Optagelse → Skærmoptager. Klik kan ikke fremhæves: Wayland lader ikke programmer se dem.</value>
-  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Primær knapfarve:</value>
   </data>
@@ -1621,26 +1606,11 @@ Filsti: {0}</value>
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Mål</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract mislykkedes med kode {0}. {1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>Tesseract har ingen data for sproget ”{0}”. Installér det med din pakkehåndtering, for eksempel: sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>Sproget {0} er ikke tilgængeligt til OCR på dette system.</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>Tesseract har ingen sprogdata installeret. Installér et sprog med din pakkehåndtering, for eksempel: sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Optisk tekstgenkendelse er kun tilgængelig i Windows version {0} eller senere.</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>OCR kræver programmet tesseract, som ikke blev fundet i PATH. Installér det med din pakkehåndtering, for eksempel: sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract blev ikke færdig inden for {0} sekunder og blev stoppet.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2188,14 +2158,8 @@ Filsti: {0}</value>
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Indlæser video...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>Videoafspilning kræver libmpv. Installér pakken mpv.</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Slå lyden fra</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>Denne video kunne ikke afspilles. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Afspilningsposition</value>

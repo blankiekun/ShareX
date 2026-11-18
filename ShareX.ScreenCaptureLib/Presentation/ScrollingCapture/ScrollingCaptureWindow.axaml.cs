@@ -143,7 +143,7 @@ public partial class ScrollingCaptureWindow : Window
             if (await _service.SelectWindowAsync())
             {
                 _areaSelected = true;
-                StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Press_start;
+                StatusText.Text = Localization.LinuxStrings.ScrollingCaptureWindow_Press_start;
                 CaptureButtonText.Text = Localization.Strings.ScreenRecordWindow_Start;
                 SetCompact(true);
                 RestoreAndActivate();
@@ -177,10 +177,10 @@ public partial class ScrollingCaptureWindow : Window
         SetCaptureControlsEnabled(false);
         ResultSizeText.Text = string.Empty;
         ResetPreview();
-        StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Scroll_now;
+        StatusText.Text = Localization.LinuxStrings.ScrollingCaptureWindow_Scroll_now;
         StatusIcon.Text = LucideIcons.loader_circle;
         StatusIcon.Foreground = Brushes.DodgerBlue;
-        CaptureButtonText.Text = Localization.Strings.ScrollingCaptureWindow_Stop;
+        CaptureButtonText.Text = Localization.LinuxStrings.ScrollingCaptureWindow_Stop;
 
         try
         {
@@ -217,7 +217,7 @@ public partial class ScrollingCaptureWindow : Window
 
     private void OnOverlapChanged(bool overlaps)
     {
-        StatusText.Text = overlaps ? Localization.Strings.ScrollingCaptureWindow_Scroll_now : Localization.Strings.ScrollingCaptureWindow_Scroll_back;
+        StatusText.Text = overlaps ? Localization.LinuxStrings.ScrollingCaptureWindow_Scroll_now : Localization.LinuxStrings.ScrollingCaptureWindow_Scroll_back;
     }
 
     /// <summary>Only the button and the message, on top and beside the area, so the wheel keeps reaching what is scrolled.</summary>
@@ -312,7 +312,7 @@ public partial class ScrollingCaptureWindow : Window
             case ScrollingCaptureStatus.HeightLimitReached:
                 StatusIcon.Text = LucideIcons.triangle_alert;
                 StatusIcon.Foreground = Brushes.Goldenrod;
-                StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Height_limit_reached;
+                StatusText.Text = Localization.LinuxStrings.ScrollingCaptureWindow_Height_limit_reached;
                 break;
         }
     }

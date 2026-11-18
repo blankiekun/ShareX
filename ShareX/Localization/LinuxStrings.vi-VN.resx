@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>Màn hình nền</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>Chạy ShareX khi bạn đăng nhập</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Hiện "Chỉnh sửa với ShareX" trong menu ngữ cảnh của Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Hiện "Tải lên với ShareX" trong menu ngữ cảnh của Dolphin</value>
+  </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>Không có cửa sổ nào khác để chụp. Hãy mở cửa sổ bạn muốn, rồi thử lại.</value>
+  </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>Chưa tạo xong GIF nên GIF đã bị loại bỏ. Bản ghi được giữ lại dưới dạng MP4 tại:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Tệp đã được giữ lại nhưng có thể không phát được:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX đã bị đóng đột ngột trong khi đang ghi. Bản ghi đã được lưu vào:
+{0}</value>
+  </data>
+  <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
+    <value>Không thể đóng ShareX khi đang quay màn hình.
+
+Bạn có muốn dừng phiên quay màn hình đang hoạt động và lưu lại không?</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>Mã nguồn mở • Xây dựng cho Linux</value>
+  </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Bản sao lưu ShareX lưu thông tin đăng nhập và khóa API của bạn dưới dạng văn bản thuần, để có thể chuyển sang máy khác. Bất kỳ ai có được tệp này đều có thể sử dụng chúng.&#xD;
+&#xD;
+Hãy giữ kín bản sao lưu và xóa nó sau khi đã khôi phục. Vẫn xuất?</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Đã nhập bản sao lưu</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Hãy đăng nhập lại. Những mục này được mã hóa cho máy khác và không thể đọc ở đây:</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Thông tin đăng nhập đã chuyển sang, hiện được mã hóa bằng ví của bạn:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Các thư mục đã đổi sang vị trí trên Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Các cài đặt đã trở về mặc định vì đường dẫn không có vị trí tương đương ở đây:</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Các hành động đã tắt để không có gì từ bản sao lưu tự chạy. Hãy kiểm tra rồi bật lại:</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Các hiệu ứng ảnh bị bỏ qua vì phiên bản này không có:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Lịch sử: đã thêm {0}, đã có {1}, không đọc được {2}.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Lịch sử trước đây của bạn đã được lưu vào {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Lịch sử chưa được nhập: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Các tệp trong bản sao lưu đã bị bỏ qua:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Tệp sao lưu này lưu thông tin đăng nhập của bạn dưới dạng văn bản thuần. Hãy xóa nó khi bạn đã hài lòng với kết quả nhập.</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Tệp không có cài đặt hoặc lịch sử ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} trong bản sao lưu bị hỏng nên không có gì được nhập.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Bản sao lưu có thông tin đăng nhập, và không thể lưu chúng nếu không có ví của bạn, nên không có gì được nhập. Hãy mở ví rồi thử lại.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Không thể lưu {0}. Quá trình nhập đã dừng ở đó.</value>
+  </data>
+</root>

@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>آیا می خواهید تنظیمات ShareX را به حالت اولیه برگردانید؟</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>شروعup has been disabled by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>شروع خودکار در Task Manager غیرفعال شده است.</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>شروعup has been enabled by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>هنگام شروع ویندوز، ShareX را اجرا کن</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>برای اعمال تنظیمات نرم افزار باید بسته و سپس باز شود.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>کلیک چپ روی آیکن در نواروظیفه:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>کلیک وسط روی آیکن در نواروظیفه:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>فقط در صورتی آدرس را ذخیره کن که خالی نباشد</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - تنظیمات برنامه</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>میزکار</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>اجرای ShareX هنگام ورود به سیستم</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>نمایش «ویرایش با ShareX» در منوی زمینه‌ای Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>نمایش «آپلود با ShareX» در منوی زمینه‌ای Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Please select a different hotkey or quit the conflicting application and reبا�
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>هیچ پیش‌تنظیم جلوه تصویری وجود ندارد</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>پنجره دیگری برای ثبت وجود ندارد. پنجره مورد نظر را باز کنید و سپس دوباره تلاش کنید.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>هیچ پنجره‌ای پیدا نشد</value>
   </data>
@@ -1549,6 +1549,9 @@ Please select a different hotkey or quit the conflicting application and reبا�
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>مرورگر ذخیره سازی از راه دور...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>راه‌اندازی مجدد به‌عنوان مدیر</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>خط کش</value>
@@ -1971,20 +1974,6 @@ Please select a different hotkey or quit the conflicting application and reبا�
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>صفحه رنگ picker</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>فایل GIF کامل نشد، بنابراین حذف شد. ضبط به‌صورت MP4 در این مسیر نگه داشته شد:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-فایل نگه داشته شد، اما ممکن است پخش نشود:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX هنگام ضبط به‌طور غیرمنتظره بسته شد. ضبط در این مسیر ذخیره شد:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>نوار</value>
   </data>
@@ -2048,6 +2037,9 @@ Please select a different hotkey or quit the conflicting application and reبا�
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>صدای سیستم</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>پنجرهٔ انتخاب‌شده برای ضبط دیگر در دسترس نیست.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>بلندی صدای ضبط (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ Please select a different hotkey or quit the conflicting application and reبا�
     <value>خطا هنگام برون‌بری پشتیبان:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>نسخهٔ پشتیبان ShareX اطلاعات ورود و کلیدهای API شما را به‌صورت متن ساده و رمزنشده نگه می‌دارد تا بتوانند به رایانهٔ دیگری منتقل شوند. هر کسی که فایل را به دست آورد می‌تواند از آن‌ها استفاده کند.&#xD;
-&#xD;
-آن را خصوصی نگه دارید و پس از بازیابی حذفش کنید. با این حال برون‌بری شود؟</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>خطا هنگام درون‌ریزی پشتیبان:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} در نسخهٔ پشتیبان آسیب دیده است، بنابراین چیزی وارد نشد.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>نسخهٔ پشتیبان اطلاعات ورود دارد و بدون کیف پول شما نمی‌توان آن‌ها را ذخیره کرد، بنابراین چیزی وارد نشد. کیف پول را باز کنید و دوباره تلاش کنید.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>این فایل هیچ تنظیمات یا تاریخچه‌ای از ShareX ندارد.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>جلوه‌های تصویری که کنار گذاشته شدند، زیرا این نسخه آن‌ها را ندارد:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>تاریخچه: {0} اضافه شد، {1} از قبل موجود بود، {2} خواندنی نبود.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>تاریخچهٔ قبلی شما در {0} ذخیره شد</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>تاریخچه وارد نشد: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>پوشه‌هایی که به مکان Linux خود تغییر یافتند:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>تنظیماتی که به مقدار پیش‌فرض برگشتند، زیرا مسیر اینجا معادلی ندارد:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>این فایل پشتیبان اطلاعات ورود شما را به‌صورت متن ساده و رمزنشده نگه می‌دارد. وقتی از نتیجهٔ وارد کردن راضی بودید، آن را حذف کنید.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>اطلاعات ورودی که منتقل شدند و اکنون با کیف پول شما رمزگذاری شده‌اند:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>دوباره وارد شوید. این موارد برای رایانهٔ دیگری رمزگذاری شده‌اند و اینجا قابل خواندن نیستند:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>فایل‌هایی از نسخهٔ پشتیبان که نادیده گرفته شدند:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>نسخهٔ پشتیبان وارد شد</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>کنش‌هایی که خاموش شدند تا چیزی از نسخهٔ پشتیبان خودبه‌خود اجرا نشود. آن‌ها را بررسی کنید و دوباره روشن کنید:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>{0} ذخیره نشد. وارد کردن همان‌جا متوقف شد.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>تا زمانی که ضبط صفحه فعال است، نمی‌توان ShareX را بست.
+    <value>ShareX cannot be closed while ضبط صفحه is active.
 
-آیا می‌خواهید ضبط صفحه فعال را متوقف و ذخیره کنید؟</value>
+Do you want to abort the active ضبط صفحه?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX در سینی سیستم کمینه شده است.</value>
@@ -2159,7 +2096,7 @@ Please select a different hotkey or quit the conflicting application and reبا�
     <value>ShareX را مطابق سلیقه خود تنظیم کنید</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>متن‌باز • ساخته‌شده برای Linux</value>
+    <value>متن‌باز • ساخته‌شده برای Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>می‌توانید هر زمان این گزینه‌ها را در تنظیمات برنامه تغییر دهید.</value>
@@ -3187,6 +3124,9 @@ You can later disable it from "After ضبط tasks" منو.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry کلیپ‌بورد بارگذاری?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Your anti-virus software or the controlled پوشه access feature in پنجرهs could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin disabled the بارگذاری feature.</value>

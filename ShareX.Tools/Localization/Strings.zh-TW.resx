@@ -350,6 +350,9 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>瀏覽...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>裝置</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>圖片</value>
   </data>
@@ -361,6 +364,9 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>開啟模型資料夾</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>處理裝置</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>重新整理模型</value>
@@ -382,9 +388,6 @@
   </data>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - 背景移除</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin 無法對此視窗執行此操作：該視窗自行繪製標題列，或無法進入全螢幕。</value>
   </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>無法切換選取的視窗。{0}</value>
@@ -1163,20 +1166,11 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>控制項</value>
   </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>.desktop 檔案</value>
-  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>延伸視窗樣式</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>未選擇目標</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>顯示器</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>選擇視窗以檢查其屬性。</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>選擇視窗或控制項以檢查其屬性</value>
@@ -1193,9 +1187,6 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X：{0}  Y：{1}  |  寬度：{2}  高度：{3}</value>
   </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>資源名稱</value>
-  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>無標題視窗</value>
   </data>
@@ -1205,26 +1196,14 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>視窗控制代碼</value>
   </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>視窗 ID</value>
-  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>視窗矩形</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>視窗角色</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>視窗狀態</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>視窗樣式</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>視窗標題</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>視窗類型</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>总在最前</value>
@@ -1259,14 +1238,23 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>視窗設定</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>自動</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>反向對角線</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>棋盤格</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>正向對角線</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1468,9 +1456,6 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>突出顯示模式：</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>反白顯示指標；若在 任務設定 → 擷取 → 螢幕錄製器 中開啟滑鼠螢光筆選項，錄製內容中也會顯示。無法反白顯示點擊：Wayland 不允許應用程式看到點擊。</value>
-  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>主按鈕顏色：</value>
   </data>
@@ -1621,26 +1606,11 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>目標</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract 失敗，代碼為 {0}。{1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>Tesseract 沒有語言「{0}」的資料。請使用套件管理員安裝，例如：sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>此系統不提供 {0} 語言用於 OCR。</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>Tesseract 未安裝任何語言資料。請使用套件管理員安裝一種語言，例如：sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>光學字元辨識仅适用於 Windows {0} 或更高版本。</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>OCR 需要 tesseract 程式，但在 PATH 中找不到。請使用套件管理員安裝，例如：sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract 未在 {0} 秒內完成，已被停止。</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2188,14 +2158,8 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>正在載入影片...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>影片播放需要 libmpv。請安裝 mpv 套件。</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>靜音</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>無法播放此影片。{0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>播放位置</value>

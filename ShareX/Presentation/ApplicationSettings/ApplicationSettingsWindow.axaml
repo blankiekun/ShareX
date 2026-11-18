@@ -261,10 +261,10 @@
                             </Grid>
                             <Border Classes="section-card" controls:SettingsSearch.IsPanel="True">
                                 <StackPanel Spacing="4">
-                                    <TextBlock Classes="section-title" Text="{x:Static res:Strings.ApplicationSettingsWindow_Desktop}"/>
+                                    <TextBlock Classes="section-title" Text="{x:Static res:LinuxStrings.ApplicationSettingsWindow_Desktop}"/>
                                     <CheckBox Classes="setting" Content="{Binding StartWithWindowsText}" IsEnabled="{Binding StartWithWindowsEnabled}" IsChecked="{Binding StartWithWindows, Mode=TwoWay}"/>
-                                    <CheckBox Classes="setting" IsVisible="{Binding WindowsIntegrationVisible}" Content="{x:Static res:Strings.ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu}" IsChecked="{Binding ShellContextMenu, Mode=TwoWay}"/>
-                                    <CheckBox Classes="setting" IsVisible="{Binding WindowsIntegrationVisible}" Content="{x:Static res:Strings.ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu}" IsChecked="{Binding EditWithShareX, Mode=TwoWay}"/>
+                                    <CheckBox Classes="setting" IsVisible="{Binding WindowsIntegrationVisible}" Content="{x:Static res:LinuxStrings.ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu}" IsChecked="{Binding ShellContextMenu, Mode=TwoWay}"/>
+                                    <CheckBox Classes="setting" IsVisible="{Binding WindowsIntegrationVisible}" Content="{x:Static res:LinuxStrings.ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu}" IsChecked="{Binding EditWithShareX, Mode=TwoWay}"/>
                                 </StackPanel>
                             </Border>
                             <StackPanel controls:SettingsSearch.IsAvailabilityContainer="True" IsVisible="{Binding WindowsIntegrationVisible}">

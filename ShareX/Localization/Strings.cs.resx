@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Chcete obnovit nastavení ShareX?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Spouštění bylo zakázáno vaší organizací</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Spouštění bylo zakázáno ve Správci úloh</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Spouštění bylo povoleno vaší organizací</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Spouštět ShareX při spuštění Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Aby se nastavení projevilo, je nutné ShareX znovu otevřít ze služby Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Při kliknutí levým tlačítkem na ikonu:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Při kliknutí prostředním tlačítkem na ikonu:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Ukládat pouze v případě, že adresa URL není prázdná</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX – Nastavení aplikace</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Plocha</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Spustit ShareX při přihlášení</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Zobrazit „Upravit pomocí ShareX“ v místní nabídce aplikace Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Zobrazit „Nahrát pomocí ShareX“ v místní nabídce aplikace Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Vyberte jinou klávesovou zkratku nebo ukončete konfliktní aplikaci a znovu ot
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Žádné předvolby efektů obrázku</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Není k dispozici žádné jiné okno k zachycení. Otevřete požadované okno a zkuste to znovu.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Nebyla nalezena žádná okna</value>
   </data>
@@ -1549,6 +1549,9 @@ Vyberte jinou klávesovou zkratku nebo ukončete konfliktní aplikaci a znovu ot
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Prohlížeč vzdáleného úložiště...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Restartovat jako správce</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Pravítko...</value>
@@ -1971,20 +1974,6 @@ Chcete-li změnit cestu k osobní složce, spusťte ShareX jako správce.</value
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Výběr barvy z obrazovky</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF nebyl dokončen, proto byl zahozen. Nahrávka byla zachována jako MP4 v umístění:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-Soubor byl zachován, ale nemusí jít přehrát:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX byl během nahrávání neočekávaně ukončen. Nahrávka byla uložena do:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Panel</value>
   </data>
@@ -2048,6 +2037,9 @@ Soubor byl zachován, ale nemusí jít přehrát:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Systémový zvuk</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Vybrané nahrávané okno již není dostupné.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Hlasitost nahrávky (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ Soubor byl zachován, ale nemusí jít přehrát:
     <value>Chyba při exportu zálohy:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Záloha ShareX obsahuje vaše přihlašovací údaje a klíče API v prostém textu, aby je bylo možné přenést do jiného počítače. Kdokoli, kdo soubor získá, je může použít.&#xD;
-&#xD;
-Uchovávejte ji v soukromí a po obnovení ji smažte. Přesto exportovat?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Chyba při importu zálohy:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} v záloze je poškozeno, proto nebylo nic importováno.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Záloha obsahuje přihlašovací údaje, které nelze uložit bez vaší úschovny hesel, proto nebylo nic importováno. Otevřete úschovnu a zkuste to znovu.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>Soubor neobsahuje žádná nastavení ani historii ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Vynechané efekty obrázku, protože tato verze je nemá:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Historie: přidáno {0}, již zde {1}, nečitelných {2}.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Vaše předchozí historie byla uložena do {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Historie nebyla importována: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Složky změněné na jejich umístění v Linuxu:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Nastavení vrácená na výchozí hodnoty, protože cesta zde nemá obdobu:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Tento soubor zálohy obsahuje vaše přihlašovací údaje v prostém textu. Jakmile budete s importem spokojeni, smažte jej.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Přenesené přihlašovací údaje, nyní zašifrované vaší úschovnou hesel:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Přihlaste se znovu. Tyto údaje byly zašifrovány pro jiný počítač a zde je nelze přečíst:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Soubory v záloze, které byly ignorovány:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Záloha importována</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Vypnuté akce, aby se nic ze zálohy nespustilo samo. Zkontrolujte je a znovu je zapněte:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>{0} nelze uložit. Import se tím zastavil.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nelze zavřít, když probíhá nahrávání obrazovky.
 
-Chcete aktivní nahrávání obrazovky zastavit a uložit?</value>
+Chcete aktivní nahrávání obrazovky přerušit?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX je minimalizován do oznamovací oblasti.</value>
@@ -2159,7 +2096,7 @@ Chcete aktivní nahrávání obrazovky zastavit a uložit?</value>
     <value>Přizpůsobte si ShareX</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Open source • Vytvořeno pro Linux</value>
+    <value>Open source • Vytvořeno pro Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Tyto možnosti můžete kdykoli změnit v nastavení aplikace.</value>
@@ -3187,6 +3124,9 @@ Později je můžete zakázat v nabídce „Úlohy po zachycení“.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Chcete nahrání schránky zkusit znovu?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Antivirový software nebo funkce Řízený přístup ke složkám ve Windows mohou blokovat ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Správce systému zakázal funkci nahrávání.</value>

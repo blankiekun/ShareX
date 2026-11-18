@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>要重置 ShareX 设置项吗？</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>开机启动项已被你的组织禁用</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>开机启动项已被任务管理器禁用</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>启动已由你的组织启用</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Windows 启动时运行 ShareX</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>为使设置生效，ShareX 需从 Steam 重新启动。</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>鼠标左键单击托盘图标：</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>鼠标中键单击托盘图标：</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>仅保存 URL（截图并上传图床之后）</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - 应用程序设置</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>桌面</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>登录时运行 ShareX</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>在 Dolphin 上下文菜单中显示“使用ShareX编辑”</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>在 Dolphin 上下文菜单中显示“使用 ShareX 上传”</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>没有图像效果预设</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>没有其他可捕获的窗口。请打开所需窗口，然后重试。</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>未找到窗口</value>
   </data>
@@ -1549,6 +1549,9 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>远程存储浏览器...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>以管理员身份重启</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>测量尺</value>
@@ -1971,20 +1974,6 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>屏幕拾色器</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF 未完成，已被丢弃。录制内容已保留为 MP4，位于：
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-文件已保留，但可能无法播放：
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX 在录制过程中意外关闭。录制内容已保存至：
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>工具栏</value>
   </data>
@@ -2048,6 +2037,9 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>系统音频</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>所选录制窗口已不可用。</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>录制音量 (%)</value>
   </data>
@@ -2061,69 +2053,14 @@
     <value>导出备份时出错：
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>ShareX 备份以明文形式保存您的登录信息和 API 密钥，以便迁移到另一台计算机。任何获得该文件的人都可以使用它们。&#xD;
-&#xD;
-请妥善保密，并在恢复后将其删除。仍要导出吗？</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>导入备份时出错：
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>备份中的 {0} 已损坏，因此未导入任何内容。</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>备份包含登录信息，而没有您的钱包就无法存储它们，因此未导入任何内容。请打开钱包后重试。&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>此文件中没有 ShareX 设置或历史记录。</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>已省略的图像效果，因为此版本不包含它们：</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>历史记录：已添加 {0} 条，已存在 {1} 条，无法读取 {2} 条。</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>您之前的历史记录已保存到 {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>历史记录未导入：{0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>已更改为对应 Linux 位置的文件夹：</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>已恢复为默认值的设置，因为该路径在此没有对应项：</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>此备份文件以明文形式保存您的登录信息。确认导入无误后请将其删除。</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>已迁移的登录信息，现已使用您的钱包加密：</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>请重新登录。这些信息是为另一台计算机加密的，在此无法读取：</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>备份中被忽略的文件：</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>备份已导入</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>已关闭的操作，以免备份中的内容自行运行。请检查后重新开启：</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>无法保存 {0}。导入已在此处停止。</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>屏幕录制时无法关闭 ShareX。
 
-是否要停止当前的屏幕录制并保存？</value>
+是否要取消当前的屏幕录制？</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX 已最小化到系统托盘。</value>
@@ -2159,7 +2096,7 @@
     <value>打造你的 ShareX</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>开源 • 为 Linux 打造</value>
+    <value>开源 • 专为 Windows 打造</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>你可以随时在应用程序设置中更改这些选项。</value>
@@ -3187,6 +3124,9 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>是否重试剪贴板上传？</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>您的防病毒软件或者 Windows 中的“受控制文件夹的访问”功能可能拦截了 ShareX。</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>您的系统管理员禁止了上传功能。</value>

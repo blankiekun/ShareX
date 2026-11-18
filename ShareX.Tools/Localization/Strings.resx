@@ -349,20 +349,23 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Browse...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>Device</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Image</value>
   </data>
   <data name="BackgroundRemoverWindow_Models" xml:space="preserve">
     <value>Models</value>
   </data>
-  <data name="BackgroundRemoverWindow_No_model_found" xml:space="preserve">
-    <value>No model found. ShareX doesn't include or download one: get a background removal model in ONNX format, put the .onnx file in {0}, then press the refresh button.</value>
-  </data>
   <data name="BackgroundRemoverWindow_Open_guide_page" xml:space="preserve">
     <value>Open guide page...</value>
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Open models folder</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>Processing device</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Refresh models</value>
@@ -1232,14 +1235,23 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Window settings</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Backward diagonal</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Checkerboard</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Forward diagonal</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1445,9 +1457,6 @@
   <data name="MouseHighlighter_PrimaryReleaseCrosshairs" xml:space="preserve">
     <value>Show crosshairs on primary button release</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>Highlights the pointer, and also in recordings when the mouse highlighter option is on in Task settings → Capture → Screen recorder. Clicks can't be highlighted: Wayland doesn't let apps see them.</value>
-  </data>
   <data name="MouseHighlighter_Radius" xml:space="preserve">
     <value>Radius (px):</value>
   </data>
@@ -1592,26 +1601,11 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Target</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract failed with code {0}. {1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>Tesseract has no data for the language '{0}'. Install it with your package manager, for example: sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>{0} language is not available in this system for OCR.</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>Tesseract has no language data installed. Install a language with your package manager, for example: sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Optical character recognition is only available with Windows version {0} or newer.</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>OCR needs the tesseract program, which wasn't found on PATH. Install it with your package manager, for example: sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract didn't finish within {0} seconds and was stopped.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2159,14 +2153,8 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Loading video...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>Video playback needs libmpv. Install the mpv package.</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Mute</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>This video could not be played. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Playback position</value>
@@ -2322,6 +2310,9 @@
   <data name="VideoTrimmer_OutputExtension" xml:space="preserve">
     <value>Use the {0} extension for this export mode.</value>
   </data>
+  <data name="VideoTrimmer_PlaybackError" xml:space="preserve">
+    <value>Windows could not play this video. Check that Windows supports its format and that the Windows media components are installed. {0}</value>
+  </data>
   <data name="VideoTrimmer_Precise" xml:space="preserve">
     <value>Re-encode</value>
   </data>
@@ -2363,32 +2354,5 @@
   </data>
   <data name="VideoTrimmer_VideoFiles" xml:space="preserve">
     <value>Video files</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin can't do this for this window: it draws its own title bar, or can't go full screen.</value>
-  </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>Desktop file</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>Output</value>
-  </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>Resource name</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>Window ID</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>Window role</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>Window state</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>Window type</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>Pick a window to inspect its properties.</value>
   </data>
 </root>

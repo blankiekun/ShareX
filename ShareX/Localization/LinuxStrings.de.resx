@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>ShareX bei der Anmeldung starten</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>„Mit ShareX bearbeiten“ im Kontextmenü von Dolphin anzeigen</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>„Mit ShareX hochladen“ im Kontextmenü von Dolphin anzeigen</value>
+  </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>Es gibt kein anderes Fenster zum Aufnehmen. Öffnen Sie das gewünschte Fenster und versuchen Sie es erneut.</value>
+  </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>Das GIF wurde nicht fertiggestellt und daher verworfen. Die Aufnahme wurde als MP4 gespeichert unter:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Die Datei wurde behalten, lässt sich aber möglicherweise nicht abspielen:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX wurde während einer Aufnahme unerwartet geschlossen. Die Aufnahme wurde gespeichert unter:
+{0}</value>
+  </data>
+  <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
+    <value>ShareX kann nicht geschlossen werden, während die Bildschirmaufnahme aktiv ist.
+
+Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>Open Source • Für Linux entwickelt</value>
+  </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>Eine ShareX-Sicherung enthält Ihre Anmeldedaten und API-Schlüssel im Klartext, damit sie auf einen anderen Rechner übertragen werden können. Jeder, der die Datei erhält, kann sie verwenden.&#xD;
+&#xD;
+Halten Sie sie geheim und löschen Sie sie, sobald Sie sie wiederhergestellt haben. Trotzdem exportieren?</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Sicherung importiert</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Melden Sie sich erneut an. Diese Daten wurden für einen anderen Rechner verschlüsselt und können hier nicht gelesen werden:</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Übernommene Anmeldedaten, jetzt mit Ihrer digitalen Brieftasche verschlüsselt:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Ordner, die auf ihren Linux-Speicherort geändert wurden:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Einstellungen, die auf den Standardwert zurückgesetzt wurden, weil der Pfad hier keine Entsprechung hat:</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Deaktivierte Aktionen, damit nichts aus der Sicherung von selbst ausgeführt wird. Prüfen Sie sie und aktivieren Sie sie wieder:</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Ausgelassene Bildeffekte, weil diese Version sie nicht enthält:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Verlauf: {0} hinzugefügt, {1} bereits vorhanden, {2} nicht lesbar.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Ihr bisheriger Verlauf wurde in {0} gespeichert</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Der Verlauf wurde nicht importiert: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Ignorierte Dateien in der Sicherung:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Diese Sicherungsdatei enthält Ihre Anmeldedaten im Klartext. Löschen Sie sie, sobald Sie mit dem Import zufrieden sind.</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Die Datei enthält keine ShareX-Einstellungen und keinen Verlauf.</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} in der Sicherung ist beschädigt, daher wurde nichts importiert.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Die Sicherung enthält Anmeldedaten, die ohne Ihre digitale Brieftasche nicht gespeichert werden können, daher wurde nichts importiert. Öffnen Sie die digitale Brieftasche und versuchen Sie es erneut.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>{0} konnte nicht gespeichert werden. Der Import wurde an dieser Stelle beendet.</value>
+  </data>
+</root>

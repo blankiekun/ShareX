@@ -54,7 +54,7 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
     public string CaptureFeature => Strings.MainMenuBuilder_Capture;
     public string AutomateFeature => Strings.MainMenuBuilder_Workflows;
     public string ShareFeature => Strings.MainMenuBuilder_Tools;
-    public string PlatformNote => Strings.StartScreen_PlatformNote;
+    public string PlatformNote => LinuxStrings.StartScreen_PlatformNote;
     public string PersonalizeTitle => Strings.StartScreen_PersonalizeTitle;
     public string PersonalizeSubtitle => Strings.StartScreen_PersonalizeSubtitle;
     public string SettingsNote => Strings.StartScreen_SettingsNote;
@@ -180,7 +180,7 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
     }
 
     public bool StartWithWindowsEnabled => _startWithWindowsEnabled;
-    public string StartWithWindowsText => Strings.ApplicationSettingsWindow_RunShareXAtLogin;
+    public string StartWithWindowsText => LinuxStrings.ApplicationSettingsWindow_RunShareXAtLogin;
 
     private void RefreshStartWithWindows()
     {

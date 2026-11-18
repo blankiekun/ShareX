@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>Pornește ShareX la autentificare</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Afișați "Editați cu ShareX" în meniul contextual din Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Afișați "Încărcați cu ShareX" în meniul contextual din Dolphin</value>
+  </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>Nu există altă fereastră de capturat. Deschideți fereastra dorită, apoi încercați din nou.</value>
+  </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF-ul nu a fost finalizat, așa că a fost eliminat. Înregistrarea a fost păstrată ca MP4 la:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+Fișierul a fost păstrat, dar s-ar putea să nu poată fi redat:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX a fost închis neașteptat în timpul unei înregistrări. Înregistrarea a fost salvată la:
+{0}</value>
+  </data>
+  <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
+    <value>ShareX nu poate fi închis cât timp înregistrarea ecranului este activă.
+
+Doriți să opriți înregistrarea activă a ecranului și să o salvați?</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>Open source • Creat pentru Linux</value>
+  </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>O copie de rezervă ShareX păstrează datele dvs. de autentificare și cheile API în text simplu, necriptat, ca să poată fi mutate pe alt calculator. Oricine obține fișierul le poate folosi.&#xD;
+&#xD;
+Păstrați-o privată și ștergeți-o după ce ați restaurat-o. Exportați oricum?</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>Copie de rezervă importată</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>Autentificați-vă din nou. Acestea au fost criptate pentru alt calculator și nu pot fi citite aici:</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>Date de autentificare transferate, criptate acum cu portofelul dvs.:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>Foldere schimbate la locația lor din Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>Setări readuse la valoarea implicită, deoarece calea nu are un echivalent aici:</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>Acțiuni dezactivate, pentru ca nimic din copia de rezervă să nu ruleze singur. Verificați-le și reactivați-le:</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>Efecte de imagine omise, deoarece această versiune nu le are:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>Istoric: {0} adăugate, {1} existente deja, {2} ilizibile.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>Istoricul anterior a fost salvat în {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>Istoricul nu a fost importat: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>Fișiere din copia de rezervă care au fost ignorate:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>Acest fișier de rezervă păstrează datele dvs. de autentificare în text simplu, necriptat. Ștergeți-l după ce sunteți mulțumit de import.</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>Fișierul nu conține setări sau istoric ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} din copia de rezervă este deteriorat, așa că nu s-a importat nimic.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>Copia de rezervă conține date de autentificare, care nu pot fi stocate fără portofelul dvs., așa că nu s-a importat nimic. Deschideți portofelul și încercați din nou.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>Nu s-a putut salva {0}. Importul s-a oprit acolo.</value>
+  </data>
+</root>

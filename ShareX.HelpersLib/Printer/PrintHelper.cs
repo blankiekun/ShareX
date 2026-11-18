@@ -72,7 +72,7 @@ namespace ShareX.HelpersLib
             catch (Exception e)
             {
                 DebugHelper.WriteException(e, "Printing failed");
-                MessageBox.Show(string.Format(Localization.Strings.PrintHelper_Print_failed, e.Message),
+                MessageBox.Show(string.Format(Localization.LinuxStrings.PrintHelper_Print_failed, e.Message),
                     Localization.Strings.PrintForm_LoadSettings_Print, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

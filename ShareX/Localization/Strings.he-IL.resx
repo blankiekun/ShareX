@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>האם תרצה לאפס את הגדרות ShareX?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>האתחול הושבת על ידי הארגון שלך</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>האתחול הושבת במנהל המשימות</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>האתחול הופעל על ידי הארגון שלך</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>הפעל את ShareX בעת עליית Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>כדי שההגדרות ייכנסו לתוקף, יש לפתוח מחדש את ShareX מ-Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>לחיצה שמאלית על סמל המגש:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>לחיצה אמצעית על סמל המגש:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>שמור רק אם הקישור אינו ריק</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - הגדרות יישום</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>שולחן עבודה</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>הפעל את ShareX בעת הכניסה למערכת</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>הצג את "ערוך עם ShareX" בתפריט ההקשר של Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>הצג את "העלה עם ShareX" בתפריט ההקשר של Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>אין הגדרות קבועות מראש לאפקטי תמונה</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>אין חלון אחר ללכידה. יש לפתוח את החלון הרצוי ולנסות שוב.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>לא נמצאו חלונות</value>
   </data>
@@ -1549,6 +1549,9 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>דפדפן אחסון מרוחק...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>הפעל מחדש כמנהל מערכת</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>סרגל</value>
@@ -1971,20 +1974,6 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>בוחר צבעי מסך</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>קובץ ה-GIF לא הושלם ולכן נמחק. ההקלטה נשמרה כקובץ MP4 בנתיב:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-הקובץ נשמר, אך ייתכן שלא ניתן יהיה להפעיל אותו:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX נסגר באופן בלתי צפוי במהלך הקלטה. ההקלטה נשמרה בנתיב:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>סרגל</value>
   </data>
@@ -2048,6 +2037,9 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>שמע המערכת</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>החלון שנבחר להקלטה אינו זמין עוד.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>עוצמת הקול בהקלטה (%)</value>
   </data>
@@ -2061,69 +2053,14 @@
     <value>שגיאה בייצוא הגיבוי:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>גיבוי ShareX מכיל את פרטי הכניסה ומפתחות ה-API שלך בטקסט גלוי, כדי שניתן יהיה להעביר אותם למחשב אחר. כל מי שיקבל את הקובץ יוכל להשתמש בהם.&#xD;
-&#xD;
-שמור עליו פרטי ומחק אותו לאחר ששחזרת אותו. לייצא בכל זאת?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>שגיאה בייבוא הגיבוי:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} בגיבוי פגום, ולכן שום דבר לא יובא.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>הגיבוי מכיל פרטי כניסה, ולא ניתן לאחסן אותם בלי הארנק שלך, ולכן שום דבר לא יובא. פתח את הארנק ונסה שוב.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>הקובץ אינו מכיל הגדרות או היסטוריה של ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>אפקטי תמונה שהושמטו, כי הגרסה הזו לא כוללת אותם:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>היסטוריה: {0} נוספו, {1} כבר קיימים, {2} לא קריאים.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>ההיסטוריה הקודמת שלך נשמרה אל {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>ההיסטוריה לא יובאה: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>תיקיות ששונו למיקום שלהן ב-Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>הגדרות שהוחזרו לברירת המחדל, כי לנתיב אין מקבילה כאן:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>קובץ הגיבוי הזה מכיל את פרטי הכניסה שלך בטקסט גלוי. מחק אותו ברגע שאתה מרוצה מהייבוא.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>פרטי כניסה שהועברו, ומוצפנים כעת בארנק שלך:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>היכנס שוב. פריטים אלה הוצפנו עבור מחשב אחר ולא ניתן לקרוא אותם כאן:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>קבצים בגיבוי שהמערכת התעלמה מהם:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>הגיבוי יובא</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>פעולות שכובו, כדי ששום דבר מהגיבוי לא יפעל מעצמו. בדוק אותן והפעל אותן מחדש:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>לא ניתן היה לשמור את {0}. הייבוא נעצר שם.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>לא ניתן לסגור את ShareX בזמן שהקלטת מסך פעילה.
 
-האם ברצונך לעצור את הקלטת המסך הפעילה ולשמור אותה?</value>
+האם ברצונך לבטל את הקלטת המסך הפעילה?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX ממוזער למגש המערכת.</value>
@@ -2159,7 +2096,7 @@
     <value>התאימו את ShareX לטעמכם</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>קוד פתוח • נבנה עבור Linux</value>
+    <value>קוד פתוח • נבנה עבור Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>ניתן לשנות אפשרויות אלה בכל עת בהגדרות היישום.</value>
@@ -3187,6 +3124,9 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>האם תרצה לנסות להעלות את לוח הגזירה שוב?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>תוכנת האנטי-וירוס שלך או אפשרות גישה מבוקרת לתיקיות ב-Windows עלולים לחסום את ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>מנהל המערכת שלך השבית את תכונת ההעלאה.</value>

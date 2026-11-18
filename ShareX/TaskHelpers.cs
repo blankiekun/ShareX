@@ -2166,7 +2166,7 @@ namespace ShareX
 
             if (taskSettings.GeneralSettings.ShowToastNotificationAfterTaskCompleted)
             {
-                ShowNotificationTip(clickThrough ? Strings.TaskHelpers_PinToScreenToggleClickThrough_On : Strings.TaskHelpers_PinToScreenToggleClickThrough_Off);
+                ShowNotificationTip(clickThrough ? LinuxStrings.TaskHelpers_PinToScreenToggleClickThrough_On : LinuxStrings.TaskHelpers_PinToScreenToggleClickThrough_Off);
             }
         }
 

@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>ShareX 설정을 재설정하시겠습니까?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>시작up has been disabled by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>작업 관리자에 의해 ShareX를 시작 프로그램으로 지정할 수 없습니다</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>시작up has been enabled by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>컴퓨터를 켤 때 ShareX도 실행하기</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>설정을 적용하려면 스팀에서 ShareX를 다시 실행해야 합니다.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>트레이 아이콘 일반 클릭시:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>트레이 아이콘 가운데 클릭시:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>URL이 비어있지 않을 때만 저장하기</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - 프로그램 설정</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>바탕 화면</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>로그인 시 ShareX 실행</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Dolphin 컨텍스트 메뉴에 "ShareX로 편집하기" 표시</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Dolphin 컨텍스트 메뉴에 "ShareX로 업로드" 표시</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>이미지 효과 사전 설정 없음</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>캡처할 다른 창이 없습니다. 원하는 창을 연 다음 다시 시도하세요.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>창을 찾을 수 없음</value>
   </data>
@@ -1549,6 +1549,9 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>원격 저장소 브라우저...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>관리자 권한으로 다시 시작</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>측정</value>
@@ -1971,20 +1974,6 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>화면 색상 picker</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF가 완성되지 않아 삭제되었습니다. 녹화 파일은 MP4로 다음 위치에 보관되었습니다:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-파일은 보관되었지만 재생되지 않을 수 있습니다:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>녹화 중 ShareX가 예기치 않게 종료되었습니다. 녹화 파일이 다음 위치에 저장되었습니다:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>바</value>
   </data>
@@ -2048,6 +2037,9 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>시스템 오디오</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>녹화 대상으로 선택한 창을 더 이상 사용할 수 없습니다.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>녹음 볼륨 (%)</value>
   </data>
@@ -2061,69 +2053,14 @@
     <value>백업을 내보내는 중 오류 발생:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>ShareX 백업은 다른 컴퓨터로 옮길 수 있도록 로그인 정보와 API 키를 일반 텍스트로 보관합니다. 파일을 얻은 사람은 누구나 이를 사용할 수 있습니다.&#xD;
-&#xD;
-백업을 비공개로 유지하고 복원한 뒤에는 삭제하세요. 그래도 내보내시겠습니까?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>백업을 가져오는 중 오류 발생:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>백업의 {0}이(가) 손상되어 아무것도 가져오지 못했습니다.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>백업에 로그인 정보가 있는데 지갑 없이는 저장할 수 없어 아무것도 가져오지 못했습니다. 지갑을 열고 다시 시도하세요.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>파일에 ShareX 설정이나 기록이 없습니다.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>이 버전에 없어 제외된 이미지 효과:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>기록: {0}개 추가됨, {1}개 이미 있음, {2}개 읽을 수 없음.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>이전 기록을 {0}에 저장했습니다</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>기록을 가져오지 못했습니다: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Linux 위치로 변경된 폴더:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>경로에 해당하는 항목이 여기에 없어 기본값으로 되돌린 설정:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>이 백업 파일은 로그인 정보를 일반 텍스트로 보관합니다. 가져오기 결과에 문제가 없으면 삭제하세요.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>옮겨 온 로그인 정보(이제 지갑으로 암호화됨):</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>다시 로그인하세요. 다음 항목은 다른 컴퓨터용으로 암호화되어 여기서 읽을 수 없습니다:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>무시된 백업 내 파일:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>백업을 가져왔습니다</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>백업의 내용이 저절로 실행되지 않도록 끈 동작입니다. 확인한 뒤 다시 켜세요:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>{0}을(를) 저장할 수 없습니다. 가져오기가 거기서 중단되었습니다.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>화면 녹화가 진행 중일 때는 ShareX를 닫을 수 없습니다.
+    <value>ShareX cannot be closed while 화면 녹화 is active.
 
-현재 화면 녹화를 중지하고 저장하시겠습니까?</value>
+Do you want to abort the active 화면 녹화?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX가 시스템 트레이로 최소화되었습니다.</value>
@@ -2159,7 +2096,7 @@
     <value>나만의 ShareX 만들기</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>오픈 소스 • Linux용</value>
+    <value>오픈 소스 • Windows용으로 제작</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>이 옵션은 언제든지 애플리케이션 설정에서 변경할 수 있습니다.</value>
@@ -3187,6 +3124,9 @@ You can later disable it from "After 캡처 tasks" 메뉴.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry 클립보드 업로드?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Your anti-virus software or the controlled 폴더 access feature in 창s could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin disabled the 업로드 feature.</value>

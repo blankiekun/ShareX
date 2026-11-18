@@ -65,7 +65,7 @@ namespace ShareX.HelpersLib
         public static string GetLocalizedDescription(this Enum value, ResourceManager resourceManager)
         {
             string resourceName = value.GetType().Name + "_" + value;
-            string description = resourceManager.GetString(resourceName);
+            string description = resourceManager.GetString(resourceName) ?? Localization.LinuxStrings.ResourceManager.GetString(resourceName);
 
             if (string.IsNullOrEmpty(description))
             {

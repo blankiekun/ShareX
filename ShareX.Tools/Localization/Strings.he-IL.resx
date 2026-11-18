@@ -349,6 +349,9 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>עיון...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>התקן</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>תמונה</value>
   </data>
@@ -360,6 +363,9 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>פתח את תיקיית המודלים</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>התקן עיבוד</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>רענן מודלים</value>
@@ -381,9 +387,6 @@
   </data>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - מסיר רקע</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin לא יכול לעשות זאת עבור החלון הזה: החלון מצייר שורת כותרת משלו, או שאינו יכול לעבור למסך מלא.</value>
   </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>לא ניתן לשנות את מצב החלון שנבחר. {0}</value>
@@ -1159,20 +1162,11 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>פקד</value>
   </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>קובץ desktop</value>
-  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>סגנונות חלון מורחבים</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>לא נבחר יעד</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>מסך</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>בחר חלון כדי לבדוק את המאפיינים שלו.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>בחר חלון או פקד כדי לבדוק את המאפיינים שלו</value>
@@ -1189,9 +1183,6 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  רוחב: {2}  גובה: {3}</value>
   </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>שם המשאב</value>
-  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>חלון ללא כותרת</value>
   </data>
@@ -1201,26 +1192,14 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>מזהה חלון</value>
   </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>מזהה חלון</value>
-  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>מלבן החלון</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>תפקיד החלון</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>מצב החלון</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>סגנונות חלון</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>כותרת החלון</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>סוג החלון</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>תמיד מעל</value>
@@ -1255,14 +1234,23 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>הגדרות חלון</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>אוטומטי</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>אלכסון לאחור</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>לוח שחמט</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>אלכסון קדימה</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1462,9 +1450,6 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>מצב הדגשה:</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>מדגיש את הסמן, וגם בהקלטות כאשר אפשרות סימון העכבר מופעלת בהגדרות למטלות ← לכידה ← מקליט מסך. לא ניתן להדגיש קליקים: Wayland אינו מאפשר ליישומים לראות אותם.</value>
-  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>צבע כפתור ראשי:</value>
   </data>
@@ -1615,26 +1600,11 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>יעד</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract נכשל עם הקוד {0}. {1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>ל-Tesseract אין נתונים עבור השפה «{0}». התקן אותה באמצעות מנהל החבילות, לדוגמה: sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>השפה {0} אינה זמינה במערכת זו עבור OCR.</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>ל-Tesseract לא מותקנים נתוני שפה. התקן שפה באמצעות מנהל החבילות, לדוגמה: sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>זיהוי תווים אופטי זמין רק ב-Windows גרסה {0} ואילך.</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>OCR דורש את התוכנית tesseract, שלא נמצאה ב-PATH. התקן אותה באמצעות מנהל החבילות, לדוגמה: sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract לא סיים בתוך {0} שניות והופסק.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2182,14 +2152,8 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>טוען וידאו...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>הפעלת וידאו דורשת libmpv. התקן את החבילה mpv.</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>השתקה</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>לא ניתן היה להפעיל את הווידאו הזה. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>מיקום ההפעלה</value>

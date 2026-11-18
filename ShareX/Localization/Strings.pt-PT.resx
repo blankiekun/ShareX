@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Deseja repor as definições do ShareX?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Inicio com o Windows foi desativado pela sua organização</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Inicio com o Windows foi desativado no gestor de tarefas</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Inicio com o WIndows foi activado pela sua organização</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Iniciar o ShareX com o Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Para que as definições sejam alteradas ShareX necessita de ser re-aberto pela Steam</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Ao clicar com o botão esquerdo do rato no ícon da bandeja:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Ao clicar com o scroll do rato no ícon da bandeja do sistema:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Guardar apenas se existir hiperligação</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Definições de Aplicação</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Área de trabalho</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Executar o ShareX ao iniciar sessão</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Mostrar "Editar com ShareX" no menu de contexto do Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Mostrar "Enviar com ShareX" no menu de contexto do Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Por favor, selecione uma tecla de atalho diferente ou feche o programa que está
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Sem predefinições de efeitos de imagem</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Não há outra janela para capturar. Abra a janela pretendida e tente novamente.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Nenhuma janela encontrada</value>
   </data>
@@ -1549,6 +1549,9 @@ Por favor, selecione uma tecla de atalho diferente ou feche o programa que está
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Navegador de armazenamento remoto...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Reiniciar como administrador</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Régua</value>
@@ -1971,20 +1974,6 @@ Por favor execute o ShareX como administrador para mudar o caminho da pasta.</va
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Seletor de cor do ecrã</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>O GIF não foi concluído, por isso foi descartado. A gravação foi mantida como MP4 em:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-O ficheiro foi mantido, mas pode não ser reproduzido:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>O ShareX foi fechado inesperadamente durante uma gravação. A gravação foi guardada em:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Barra</value>
   </data>
@@ -2048,6 +2037,9 @@ O ficheiro foi mantido, mas pode não ser reproduzido:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Áudio do sistema</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>A janela selecionada para gravar já não está disponível.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volume da gravação (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ O ficheiro foi mantido, mas pode não ser reproduzido:
     <value>Erro ao exportar a cópia de segurança:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Uma cópia de segurança do ShareX guarda os seus inícios de sessão e chaves de API em texto simples, sem encriptação, para poderem ser levados para outra máquina. Qualquer pessoa que obtenha o ficheiro pode usá-los.&#xD;
-&#xD;
-Mantenha-a privada e apague-a depois de a restaurar. Exportar mesmo assim?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Erro ao importar a cópia de segurança:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} na cópia de segurança está danificado, por isso nada foi importado.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>A cópia de segurança contém inícios de sessão, e estes não podem ser guardados sem a sua carteira, por isso nada foi importado. Abra a carteira e tente novamente.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>O ficheiro não contém definições nem histórico do ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Efeitos de imagem deixados de fora, porque esta versão não os tem:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Histórico: {0} adicionados, {1} já presentes, {2} ilegíveis.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>O seu histórico anterior foi guardado em {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>O histórico não foi importado: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Pastas alteradas para a sua localização no Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Definições repostas no valor predefinido, porque o caminho não tem equivalente aqui:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Este ficheiro de cópia de segurança guarda os seus inícios de sessão em texto simples, sem encriptação. Apague-o quando estiver satisfeito com a importação.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Inícios de sessão transferidos, agora encriptados com a sua carteira:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Inicie sessão novamente. Estes foram encriptados para outra máquina e não podem ser lidos aqui:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Ficheiros da cópia de segurança que foram ignorados:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Cópia de segurança importada</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Ações desativadas, para que nada da cópia de segurança seja executado sozinho. Verifique-as e volte a ativá-las:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Não foi possível guardar {0}. A importação parou aí.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>O ShareX não pode ser fechado enquanto a gravação do ecrã está ativa.
 
-Pretende parar a gravação de ecrã ativa e guardá-la?</value>
+Pretende cancelar a gravação de ecrã ativa?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>O ShareX está minimizado na área de notificação.</value>
@@ -2159,7 +2096,7 @@ Pretende parar a gravação de ecrã ativa e guardá-la?</value>
     <value>Personalize o ShareX</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Código aberto • Criado para Linux</value>
+    <value>Código aberto • Criado para Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Pode alterar estas opções a qualquer momento nas definições da aplicação.</value>
@@ -3187,6 +3124,9 @@ Pode desativá-los mais tarde no menu "Tarefas após captura".</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Pretende tentar novamente o carregamento da área de transferência?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>O seu antivírus ou a funcionalidade de acesso controlado a pastas do Windows pode estar a bloquear o ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>O administrador do sistema desativou a funcionalidade de carregamento.</value>

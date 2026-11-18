@@ -119,7 +119,7 @@ public static class OCRHelper
 
     internal static string RequireTool(string? searchPath)
     {
-        return FindTool(searchPath) ?? throw new InvalidOperationException(Localization.Strings.OCRHelper_Tesseract_missing);
+        return FindTool(searchPath) ?? throw new InvalidOperationException(Localization.LinuxStrings.OCRHelper_Tesseract_missing);
     }
 
     internal static OCRLanguageOption[] ListLanguages(string tool)
@@ -129,12 +129,12 @@ public static class OCRHelper
 
         if (exitCode != 0)
         {
-            throw new InvalidOperationException(string.Format(Localization.Strings.OCRHelper_Failed, exitCode, error.Trim()));
+            throw new InvalidOperationException(string.Format(Localization.LinuxStrings.OCRHelper_Failed, exitCode, error.Trim()));
         }
 
         OCRLanguageOption[] languages = ParseLanguages(output).Select(x => new OCRLanguageOption(x, x)).ToArray();
 
-        return languages.Length > 0 ? languages : throw new InvalidOperationException(Localization.Strings.OCRHelper_No_languages);
+        return languages.Length > 0 ? languages : throw new InvalidOperationException(Localization.LinuxStrings.OCRHelper_No_languages);
     }
 
     /// <summary>Reads the output of --list-langs: a header line, then one language per line.</summary>
@@ -154,8 +154,8 @@ public static class OCRHelper
         if (exitCode != 0)
         {
             throw new InvalidOperationException(IsLanguageDataError(error)
-                ? string.Format(Localization.Strings.OCRHelper_Language_data_missing, language)
-                : string.Format(Localization.Strings.OCRHelper_Failed, exitCode, error.Trim()));
+                ? string.Format(Localization.LinuxStrings.OCRHelper_Language_data_missing, language)
+                : string.Format(Localization.LinuxStrings.OCRHelper_Failed, exitCode, error.Trim()));
         }
 
         return ParseText(output, language, singleLine);
@@ -224,7 +224,7 @@ public static class OCRHelper
         }
         catch (Win32Exception e)
         {
-            throw new InvalidOperationException(string.Format(Localization.Strings.OCRHelper_Failed, e.NativeErrorCode, e.Message), e);
+            throw new InvalidOperationException(string.Format(Localization.LinuxStrings.OCRHelper_Failed, e.NativeErrorCode, e.Message), e);
         }
 
         Task<string> output = process.StandardOutput.ReadToEndAsync();
@@ -254,7 +254,7 @@ public static class OCRHelper
         {
             process.Kill(entireProcessTree: true);
             process.WaitForExit(TimeSpan.FromSeconds(2));
-            throw new InvalidOperationException(string.Format(Localization.Strings.OCRHelper_Timed_out, timeout.TotalSeconds));
+            throw new InvalidOperationException(string.Format(Localization.LinuxStrings.OCRHelper_Timed_out, timeout.TotalSeconds));
         }
     }
 }

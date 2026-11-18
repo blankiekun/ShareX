@@ -342,7 +342,7 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     }
 
     public bool StartWithWindowsEnabled { get => _startWithWindowsEnabled; private set => SetField(ref _startWithWindowsEnabled, value); }
-    public string StartWithWindowsText => Strings.ApplicationSettingsWindow_RunShareXAtLogin;
+    public string StartWithWindowsText => LinuxStrings.ApplicationSettingsWindow_RunShareXAtLogin;
 
     public bool ShellContextMenu
     {
@@ -699,7 +699,7 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     public bool ConfirmExport()
     {
         return !ExportSettings || MessageBox.Show(
-            Strings.SettingManager_ExportPlaintextWarning,
+            LinuxStrings.SettingManager_ExportPlaintextWarning,
             "ShareX - " + Strings.Confirmation,
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Warning,
@@ -763,7 +763,7 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
                 string reportText = report.ToText();
                 DebugHelper.WriteLine("Backup import report:\r\n" + reportText);
-                InvokeOnMainThread(() => MessageBox.Show(reportText, "ShareX - " + Strings.SettingManager_ImportReportTitle,
+                InvokeOnMainThread(() => MessageBox.Show(reportText, "ShareX - " + LinuxStrings.SettingManager_ImportReportTitle,
                     MessageBoxButtons.OK, MessageBoxIcon.Information));
             }
             else

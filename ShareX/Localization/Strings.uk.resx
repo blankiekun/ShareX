@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Чи бажаєте Ви скинути налаштування ShareX?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Автозапуск вимкнено Вашою організацією</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Запуск було вимкнено у Диспетчері завдань</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Автозапуск увімкнено Вашою організацією</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Запустити ShareX під час запуску Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Для застосування змін ShareX треба перевідкрити зі Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Лівий притиск по піктограмі у лотку:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Середній притиск по піктограмі у лотку:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Зберігати лише коли посилання не порожнє</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX — Налаштування програми</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Робочий стіл</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Запускати ShareX під час входу в систему</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Показувати „Змінити з ShareX“ у контекстному меню Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Показувати „Вивантажити з ShareX“ у контекстному меню Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Немає наборів ефектів зображення</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Немає іншого вікна для захоплення. Відкрийте потрібне вікно і спробуйте ще раз.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Вікон не знайдено</value>
   </data>
@@ -1549,6 +1549,9 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Браузер віддаленого сховища...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Перезапустити від імені адміністратора</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Лінійка</value>
@@ -1971,20 +1974,6 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Вибір кольору на екрані</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF не було завершено, тому його відкинуто. Запис збережено як MP4 за шляхом:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-Файл збережено, але він може не відтворюватися:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX неочікувано закрився під час запису. Запис збережено за шляхом:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Панель</value>
   </data>
@@ -2048,6 +2037,9 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Системний звук</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Вибране для запису вікно більше недоступне.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Гучність запису (%)</value>
   </data>
@@ -2061,69 +2053,14 @@
     <value>Помилка під час експорту резервної копії:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Резервна копія ShareX містить ваші облікові дані та ключі API у відкритому тексті, щоб їх можна було перенести на інший комп'ютер. Будь-хто, хто отримає цей файл, зможе ними скористатися.&#xD;
-&#xD;
-Зберігайте її приватно та видаліть після відновлення. Все одно експортувати?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Помилка під час імпорту резервної копії:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} у резервній копії пошкоджено, тому нічого не імпортовано.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Резервна копія містить облікові дані, які неможливо зберегти без вашої торбинки паролів, тому нічого не імпортовано. Відкрийте торбинку паролів і спробуйте ще раз.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>У файлі немає налаштувань чи історії ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Пропущені ефекти зображення, оскільки в цій версії їх немає:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Історія: додано {0}, вже наявних {1}, нечитабельних {2}.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Вашу попередню історію збережено до {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Історію не імпортовано: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Теки, змінені на їхнє розташування в Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Налаштування, повернуті до типових, оскільки шлях тут не має відповідника:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Цей файл резервної копії містить ваші облікові дані у відкритому тексті. Видаліть його, коли переконаєтеся, що імпорт вас влаштовує.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Перенесені облікові дані, тепер зашифровані вашою торбинкою паролів:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Увійдіть знову. Ці дані зашифровано для іншого комп'ютера, і тут їх неможливо прочитати:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Файли в резервній копії, які було проігноровано:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Резервну копію імпортовано</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Вимкнені дії, щоб нічого з резервної копії не запускалося самостійно. Перевірте їх і ввімкніть знову:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Не вдалося зберегти {0}. На цьому імпорт зупинився.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX не можна закрити під час активного запису екрана.
 
-Ви хочете зупинити активний запис екрана та зберегти його?</value>
+Ви хочете перервати активний запис екрану?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX згорнуто до системного лотка.</value>
@@ -2159,7 +2096,7 @@
     <value>Налаштуйте ShareX під себе</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Відкритий код • Створено для Linux</value>
+    <value>Відкритий код • Створено для Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Ці параметри можна будь-коли змінити в налаштуваннях програми.</value>
@@ -3187,6 +3124,9 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Бажаєте повторити спробу завантаження з буфера обміну?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Ваше антивірусне програмне забезпечення або функція контрольованого доступу до папок у Windows може блокувати ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Ваш системний адміністратор вимкнув функцію вивантаження.</value>

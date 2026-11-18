@@ -65,7 +65,7 @@ public static class BorderlessWindowManager
             case KWinBorderlessResult.NotFound:
                 return false;
             case KWinBorderlessResult.NotSupported:
-                throw new InvalidOperationException(Localization.Strings.BorderlessWindowManager_Not_supported_by_KWin);
+                throw new InvalidOperationException(Localization.LinuxStrings.BorderlessWindowManager_Not_supported_by_KWin);
             case KWinBorderlessResult.MadeBorderless:
                 if (!previous.IsEmpty)
                 {

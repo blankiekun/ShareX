@@ -74,7 +74,7 @@ public sealed class MouseHighlighterWindow : Window
 
         TextBlock text = new()
         {
-            Text = Strings.MouseHighlighter_PointerOnlyHelp,
+            Text = LinuxStrings.MouseHighlighter_PointerOnlyHelp,
             TextWrapping = TextWrapping.Wrap,
             FontWeight = FontWeight.Normal,
             Margin = new Thickness(10, 0, 0, 0)

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>เน้นตัวชี้เมาส์ และเน้นในการบันทึกด้วยเมื่อเปิดตัวเลือกปากกาเน้นข้อความเมาส์ใน การตั้งค่างาน → จับภาพ → หน้าจอ ตัวบันทึก ไม่สามารถเน้นการคลิกได้: Wayland ไม่อนุญาตให้แอปมองเห็นการคลิก</value>
+  </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>Tesseract ล้มเหลวด้วยรหัส {0} {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>Tesseract ไม่มีข้อมูลของภาษา "{0}" ติดตั้งด้วยตัวจัดการแพ็กเกจของคุณ เช่น: sudo pacman -S tesseract-data-{0}</value>
+  </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>Tesseract ไม่มีข้อมูลภาษาที่ติดตั้งไว้ ติดตั้งภาษาด้วยตัวจัดการแพ็กเกจของคุณ เช่น: sudo pacman -S tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>OCR ต้องใช้โปรแกรม tesseract ซึ่งไม่พบใน PATH ติดตั้งด้วยตัวจัดการแพ็กเกจของคุณ เช่น: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>Tesseract ทำงานไม่เสร็จภายใน {0} วินาทีและถูกหยุด</value>
+  </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>การเล่นวิดีโอต้องใช้ libmpv โปรดติดตั้งแพ็กเกจ mpv</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>ไม่สามารถเล่นวิดีโอนี้ได้ {0}</value>
+  </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>KWin ไม่สามารถทำสิ่งนี้กับหน้าต่างนี้ได้: หน้าต่างวาดแถบชื่อของตัวเอง หรือไม่สามารถแสดงแบบเต็มหน้าจอได้</value>
+  </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>ไฟล์ .desktop</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>หน้าจอ</value>
+  </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>ชื่อทรัพยากร</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>ID หน้าต่าง</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>บทบาทหน้าต่าง</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>สถานะหน้าต่าง</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>ประเภทหน้าต่าง</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>เลือกหน้าต่างเพื่อตรวจสอบคุณสมบัติ</value>
+  </data>
+</root>

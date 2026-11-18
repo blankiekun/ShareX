@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Apakah Anda ingin mengatur ulang pengaturan ShareX?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Startup telah dinonaktifkan oleh organisasi Anda</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Pengaktifan telah dinonaktifkan di Pengelola Tugas</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Startup telah diaktifkan oleh organisasi Anda</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Jalankan ShareX saat memulai Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Agar pengaturan diterapkan, ShareX perlu dibuka kembali dari Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Klik kiri di ikon baki:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Klik tengah di ikon baki:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Hanya simpan bila URL tidak kosong</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Pengaturan aplikasi</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Desktop</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Jalankan ShareX saat Anda masuk</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Tampilkan "Edit dengan ShareX" di menu konteks Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Tampilkan "Unggah dengan ShareX" di menu konteks Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Tidak ada preset efek gambar</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Tidak ada jendela lain untuk ditangkap. Buka jendela yang Anda inginkan, lalu coba lagi.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Tidak ada jendela ditemukan</value>
   </data>
@@ -1549,6 +1549,9 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Browser penyimpanan jarak jauh...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Mulai ulang sebagai administrator</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Penggaris</value>
@@ -1971,20 +1974,6 @@ Jalankan ShareX sebagai administrator untuk mengubah jalur folder pribadi.</valu
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Pemilih warna layar</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF tidak selesai, sehingga dibuang. Rekaman disimpan sebagai MP4 di:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-File tetap disimpan, tetapi mungkin tidak dapat diputar:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX tertutup secara tidak terduga saat perekaman. Rekaman disimpan ke:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Bilah</value>
   </data>
@@ -2048,6 +2037,9 @@ File tetap disimpan, tetapi mungkin tidak dapat diputar:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio sistem</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Jendela yang dipilih untuk direkam tidak lagi tersedia.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volume rekaman (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ File tetap disimpan, tetapi mungkin tidak dapat diputar:
     <value>Kesalahan saat mengekspor cadangan:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Cadangan ShareX menyimpan data login dan kunci API Anda dalam teks biasa, agar dapat dipindahkan ke komputer lain. Siapa pun yang mendapatkan file ini dapat menggunakannya.&#xD;
-&#xD;
-Simpan secara pribadi dan hapus setelah Anda memulihkannya. Tetap ekspor?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Kesalahan saat mengimpor cadangan:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} dalam cadangan rusak, sehingga tidak ada yang diimpor.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Cadangan berisi data login, dan data itu tidak dapat disimpan tanpa dompet Anda, sehingga tidak ada yang diimpor. Buka dompet dan coba lagi.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>File ini tidak berisi pengaturan atau riwayat ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Efek gambar yang dihilangkan, karena versi ini tidak memilikinya:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Riwayat: {0} ditambahkan, {1} sudah ada, {2} tidak terbaca.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Riwayat Anda sebelumnya disimpan ke {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Riwayat tidak diimpor: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Folder yang diubah ke lokasi Linux-nya:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Pengaturan yang dikembalikan ke default, karena jalurnya tidak memiliki padanan di sini:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>File cadangan ini menyimpan data login Anda dalam teks biasa. Hapus setelah Anda puas dengan hasil impor.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Data login yang berhasil dipindahkan, kini dienkripsi dengan dompet Anda:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Masuk kembali. Data ini dienkripsi untuk komputer lain dan tidak dapat dibaca di sini:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>File dalam cadangan yang diabaikan:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Cadangan diimpor</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Tindakan yang dimatikan, agar tidak ada isi cadangan yang berjalan sendiri. Periksa dan nyalakan kembali:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Tidak dapat menyimpan {0}. Impor berhenti di situ.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX tidak dapat ditutup saat perekaman layar aktif.
 
-Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
+Apakah Anda ingin membatalkan perekaman layar aktif?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX diminimalkan ke baki sistem.</value>
@@ -2159,7 +2096,7 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
     <value>Jadikan ShareX milik Anda</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Sumber terbuka • Dibuat untuk Linux</value>
+    <value>Sumber terbuka • Dibuat untuk Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Anda dapat mengubah opsi ini kapan saja di pengaturan aplikasi.</value>
@@ -3187,6 +3124,9 @@ Anda dapat menonaktifkannya nanti dari menu "Tugas setelah tangkapan".</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Apakah Anda ingin mencoba ulang unggahan clipboard?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Perangkat lunak antivirus Anda atau fitur akses folder terkontrol di Windows mungkin memblokir ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Admin sistem Anda menonaktifkan fitur unggah.</value>

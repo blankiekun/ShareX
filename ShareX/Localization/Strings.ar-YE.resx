@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>هل تريد استعادة الإعدادات الافتراضية؟</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>تم تعطيل البدء التلقائي للتطبيق بواسطة مؤسستك</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>تم تعطيل البدء التلقائي للتطبيق بواسطة مدير المهام</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>تم تفعيل البدء التلقائي للتطبيق بواسطة مؤسستك</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>تشغيل ShareX عند بدء نظام Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>لكي تظهر التغببرات يجب إعادة فتح ShareX من خلال Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>عند النقر بالزر الأيسر على أيقونة الإشعارات:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>عند النقر بالزر الأوسط على أيقونة الإشعارات:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>حفظ الروابط فقط عندما لا تكون فارغة</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - الإعدادات</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>سطح المكتب</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>تشغيل ShareX عند تسجيل الدخول</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>عرض الخيار "تعديل باستخدام ShareX" في قائمة سياق Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>عرض الخيار "رفع باستخدام ShareX" في قائمة سياق Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>لا توجد إعدادات مسبقة لتأثيرات الصور</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>لا توجد نافذة أخرى لالتقاطها. افتح النافذة التي تريدها، ثم حاول مرة أخرى.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>لم يتم العثور على نوافذ</value>
   </data>
@@ -1549,6 +1549,9 @@
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>متصفح التخزين البعيد...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>إعادة التشغيل كمسؤول</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>المسطرة</value>
@@ -1971,20 +1974,6 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>منتقي الألوان</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>لم يكتمل إنشاء ملف GIF، لذا تم حذفه. تم الاحتفاظ بالتسجيل بصيغة MP4 في:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-تم الاحتفاظ بالملف، لكن قد يتعذر تشغيله:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>تم إغلاق ShareX بشكل غير متوقع أثناء التسجيل. تم حفظ التسجيل في:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>الشريط</value>
   </data>
@@ -2048,6 +2037,9 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>صوت النظام</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>لم تعد النافذة المحددة للتسجيل متاحة.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>مستوى صوت التسجيل (%)</value>
   </data>
@@ -2061,69 +2053,14 @@
     <value>خطأ أثناء تصدير النسخة الاحتياطية:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>تحتوي نسخة ShareX الاحتياطية على بيانات تسجيل الدخول ومفاتيح API الخاصة بك كنص عادي غير مشفر، حتى يمكن نقلها إلى جهاز آخر. يمكن لأي شخص يحصل على الملف استخدامها.&#xD;
-&#xD;
-احتفظ به بشكل خاص واحذفه بعد الانتهاء من استعادته. هل تريد التصدير رغم ذلك؟</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>خطأ أثناء استيراد النسخة الاحتياطية:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} في النسخة الاحتياطية تالف، لذا لم يتم استيراد أي شيء.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>تحتوي النسخة الاحتياطية على بيانات تسجيل دخول لا يمكن تخزينها بدون محفظتك، لذا لم يتم استيراد أي شيء. افتح المحفظة وحاول مرة أخرى.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>لا يحتوي الملف على إعدادات أو سجل ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>تأثيرات الصور التي تم استبعادها، لأن هذا الإصدار لا يتضمنها:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>السجل: تمت إضافة {0}، و{1} موجودة هنا بالفعل، و{2} غير قابلة للقراءة.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>تم حفظ سجلك السابق في {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>لم يتم استيراد السجل: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>المجلدات التي تم تغييرها إلى موقعها في Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>الإعدادات التي أعيدت إلى قيمتها الافتراضية، لأن المسار ليس له مقابل هنا:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>يحتوي ملف النسخة الاحتياطية هذا على بيانات تسجيل الدخول الخاصة بك كنص عادي غير مشفر. احذفه بعد أن تتأكد من نجاح الاستيراد.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>بيانات تسجيل الدخول التي تم نقلها، وهي الآن مشفرة بمحفظتك:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>سجّل الدخول مرة أخرى. هذه البيانات مشفرة لجهاز آخر ولا يمكن قراءتها هنا:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>الملفات الموجودة في النسخة الاحتياطية التي تم تجاهلها:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>تم استيراد النسخة الاحتياطية</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>الإجراءات التي تم إيقافها، حتى لا يعمل أي شيء من النسخة الاحتياطية من تلقاء نفسه. تحقق منها وأعد تشغيلها:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>تعذّر حفظ {0}. توقف الاستيراد عند هذه النقطة.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>لا يمكن إغلاق البرنامج أثناء تسجيل الشاشة.
 
-هل تريد إيقاف تسجيل الشاشة الحاليّ وحفظه؟</value>
+هل تريد إلغاء تسجيل الشاشة الحاليّ؟</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>تم تصغير  ShareX إلى منطقة الإشعارات.</value>
@@ -2159,7 +2096,7 @@
     <value>اجعل ShareX مناسبًا لك</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>مفتوح المصدر • مصمم لنظام Linux</value>
+    <value>مفتوح المصدر • مصمم لنظام Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>يمكنك تغيير هذه الخيارات في أي وقت من إعدادات التطبيق.</value>
@@ -3187,6 +3124,9 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>هل تريد إعادة محاولة رفع الحافظة؟</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>كلًا من مكافح الفيروسات أو خيار التحكم بالمجلدات في نظام التشغيل قد يؤديان لتعطيل التطبيق.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>مسؤول النظام قام بإيقاف وظيفة الرفع.</value>

@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Bạn có muốn đặt lại các cài đặt cho ShareX không?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Tự khởi động đã bị vô hiệu bởi tổ chức của bạn</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Tự khởi động đã bị vô hiệu trong Task Manager</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Tự khởi động đã được kích hoạt bởi tổ chức của bạn</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Chạy ShareX cùng Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Để thiết lập có tác dụng ShareX cần được mở lại từ Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Khi nhấn chuột trái vào biểu tượng ở khay hệ thống:</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Khi nhấn chuột giữa vào biểu tượng ở khay hệ thống:</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Chỉ lưu lại nếu URL không để trống</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Thiết lập ứng dụng</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Màn hình nền</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Chạy ShareX khi bạn đăng nhập</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Hiện "Chỉnh sửa với ShareX" trong menu ngữ cảnh của Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Hiện "Tải lên với ShareX" trong menu ngữ cảnh của Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Vui lòng chọn phím tắt khác hoặc thoát ứng dụng đang gây lỗi v
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Không có cài đặt sẵn hiệu ứng hình ảnh</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Không có cửa sổ nào khác để chụp. Hãy mở cửa sổ bạn muốn, rồi thử lại.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Không tìm thấy cửa sổ</value>
   </data>
@@ -1549,6 +1549,9 @@ Vui lòng chọn phím tắt khác hoặc thoát ứng dụng đang gây lỗi v
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Trình duyệt lưu trữ từ xa...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Khởi động lại với quyền quản trị viên</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Thước đo</value>
@@ -1971,20 +1974,6 @@ Vui lòng chạy ShareX dưới quyền administrator để thay đổi thư m�
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Bộ chọn màu màn hình</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>Chưa tạo xong GIF nên GIF đã bị loại bỏ. Bản ghi được giữ lại dưới dạng MP4 tại:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-Tệp đã được giữ lại nhưng có thể không phát được:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX đã bị đóng đột ngột trong khi đang ghi. Bản ghi đã được lưu vào:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Thanh</value>
   </data>
@@ -2048,6 +2037,9 @@ Tệp đã được giữ lại nhưng có thể không phát được:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Âm thanh hệ thống</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Cửa sổ đã chọn để ghi không còn khả dụng.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Âm lượng bản ghi (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ Tệp đã được giữ lại nhưng có thể không phát được:
     <value>Lỗi khi xuất bản sao lưu:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Bản sao lưu ShareX lưu thông tin đăng nhập và khóa API của bạn dưới dạng văn bản thuần, để có thể chuyển sang máy khác. Bất kỳ ai có được tệp này đều có thể sử dụng chúng.&#xD;
-&#xD;
-Hãy giữ kín bản sao lưu và xóa nó sau khi đã khôi phục. Vẫn xuất?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Lỗi khi nhập bản sao lưu:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} trong bản sao lưu bị hỏng nên không có gì được nhập.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Bản sao lưu có thông tin đăng nhập, và không thể lưu chúng nếu không có ví của bạn, nên không có gì được nhập. Hãy mở ví rồi thử lại.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>Tệp không có cài đặt hoặc lịch sử ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Các hiệu ứng ảnh bị bỏ qua vì phiên bản này không có:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Lịch sử: đã thêm {0}, đã có {1}, không đọc được {2}.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Lịch sử trước đây của bạn đã được lưu vào {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Lịch sử chưa được nhập: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Các thư mục đã đổi sang vị trí trên Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Các cài đặt đã trở về mặc định vì đường dẫn không có vị trí tương đương ở đây:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Tệp sao lưu này lưu thông tin đăng nhập của bạn dưới dạng văn bản thuần. Hãy xóa nó khi bạn đã hài lòng với kết quả nhập.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Thông tin đăng nhập đã chuyển sang, hiện được mã hóa bằng ví của bạn:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Hãy đăng nhập lại. Những mục này được mã hóa cho máy khác và không thể đọc ở đây:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Các tệp trong bản sao lưu đã bị bỏ qua:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Đã nhập bản sao lưu</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Các hành động đã tắt để không có gì từ bản sao lưu tự chạy. Hãy kiểm tra rồi bật lại:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Không thể lưu {0}. Quá trình nhập đã dừng ở đó.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>Không thể đóng ShareX khi đang quay màn hình.
 
-Bạn có muốn dừng phiên quay màn hình đang hoạt động và lưu lại không?</value>
+Bạn có muốn hủy phiên quay màn hình đang hoạt động không?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX được thu nhỏ vào khay hệ thống.</value>
@@ -2159,7 +2096,7 @@ Bạn có muốn dừng phiên quay màn hình đang hoạt động và lưu l�
     <value>Biến ShareX thành của riêng bạn</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Mã nguồn mở • Xây dựng cho Linux</value>
+    <value>Mã nguồn mở • Được xây dựng cho Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Bạn có thể thay đổi các tùy chọn này bất cứ lúc nào trong cài đặt ứng dụng.</value>
@@ -3187,6 +3124,9 @@ Sau đó, bạn có thể tắt nó từ menu "Sau khi chụp tác vụ".</value
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to retry clipboard tải lên?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Phần mềm chống vi-rút của bạn hoặc tính năng truy cập thư mục được kiểm soát trong Windows có thể đang chặn ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Quản trị viên hệ thống của bạn đã tắt tính năng tải lên.</value>

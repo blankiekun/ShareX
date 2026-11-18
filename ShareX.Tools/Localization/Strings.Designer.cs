@@ -24,8 +24,6 @@ namespace ShareX.Tools.Localization {
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Strings {
         
-        public static string MouseHighlighter_PointerOnlyHelp => ResourceManager.GetString("MouseHighlighter_PointerOnlyHelp", resourceCulture);
-
         public static string MouseHighlighter_Title => ResourceManager.GetString("MouseHighlighter_Title", resourceCulture);
 
         public static string MouseHighlighter_Mode => ResourceManager.GetString("MouseHighlighter_Mode", resourceCulture);
@@ -628,6 +626,15 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device.
+        /// </summary>
+        public static string BackgroundRemoverWindow_Device {
+            get {
+                return ResourceManager.GetString("BackgroundRemoverWindow_Device", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image.
         /// </summary>
         public static string BackgroundRemoverWindow_Image {
@@ -646,15 +653,6 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No model found. ShareX doesn&apos;t include or download one: get a background removal model in ONNX format, put the .onnx file in {0}, then press the refresh button..
-        /// </summary>
-        public static string BackgroundRemoverWindow_No_model_found {
-            get {
-                return ResourceManager.GetString("BackgroundRemoverWindow_No_model_found", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to Open guide page....
         /// </summary>
         public static string BackgroundRemoverWindow_Open_guide_page {
@@ -669,6 +667,15 @@ namespace ShareX.Tools.Localization {
         public static string BackgroundRemoverWindow_Open_models_folder {
             get {
                 return ResourceManager.GetString("BackgroundRemoverWindow_Open_models_folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing device.
+        /// </summary>
+        public static string BackgroundRemoverWindow_Processing_device {
+            get {
+                return ResourceManager.GetString("BackgroundRemoverWindow_Processing_device", resourceCulture);
             }
         }
         
@@ -732,87 +739,6 @@ namespace ShareX.Tools.Localization {
         public static string BackgroundRemoverWindow_ShareX_Background_Remover {
             get {
                 return ResourceManager.GetString("BackgroundRemoverWindow_ShareX_Background_Remover", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to KWin can't do this for this window: it draws its own title bar, or can't go full screen..
-        /// </summary>
-        public static string BorderlessWindowManager_Not_supported_by_KWin {
-            get {
-                return ResourceManager.GetString("BorderlessWindowManager_Not_supported_by_KWin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Desktop file.
-        /// </summary>
-        public static string InspectWindowViewModel_Desktop_file {
-            get {
-                return ResourceManager.GetString("InspectWindowViewModel_Desktop_file", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Output.
-        /// </summary>
-        public static string InspectWindowViewModel_Output {
-            get {
-                return ResourceManager.GetString("InspectWindowViewModel_Output", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource name.
-        /// </summary>
-        public static string InspectWindowViewModel_Resource_name {
-            get {
-                return ResourceManager.GetString("InspectWindowViewModel_Resource_name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Window ID.
-        /// </summary>
-        public static string InspectWindowViewModel_Window_id {
-            get {
-                return ResourceManager.GetString("InspectWindowViewModel_Window_id", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Window role.
-        /// </summary>
-        public static string InspectWindowViewModel_Window_role {
-            get {
-                return ResourceManager.GetString("InspectWindowViewModel_Window_role", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Window state.
-        /// </summary>
-        public static string InspectWindowViewModel_Window_state {
-            get {
-                return ResourceManager.GetString("InspectWindowViewModel_Window_state", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Window type.
-        /// </summary>
-        public static string InspectWindowViewModel_Window_type {
-            get {
-                return ResourceManager.GetString("InspectWindowViewModel_Window_type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pick a window to inspect its properties..
-        /// </summary>
-        public static string InspectWindowViewModel_Pick_a_window {
-            get {
-                return ResourceManager.GetString("InspectWindowViewModel_Pick_a_window", resourceCulture);
             }
         }
         
@@ -3502,6 +3428,15 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatic.
+        /// </summary>
+        public static string LocalizedDisplayConverter_Automatic {
+            get {
+                return ResourceManager.GetString("LocalizedDisplayConverter_Automatic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backward diagonal.
         /// </summary>
         public static string LocalizedDisplayConverter_Backward_diagonal {
@@ -3520,6 +3455,15 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CPU.
+        /// </summary>
+        public static string LocalizedDisplayConverter_CPU {
+            get {
+                return ResourceManager.GetString("LocalizedDisplayConverter_CPU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forward diagonal.
         /// </summary>
         public static string LocalizedDisplayConverter_Forward_diagonal {
@@ -3534,6 +3478,15 @@ namespace ShareX.Tools.Localization {
         public static string LocalizedDisplayConverter_Gemini {
             get {
                 return ResourceManager.GetString("LocalizedDisplayConverter_Gemini", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GPU.
+        /// </summary>
+        public static string LocalizedDisplayConverter_GPU {
+            get {
+                return ResourceManager.GetString("LocalizedDisplayConverter_GPU", resourceCulture);
             }
         }
         
@@ -4025,24 +3978,6 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tesseract failed with code {0}. {1}.
-        /// </summary>
-        public static string OCRHelper_Failed {
-            get {
-                return ResourceManager.GetString("OCRHelper_Failed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tesseract has no data for the language '{0}'. Install it with your package manager, for example: sudo pacman -S tesseract-data-{0}.
-        /// </summary>
-        public static string OCRHelper_Language_data_missing {
-            get {
-                return ResourceManager.GetString("OCRHelper_Language_data_missing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} language is not available in this system for OCR..
         /// </summary>
         public static string OCRHelper_Language_unavailable {
@@ -4052,38 +3987,11 @@ namespace ShareX.Tools.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tesseract has no language data installed. Install a language with your package manager, for example: sudo pacman -S tesseract-data-eng.
-        /// </summary>
-        public static string OCRHelper_No_languages {
-            get {
-                return ResourceManager.GetString("OCRHelper_No_languages", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Optical character recognition is only available with Windows version {0} or newer..
         /// </summary>
         public static string OCRHelper_Requires_Windows_version {
             get {
                 return ResourceManager.GetString("OCRHelper_Requires_Windows_version", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to OCR needs the tesseract program, which wasn't found on PATH. Install it with your package manager, for example: sudo pacman -S tesseract tesseract-data-eng.
-        /// </summary>
-        public static string OCRHelper_Tesseract_missing {
-            get {
-                return ResourceManager.GetString("OCRHelper_Tesseract_missing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tesseract didn't finish within {0} seconds and was stopped..
-        /// </summary>
-        public static string OCRHelper_Timed_out {
-            get {
-                return ResourceManager.GetString("OCRHelper_Timed_out", resourceCulture);
             }
         }
         
@@ -6078,6 +5986,15 @@ namespace ShareX.Tools.Localization {
         }
 
         /// <summary>
+        ///   Windows could not play this video. Check that Windows supports its format and that the Windows media components are installed. {0}
+        /// </summary>
+        public static string VideoTrimmer_PlaybackError {
+            get {
+                return ResourceManager.GetString("VideoTrimmer_PlaybackError", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Re-encodes to H.264 / AAC MP4 for exact cut points.
         /// </summary>
         public static string VideoTrimmer_PreciseHint {
@@ -6298,7 +6215,5 @@ namespace ShareX.Tools.Localization {
         public static string VideoPlayer_Unmute => ResourceManager.GetString("VideoPlayer_Unmute", resourceCulture);
         public static string VideoPlayer_Seek => ResourceManager.GetString("VideoPlayer_Seek", resourceCulture);
         public static string VideoPlayer_Volume => ResourceManager.GetString("VideoPlayer_Volume", resourceCulture);
-        public static string VideoPlayer_MpvMissing => ResourceManager.GetString("VideoPlayer_MpvMissing", resourceCulture);
-        public static string VideoPlayer_PlaybackError => ResourceManager.GetString("VideoPlayer_PlaybackError", resourceCulture);
     }
 }

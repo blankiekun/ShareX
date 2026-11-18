@@ -867,12 +867,6 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Archivos de imagen</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>No se pudo abrir «{0}» porque este formato requiere ImageMagick y no se encontró el comando magick. Instale el paquete imagemagick.</value>
-  </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Guardar en TIFF requiere ImageMagick y no se encontró el comando magick. Instale el paquete imagemagick.</value>
-  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Abrir imagen</value>
   </data>
@@ -992,11 +986,6 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nombre de impresora no válido</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX no pudo imprimir: {0}
-
-La impresión pasa por el portal de impresión del escritorio. Compruebe que xdg-desktop-portal y xdg-desktop-portal-kde estén instalados, y cups para una impresora real.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Permitir ampliar la imagen</value>
@@ -1216,6 +1205,18 @@ La impresión pasa por el portal de impresión del escritorio. Compruebe que xdg
   </data>
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Año actual (2 dígitos)</value>
+  </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Flecha abajo</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Rueda del mouse</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Página abajo</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Mensaje de desplazamiento</value>
   </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automático</value>

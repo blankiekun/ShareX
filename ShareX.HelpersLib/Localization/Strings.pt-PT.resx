@@ -867,12 +867,6 @@ Ainda assim, pretende executá-lo?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Ficheiros de imagem</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Não foi possível abrir «{0}» porque este formato precisa do ImageMagick e o comando magick não foi encontrado. Instale o pacote imagemagick.</value>
-  </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Guardar em TIFF precisa do ImageMagick e o comando magick não foi encontrado. Instale o pacote imagemagick.</value>
-  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Abrir imagem</value>
   </data>
@@ -992,11 +986,6 @@ Ainda assim, pretende executá-lo?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nome de impressora inválido</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>O ShareX não conseguiu imprimir: {0}
-
-A impressão passa pelo portal de impressão do ambiente de trabalho. Verifique se o xdg-desktop-portal e o xdg-desktop-portal-kde estão instalados, e o cups para uma impressora real.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Permitir ampliar a imagem</value>
@@ -1216,6 +1205,18 @@ A impressão passa pelo portal de impressão do ambiente de trabalho. Verifique 
   </data>
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Ano atual (2 digitos)</value>
+  </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Seta para baixo</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Roda do rato</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Página abaixo</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Mensagem de deslocamento</value>
   </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automático</value>

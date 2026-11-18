@@ -370,17 +370,8 @@ namespace ShareX.HelpersLib.Localization {
         public static string PrintHelper_Invalid_printer_message {
             get { return ResourceManager.GetString("PrintHelper_Invalid_printer_message", resourceCulture); }
         }
-        public static string PrintHelper_Print_failed {
-            get { return ResourceManager.GetString("PrintHelper_Print_failed", resourceCulture); }
-        }
         public static string PrintHelper_Invalid_printer_name {
             get { return ResourceManager.GetString("PrintHelper_Invalid_printer_name", resourceCulture); }
-        }
-        public static string ImageIO_Open_needs_ImageMagick {
-            get { return ResourceManager.GetString("ImageIO_Open_needs_ImageMagick", resourceCulture); }
-        }
-        public static string ImageIO_Save_needs_ImageMagick {
-            get { return ResourceManager.GetString("ImageIO_Save_needs_ImageMagick", resourceCulture); }
         }
         public static string VideoInfo_Summary {
             get { return ResourceManager.GetString("VideoInfo_Summary", resourceCulture); }
@@ -853,9 +844,6 @@ namespace ShareX.HelpersLib.Localization {
         public static string HotkeyType_PinToScreenFromScreen {
             get { return ResourceManager.GetString("HotkeyType_PinToScreenFromScreen", resourceCulture); }
         }
-        public static string HotkeyType_PinToScreenToggleClickThrough {
-            get { return ResourceManager.GetString("HotkeyType_PinToScreenToggleClickThrough", resourceCulture); }
-        }
         public static string HotkeyType_PrintScreen {
             get { return ResourceManager.GetString("HotkeyType_PrintScreen", resourceCulture); }
         }
@@ -1221,6 +1209,18 @@ namespace ShareX.HelpersLib.Localization {
         }
         public static string ReplCodeMenuEntry_yy_Current_year__2_digits_ {
             get { return ResourceManager.GetString("ReplCodeMenuEntry_yy_Current_year__2_digits_", resourceCulture); }
+        }
+        public static string ScrollMethod_DownArrow {
+            get { return ResourceManager.GetString("ScrollMethod_DownArrow", resourceCulture); }
+        }
+        public static string ScrollMethod_MouseWheel {
+            get { return ResourceManager.GetString("ScrollMethod_MouseWheel", resourceCulture); }
+        }
+        public static string ScrollMethod_PageDown {
+            get { return ResourceManager.GetString("ScrollMethod_PageDown", resourceCulture); }
+        }
+        public static string ScrollMethod_ScrollMessage {
+            get { return ResourceManager.GetString("ScrollMethod_ScrollMessage", resourceCulture); }
         }
         public static string SupportedLanguage_Automatic {
             get { return ResourceManager.GetString("SupportedLanguage_Automatic", resourceCulture); }

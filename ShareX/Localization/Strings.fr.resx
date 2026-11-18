@@ -238,6 +238,18 @@
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Voulez-vous réinitialiser les paramètres de ShareX ?</value>
   </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Le démarrage a été désactivé par votre organisation</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Le démarrage automatique a été désactivé dans le Gestionnaire des tâches</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Le démarrage a été activé par votre organisation</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Lancer ShareX au démarrage de Windows</value>
+  </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Pour que les réglages prennent effets, ShareX doit être rouvert à partir de Steam.</value>
   </data>
@@ -523,6 +535,9 @@
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Lors d’un clic gauche sur l’icône :</value>
   </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Lors d’un clic du milieu sur l’icône :</value>
+  </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Enregistrer uniquement si l’URL n’est pas vide</value>
   </data>
@@ -732,18 +747,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Paramètres de l’application</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Bureau</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Lancer ShareX à l’ouverture de session</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Afficher « Modifier avec ShareX » dans le menu contextuel de Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Afficher « Mettre en ligne avec ShareX » dans le menu contextuel de Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1520,9 +1523,6 @@ Veuillez sélectionner un raccourci différent ou quitter l'application en confl
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Aucun préréglage d’effet d’image</value>
   </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Il n’y a aucune autre fenêtre à capturer. Ouvrez la fenêtre souhaitée, puis réessayez.</value>
-  </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Aucune fenêtre trouvée</value>
   </data>
@@ -1549,6 +1549,9 @@ Veuillez sélectionner un raccourci différent ou quitter l'application en confl
   </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Navigateur de stockage distant...</value>
+  </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Redémarrer en tant qu’administrateur</value>
   </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
     <value>Règle</value>
@@ -1971,20 +1974,6 @@ Veuillez exécuter ShareX en tant qu'administrateur pour changer le chemin du do
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Sélecteur de couleurs de l'écran</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>Le GIF n’a pas été terminé, il a donc été abandonné. L’enregistrement a été conservé au format MP4 à l’emplacement suivant :
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-Le fichier a été conservé, mais il ne pourra peut-être pas être lu :
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX a été fermé de manière inattendue pendant un enregistrement. L’enregistrement a été sauvegardé à l’emplacement suivant :
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Barre</value>
   </data>
@@ -2048,6 +2037,9 @@ Le fichier a été conservé, mais il ne pourra peut-être pas être lu :
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio système</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>La fenêtre sélectionnée pour l’enregistrement n’est plus disponible.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volume d’enregistrement (%)</value>
   </data>
@@ -2061,69 +2053,14 @@ Le fichier a été conservé, mais il ne pourra peut-être pas être lu :
     <value>Erreur lors de l’exportation de la sauvegarde :
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Une sauvegarde ShareX contient vos identifiants et vos clés API en clair, afin qu’ils puissent être transférés sur une autre machine. Toute personne qui obtient le fichier peut les utiliser.&#xD;
-&#xD;
-Gardez-la privée et supprimez-la une fois restaurée. Exporter quand même ?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Erreur lors de l’importation de la sauvegarde :
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} dans la sauvegarde est endommagé, rien n’a donc été importé.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>La sauvegarde contient des identifiants, et ils ne peuvent pas être stockés sans votre portefeuille : rien n’a donc été importé. Ouvrez le portefeuille et réessayez.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>Le fichier ne contient aucun paramètre ni historique ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Effets d’image omis, car cette version ne les possède pas :</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Historique : {0} ajoutés, {1} déjà présents, {2} illisibles.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Votre historique précédent a été enregistré dans {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>L’historique n’a pas été importé : {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Dossiers modifiés vers leur emplacement Linux :</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Paramètres remis à leur valeur par défaut, car le chemin n’a pas d’équivalent ici :</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Ce fichier de sauvegarde contient vos identifiants en clair. Supprimez-le dès que l’importation vous convient.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Identifiants récupérés, désormais chiffrés avec votre portefeuille :</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Reconnectez-vous. Ces éléments ont été chiffrés pour une autre machine et ne peuvent pas être lus ici :</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Fichiers de la sauvegarde qui ont été ignorés :</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Sauvegarde importée</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Actions désactivées, afin que rien de la sauvegarde ne s’exécute tout seul. Vérifiez-les et réactivez-les :</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Impossible d’enregistrer {0}. L’importation s’est arrêtée là.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX ne peut être fermé lorsqu'un enregistrement d'écran est en cours.
 
-Voulez-vous arrêter l'enregistrement d'écran en cours et le sauvegarder ?</value>
+Voulez-vous annuler l'enregistrement d'écran en cours ?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX est réduit dans la zone de notification.</value>
@@ -2159,7 +2096,7 @@ Voulez-vous arrêter l'enregistrement d'écran en cours et le sauvegarder ?</val
     <value>Personnalisez ShareX</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Open source • Conçu pour Linux</value>
+    <value>Open source • Conçu pour Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Vous pouvez modifier ces options à tout moment dans les paramètres de l’application.</value>
@@ -3187,6 +3124,9 @@ Vous pourrez les désactiver plus tard depuis le manu "Tâches après la capture
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Voulez-vous réessayer la mise en ligne depuis le presse-papier ?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Votre logiciel anti-virus ou le control des répertoires Windows pourrait bloquer ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Votre administrateur système a désactivé la fonctionnalité de mise en ligne.</value>

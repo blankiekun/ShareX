@@ -54,7 +54,7 @@
             <Grid Grid.Row="1"
                   RowDefinitions="Auto,*"
                   Margin="12,8,12,12">
-                <TextBlock Text="{x:Static res:Strings.EmojiPickerDialogView_NoEmojiFont}"
+                <TextBlock Text="{x:Static res:LinuxStrings.EmojiPickerDialogView_NoEmojiFont}"
                            IsVisible="{x:Static emoji:EmojiBitmapRenderer.FontIsMissing}"
                            TextWrapping="Wrap"
                            Margin="0,0,0,8"/>

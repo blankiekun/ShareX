@@ -867,12 +867,6 @@ Chcete jej přesto spustit?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Obrazové soubory</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Soubor „{0}“ nelze otevřít, protože tento formát vyžaduje ImageMagick a příkaz magick nebyl nalezen. Nainstalujte balíček imagemagick.</value>
-  </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Uložení do formátu TIFF vyžaduje ImageMagick a příkaz magick nebyl nalezen. Nainstalujte balíček imagemagick.</value>
-  </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Otevřít obrázek</value>
   </data>
@@ -992,11 +986,6 @@ Chcete jej přesto spustit?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Neplatný název tiskárny</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX nemohl tisknout: {0}
-
-Tisk probíhá přes tiskový portál plochy. Zkontrolujte, zda jsou nainstalovány balíčky xdg-desktop-portal a xdg-desktop-portal-kde a pro skutečnou tiskárnu také cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Povolit zvětšení obrázku</value>
@@ -1216,6 +1205,18 @@ Tisk probíhá přes tiskový portál plochy. Zkontrolujte, zda jsou nainstalov�
   </data>
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Rok (2 číslice)</value>
+  </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Šipka dolů</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Kolečko myši</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>O stránku dolů</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Zpráva posunutí</value>
   </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automaticky</value>

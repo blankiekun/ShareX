@@ -254,23 +254,23 @@ namespace ShareX.ScreenCaptureLib.Localization {
         public static string ScrollingCaptureWindow_Milliseconds {
             get { return ResourceManager.GetString("ScrollingCaptureWindow_Milliseconds", resourceCulture); }
         }
+        public static string ScrollingCaptureWindow_Scroll_delay {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Scroll_delay", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Scroll_method {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Scroll_method", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Scroll_amount {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Scroll_amount", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Times {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Times", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Automatically_scroll_to_top {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Automatically_scroll_to_top", resourceCulture); }
+        }
         public static string ScrollingCaptureWindow_Auto_ignore_bottom_edge {
             get { return ResourceManager.GetString("ScrollingCaptureWindow_Auto_ignore_bottom_edge", resourceCulture); }
-        }
-        public static string ScrollingCaptureWindow_Press_start {
-            get { return ResourceManager.GetString("ScrollingCaptureWindow_Press_start", resourceCulture); }
-        }
-        public static string ScrollingCaptureWindow_Scroll_now {
-            get { return ResourceManager.GetString("ScrollingCaptureWindow_Scroll_now", resourceCulture); }
-        }
-        public static string ScrollingCaptureWindow_Scroll_back {
-            get { return ResourceManager.GetString("ScrollingCaptureWindow_Scroll_back", resourceCulture); }
-        }
-        public static string ScrollingCaptureWindow_Stop {
-            get { return ResourceManager.GetString("ScrollingCaptureWindow_Stop", resourceCulture); }
-        }
-        public static string ScrollingCaptureWindow_Height_limit_reached {
-            get { return ResourceManager.GetString("ScrollingCaptureWindow_Height_limit_reached", resourceCulture); }
         }
         public static string ScrollingCaptureWindow_Show_capture_region {
             get { return ResourceManager.GetString("ScrollingCaptureWindow_Show_capture_region", resourceCulture); }
@@ -289,6 +289,9 @@ namespace ShareX.ScreenCaptureLib.Localization {
         }
         public static string ScrollingCaptureWindow_Selection_cancelled {
             get { return ResourceManager.GetString("ScrollingCaptureWindow_Selection_cancelled", resourceCulture); }
+        }
+        public static string ScrollingCaptureWindow_Capturing {
+            get { return ResourceManager.GetString("ScrollingCaptureWindow_Capturing", resourceCulture); }
         }
         public static string ScrollingCaptureWindow_Capture_failed {
             get { return ResourceManager.GetString("ScrollingCaptureWindow_Capture_failed", resourceCulture); }

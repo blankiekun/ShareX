@@ -52,7 +52,7 @@ public sealed partial class BackgroundRemoverViewModel : ViewModelBase, IDisposa
 
     public string? ModelsFolder { get; }
 
-    public string NoModelMessage => string.Format(Localization.Strings.BackgroundRemoverWindow_No_model_found, ModelsFolder);
+    public string NoModelMessage => string.Format(Localization.LinuxStrings.BackgroundRemoverWindow_No_model_found, ModelsFolder);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasSelectedModel))]
