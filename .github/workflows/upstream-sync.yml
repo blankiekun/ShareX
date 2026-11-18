@@ -25,25 +25,36 @@ jobs:
         run: |
           if [ -z "$GH_TOKEN" ]; then echo "::error::Add the SYNC_TOKEN secret (see the comment at the top of this file)."; exit 1; fi
 
+      # Answered through the API so a day with nothing new skips the full clone.
+      - name: Find a new upstream tag
+        id: find
+        run: |
+          TAG=$(git ls-remote --tags --refs https://github.com/ShareX/ShareX.git 'v*' | sed 's#.*refs/tags/##' | sort -V | tail -1)
+          BRANCH="sync/upstream-$TAG"
+          echo "Latest upstream tag: $TAG"
+          STATUS=$(gh api "repos/$REPO/compare/develop...ShareX:$TAG" --jq .status)
+          if [ "$STATUS" = behind ] || [ "$STATUS" = identical ]; then echo "Already merged."; exit 0; fi
+          if gh api "repos/$REPO/branches/$BRANCH" >/dev/null 2>&1; then echo "$BRANCH already exists."; exit 0; fi
+          if [ -n "$(gh issue list --repo "$REPO" --state open --search "\"Upstream $TAG\" in:title" --json number -q '.[].number')" ]; then echo "Issue for $TAG already open."; exit 0; fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v6
+        if: steps.find.outputs.tag != ''
         with:
           ref: develop
           fetch-depth: 0
           token: ${{ secrets.SYNC_TOKEN }}
 
-      - name: Merge latest upstream tag
+      - name: Merge the tag
+        if: steps.find.outputs.tag != ''
+        env:
+          TAG: ${{ steps.find.outputs.tag }}
         run: |
+          BRANCH="sync/upstream-$TAG"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote add upstream https://github.com/ShareX/ShareX.git
-          git fetch -q upstream --tags --no-recurse-submodules
-          TAG=$(git ls-remote --tags --refs upstream 'v*' | sed 's#.*refs/tags/##' | sort -V | tail -1)
-          BRANCH="sync/upstream-$TAG"
-          echo "Latest upstream tag: $TAG"
-
-          if git merge-base --is-ancestor "$TAG" HEAD; then echo "Already merged."; exit 0; fi
-          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then echo "$BRANCH already exists."; exit 0; fi
-          if [ -n "$(gh issue list --repo "$REPO" --state open --search "\"Upstream $TAG\" in:title" --json number -q '.[].number')" ]; then echo "Issue for $TAG already open."; exit 0; fi
+          git fetch -q upstream --no-recurse-submodules "refs/tags/$TAG:refs/tags/$TAG"
 
           git switch -c "$BRANCH"
           DROPPED=""
