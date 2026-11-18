@@ -2751,11 +2751,8 @@ namespace ShareX
 
         public static async Task DownloadDevBuild()
         {
-            GitHubUpdateChecker updateChecker = new GitHubUpdateChecker("ShareX", "DevBuilds")
-            {
-                IsDev = true,
-                IsPortable = StartupOptions.Portable
-            };
+            // The fork has no dev builds; this checks its latest release instead.
+            GitHubUpdateChecker updateChecker = new LinuxUpdateChecker();
 
             await updateChecker.CheckUpdateAsync();
 

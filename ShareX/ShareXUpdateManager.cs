@@ -31,26 +31,13 @@ namespace ShareX
     {
         public UpdateChannel UpdateChannel { get; set; }
 
+        // The fork has no dev builds, so the Dev channel checks the same releases as Stable.
         public override GitHubUpdateChecker CreateUpdateChecker()
         {
-            if (UpdateChannel == UpdateChannel.Dev)
+            return new LinuxUpdateChecker
             {
-                return new GitHubUpdateChecker("ShareX", "DevBuilds")
-                {
-                    IsDev = true,
-                    IsPortable = StartupOptions.Portable,
-                    IgnoreRevision = true
-                };
-            }
-            else
-            {
-                return new GitHubUpdateChecker("ShareX", "ShareX")
-                {
-                    IsPortable = StartupOptions.Portable,
-                    IncludePreRelease = UpdateChannel == UpdateChannel.PreRelease,
-                    IgnoreRevision = true
-                };
-            }
+                IncludePreRelease = UpdateChannel == UpdateChannel.PreRelease
+            };
         }
     }
 }
