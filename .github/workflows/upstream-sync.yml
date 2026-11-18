@@ -1,0 +1,77 @@
+name: Upstream sync
+
+# Merges each new upstream release tag into a sync/upstream-<tag> branch.
+# Clean merge: opens a PR into develop. Conflicts: opens an issue listing them.
+# Needs secret SYNC_TOKEN: a fine-grained PAT on blankiekun/ShareX with Contents,
+# Pull requests, Issues and Workflows read/write. GITHUB_TOKEN can't push upstream's
+# commits that touch .github/workflows, and its PRs don't trigger pr.yml.
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Check token
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "::error::Add the SYNC_TOKEN secret (see the comment at the top of this file)."; exit 1; fi
+
+      - uses: actions/checkout@v6
+        with:
+          ref: develop
+          fetch-depth: 0
+          token: ${{ secrets.SYNC_TOKEN }}
+
+      - name: Merge latest upstream tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/ShareX/ShareX.git
+          git fetch -q upstream --tags --no-recurse-submodules
+          TAG=$(git ls-remote --tags --refs upstream 'v*' | sed 's#.*refs/tags/##' | sort -V | tail -1)
+          BRANCH="sync/upstream-$TAG"
+          echo "Latest upstream tag: $TAG"
+
+          if git merge-base --is-ancestor "$TAG" HEAD; then echo "Already merged."; exit 0; fi
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then echo "$BRANCH already exists."; exit 0; fi
+          if [ -n "$(gh issue list --repo "$REPO" --state open --search "\"Upstream $TAG\" in:title" --json number -q '.[].number')" ]; then echo "Issue for $TAG already open."; exit 0; fi
+
+          git switch -c "$BRANCH"
+          DROPPED=""
+          if ! git merge --no-edit "$TAG"; then
+            # Files the fork deleted stay deleted, whatever upstream did to them.
+            for f in $(git diff --name-only --diff-filter=U); do
+              git cat-file -e "HEAD:$f" 2>/dev/null || { git rm -q "$f"; DROPPED="$DROPPED$f"$'\n'; }
+            done
+          fi
+
+          CONFLICTS=$(git diff --name-only --diff-filter=U)
+          if [ -n "$CONFLICTS" ]; then
+            git merge --abort
+            {
+              echo "Merging upstream \`$TAG\` into \`develop\` conflicts in $(echo "$CONFLICTS" | wc -l) files:"
+              echo
+              echo "$CONFLICTS" | sed 's/^/- `/; s/$/`/'
+              echo
+              echo "Resolve locally (rerere on): \`git fetch upstream --tags && git switch -c $BRANCH develop && git merge $TAG\`, then open a PR into develop."
+            } > body.md
+            gh issue create --repo "$REPO" --title "Upstream $TAG: merge conflicts" --body-file body.md
+            exit 0
+          fi
+
+          git diff --cached --quiet || git commit -q --no-edit
+          NOTE=""
+          [ -n "$DROPPED" ] && NOTE=$(printf '\n\nKept deleted although upstream changed them (check none was a rename on our side):\n%s' "$(echo -n "$DROPPED" | sed 's/^/- `/; s/$/`/')")
+          git push -q origin "$BRANCH"
+          gh pr create --repo "$REPO" --base develop --head "$BRANCH" \
+            --title "Merge upstream $TAG" \
+            --body "Automatic merge of upstream release \`$TAG\`; it merged without conflicts. Check the build and the app before merging.$NOTE"
