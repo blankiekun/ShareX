@@ -157,6 +157,9 @@
   <data name="AfterCaptureWindow_AfterUpload" xml:space="preserve">
     <value>După încărcare</value>
   </data>
+  <data name="AfterCaptureWindow_AlsoHeading" xml:space="preserve">
+    <value>De asemenea</value>
+  </data>
   <data name="AfterCaptureWindow_Cancel" xml:space="preserve">
     <value>Anulare</value>
   </data>
@@ -178,11 +181,56 @@
   <data name="AfterCaptureWindow_FileName" xml:space="preserve">
     <value>Nume fișier</value>
   </data>
+  <data name="AfterCaptureWindow_GoalCopyFile" xml:space="preserve">
+    <value>Copiere fișier</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFileDescription" xml:space="preserve">
+    <value>Pune fișierul salvat în clipboard.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePath" xml:space="preserve">
+    <value>Copiere cale fișier</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePathDescription" xml:space="preserve">
+    <value>Copiază calea fișierului salvat.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPath" xml:space="preserve">
+    <value>Copiere cale folder</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPathDescription" xml:space="preserve">
+    <value>Copiază folderul fișierului salvat.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImage" xml:space="preserve">
+    <value>Copiere imagine</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImageDescription" xml:space="preserve">
+    <value>Pune imaginea în clipboard.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrl" xml:space="preserve">
+    <value>Copiere URL</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrlDescription" xml:space="preserve">
+    <value>Îl încarcă, apoi copiază linkul.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalDescription" xml:space="preserve">
+    <value>Pașii necesari decurg din obiectivul dvs. Adăugați ce opțiuni suplimentare doriți.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalHeading" xml:space="preserve">
+    <value>Ce doriți în clipboard?</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboard" xml:space="preserve">
+    <value>Nu modifica clipboardul</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboardDescription" xml:space="preserve">
+    <value>Nu copiază și nu încarcă nimic.</value>
+  </data>
   <data name="AfterCaptureWindow_Heading" xml:space="preserve">
     <value>După captură</value>
   </data>
   <data name="AfterCaptureWindow_NoPreview" xml:space="preserve">
     <value>Nicio previzualizare a imaginii disponibilă</value>
+  </data>
+  <data name="AfterCaptureWindow_RequiredHeading" xml:space="preserve">
+    <value>Necesar pentru acest obiectiv</value>
   </data>
   <data name="AfterCaptureWindow_Subtitle" xml:space="preserve">
     <value>Examinați conținutul capturat și alegeți ce urmează.</value>
@@ -237,6 +285,18 @@
   </data>
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Doriți să resetați setările ShareX?</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Pornirea a fost dezactivată de către organizația dvs.</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Pornirea a fost dezactivată din Managerul de activități</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Pornirea a fost activată de către organizația dvs.</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Rulați ShareX la pornirea Windows-ului</value>
   </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Pentru ca setările să aibă efect, ShareX trebuie redeschis din Steam.</value>
@@ -345,6 +405,9 @@
   </data>
   <data name="ApplicationSettingsWindow_ClipboardFormats" xml:space="preserve">
     <value>Formate de clipboard</value>
+  </data>
+  <data name="ApplicationSettingsWindow_CompactMode" xml:space="preserve">
+    <value>Mod compact</value>
   </data>
   <data name="ApplicationSettingsWindow_CustomHotkeysConfigPath" xml:space="preserve">
     <value>Cale personalizată pentru configurația tastelor rapide</value>
@@ -460,6 +523,21 @@
   <data name="ApplicationSettingsWindow_HotkeyRepeatLimit" xml:space="preserve">
     <value>Interval de repetare a tastelor rapide (milisecunde)</value>
   </data>
+  <data name="ApplicationSettingsWindow_IconPackLabel" xml:space="preserve">
+    <value>Pachet de pictograme:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackLegacy" xml:space="preserve">
+    <value>Clasic</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackModern" xml:space="preserve">
+    <value>Modern</value>
+  </data>
+  <data name="ApplicationSettingsWindow_Icons" xml:space="preserve">
+    <value>Pictograme</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ImagePreviewLabel" xml:space="preserve">
+    <value>Vizibilitatea previzualizării imaginii:</value>
+  </data>
   <data name="ApplicationSettingsWindow_ImagePrintSettings" xml:space="preserve">
     <value>Setări de imprimare a imaginii...</value>
   </data>
@@ -493,6 +571,9 @@
   <data name="ApplicationSettingsWindow_Light" xml:space="preserve">
     <value>Luminos</value>
   </data>
+  <data name="ApplicationSettingsWindow_ListView" xml:space="preserve">
+    <value>Vizualizare listă</value>
+  </data>
   <data name="ApplicationSettingsWindow_MainWindow" xml:space="preserve">
     <value>Fereastra principală</value>
   </data>
@@ -522,6 +603,9 @@
   </data>
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Pe pictograma din bară faceți clic stânga:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Faceți clic în mijloc pe pictograma din bară:</value>
   </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Salvați numai dacă URL-ul nu este gol</value>
@@ -610,8 +694,17 @@
   <data name="ApplicationSettingsWindow_ShowClipboardContentViewer" xml:space="preserve">
     <value>Afișează vizualizatorul conținutului din clipboard</value>
   </data>
+  <data name="ApplicationSettingsWindow_ShowColumns" xml:space="preserve">
+    <value>Afișați coloanele</value>
+  </data>
   <data name="ApplicationSettingsWindow_ShowEditWithShareXButtonInWindowsExplorerContextMenu" xml:space="preserve">
-    <value>Afișați butonul "Editați cu ShareX" în meniul contextual al Windows Explorer</value>
+    <value>Afișați butonul "Editați în editorul de imagini ShareX" în meniul contextual al Windows Explorer</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXPhotoEditorButtonInWindowsExplorerContextMenu" xml:space="preserve">
+    <value>Afișați butonul "Editați în editorul foto ShareX" în meniul contextual al Windows Explorer</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowFileDeleteConfirmation" xml:space="preserve">
+    <value>Solicită confirmare înainte de ștergerea fișierelor</value>
   </data>
   <data name="ApplicationSettingsWindow_ShowLargeFileSizeWarning" xml:space="preserve">
     <value>Prag de avertizare pentru fișiere mari (MB)</value>
@@ -649,6 +742,39 @@
   <data name="ApplicationSettingsWindow_SimultaneousUploadLimitLabel" xml:space="preserve">
     <value>Limita de încărcare simultană:</value>
   </data>
+  <data name="ApplicationSettingsWindow_Spacing" xml:space="preserve">
+    <value>Spațiere</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingCompact" xml:space="preserve">
+    <value>Compact</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingDefault" xml:space="preserve">
+    <value>Implicit</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenus" xml:space="preserve">
+    <value>Meniuri</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenusLabel" xml:space="preserve">
+    <value>Meniuri:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingPreviewLabel" xml:space="preserve">
+    <value>Previzualizare:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSettingsWindowsLabel" xml:space="preserve">
+    <value>Ferestre de setări:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebar" xml:space="preserve">
+    <value>Bară laterală</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebarLabel" xml:space="preserve">
+    <value>Bară laterală:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenus" xml:space="preserve">
+    <value>Meniuri de instrumente</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenusLabel" xml:space="preserve">
+    <value>Meniuri de instrumente:</value>
+  </data>
   <data name="ApplicationSettingsWindow_Steam" xml:space="preserve">
     <value>Steam</value>
   </data>
@@ -657,6 +783,9 @@
   </data>
   <data name="ApplicationSettingsWindow_SubFolderPatternLabel" xml:space="preserve">
     <value>Model de subdosar:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_TaskViewModeLabel" xml:space="preserve">
+    <value>Modul de vizualizare a sarcinilor:</value>
   </data>
   <data name="ApplicationSettingsWindow_Theme" xml:space="preserve">
     <value>Tema</value>
@@ -732,18 +861,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Setări ale aplicației</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Desktop</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Pornește ShareX la autentificare</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Afișați "Editați cu ShareX" în meniul contextual din Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Afișați "Încărcați cu ShareX" în meniul contextual din Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1210,6 +1327,9 @@
   <data name="FailedToSaveSettings" xml:space="preserve">
     <value>Nu s-a reușit salvarea setărilor</value>
   </data>
+  <data name="FileDeleteConfirmation_DontRemindAgain" xml:space="preserve">
+    <value>Nu-mi mai aminti</value>
+  </data>
   <data name="FileExistWindow_Cancel" xml:space="preserve">
     <value>Anulare</value>
   </data>
@@ -1319,11 +1439,29 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   <data name="HotkeySettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Setări taste rapide</value>
   </data>
+  <data name="IconPackPrompt_ChangeLater" xml:space="preserve">
+    <value>Puteți modifica oricând această opțiune din setările aplicației.</value>
+  </data>
+  <data name="IconPackPrompt_LegacyDescription" xml:space="preserve">
+    <value>Pictogramele colorate din ShareX 21.</value>
+  </data>
+  <data name="IconPackPrompt_ModernDescription" xml:space="preserve">
+    <value>Pictograme simple, din linii, care urmează culorile temei.</value>
+  </data>
+  <data name="IconPackPrompt_Subtitle" xml:space="preserve">
+    <value>ShareX are pictograme noi. Alegeți aspectul preferat.</value>
+  </data>
+  <data name="IconPackPrompt_Title" xml:space="preserve">
+    <value>Alegeți pictogramele</value>
+  </data>
   <data name="ImageData_Write_Error_Message" xml:space="preserve">
     <value>Nu s-a putut scrie imaginea în calea:</value>
   </data>
   <data name="IntegrationHelpers_EditWithShareX" xml:space="preserve">
-    <value>Editați cu ShareX</value>
+    <value>Editați în editorul de imagini ShareX</value>
+  </data>
+  <data name="IntegrationHelpers_EditWithShareXPhotoEditor" xml:space="preserve">
+    <value>Editați în editorul foto ShareX</value>
   </data>
   <data name="IntegrationHelpers_UploadWithShareX" xml:space="preserve">
     <value>Încărcați cu ShareX</value>
@@ -1393,6 +1531,9 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   </data>
   <data name="MainMenuBuilder_Capture" xml:space="preserve">
     <value>Capturați</value>
+  </data>
+  <data name="MainMenuBuilder_ClassicRuler" xml:space="preserve">
+    <value>Riglă</value>
   </data>
   <data name="MainMenuBuilder_ClipboardViewer" xml:space="preserve">
     <value>Vizualizator de clipboard</value>
@@ -1517,11 +1658,11 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   <data name="MainMenuBuilder_NetworkMonitor" xml:space="preserve">
     <value>Monitor de rețea...</value>
   </data>
+  <data name="MainMenuBuilder_NewBadge" xml:space="preserve">
+    <value>Nou</value>
+  </data>
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Nicio presetare pentru efecte de imagine</value>
-  </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Nu există altă fereastră de capturat. Deschideți fereastra dorită, apoi încercați din nou.</value>
   </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Nu s-au găsit ferestre</value>
@@ -1547,11 +1688,17 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   <data name="MainMenuBuilder_Region" xml:space="preserve">
     <value>Regiune...</value>
   </data>
+  <data name="MainMenuBuilder_RegionTransparent" xml:space="preserve">
+    <value>Regiune (transparentă)...</value>
+  </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Browser de stocare la distanță...</value>
   </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Repornește ca administrator</value>
+  </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
-    <value>Riglă</value>
+    <value>Măsurare</value>
   </data>
   <data name="MainMenuBuilder_ScreenColorPicker" xml:space="preserve">
     <value>Alegător de culori pe ecran</value>
@@ -1561,6 +1708,9 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   </data>
   <data name="MainMenuBuilder_ScreenRecordingGif" xml:space="preserve">
     <value>Înregistrare ecran (GIF)...</value>
+  </data>
+  <data name="MainMenuBuilder_ScreenshotDelayJustOnce" xml:space="preserve">
+    <value>Doar o dată</value>
   </data>
   <data name="MainMenuBuilder_ScreenshotsFolder" xml:space="preserve">
     <value>Dosar capturi de ecran...</value>
@@ -1666,6 +1816,9 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   </data>
   <data name="MainWindow_BeautifyImage" xml:space="preserve">
     <value>Îmbunătățește imaginea</value>
+  </data>
+  <data name="MainWindow_ClearTaskList" xml:space="preserve">
+    <value>Ștergeți lista de sarcini</value>
   </data>
   <data name="MainWindow_ClearThumbnailView" xml:space="preserve">
     <value>Șterge vizualizarea miniaturilor</value>
@@ -1829,6 +1982,12 @@ Vă rugăm să selectați o altă tastatură rapidă sau să ieșiți din aplica
   <data name="MainWindow_StopUpload" xml:space="preserve">
     <value>Oprește încărcarea</value>
   </data>
+  <data name="MainWindow_SwitchToListView" xml:space="preserve">
+    <value>Comutați la vizualizare listă</value>
+  </data>
+  <data name="MainWindow_SwitchToThumbnailView" xml:space="preserve">
+    <value>Comutați la vizualizare miniaturi</value>
+  </data>
   <data name="MainWindow_Text" xml:space="preserve">
     <value>Text</value>
   </data>
@@ -1971,20 +2130,6 @@ Vă rugăm să rulați ShareX ca administrator pentru a schimba calea folderului
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Selector de culori de pe ecran</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF-ul nu a fost finalizat, așa că a fost eliminat. Înregistrarea a fost păstrată ca MP4 la:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-Fișierul a fost păstrat, dar s-ar putea să nu poată fi redat:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX a fost închis neașteptat în timpul unei înregistrări. Înregistrarea a fost salvată la:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Bară</value>
   </data>
@@ -2048,6 +2193,9 @@ Fișierul a fost păstrat, dar s-ar putea să nu poată fi redat:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Sunetul sistemului</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Fereastra selectată pentru înregistrare nu mai este disponibilă.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volumul înregistrării (%)</value>
   </data>
@@ -2061,69 +2209,14 @@ Fișierul a fost păstrat, dar s-ar putea să nu poată fi redat:
     <value>Eroare la exportarea copiei de rezervă:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>O copie de rezervă ShareX păstrează datele dvs. de autentificare și cheile API în text simplu, necriptat, ca să poată fi mutate pe alt calculator. Oricine obține fișierul le poate folosi.&#xD;
-&#xD;
-Păstrați-o privată și ștergeți-o după ce ați restaurat-o. Exportați oricum?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Eroare la importarea copiei de rezervă:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} din copia de rezervă este deteriorat, așa că nu s-a importat nimic.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Copia de rezervă conține date de autentificare, care nu pot fi stocate fără portofelul dvs., așa că nu s-a importat nimic. Deschideți portofelul și încercați din nou.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>Fișierul nu conține setări sau istoric ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Efecte de imagine omise, deoarece această versiune nu le are:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Istoric: {0} adăugate, {1} existente deja, {2} ilizibile.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Istoricul anterior a fost salvat în {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Istoricul nu a fost importat: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Foldere schimbate la locația lor din Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Setări readuse la valoarea implicită, deoarece calea nu are un echivalent aici:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Acest fișier de rezervă păstrează datele dvs. de autentificare în text simplu, necriptat. Ștergeți-l după ce sunteți mulțumit de import.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Date de autentificare transferate, criptate acum cu portofelul dvs.:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Autentificați-vă din nou. Acestea au fost criptate pentru alt calculator și nu pot fi citite aici:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Fișiere din copia de rezervă care au fost ignorate:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Copie de rezervă importată</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Acțiuni dezactivate, pentru ca nimic din copia de rezervă să nu ruleze singur. Verificați-le și reactivați-le:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Nu s-a putut salva {0}. Importul s-a oprit acolo.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX nu poate fi închis cât timp înregistrarea ecranului este activă.
 
-Doriți să opriți înregistrarea activă a ecranului și să o salvați?</value>
+Vrei să anulezi înregistrarea activă a ecranului?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX este minimizat în bara de sistem.</value>
@@ -2159,7 +2252,7 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
     <value>Personalizați ShareX</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Open source • Creat pentru Linux</value>
+    <value>Sursă deschisă • Creat pentru Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Puteți modifica oricând aceste opțiuni din setările aplicației.</value>
@@ -2194,6 +2287,33 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   </data>
   <data name="TaskHelpers_ToggleHotkeys_Hotkeys_enabled_" xml:space="preserve">
     <value>Taste rapide activate.</value>
+  </data>
+  <data name="TaskListView_Elapsed" xml:space="preserve">
+    <value>A trecut</value>
+  </data>
+  <data name="TaskListView_Filename" xml:space="preserve">
+    <value>Numele fișierului</value>
+  </data>
+  <data name="TaskListView_History" xml:space="preserve">
+    <value>Istoric</value>
+  </data>
+  <data name="TaskListView_InQueue" xml:space="preserve">
+    <value>În coadă</value>
+  </data>
+  <data name="TaskListView_Progress" xml:space="preserve">
+    <value>Progres</value>
+  </data>
+  <data name="TaskListView_Remaining" xml:space="preserve">
+    <value>Rămas</value>
+  </data>
+  <data name="TaskListView_Speed" xml:space="preserve">
+    <value>Viteză</value>
+  </data>
+  <data name="TaskListView_Status" xml:space="preserve">
+    <value>Stare</value>
+  </data>
+  <data name="TaskListView_URL" xml:space="preserve">
+    <value>URL</value>
   </data>
   <data name="TaskManager_UploadCompletedURL" xml:space="preserve">
     <value>Încărcare finalizată. URL: {0}</value>
@@ -2270,6 +2390,9 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   <data name="TaskSettingsWindow_AutoCopyImageToClipboard" xml:space="preserve">
     <value>Copiază automat imaginea în clipboard</value>
   </data>
+  <data name="TaskSettingsWindow_AutoExpandCanvas" xml:space="preserve">
+    <value>Extinde automat pânza când textul sau formele depășesc marginea</value>
+  </data>
   <data name="TaskSettingsWindow_AutoIncrementNumber" xml:space="preserve">
     <value>Număr cu incrementare automată:</value>
   </data>
@@ -2302,6 +2425,9 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   </data>
   <data name="TaskSettingsWindow_Cancel" xml:space="preserve">
     <value>Anulează</value>
+  </data>
+  <data name="TaskSettingsWindow_CanvasFillColor" xml:space="preserve">
+    <value>Culoarea de umplere pentru zona de pânză adăugată:</value>
   </data>
   <data name="TaskSettingsWindow_Capture" xml:space="preserve">
     <value>Captură</value>
@@ -2348,6 +2474,9 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   <data name="TaskSettingsWindow_CloseOCRWindowAfterOpeningServiceLink" xml:space="preserve">
     <value>Închide fereastra OCR după deschiderea legăturii serviciului</value>
   </data>
+  <data name="TaskSettingsWindow_CompactRegionCaptureToolbar" xml:space="preserve">
+    <value>Bară de instrumente compactă pentru captura regiunii</value>
+  </data>
   <data name="TaskSettingsWindow_ConfigureWithEllipsis" xml:space="preserve">
     <value>Configurează...</value>
   </data>
@@ -2378,8 +2507,8 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   <data name="TaskSettingsWindow_DetectWindowRegions" xml:space="preserve">
     <value>Detectează regiunile ferestrelor</value>
   </data>
-  <data name="TaskSettingsWindow_DimAllExceptCurrentSelection" xml:space="preserve">
-    <value>Întunecă totul, cu excepția selecției curente</value>
+  <data name="TaskSettingsWindow_DimHoveredWindowsAndControls" xml:space="preserve">
+    <value>Întunecă ferestrele și controalele de sub cursor</value>
   </data>
   <data name="TaskSettingsWindow_DisableToastNotificationsOnFullscreen" xml:space="preserve">
     <value>Dezactivează notificările pe ecran complet</value>
@@ -2573,6 +2702,9 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   <data name="TaskSettingsWindow_MoveUp" xml:space="preserve">
     <value>Mută în sus</value>
   </data>
+  <data name="TaskSettingsWindow_MultiRegionMode" xml:space="preserve">
+    <value>Mod multi-regiune</value>
+  </data>
   <data name="TaskSettingsWindow_Name" xml:space="preserve">
     <value>Nume</value>
   </data>
@@ -2641,6 +2773,9 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   </data>
   <data name="TaskSettingsWindow_NativeRecorderEnabled" xml:space="preserve">
     <value>Folosește înregistratorul de ecran integrat</value>
+  </data>
+  <data name="TaskSettingsWindow_NativeRecorderHDRToneMapping" xml:space="preserve">
+    <value>Maparea tonurilor HDR</value>
   </data>
   <data name="TaskSettingsWindow_NativeRecorderHardware" xml:space="preserve">
     <value>Solicită codificare video hardware</value>
@@ -3068,6 +3203,18 @@ Doriți să opriți înregistrarea activă a ecranului și să o salvați?</valu
   <data name="TaskSettingsWindow_WaveAudio" xml:space="preserve">
     <value>Audio Wave</value>
   </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffort" xml:space="preserve">
+    <value>Efort de compresie WebP:</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffortHint" xml:space="preserve">
+    <value>Valorile mai mici accelerează codificarea. Valorile mai mari produc fișiere mai mici. Toate valorile păstrează calitatea imaginii.</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPLossless" xml:space="preserve">
+    <value>Fără pierderi</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPQuality" xml:space="preserve">
+    <value>Calitate WebP:</value>
+  </data>
   <data name="TaskSettingsWindow_Width" xml:space="preserve">
     <value>Lățime:</value>
   </data>
@@ -3187,6 +3334,9 @@ Puteți să le dezactivați ulterior din meniul "Sarcini după captură".</value
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Vrei să reîncerci încărcarea din clipboard?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Este posibil ca software-ul antivirus sau funcția de acces controlat la foldere din Windows să blocheze ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Administratorul de sistem a dezactivat funcția de încărcare.</value>

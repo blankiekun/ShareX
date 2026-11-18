@@ -47,26 +47,26 @@ namespace ShareX
         {
             StringBuilder text = new StringBuilder();
 
-            AddSection(text, Strings.SettingManager_ImportReportSignInAgain, Migration.SignInAgain);
-            AddSection(text, Strings.SettingManager_ImportReportSecretsImported, Migration.SecretsImported);
-            AddSection(text, Strings.SettingManager_ImportReportPathsMapped, Migration.PathsMapped.OrderBy(path => path.Setting).ThenBy(path => path.From).Select(path => $"{path.Setting}: {path.From} -> {path.To}"));
-            AddSection(text, Strings.SettingManager_ImportReportPathsReset, Migration.PathsReset.OrderBy(path => path.Setting).ThenBy(path => path.From).Select(path => $"{path.Setting}: {path.From}"));
-            AddSection(text, Strings.SettingManager_ImportReportTurnedOff, Migration.TurnedOff);
-            AddSection(text, Strings.SettingManager_ImportReportDroppedEffects, Migration.DroppedEffects);
+            AddSection(text, LinuxStrings.SettingManager_ImportReportSignInAgain, Migration.SignInAgain);
+            AddSection(text, LinuxStrings.SettingManager_ImportReportSecretsImported, Migration.SecretsImported);
+            AddSection(text, LinuxStrings.SettingManager_ImportReportPathsMapped, Migration.PathsMapped.OrderBy(path => path.Setting).ThenBy(path => path.From).Select(path => $"{path.Setting}: {path.From} -> {path.To}"));
+            AddSection(text, LinuxStrings.SettingManager_ImportReportPathsReset, Migration.PathsReset.OrderBy(path => path.Setting).ThenBy(path => path.From).Select(path => $"{path.Setting}: {path.From}"));
+            AddSection(text, LinuxStrings.SettingManager_ImportReportTurnedOff, Migration.TurnedOff);
+            AddSection(text, LinuxStrings.SettingManager_ImportReportDroppedEffects, Migration.DroppedEffects);
 
             if (History is HistoryMergeResult history)
             {
-                text.AppendLine(string.Format(Strings.SettingManager_ImportReportHistory, history.Added, history.AlreadyPresent, history.Unreadable));
+                text.AppendLine(string.Format(LinuxStrings.SettingManager_ImportReportHistory, history.Added, history.AlreadyPresent, history.Unreadable));
             }
 
             if (HistoryError != null)
             {
-                text.AppendLine(string.Format(Strings.SettingManager_ImportReportHistoryFailed, HistoryError));
+                text.AppendLine(string.Format(LinuxStrings.SettingManager_ImportReportHistoryFailed, HistoryError));
             }
 
             if (HistoryBackupPath != null)
             {
-                text.AppendLine(string.Format(Strings.SettingManager_ImportReportHistoryBackup, HistoryBackupPath));
+                text.AppendLine(string.Format(LinuxStrings.SettingManager_ImportReportHistoryBackup, HistoryBackupPath));
             }
 
             if (History != null || HistoryError != null)
@@ -74,16 +74,16 @@ namespace ShareX
                 text.AppendLine();
             }
 
-            AddSection(text, Strings.SettingManager_ImportReportSkipped, SkippedEntries.Take(MaxSkippedEntriesShown));
+            AddSection(text, LinuxStrings.SettingManager_ImportReportSkipped, SkippedEntries.Take(MaxSkippedEntriesShown));
 
             if (Migration.HasPlaintextSecrets)
             {
-                text.AppendLine(Strings.SettingManager_ImportReportPlaintextWarning);
+                text.AppendLine(LinuxStrings.SettingManager_ImportReportPlaintextWarning);
             }
 
             string report = text.ToString().TrimEnd();
 
-            return report.Length > 0 ? report : Strings.SettingManager_ImportReportTitle;
+            return report.Length > 0 ? report : LinuxStrings.SettingManager_ImportReportTitle;
         }
 
         private static void AddSection(StringBuilder text, string title, IEnumerable<string> lines)

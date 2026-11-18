@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
+    <value>Kiemeli a mutatót, a felvételeken is, ha az egérkiemelő opció be van kapcsolva itt: Feladat beállítások → Rögzítés → Képernyőrögzítő. A kattintások nem emelhetők ki: a Wayland nem engedi, hogy az alkalmazások lássák őket.</value>
+  </data>
+  <data name="OCRHelper_Failed" xml:space="preserve">
+    <value>A Tesseract a következő kóddal hibásan leállt: {0}. {1}</value>
+  </data>
+  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
+    <value>A Tesseract nem rendelkezik adatokkal a(z) «{0}» nyelvhez. Telepítse a csomagkezelővel, például: sudo pacman -S tesseract-data-{0}</value>
+  </data>
+  <data name="OCRHelper_No_languages" xml:space="preserve">
+    <value>A Tesseracthoz nincs telepítve nyelvi adat. Telepítsen egy nyelvet a csomagkezelővel, például: sudo pacman -S tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
+    <value>Az OCR-hez szükség van a tesseract programra, amely nem található a PATH-ban. Telepítse a csomagkezelővel, például: sudo pacman -S tesseract tesseract-data-eng</value>
+  </data>
+  <data name="OCRHelper_Timed_out" xml:space="preserve">
+    <value>A Tesseract nem fejeződött be {0} másodpercen belül, ezért leállították.</value>
+  </data>
+  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
+    <value>A videólejátszáshoz libmpv szükséges. Telepítse az mpv csomagot.</value>
+  </data>
+  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
+    <value>Ez a videó nem játszható le. {0}</value>
+  </data>
+  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
+    <value>A KWin ezt nem tudja megtenni ennél az ablaknál: az ablak saját címsort rajzol, vagy nem tud teljes képernyőre váltani.</value>
+  </data>
+  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
+    <value>.desktop fájl</value>
+  </data>
+  <data name="InspectWindowViewModel_Output" xml:space="preserve">
+    <value>Képernyő</value>
+  </data>
+  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
+    <value>Erőforrás neve</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
+    <value>Ablakazonosító</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
+    <value>Ablak szerepe</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
+    <value>Ablak állapota</value>
+  </data>
+  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
+    <value>Ablak típusa</value>
+  </data>
+  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
+    <value>Válasszon egy ablakot a tulajdonságainak vizsgálatához.</value>
+  </data>
+</root>

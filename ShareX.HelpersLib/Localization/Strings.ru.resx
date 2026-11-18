@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Распознать текст (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Открыть в фоторедакторе</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Выполнить действия</value>
   </data>
@@ -639,6 +642,9 @@
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Загрузка</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Линейка</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Загрузка из буфера обмена</value>
   </data>
@@ -786,8 +792,11 @@
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Захват области</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Захват области (Прозрачный фон)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Линейка</value>
+    <value>Измерение</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Пипетка</value>
@@ -867,11 +876,14 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Файлы изображений</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Не удалось открыть «{0}», так как для этого формата нужен ImageMagick, а команда magick не найдена. Установите пакет imagemagick.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Автоматически</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Для сохранения в TIFF нужен ImageMagick, а команда magick не найдена. Установите пакет imagemagick.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Скрыть</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Показать</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Открыть изображение</value>
@@ -992,11 +1004,6 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Недопустимое имя принтера</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX не удалось выполнить печать: {0}
-
-Печать идёт через портал печати рабочего стола. Проверьте, установлены ли xdg-desktop-portal и xdg-desktop-portal-kde, а для настоящего принтера также cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Разрешить увеличение изображения</value>
@@ -1217,8 +1224,26 @@
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Текущий год (2 цифры)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Стрелка вниз</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Колесо мыши</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Страница вниз</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Сообщение прокрутки</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Автоматически</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>Режим списка</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Режим миниатюр</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Пользовательский сервис загрузки текста</value>

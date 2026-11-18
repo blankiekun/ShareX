@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Reconhecer texto (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Abrir no editor de fotos</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Realizar ações</value>
   </data>
@@ -639,6 +642,9 @@ Mesmo assim, deseja executá-lo?</value>
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Upload</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Régua</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Upload da área de transferência</value>
   </data>
@@ -786,8 +792,11 @@ Mesmo assim, deseja executá-lo?</value>
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Capturar região</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Capturar região (transparente)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Régua</value>
+    <value>Medir</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Seletor de cores da tela</value>
@@ -867,11 +876,14 @@ Mesmo assim, deseja executá-lo?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Arquivos de imagem</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Não foi possível abrir «{0}» porque este formato precisa do ImageMagick, e o comando magick não foi encontrado. Instale o pacote imagemagick.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Automático</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Salvar em TIFF precisa do ImageMagick, e o comando magick não foi encontrado. Instale o pacote imagemagick.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Ocultar</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Mostrar</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Abrir imagem</value>
@@ -992,11 +1004,6 @@ Mesmo assim, deseja executá-lo?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nome de impressora inválido</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>O ShareX não pôde imprimir: {0}
-
-A impressão passa pelo portal de impressão da área de trabalho. Verifique se xdg-desktop-portal e xdg-desktop-portal-kde estão instalados, e cups para uma impressora real.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Permitir ampliar a imagem</value>
@@ -1217,8 +1224,26 @@ A impressão passa pelo portal de impressão da área de trabalho. Verifique se 
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Ano atual (2 digitos)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Seta para baixo</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Roda do mouse</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Página abaixo</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Mensagem de rolagem</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automático</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>Exibição de lista</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Exibição em miniatura</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Serviço de upload de texto personalizado</value>

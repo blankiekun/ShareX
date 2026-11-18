@@ -140,7 +140,7 @@ public sealed class MpvPlayer : NativeControlHost, IDisposable
         catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
         {
             if (generation == _generation) CloseMedia();
-            throw new InvalidOperationException(Strings.VideoPlayer_MpvMissing, ex);
+            throw new InvalidOperationException(LinuxStrings.VideoPlayer_MpvMissing, ex);
         }
         catch
         {

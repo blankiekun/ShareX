@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Recognize ข้อความ (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>เปิดในตัวแก้ไขภาพถ่าย</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>ดำเนินการ การดำเนินการ</value>
   </data>
@@ -639,6 +642,9 @@
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>อัปโหลด</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>ไม้บรรทัด</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>อัปโหลด จากคลิปบอร์ด</value>
   </data>
@@ -786,8 +792,11 @@
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>จับภาพ พื้นที่</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>จับภาพ พื้นที่ (โปร่งใส)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>ไม้บรรทัด</value>
+    <value>วัดขนาด</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>หน้าจอ ตัวเลือกสี</value>
@@ -867,11 +876,14 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>ไฟล์รูปภาพ</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>ไม่สามารถเปิด "{0}" ได้ เนื่องจากรูปแบบนี้ต้องใช้ ImageMagick และไม่พบคำสั่ง magick โปรดติดตั้งแพ็กเกจ imagemagick</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>อัตโนมัติ</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>การบันทึก TIFF ต้องใช้ ImageMagick และไม่พบคำสั่ง magick โปรดติดตั้งแพ็กเกจ imagemagick</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>ซ่อน</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>แสดง</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>เปิดรูปภาพ</value>
@@ -992,11 +1004,6 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>ไม่ถูกต้อง เครื่องพิมพ์ ชื่อ</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX ไม่สามารถพิมพ์ได้: {0}
-
-การพิมพ์ทำงานผ่านพอร์ทัลการพิมพ์ของเดสก์ท็อป ตรวจสอบว่าได้ติดตั้ง xdg-desktop-portal และ xdg-desktop-portal-kde แล้ว และติดตั้ง cups สำหรับเครื่องพิมพ์จริง</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>อนุญาตให้ขยายรูปภาพ</value>
@@ -1217,8 +1224,26 @@
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>ปี (2 digits)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>ลง ลูกศร</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>เมาส์ ล้อเมาส์</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>หน้า ลง</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>เลื่อน ข้อความ</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>อัตโนมัติ</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>มุมมองรายการ</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>มุมมองภาพขนาดย่อ</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>กำหนดเอง ตัวอัปโหลดข้อความ</value>

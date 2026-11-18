@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Riconoscimento Testo (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Apri nell'editor di foto</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Esegui Azioni</value>
   </data>
@@ -639,6 +642,9 @@ Vuoi eseguirlo comunque?</value>
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Carica</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Righello</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Carica dagli Appunti</value>
   </data>
@@ -786,8 +792,11 @@ Vuoi eseguirlo comunque?</value>
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Cattura Regione</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Cattura Regione (Trasparente)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Righello</value>
+    <value>Misura</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Cattura Colore</value>
@@ -867,11 +876,14 @@ Vuoi eseguirlo comunque?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>File immagine</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Impossibile aprire «{0}» perché questo formato richiede ImageMagick e il comando magick non è stato trovato. Installa il pacchetto imagemagick.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Automatico</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Il salvataggio in TIFF richiede ImageMagick e il comando magick non è stato trovato. Installa il pacchetto imagemagick.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Nascondi</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Mostra</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Apri immagine</value>
@@ -992,11 +1004,6 @@ Vuoi eseguirlo comunque?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nome stampante non valido</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX non è riuscito a stampare: {0}
-
-La stampa passa dal portale di stampa del desktop. Verifica che xdg-desktop-portal e xdg-desktop-portal-kde siano installati, e cups per una stampante reale.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Consenti l’ingrandimento dell’immagine</value>
@@ -1217,8 +1224,26 @@ La stampa passa dal portale di stampa del desktop. Verifica che xdg-desktop-port
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Anno Corrente (2 cifre)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Freccia giù</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Rotellina mouse</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Pagina giù</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Messaggio scorrimento</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automatica</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>Vista elenco</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Vista miniature</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Servizio Caricamento Testo Personalizzato</value>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>เดสก์ท็อป</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>เรียกใช้ ShareX เมื่อเข้าสู่ระบบ</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>แสดง "แก้ไขด้วย ShareX" ในเมนูบริบทของ Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>แสดง "อัปโหลดด้วย ShareX" ในเมนูบริบทของ Dolphin</value>
+  </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>ไม่มีหน้าต่างอื่นให้จับภาพ เปิดหน้าต่างที่คุณต้องการ แล้วลองอีกครั้ง</value>
+  </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF ไม่เสร็จสมบูรณ์จึงถูกทิ้งไป ไฟล์ที่บันทึกไว้ถูกเก็บเป็น MP4 ที่:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+เก็บไฟล์ไว้แล้ว แต่อาจเล่นไม่ได้:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>ShareX ถูกปิดโดยไม่คาดคิดระหว่างการบันทึก ไฟล์ที่บันทึกไว้ถูกเก็บที่:
+{0}</value>
+  </data>
+  <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
+    <value>ไม่สามารถปิด ShareX ขณะกำลังบันทึกหน้าจอ
+
+ต้องการหยุดการบันทึกหน้าจอที่กำลังทำงานและบันทึกไฟล์หรือไม่</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>โอเพนซอร์ส • สร้างมาเพื่อ Linux</value>
+  </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>ข้อมูลสำรอง ShareX เก็บข้อมูลเข้าสู่ระบบและคีย์ API ของคุณเป็นข้อความธรรมดาที่ไม่ได้เข้ารหัส เพื่อให้ย้ายไปยังเครื่องอื่นได้ ใครก็ตามที่ได้ไฟล์นี้ไปจะสามารถใช้ข้อมูลเหล่านั้นได้&#xD;
+&#xD;
+เก็บไฟล์นี้ไว้เป็นความลับ และลบทิ้งเมื่อกู้คืนเสร็จแล้ว ต้องการส่งออกต่อไปหรือไม่?</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>นำเข้าข้อมูลสำรองแล้ว</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>เข้าสู่ระบบอีกครั้ง รายการเหล่านี้ถูกเข้ารหัสสำหรับเครื่องอื่นและไม่สามารถอ่านได้ที่นี่:</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>ข้อมูลเข้าสู่ระบบที่ย้ายมาแล้ว ซึ่งตอนนี้เข้ารหัสด้วยวอลเล็ตของคุณ:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>โฟลเดอร์ที่เปลี่ยนเป็นตำแหน่งใน Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>การตั้งค่าที่กลับเป็นค่าเริ่มต้น เนื่องจากเส้นทางไม่มีตำแหน่งที่เทียบเท่าที่นี่:</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>การดำเนินการที่ถูกปิด เพื่อไม่ให้สิ่งใดจากข้อมูลสำรองทำงานเอง ตรวจสอบแล้วเปิดใช้งานอีกครั้ง:</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>เอฟเฟกต์รูปภาพที่ถูกข้าม เนื่องจากเวอร์ชันนี้ไม่มีเอฟเฟกต์เหล่านั้น:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>ประวัติ: เพิ่ม {0}, มีอยู่แล้ว {1}, อ่านไม่ได้ {2}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>บันทึกประวัติก่อนหน้าของคุณไปยัง {0} แล้ว</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>ไม่ได้นำเข้าประวัติ: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>ไฟล์ในข้อมูลสำรองที่ถูกละเว้น:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>ไฟล์ข้อมูลสำรองนี้เก็บข้อมูลเข้าสู่ระบบของคุณเป็นข้อความธรรมดาที่ไม่ได้เข้ารหัส ลบทิ้งเมื่อคุณพอใจกับการนำเข้าแล้ว</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>ไฟล์นี้ไม่มีการตั้งค่าหรือประวัติของ ShareX</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} ในข้อมูลสำรองเสียหาย จึงไม่ได้นำเข้าสิ่งใด</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>ข้อมูลสำรองมีข้อมูลเข้าสู่ระบบ ซึ่งไม่สามารถเก็บได้หากไม่มีวอลเล็ตของคุณ จึงไม่ได้นำเข้าสิ่งใด เปิดวอลเล็ตแล้วลองอีกครั้ง&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>ไม่สามารถบันทึก {0} ได้ การนำเข้าหยุดที่จุดนั้น</value>
+  </data>
+</root>

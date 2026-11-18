@@ -365,6 +365,12 @@ public partial class RegionCaptureWindow : Window
         _annotationToolbar.IsVisible = _request.EnableAnnotations;
         _annotationToolbar.ShowToolOptions = false;
 
+        if (_request.RegionCaptureOptions.CompactToolbar)
+        {
+            _annotationToolbar.IsCompact = true;
+            _annotationToolbar.MainToolbarCornerRadius = new CornerRadius(3);
+        }
+
         _regionInputSurface.Width = Math.Max(1, _imageRectangle.Width);
         _regionInputSurface.Height = Math.Max(1, _imageRectangle.Height);
         _regionOverlay.DimAlpha = GetDimAlpha(_request.RegionCaptureOptions);

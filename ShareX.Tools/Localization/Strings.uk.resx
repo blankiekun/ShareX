@@ -349,6 +349,9 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Огляд...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>Пристрій</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Зображення</value>
   </data>
@@ -360,6 +363,9 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Відкрити папку моделей</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>Пристрій обробки</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Оновити моделі</value>
@@ -381,9 +387,6 @@
   </data>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX — видалення тла</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin не може зробити це для цього вікна: воно малює власний заголовок або не може перейти в повноекранний режим.</value>
   </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Не вдалося перемкнути вибране вікно. {0}</value>
@@ -426,6 +429,18 @@
   </data>
   <data name="BorderlessWindowWindow_Window_title" xml:space="preserve">
     <value>Заголовок вікна</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Distance" xml:space="preserve">
+    <value>Відстань: {0:0.00} px | Кут: {1:0.00}°</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Position" xml:space="preserve">
+    <value>X: {0} | Y: {1} | Справа: {2} | Знизу: {3}</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Size" xml:space="preserve">
+    <value>Ширина: {0} px | Висота: {1} px | Площа: {2} px | Периметр: {3} px</value>
+  </data>
+  <data name="ClassicRulerWindow_Title" xml:space="preserve">
+    <value>ShareX — лінійка</value>
   </data>
   <data name="ClipboardViewerViewModel_Clipboard_content" xml:space="preserve">
     <value>Вміст буфера обміну</value>
@@ -983,7 +998,7 @@
     <value>Менші значення прискорюють кодування. Більші значення створюють файли меншого розміру. Усі значення зберігають якість зображення.</value>
   </data>
   <data name="ImageConverterWindow_WebPLossless" xml:space="preserve">
-    <value>Без втрат:</value>
+    <value>Без втрат</value>
   </data>
   <data name="ImageResizerWindow_Fill" xml:space="preserve">
     <value>Заповнити</value>
@@ -1159,20 +1174,11 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Елемент керування</value>
   </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>Файл .desktop</value>
-  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Розширені стилі вікна</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Ціль не вибрано</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>Екран</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>Виберіть вікно, щоб переглянути його властивості.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Виберіть вікно або елемент керування для перегляду його властивостей</value>
@@ -1189,9 +1195,6 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Ширина: {2}  Висота: {3}</value>
   </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>Назва ресурсу</value>
-  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Вікно без заголовка</value>
   </data>
@@ -1201,26 +1204,14 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Дескриптор вікна</value>
   </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>ID вікна</value>
-  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Прямокутник вікна</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>Роль вікна</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>Стан вікна</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Стилі вікна</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Заголовок вікна</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>Тип вікна</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Поверх усіх вікон</value>
@@ -1255,14 +1246,23 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Параметри вікна</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>Автоматично</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Зворотна діагональ</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>ЦП</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Шахівниця</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Пряма діагональ</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>ГП</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1462,9 +1462,6 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Режим виділення:</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>Підсвічує вказівник, зокрема й у записах, коли параметр підсвічування миші ввімкнено в Налаштування завдань → Захоплення → Запис екрана. Клацання підсвітити не можна: Wayland не дозволяє програмам їх бачити.</value>
-  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Колір основної кнопки:</value>
   </data>
@@ -1615,26 +1612,11 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Ціль</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract завершився помилкою з кодом {0}. {1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>Tesseract не має даних для мови «{0}». Встановіть їх за допомогою менеджера пакунків, наприклад: sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>Мова {0} недоступна в цій системі для OCR.</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>Tesseract не має встановлених мовних даних. Встановіть мову за допомогою менеджера пакунків, наприклад: sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Оптичне розпізнавання символів доступне лише у Windows версії {0} або новішої.</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>Для OCR потрібна програма tesseract, яку не знайдено в PATH. Встановіть її за допомогою менеджера пакунків, наприклад: sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract не завершив роботу за {0} с і був зупинений.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2063,7 +2045,7 @@
     <value>Допуск: {0}%</value>
   </data>
   <data name="RulerWindow_ShareX_Ruler" xml:space="preserve">
-    <value>ShareX — лінійка</value>
+    <value>ShareX — вимірювання</value>
   </data>
   <data name="VideoConverterViewModel_Choose_video" xml:space="preserve">
     <value>Виберіть відео, щоб почати.</value>
@@ -2182,14 +2164,8 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Завантаження відео...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>Для відтворення відео потрібен libmpv. Встановіть пакет mpv.</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Вимкнути звук</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>Не вдалося відтворити це відео. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Позиція відтворення</value>

@@ -49,7 +49,8 @@ namespace ShareX
                 taskSettings.CaptureSettingsReference.RegionCaptureOptions,
                 taskSettings.ToolsSettingsReference.ImageEditorOptions,
                 !taskSettings.AdvancedSettings.RegionCaptureDisableAnnotation,
-                taskSettings.CaptureSettings.ShowCursor);
+                taskSettings.CaptureSettings.ShowCursor,
+                allowMultipleRegions: true);
 
             AvaloniaRegionCaptureResult result = await RegionCaptureIntegration.CaptureAsync(request);
             if (result == null)

@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>זהה טקסט (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>פתח בעורך התמונות</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>בצע פעולות</value>
   </data>
@@ -639,6 +642,9 @@
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>העלה</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>סרגל</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>צילום מלוח הגזירה</value>
   </data>
@@ -786,8 +792,11 @@
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>צלם אזור</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>צלם אזור (שקוף)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>סרגל</value>
+    <value>מדידה</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>בוחר צבעי מסך</value>
@@ -867,11 +876,14 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>קובצי תמונה</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>לא ניתן לפתוח את «{0}» כי תבנית זו דורשת ImageMagick, והפקודה magick לא נמצאה. התקן את החבילה imagemagick.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>אוטומטי</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>שמירה כ-TIFF דורשת ImageMagick, והפקודה magick לא נמצאה. התקן את החבילה imagemagick.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>הסתר</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>הצג</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>פתיחת תמונה</value>
@@ -992,11 +1004,6 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>שם מדפסת לא חוקי</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX לא הצליח להדפיס: {0}
-
-ההדפסה עוברת דרך שער ההדפסה של שולחן העבודה. ודא ש-xdg-desktop-portal ו-xdg-desktop-portal-kde מותקנים, ועבור מדפסת אמיתית גם cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>אפשר הגדלת תמונה</value>
@@ -1217,8 +1224,26 @@
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>שנה (2 ספרות)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>חץ למטה</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>גלגלת העכבר</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>עמוד למטה</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>הודעת גלילה</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>אוטומטי</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>תצוגת רשימה</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>תצוגת תמונות ממוזערות</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>שירות העלאת טקסט מותאם אישית</value>

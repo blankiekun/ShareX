@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Tekst herkennen (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Openen in foto-editor</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Voer acties uit</value>
   </data>
@@ -639,6 +642,9 @@ Wilt u het toch uitvoeren?</value>
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Uploaden</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Meetlat</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Uploaden van klembord</value>
   </data>
@@ -786,8 +792,11 @@ Wilt u het toch uitvoeren?</value>
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Leg rechthoekige regio vast</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Leg rechthoekige regio vast (Transparant)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Meetlat</value>
+    <value>Meten</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Kleurenkiezer op het scherm</value>
@@ -867,11 +876,14 @@ Wilt u het toch uitvoeren?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Afbeeldingsbestanden</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Kan ‘{0}’ niet openen, omdat deze indeling ImageMagick nodig heeft en de opdracht magick niet is gevonden. Installeer het pakket imagemagick.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Automatisch</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Opslaan als TIFF vereist ImageMagick en de opdracht magick is niet gevonden. Installeer het pakket imagemagick.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Verbergen</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Weergeven</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Afbeelding openen</value>
@@ -992,11 +1004,6 @@ Wilt u het toch uitvoeren?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Ongeldige printernaam</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX kon niet afdrukken: {0}
-
-Afdrukken verloopt via het afdrukportaal van de desktop. Controleer of xdg-desktop-portal en xdg-desktop-portal-kde zijn geïnstalleerd, en cups voor een echte printer.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Vergroten van afbeelding toestaan</value>
@@ -1217,8 +1224,26 @@ Afdrukken verloopt via het afdrukportaal van de desktop. Controleer of xdg-deskt
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Huidig jaar (2 cijfers)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Pijl omlaag</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Muiswiel</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Pagina omlaag</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Scrollbericht</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automatisch</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>Lijstweergave</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Miniatuurweergave</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Aangepaste tekstuploader</value>

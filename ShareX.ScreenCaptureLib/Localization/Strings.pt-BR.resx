@@ -430,6 +430,9 @@
   <data name="Pause" xml:space="preserve">
     <value>Pausar</value>
   </data>
+  <data name="RegionCaptureWindow_MoveToolbar" xml:space="preserve">
+    <value>Arraste para mover a barra de ferramentas; clique duas vezes para redefinir a posição</value>
+  </data>
   <data name="RegionCaptureWindow_RectangleRegionTab" xml:space="preserve">
     <value>Capturar região (Tab)</value>
   </data>
@@ -478,6 +481,9 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>Ignorar automaticamente a borda inferior</value>
   </data>
+  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
+    <value>Rolar automaticamente para o topo</value>
+  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>Enviar / salvar automaticamente</value>
   </data>
@@ -495,6 +501,9 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>Captura bem-sucedida</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
+    <value>Capturando...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>Copiar</value>
@@ -517,6 +526,15 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>Pronto</value>
   </data>
+  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
+    <value>Quantidade de rolagens:</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
+    <value>Atraso da rolagem:</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
+    <value>Método de rolagem:</value>
+  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>Selecione uma janela rolável para começar</value>
   </data>
@@ -531,6 +549,9 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>Parando a captura...</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
+    <value>vezes</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX - Captura com rolagem</value>

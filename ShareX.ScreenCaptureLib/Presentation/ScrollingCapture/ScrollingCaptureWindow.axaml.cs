@@ -34,6 +34,7 @@ using ShareX.HelpersLib;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using ShareX.Icons;
 using AvaloniaBitmap = Avalonia.Media.Imaging.Bitmap;
 using DrawingBitmap = SkiaSharp.SKBitmap;
 using ImageFormat = SkiaSharp.SKEncodedImageFormat;
@@ -143,7 +144,7 @@ public partial class ScrollingCaptureWindow : Window
             if (await _service.SelectWindowAsync())
             {
                 _areaSelected = true;
-                StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Press_start;
+                StatusText.Text = Localization.LinuxStrings.ScrollingCaptureWindow_Press_start;
                 CaptureButtonText.Text = Localization.Strings.ScreenRecordWindow_Start;
                 SetCompact(true);
                 RestoreAndActivate();
@@ -177,10 +178,10 @@ public partial class ScrollingCaptureWindow : Window
         SetCaptureControlsEnabled(false);
         ResultSizeText.Text = string.Empty;
         ResetPreview();
-        StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Scroll_now;
-        StatusIcon.Text = LucideIcons.loader_circle;
+        StatusText.Text = Localization.LinuxStrings.ScrollingCaptureWindow_Scroll_now;
+        StatusIcon.Icon = AppIcons.Loading;
         StatusIcon.Foreground = Brushes.DodgerBlue;
-        CaptureButtonText.Text = Localization.Strings.ScrollingCaptureWindow_Stop;
+        CaptureButtonText.Text = Localization.LinuxStrings.ScrollingCaptureWindow_Stop;
 
         try
         {
@@ -217,7 +218,7 @@ public partial class ScrollingCaptureWindow : Window
 
     private void OnOverlapChanged(bool overlaps)
     {
-        StatusText.Text = overlaps ? Localization.Strings.ScrollingCaptureWindow_Scroll_now : Localization.Strings.ScrollingCaptureWindow_Scroll_back;
+        StatusText.Text = overlaps ? Localization.LinuxStrings.ScrollingCaptureWindow_Scroll_now : Localization.LinuxStrings.ScrollingCaptureWindow_Scroll_back;
     }
 
     /// <summary>Only the button and the message, on top and beside the area, so the wheel keeps reaching what is scrolled.</summary>
@@ -295,24 +296,24 @@ public partial class ScrollingCaptureWindow : Window
         switch (status)
         {
             case ScrollingCaptureStatus.Failed:
-                StatusIcon.Text = LucideIcons.circle_x;
+                StatusIcon.Icon = AppIcons.CircleX;
                 StatusIcon.Foreground = Brushes.IndianRed;
                 StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Capture_failed;
                 break;
             case ScrollingCaptureStatus.PartiallySuccessful:
-                StatusIcon.Text = LucideIcons.triangle_alert;
+                StatusIcon.Icon = AppIcons.Warning;
                 StatusIcon.Foreground = Brushes.Goldenrod;
                 StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Capture_partially_successful;
                 break;
             case ScrollingCaptureStatus.Successful:
-                StatusIcon.Text = LucideIcons.circle_check;
+                StatusIcon.Icon = AppIcons.CircleCheck;
                 StatusIcon.Foreground = Brushes.MediumSeaGreen;
                 StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Capture_successful;
                 break;
             case ScrollingCaptureStatus.HeightLimitReached:
-                StatusIcon.Text = LucideIcons.triangle_alert;
+                StatusIcon.Icon = AppIcons.Warning;
                 StatusIcon.Foreground = Brushes.Goldenrod;
-                StatusText.Text = Localization.Strings.ScrollingCaptureWindow_Height_limit_reached;
+                StatusText.Text = Localization.LinuxStrings.ScrollingCaptureWindow_Height_limit_reached;
                 break;
         }
     }

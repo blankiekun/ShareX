@@ -210,7 +210,7 @@ public sealed partial class VideoPlayerViewModel : ViewModelBase, IDisposable
         _player.Unload();
         Duration = 0;
         UpdatePosition(0);
-        StatusText = string.Format(Strings.VideoPlayer_PlaybackError, error.Message);
+        StatusText = string.Format(LinuxStrings.VideoPlayer_PlaybackError, error.Message);
     }
 
     public void Dispose()

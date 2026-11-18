@@ -349,6 +349,9 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Telusuri...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>Perangkat</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Gambar</value>
   </data>
@@ -360,6 +363,9 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Buka folder model</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>Perangkat pemrosesan</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Segarkan model</value>
@@ -381,9 +387,6 @@
   </data>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - Penghapus latar belakang</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin tidak dapat melakukan ini untuk jendela ini: jendela menggambar bilah judulnya sendiri, atau tidak dapat masuk ke layar penuh.</value>
   </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Tidak dapat mengalihkan jendela yang dipilih. {0}</value>
@@ -426,6 +429,18 @@
   </data>
   <data name="BorderlessWindowWindow_Window_title" xml:space="preserve">
     <value>Judul jendela</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Distance" xml:space="preserve">
+    <value>Jarak: {0:0.00} px | Sudut: {1:0.00}°</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Position" xml:space="preserve">
+    <value>X: {0} | Y: {1} | Kanan: {2} | Bawah: {3}</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Size" xml:space="preserve">
+    <value>Lebar: {0} px | Tinggi: {1} px | Luas: {2} px | Keliling: {3} px</value>
+  </data>
+  <data name="ClassicRulerWindow_Title" xml:space="preserve">
+    <value>ShareX - Penggaris</value>
   </data>
   <data name="ClipboardViewerViewModel_Clipboard_content" xml:space="preserve">
     <value>Isi papan klip</value>
@@ -983,7 +998,7 @@
     <value>Nilai yang lebih rendah mempercepat pengodean. Nilai yang lebih tinggi menghasilkan berkas yang lebih kecil. Semua nilai mempertahankan kualitas gambar.</value>
   </data>
   <data name="ImageConverterWindow_WebPLossless" xml:space="preserve">
-    <value>Tanpa kehilangan:</value>
+    <value>Tanpa kehilangan</value>
   </data>
   <data name="ImageResizerWindow_Fill" xml:space="preserve">
     <value>Isi</value>
@@ -1159,20 +1174,11 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Kontrol</value>
   </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>File .desktop</value>
-  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Gaya jendela lanjutan</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Tidak ada target yang dipilih</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>Layar</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>Pilih jendela untuk memeriksa propertinya.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Pilih jendela atau kontrol untuk memeriksa propertinya</value>
@@ -1189,9 +1195,6 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Lebar: {2}  Tinggi: {3}</value>
   </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>Nama sumber daya</value>
-  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Jendela tanpa judul</value>
   </data>
@@ -1201,26 +1204,14 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Handel jendela</value>
   </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>ID jendela</value>
-  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Persegi panjang jendela</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>Peran jendela</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>Status jendela</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Gaya jendela</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Judul jendela</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>Tipe jendela</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Selalu di atas</value>
@@ -1255,14 +1246,23 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Pengaturan jendela</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>Otomatis</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Diagonal mundur</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Papan catur</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Diagonal maju</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1462,9 +1462,6 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Modus sorotan:</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>Menyorot penunjuk, juga dalam rekaman saat opsi penyorot mouse aktif di Pengaturan tugas → Tangkap → Perekam layar. Klik tidak dapat disorot: Wayland tidak mengizinkan aplikasi melihatnya.</value>
-  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Warna tombol utama:</value>
   </data>
@@ -1615,26 +1612,11 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Target</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract gagal dengan kode {0}. {1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>Tesseract tidak memiliki data untuk bahasa «{0}». Instal dengan pengelola paket Anda, misalnya: sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>Bahasa {0} tidak tersedia di sistem ini untuk OCR.</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>Tesseract tidak memiliki data bahasa yang terinstal. Instal bahasa dengan pengelola paket Anda, misalnya: sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Pengenalan karakter optik hanya tersedia dengan Windows versi {0} atau lebih baru.</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>OCR memerlukan program tesseract, yang tidak ditemukan di PATH. Instal dengan pengelola paket Anda, misalnya: sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract tidak selesai dalam {0} detik dan dihentikan.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2063,7 +2045,7 @@
     <value>Toleransi: {0}%</value>
   </data>
   <data name="RulerWindow_ShareX_Ruler" xml:space="preserve">
-    <value>ShareX - Penggaris</value>
+    <value>ShareX - Ukur</value>
   </data>
   <data name="VideoConverterViewModel_Choose_video" xml:space="preserve">
     <value>Pilih video untuk memulai.</value>
@@ -2182,14 +2164,8 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Memuat video...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>Pemutaran video memerlukan libmpv. Instal paket mpv.</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Bisukan</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>Video ini tidak dapat diputar. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Posisi pemutaran</value>

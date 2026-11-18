@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Recognize text (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Open in photo editor</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Perform actions</value>
   </data>
@@ -639,6 +642,9 @@ Do you still want to run it?</value>
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Upload</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Ruler</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Upload from clipboard</value>
   </data>
@@ -771,9 +777,6 @@ Do you still want to run it?</value>
   <data name="HotkeyType_PinToScreenFromScreen" xml:space="preserve">
     <value>Pin to screen (From screen)</value>
   </data>
-  <data name="HotkeyType_PinToScreenToggleClickThrough" xml:space="preserve">
-    <value>Toggle click-through on pinned images</value>
-  </data>
   <data name="HotkeyType_PrintScreen" xml:space="preserve">
     <value>Capture entire screen</value>
   </data>
@@ -789,8 +792,11 @@ Do you still want to run it?</value>
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Capture region</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Capture region (Transparent)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Ruler</value>
+    <value>Measure</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Screen color picker</value>
@@ -869,6 +875,15 @@ Do you still want to run it?</value>
   </data>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Image files</value>
+  </data>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Show</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Open image</value>
@@ -975,12 +990,6 @@ Do you still want to run it?</value>
   <data name="PingResult_Reply_from" xml:space="preserve">
     <value>Reply from {0}: bytes={1} time={2}ms TTL={3}</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Could not open "{0}" because this format needs ImageMagick, and the magick command was not found. Install the imagemagick package.</value>
-  </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Saving TIFF needs ImageMagick, and the magick command was not found. Install the imagemagick package.</value>
-  </data>
   <data name="PingResult_Request_timed_out" xml:space="preserve">
     <value>Request timed out.</value>
   </data>
@@ -995,11 +1004,6 @@ Do you still want to run it?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Invalid printer name</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX could not print: {0}
-
-Printing goes through the desktop's print portal. Check that xdg-desktop-portal and xdg-desktop-portal-kde are installed, and cups for a real printer.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Allow image to enlarge</value>
@@ -1220,8 +1224,26 @@ Printing goes through the desktop's print portal. Check that xdg-desktop-portal 
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Year (2 digits)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Down arrow</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Mouse wheel</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Page down</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Scroll message</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automatic</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>List view</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Thumbnail view</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Custom text uploader</value>

@@ -57,6 +57,9 @@
   <data name="AnnotationToolbar_Fontsize" xml:space="preserve">
     <value>Taille de police</value>
   </data>
+  <data name="AnnotationToolbar_Freehandarrow" xml:space="preserve">
+    <value>Flèche à main levée</value>
+  </data>
   <data name="AnnotationToolbar_Horizontalalignment" xml:space="preserve">
     <value>Alignement horizontal</value>
   </data>
@@ -80,6 +83,9 @@
   </data>
   <data name="AnnotationToolbar_RedoCtrlY" xml:space="preserve">
     <value>Rétablir (Ctrl+Y)</value>
+  </data>
+  <data name="AnnotationToolbar_Roundedcorners" xml:space="preserve">
+    <value>Coins arrondis</value>
   </data>
   <data name="AnnotationToolbar_Save" xml:space="preserve">
     <value>Enregistrer</value>
@@ -281,6 +287,15 @@ Voulez-vous les enregistrer avant de fermer l’éditeur d’images ?</value>
   </data>
   <data name="EditorView_CancelEsc" xml:space="preserve">
     <value>Annuler (Esc)</value>
+  </data>
+  <data name="EditorView_CanvasSizeApply" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
+  <data name="EditorView_CanvasSizeCancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="EditorView_CanvasSizeFillColor" xml:space="preserve">
+    <value>Couleur de remplissage de la zone ajoutée</value>
   </data>
   <data name="EditorView_ClipboardDoesNotContainImage" xml:space="preserve">
     <value>Impossible de charger l’image depuis le presse-papiers.
@@ -1134,9 +1149,6 @@ Le presse-papiers ne contient aucune image.</value>
   <data name="EmojiPickerDialogView_LoadingEmojis" xml:space="preserve">
     <value>Chargement des emojis...</value>
   </data>
-  <data name="EmojiPickerDialogView_NoEmojiFont" xml:space="preserve">
-    <value>Aucune police d’emoji n’a été trouvée, les emoji ne peuvent donc pas être dessinés. Installez le paquet noto-fonts-emoji et redémarrez ShareX.</value>
-  </data>
   <data name="EmojiPickerDialogView_NoMatches" xml:space="preserve">
     <value>Aucun emoji ne correspond à cette recherche.</value>
   </data>
@@ -1389,8 +1401,14 @@ Le presse-papiers ne contient aucune image.</value>
   <data name="ToolbarCustomizationDialogView_OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="ToolbarCustomizationDialogView_Primary" xml:space="preserve">
+    <value>Principal</value>
+  </data>
   <data name="ToolbarCustomizationDialogView_Resettoolbartodefault" xml:space="preserve">
     <value>Rétablir la barre d’outils par défaut</value>
+  </data>
+  <data name="ToolbarCustomizationDialogView_Secondary" xml:space="preserve">
+    <value>Secondaire</value>
   </data>
   <data name="ToolbarCustomizationDialogView_ShowHide" xml:space="preserve">
     <value>Afficher / Masquer</value>
@@ -1403,6 +1421,9 @@ Le presse-papiers ne contient aucune image.</value>
   </data>
   <data name="ToolbarCustomizationItemViewModel_Blur" xml:space="preserve">
     <value>Flou</value>
+  </data>
+  <data name="ToolbarCustomizationItemViewModel_CanvasSize" xml:space="preserve">
+    <value>Taille de la toile</value>
   </data>
   <data name="ToolbarCustomizationItemViewModel_Clone" xml:space="preserve">
     <value>Cloner</value>

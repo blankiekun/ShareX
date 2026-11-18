@@ -157,6 +157,9 @@
   <data name="AfterCaptureWindow_AfterUpload" xml:space="preserve">
     <value>После загрузки</value>
   </data>
+  <data name="AfterCaptureWindow_AlsoHeading" xml:space="preserve">
+    <value>Также</value>
+  </data>
   <data name="AfterCaptureWindow_Cancel" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -178,11 +181,56 @@
   <data name="AfterCaptureWindow_FileName" xml:space="preserve">
     <value>Имя файла</value>
   </data>
+  <data name="AfterCaptureWindow_GoalCopyFile" xml:space="preserve">
+    <value>Копировать файл</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFileDescription" xml:space="preserve">
+    <value>Помещает сохранённый файл в буфер обмена.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePath" xml:space="preserve">
+    <value>Копировать путь к файлу</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePathDescription" xml:space="preserve">
+    <value>Копирует путь к сохранённому файлу.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPath" xml:space="preserve">
+    <value>Копировать путь к папке</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPathDescription" xml:space="preserve">
+    <value>Копирует папку сохранённого файла.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImage" xml:space="preserve">
+    <value>Копировать изображение</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImageDescription" xml:space="preserve">
+    <value>Помещает изображение в буфер обмена.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrl" xml:space="preserve">
+    <value>Копировать URL</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrlDescription" xml:space="preserve">
+    <value>Загружает, затем копирует ссылку.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalDescription" xml:space="preserve">
+    <value>Обязательные шаги зависят от вашей цели. Добавьте любые дополнительные действия.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalHeading" xml:space="preserve">
+    <value>Что поместить в буфер обмена?</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboard" xml:space="preserve">
+    <value>Не менять буфер обмена</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboardDescription" xml:space="preserve">
+    <value>Ничего не копирует и не загружает.</value>
+  </data>
   <data name="AfterCaptureWindow_Heading" xml:space="preserve">
     <value>После захвата</value>
   </data>
   <data name="AfterCaptureWindow_NoPreview" xml:space="preserve">
     <value>Предпросмотр изображения недоступен</value>
+  </data>
+  <data name="AfterCaptureWindow_RequiredHeading" xml:space="preserve">
+    <value>Требуется для этой цели</value>
   </data>
   <data name="AfterCaptureWindow_Subtitle" xml:space="preserve">
     <value>Проверьте захваченное содержимое и выберите дальнейшее действие.</value>
@@ -237,6 +285,18 @@
   </data>
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Хотите сбросить настройки ShareX?</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Автозапуск отключен вашей организацией</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Автозапуск отключен через Диспетчер задач</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Автозапуск включен вашей организацией</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Запускать ShareX при старте системы</value>
   </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Чтобы применить настройки, ShareX нужно заново открыть в Steam.</value>
@@ -345,6 +405,9 @@
   </data>
   <data name="ApplicationSettingsWindow_ClipboardFormats" xml:space="preserve">
     <value>Форматы буфера</value>
+  </data>
+  <data name="ApplicationSettingsWindow_CompactMode" xml:space="preserve">
+    <value>Компактный режим</value>
   </data>
   <data name="ApplicationSettingsWindow_CustomHotkeysConfigPath" xml:space="preserve">
     <value>Пользовательский путь к конфигурации горячих клавиш</value>
@@ -460,6 +523,21 @@
   <data name="ApplicationSettingsWindow_HotkeyRepeatLimit" xml:space="preserve">
     <value>Интервал повторения горячих клавиш (миллисекунды)</value>
   </data>
+  <data name="ApplicationSettingsWindow_IconPackLabel" xml:space="preserve">
+    <value>Набор значков:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackLegacy" xml:space="preserve">
+    <value>Классический</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackModern" xml:space="preserve">
+    <value>Современный</value>
+  </data>
+  <data name="ApplicationSettingsWindow_Icons" xml:space="preserve">
+    <value>Значки</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ImagePreviewLabel" xml:space="preserve">
+    <value>Видимость предпросмотра изображения:</value>
+  </data>
   <data name="ApplicationSettingsWindow_ImagePrintSettings" xml:space="preserve">
     <value>Настройки печати изображений...</value>
   </data>
@@ -493,6 +571,9 @@
   <data name="ApplicationSettingsWindow_Light" xml:space="preserve">
     <value>Светлая</value>
   </data>
+  <data name="ApplicationSettingsWindow_ListView" xml:space="preserve">
+    <value>Режим списка</value>
+  </data>
   <data name="ApplicationSettingsWindow_MainWindow" xml:space="preserve">
     <value>Главное окно</value>
   </data>
@@ -522,6 +603,9 @@
   </data>
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Клик левой кнопкой по иконке в трее:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Клик средней кнопкой по иконке в трее:</value>
   </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Сохранять только если ссылка не пуста</value>
@@ -610,8 +694,17 @@
   <data name="ApplicationSettingsWindow_ShowClipboardContentViewer" xml:space="preserve">
     <value>Показывать просмотр содержимого буфера обмена</value>
   </data>
+  <data name="ApplicationSettingsWindow_ShowColumns" xml:space="preserve">
+    <value>Показывать колонки</value>
+  </data>
   <data name="ApplicationSettingsWindow_ShowEditWithShareXButtonInWindowsExplorerContextMenu" xml:space="preserve">
-    <value>Показывать пункт "Редактировать в ShareX" в контекстном меню проводника Windows</value>
+    <value>Показывать пункт "Редактировать в редакторе изображений ShareX" в контекстном меню проводника Windows</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXPhotoEditorButtonInWindowsExplorerContextMenu" xml:space="preserve">
+    <value>Показывать пункт "Редактировать в фоторедакторе ShareX" в контекстном меню проводника Windows</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowFileDeleteConfirmation" xml:space="preserve">
+    <value>Запрашивать подтверждение перед удалением файлов</value>
   </data>
   <data name="ApplicationSettingsWindow_ShowLargeFileSizeWarning" xml:space="preserve">
     <value>Порог предупреждения для больших файлов (МБ)</value>
@@ -649,6 +742,39 @@
   <data name="ApplicationSettingsWindow_SimultaneousUploadLimitLabel" xml:space="preserve">
     <value>Лимит одновременных загрузок:</value>
   </data>
+  <data name="ApplicationSettingsWindow_Spacing" xml:space="preserve">
+    <value>Интервал</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingCompact" xml:space="preserve">
+    <value>Компактный</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingDefault" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenus" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenusLabel" xml:space="preserve">
+    <value>Меню:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingPreviewLabel" xml:space="preserve">
+    <value>Предпросмотр:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSettingsWindowsLabel" xml:space="preserve">
+    <value>Окна настроек:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebar" xml:space="preserve">
+    <value>Боковая панель</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebarLabel" xml:space="preserve">
+    <value>Боковая панель:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenus" xml:space="preserve">
+    <value>Меню инструментов</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenusLabel" xml:space="preserve">
+    <value>Меню инструментов:</value>
+  </data>
   <data name="ApplicationSettingsWindow_Steam" xml:space="preserve">
     <value>Steam</value>
   </data>
@@ -657,6 +783,9 @@
   </data>
   <data name="ApplicationSettingsWindow_SubFolderPatternLabel" xml:space="preserve">
     <value>Шаблон имени подпапок:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_TaskViewModeLabel" xml:space="preserve">
+    <value>Отображение задач:</value>
   </data>
   <data name="ApplicationSettingsWindow_Theme" xml:space="preserve">
     <value>Тема</value>
@@ -732,18 +861,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Настройки приложения</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Рабочий стол</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Запускать ShareX при входе в систему</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Показывать пункт "Редактировать в ShareX" в контекстном меню Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Показывать пункт "Загрузить с помощью ShareX" в контекстном меню Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1210,6 +1327,9 @@
   <data name="FailedToSaveSettings" xml:space="preserve">
     <value>Не удалось сохранить настройки</value>
   </data>
+  <data name="FileDeleteConfirmation_DontRemindAgain" xml:space="preserve">
+    <value>Больше не напоминать</value>
+  </data>
   <data name="FileExistWindow_Cancel" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -1319,11 +1439,29 @@
   <data name="HotkeySettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Настройки горячих клавиш</value>
   </data>
+  <data name="IconPackPrompt_ChangeLater" xml:space="preserve">
+    <value>Это можно изменить в любое время в настройках приложения.</value>
+  </data>
+  <data name="IconPackPrompt_LegacyDescription" xml:space="preserve">
+    <value>Цветные значки из ShareX 21.</value>
+  </data>
+  <data name="IconPackPrompt_ModernDescription" xml:space="preserve">
+    <value>Аккуратные контурные значки в цветах вашей темы.</value>
+  </data>
+  <data name="IconPackPrompt_Subtitle" xml:space="preserve">
+    <value>В ShareX появились новые значки. Выберите вид, который вам больше нравится.</value>
+  </data>
+  <data name="IconPackPrompt_Title" xml:space="preserve">
+    <value>Выберите значки</value>
+  </data>
   <data name="ImageData_Write_Error_Message" xml:space="preserve">
     <value>Не удалось сохранить изображение по пути:</value>
   </data>
   <data name="IntegrationHelpers_EditWithShareX" xml:space="preserve">
-    <value>Редактировать в ShareX</value>
+    <value>Редактировать в редакторе изображений ShareX</value>
+  </data>
+  <data name="IntegrationHelpers_EditWithShareXPhotoEditor" xml:space="preserve">
+    <value>Редактировать в фоторедакторе ShareX</value>
   </data>
   <data name="IntegrationHelpers_UploadWithShareX" xml:space="preserve">
     <value>Загрузить с помощью ShareX</value>
@@ -1393,6 +1531,9 @@
   </data>
   <data name="MainMenuBuilder_Capture" xml:space="preserve">
     <value>Захват</value>
+  </data>
+  <data name="MainMenuBuilder_ClassicRuler" xml:space="preserve">
+    <value>Линейка</value>
   </data>
   <data name="MainMenuBuilder_ClipboardViewer" xml:space="preserve">
     <value>Буфер обмена</value>
@@ -1517,11 +1658,11 @@
   <data name="MainMenuBuilder_NetworkMonitor" xml:space="preserve">
     <value>Монитор сети...</value>
   </data>
+  <data name="MainMenuBuilder_NewBadge" xml:space="preserve">
+    <value>Новое</value>
+  </data>
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Нет предустановок эффектов изображения</value>
-  </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Нет других окон для захвата. Откройте нужное окно и повторите попытку.</value>
   </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Окна не найдены</value>
@@ -1547,11 +1688,17 @@
   <data name="MainMenuBuilder_Region" xml:space="preserve">
     <value>Область...</value>
   </data>
+  <data name="MainMenuBuilder_RegionTransparent" xml:space="preserve">
+    <value>Область (прозрачный фон)...</value>
+  </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Браузер удаленного хранилища...</value>
   </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Перезапустить от имени администратора</value>
+  </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
-    <value>Линейка</value>
+    <value>Измерение</value>
   </data>
   <data name="MainMenuBuilder_ScreenColorPicker" xml:space="preserve">
     <value>Пипетка</value>
@@ -1561,6 +1708,9 @@
   </data>
   <data name="MainMenuBuilder_ScreenRecordingGif" xml:space="preserve">
     <value>Запись экрана (GIF)...</value>
+  </data>
+  <data name="MainMenuBuilder_ScreenshotDelayJustOnce" xml:space="preserve">
+    <value>Только один раз</value>
   </data>
   <data name="MainMenuBuilder_ScreenshotsFolder" xml:space="preserve">
     <value>Папка снимков экрана...</value>
@@ -1666,6 +1816,9 @@
   </data>
   <data name="MainWindow_BeautifyImage" xml:space="preserve">
     <value>Украсить изображение</value>
+  </data>
+  <data name="MainWindow_ClearTaskList" xml:space="preserve">
+    <value>Очистить список</value>
   </data>
   <data name="MainWindow_ClearThumbnailView" xml:space="preserve">
     <value>Очистить представление миниатюр</value>
@@ -1829,6 +1982,12 @@
   <data name="MainWindow_StopUpload" xml:space="preserve">
     <value>Остановить загрузку</value>
   </data>
+  <data name="MainWindow_SwitchToListView" xml:space="preserve">
+    <value>Перейти в режим списка</value>
+  </data>
+  <data name="MainWindow_SwitchToThumbnailView" xml:space="preserve">
+    <value>Перейти в режим миниатюр</value>
+  </data>
   <data name="MainWindow_Text" xml:space="preserve">
     <value>Текст</value>
   </data>
@@ -1971,20 +2130,6 @@
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Пипетка</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF не был завершён, поэтому он удалён. Запись сохранена как MP4 по пути:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-Файл сохранён, но может не воспроизводиться:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX неожиданно закрылся во время записи. Запись сохранена по пути:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Панель</value>
   </data>
@@ -2048,6 +2193,9 @@
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Системный звук</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Выбранное для записи окно больше недоступно.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Громкость записи (%)</value>
   </data>
@@ -2061,69 +2209,14 @@
     <value>Ошибка при экспорте резервной копии:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Резервная копия ShareX содержит ваши учётные данные и ключи API в открытом виде, чтобы их можно было перенести на другой компьютер. Любой, кто получит этот файл, сможет ими воспользоваться.&#xD;
-&#xD;
-Храните её в тайне и удалите после восстановления. Всё равно экспортировать?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Ошибка при импорте резервной копии:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} в резервной копии повреждён, поэтому ничего не импортировано.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Резервная копия содержит учётные данные, которые нельзя сохранить без вашего бумажника, поэтому ничего не импортировано. Откройте бумажник и повторите попытку.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>В файле нет настроек или истории ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Пропущенные эффекты изображения, так как в этой версии их нет:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>История: добавлено {0}, уже есть {1}, не читается {2}.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Ваша прежняя история сохранена в {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>История не импортирована: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Папки, изменённые на их расположение в Linux:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Настройки, возвращённые к значениям по умолчанию, так как у пути здесь нет соответствия:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Этот файл резервной копии содержит ваши учётные данные в открытом виде. Удалите его, когда убедитесь, что импорт прошёл как надо.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Перенесённые учётные данные, теперь зашифрованные вашим бумажником:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Войдите снова. Эти данные зашифрованы для другого компьютера, и здесь их прочитать нельзя:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Файлы в резервной копии, которые были проигнорированы:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Резервная копия импортирована</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Выключенные действия, чтобы ничего из резервной копии не запускалось само. Проверьте их и включите снова:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Не удалось сохранить {0}. На этом импорт остановился.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX не закроется пока идет запись экрана.
 
-Хотите остановить текущую запись и сохранить её?</value>
+Хотите отменить текущую запись?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX свернут в системный трей.</value>
@@ -2159,7 +2252,7 @@
     <value>Настройте ShareX под себя</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Открытый исходный код • Создано для Linux</value>
+    <value>Открытый исходный код • Создано для Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Эти параметры можно изменить в любое время в настройках приложения.</value>
@@ -2194,6 +2287,33 @@
   </data>
   <data name="TaskHelpers_ToggleHotkeys_Hotkeys_enabled_" xml:space="preserve">
     <value>Горячие клавиши включены.</value>
+  </data>
+  <data name="TaskListView_Elapsed" xml:space="preserve">
+    <value>Затрачено</value>
+  </data>
+  <data name="TaskListView_Filename" xml:space="preserve">
+    <value>Имя файла</value>
+  </data>
+  <data name="TaskListView_History" xml:space="preserve">
+    <value>История</value>
+  </data>
+  <data name="TaskListView_InQueue" xml:space="preserve">
+    <value>В очереди</value>
+  </data>
+  <data name="TaskListView_Progress" xml:space="preserve">
+    <value>Прогресс</value>
+  </data>
+  <data name="TaskListView_Remaining" xml:space="preserve">
+    <value>Осталось</value>
+  </data>
+  <data name="TaskListView_Speed" xml:space="preserve">
+    <value>Скорость</value>
+  </data>
+  <data name="TaskListView_Status" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="TaskListView_URL" xml:space="preserve">
+    <value>Ссылка</value>
   </data>
   <data name="TaskManager_UploadCompletedURL" xml:space="preserve">
     <value>Загрузка завершена. URL: {0}</value>
@@ -2270,6 +2390,9 @@
   <data name="TaskSettingsWindow_AutoCopyImageToClipboard" xml:space="preserve">
     <value>Автоматически копировать изображение в буфер обмена</value>
   </data>
+  <data name="TaskSettingsWindow_AutoExpandCanvas" xml:space="preserve">
+    <value>Автоматически расширять холст, когда текст или фигуры выходят за край</value>
+  </data>
   <data name="TaskSettingsWindow_AutoIncrementNumber" xml:space="preserve">
     <value>Автоматически увеличиваемый номер:</value>
   </data>
@@ -2302,6 +2425,9 @@
   </data>
   <data name="TaskSettingsWindow_Cancel" xml:space="preserve">
     <value>Отмена</value>
+  </data>
+  <data name="TaskSettingsWindow_CanvasFillColor" xml:space="preserve">
+    <value>Цвет заливки нового места на холсте:</value>
   </data>
   <data name="TaskSettingsWindow_Capture" xml:space="preserve">
     <value>Захват</value>
@@ -2348,6 +2474,9 @@
   <data name="TaskSettingsWindow_CloseOCRWindowAfterOpeningServiceLink" xml:space="preserve">
     <value>Закрывать окно OCR после открытия ссылки службы</value>
   </data>
+  <data name="TaskSettingsWindow_CompactRegionCaptureToolbar" xml:space="preserve">
+    <value>Компактная панель инструментов захвата области</value>
+  </data>
   <data name="TaskSettingsWindow_ConfigureWithEllipsis" xml:space="preserve">
     <value>Настроить...</value>
   </data>
@@ -2378,8 +2507,8 @@
   <data name="TaskSettingsWindow_DetectWindowRegions" xml:space="preserve">
     <value>Обнаруживать области окон</value>
   </data>
-  <data name="TaskSettingsWindow_DimAllExceptCurrentSelection" xml:space="preserve">
-    <value>Затемнять всё, кроме текущего выделения</value>
+  <data name="TaskSettingsWindow_DimHoveredWindowsAndControls" xml:space="preserve">
+    <value>Затемнять окна и элементы управления под курсором</value>
   </data>
   <data name="TaskSettingsWindow_DisableToastNotificationsOnFullscreen" xml:space="preserve">
     <value>Отключить уведомления в полноэкранном режиме</value>
@@ -2573,6 +2702,9 @@
   <data name="TaskSettingsWindow_MoveUp" xml:space="preserve">
     <value>Переместить вверх</value>
   </data>
+  <data name="TaskSettingsWindow_MultiRegionMode" xml:space="preserve">
+    <value>Захват нескольких областей</value>
+  </data>
   <data name="TaskSettingsWindow_Name" xml:space="preserve">
     <value>Имя</value>
   </data>
@@ -2641,6 +2773,9 @@
   </data>
   <data name="TaskSettingsWindow_NativeRecorderEnabled" xml:space="preserve">
     <value>Использовать встроенную запись экрана</value>
+  </data>
+  <data name="TaskSettingsWindow_NativeRecorderHDRToneMapping" xml:space="preserve">
+    <value>Тональная компрессия HDR</value>
   </data>
   <data name="TaskSettingsWindow_NativeRecorderHardware" xml:space="preserve">
     <value>Требовать аппаратное кодирование видео</value>
@@ -3068,6 +3203,18 @@
   <data name="TaskSettingsWindow_WaveAudio" xml:space="preserve">
     <value>Аудио Wave</value>
   </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffort" xml:space="preserve">
+    <value>Усилия сжатия WebP:</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffortHint" xml:space="preserve">
+    <value>Меньшие значения ускоряют кодирование. Большие значения создают файлы меньшего размера. Все значения сохраняют качество изображения.</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPLossless" xml:space="preserve">
+    <value>Без потерь</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPQuality" xml:space="preserve">
+    <value>Качество WebP:</value>
+  </data>
   <data name="TaskSettingsWindow_Width" xml:space="preserve">
     <value>Ширина:</value>
   </data>
@@ -3187,6 +3334,9 @@
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Хотите еще раз попробовать загрузить из буфера?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Ваш антивирус или контролируемый доступ к файлам в Windows могут блокировать ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Ваш системный администратор отключил возможность загрузки.</value>

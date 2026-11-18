@@ -350,6 +350,9 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>浏览...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>设备</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>图像</value>
   </data>
@@ -361,6 +364,9 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>打开模型文件夹</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>处理设备</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>刷新模型</value>
@@ -382,9 +388,6 @@
   </data>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - 背景移除</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin 无法对此窗口执行此操作：该窗口自行绘制标题栏，或无法进入全屏。</value>
   </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>无法切换选中的窗口。{0}</value>
@@ -427,6 +430,18 @@
   </data>
   <data name="BorderlessWindowWindow_Window_title" xml:space="preserve">
     <value>窗口标题</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Distance" xml:space="preserve">
+    <value>距离: {0:0.00} px | 角度: {1:0.00}°</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Position" xml:space="preserve">
+    <value>X: {0} | Y: {1} | 右: {2} | 下: {3}</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Size" xml:space="preserve">
+    <value>宽度: {0} px | 高度: {1} px | 面积: {2} px | 周长: {3} px</value>
+  </data>
+  <data name="ClassicRulerWindow_Title" xml:space="preserve">
+    <value>ShareX - 标尺</value>
   </data>
   <data name="ClipboardViewerViewModel_Clipboard_content" xml:space="preserve">
     <value>剪贴板内容</value>
@@ -987,7 +1002,7 @@
     <value>较低的值可加快编码速度。较高的值可生成更小的文件。所有值都会保持图像质量。</value>
   </data>
   <data name="ImageConverterWindow_WebPLossless" xml:space="preserve">
-    <value>无损：</value>
+    <value>无损</value>
   </data>
   <data name="ImageResizerWindow_Fill" xml:space="preserve">
     <value>填充</value>
@@ -1163,20 +1178,11 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>控件</value>
   </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>.desktop 文件</value>
-  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>扩展窗口样式</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>未选择目标</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>显示器</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>选择窗口以检查其属性。</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>选择窗口或控件以检查其属性</value>
@@ -1193,9 +1199,6 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X：{0}  Y：{1}  |  宽度：{2}  高度：{3}</value>
   </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>资源名称</value>
-  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>无标题窗口</value>
   </data>
@@ -1205,26 +1208,14 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>窗口句柄</value>
   </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>窗口 ID</value>
-  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>窗口矩形</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>窗口角色</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>窗口状态</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>窗口样式</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>窗口标题</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>窗口类型</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>总在最前</value>
@@ -1259,14 +1250,23 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>窗口设置</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>自动</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>反向对角线</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>棋盘格</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>正向对角线</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1468,9 +1468,6 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>突出显示模式：</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>突出显示指针；如果在任务设置 → 捕获 → 屏幕录制器中开启了鼠标荧光笔选项，录制内容中也会突出显示。无法突出显示点击：Wayland 不允许应用程序看到点击。</value>
-  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>主按钮颜色：</value>
   </data>
@@ -1621,26 +1618,11 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>目标</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract 失败，代码为 {0}。{1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>Tesseract 没有语言 «{0}» 的数据。请使用软件包管理器安装，例如：sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>此系统不提供 {0} 语言用于 OCR。</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>Tesseract 未安装任何语言数据。请使用软件包管理器安装一种语言，例如：sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>光学字符识别仅适用于 Windows {0} 或更高版本。</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>OCR 需要 tesseract 程序，但在 PATH 中未找到。请使用软件包管理器安装，例如：sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract 未在 {0} 秒内完成，已被停止。</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2069,7 +2051,7 @@
     <value>容差：{0}%</value>
   </data>
   <data name="RulerWindow_ShareX_Ruler" xml:space="preserve">
-    <value>ShareX - 标尺</value>
+    <value>ShareX - 测量</value>
   </data>
   <data name="VideoConverterViewModel_Choose_video" xml:space="preserve">
     <value>选择视频以开始。</value>
@@ -2188,14 +2170,8 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>正在加载视频...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>视频播放需要 libmpv。请安装 mpv 软件包。</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>静音</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>无法播放此视频。{0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>播放位置</value>

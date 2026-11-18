@@ -147,7 +147,7 @@ namespace ShareX
                 {
                     string files = string.Join(Environment.NewLine, recovery.Recovered);
                     DebugHelper.WriteLine("Recording recovery: recovered " + files);
-                    TaskHelpers.ShowNotificationTip(string.Format(Strings.ScreenRecord_RecordingsRecovered, files), "ShareX", 10000);
+                    TaskHelpers.ShowNotificationTip(string.Format(LinuxStrings.ScreenRecord_RecordingsRecovered, files), "ShareX", 10000);
                 }
             }
             catch (Exception ex)
@@ -170,16 +170,8 @@ namespace ShareX
                 taskSettings.CaptureSettings.ScreenRecordTwoPassEncoding = true;
             }
 
-            int fps;
-
-            if (isGif || (!useNative && taskSettings.CaptureSettings.FFmpegOptions.VideoCodec == FFmpegVideoCodec.gif))
-            {
-                fps = taskSettings.CaptureSettings.GIFFPS;
-            }
-            else
-            {
-                fps = taskSettings.CaptureSettings.ScreenRecordFPS;
-            }
+            bool useGifFps = isGif || (!useNative && taskSettings.CaptureSettings.FFmpegOptions.VideoCodec == FFmpegVideoCodec.gif);
+            int fps = useGifFps ? taskSettings.CaptureSettings.GIFFPS : taskSettings.CaptureSettings.ScreenRecordFPS;
 
             if (useNative)
                 DebugHelper.WriteLine("Starting native screen recording. {0}, FPS: {1}", isGif ? "Adaptive GIF" : "H.264/AAC MP4", fps);
@@ -241,7 +233,8 @@ namespace ShareX
             Rectangle screenRectangle = CaptureHelpers.GetScreenBounds();
             captureRectangle = Rectangle.Intersect(captureRectangle, screenRectangle);
 
-            if (useNative ? !isGif : taskSettings.CaptureSettings.FFmpegOptions.IsEvenSizeRequired)
+            bool evenSize = useNative ? !isGif : taskSettings.CaptureSettings.FFmpegOptions.IsEvenSizeRequired;
+            if (evenSize)
             {
                 captureRectangle = CaptureHelpers.EvenRectangleSize(captureRectangle);
             }
@@ -253,8 +246,7 @@ namespace ShareX
 
             IsRecording = true;
 
-            bool startedFromBar = useNative && taskSettings.CaptureSettings.ScreenRecordShowBar;
-            if (startedFromBar)
+            if (taskSettings.CaptureSettings.ScreenRecordShowBar)
             {
                 try
                 {
@@ -552,8 +544,8 @@ namespace ShareX
         private static Rectangle GetActiveWindowRegion(bool clientArea, TaskMetadata metadata)
         {
             KWinDesktop desktop = KWinDesktop.Query();
-            KWinWindow window = desktop.ActiveOrLastUsedWindow(Environment.ProcessId) ?? throw new ScreenCaptureException(Strings.CaptureBase_NoOtherWindow);
-            Rectangle region = desktop.FitToOneOutput(clientArea ? window.ClientGeometry : window.FrameGeometry) ?? throw new ScreenCaptureException(Strings.ScreenRecord_WindowNotOnOneMonitor);
+            KWinWindow window = desktop.ActiveOrLastUsedWindow(Environment.ProcessId) ?? throw new ScreenCaptureException(LinuxStrings.CaptureBase_NoOtherWindow);
+            Rectangle region = desktop.FitToOneOutput(clientArea ? window.ClientGeometry : window.FrameGeometry) ?? throw new ScreenCaptureException(LinuxStrings.ScreenRecord_WindowNotOnOneMonitor);
 
             // ShareX has the focus, so its window may be over the one to record.
             if (desktop.ActiveWindowId != window.Id) KWinDesktop.ActivateWindow(window.Id);
@@ -648,7 +640,7 @@ namespace ShareX
                 }
                 catch (RecordingKeptException kept)
                 {
-                    throw new IOException(string.Format(Strings.ScreenRecord_RecordingKept, kept.Reason, KeepRecording(kept.KeptPath, path)), kept);
+                    throw new IOException(string.Format(LinuxStrings.ScreenRecord_RecordingKept, kept.Reason, KeepRecording(kept.KeptPath, path)), kept);
                 }
                 finally
                 {
@@ -735,7 +727,7 @@ namespace ShareX
             }
             if (!RecordingFiles.SettleGifEncode(input, output, encoded))
             {
-                throw new IOException(string.Format(Strings.ScreenRecord_GifNotFinished, KeepRecording(input, path)));
+                throw new IOException(string.Format(LinuxStrings.ScreenRecord_GifNotFinished, KeepRecording(input, path)));
             }
             return output;
         }

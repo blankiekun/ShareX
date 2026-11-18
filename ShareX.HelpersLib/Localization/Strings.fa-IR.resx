@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>متن را تشخیص بده (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>بازکردن در ویرایشگر عکس</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>انجام اعمال</value>
   </data>
@@ -639,6 +642,9 @@
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>آپلود</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>خط کش</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>آپلود از کلیپ بورد</value>
   </data>
@@ -786,8 +792,11 @@
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>ضبط ناحیه</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>ضبط ناحیه (شفاف)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>خط کش</value>
+    <value>اندازه‌گیری</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>انتخاب گر رنگ صفحه</value>
@@ -867,11 +876,14 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>فایل‌های تصویری</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>«{0}» باز نشد، زیرا این قالب به ImageMagick نیاز دارد و فرمان magick پیدا نشد. بستهٔ imagemagick را نصب کنید.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>خودکار</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>ذخیره به‌صورت TIFF به ImageMagick نیاز دارد و فرمان magick پیدا نشد. بستهٔ imagemagick را نصب کنید.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>پنهان</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>نمایش</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>باز کردن تصویر</value>
@@ -992,11 +1004,6 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>نام چاپگر نامعتبر است</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX نتوانست چاپ کند: {0}
-
-چاپ از طریق درگاه چاپ میز کار انجام می‌شود. بررسی کنید که xdg-desktop-portal و xdg-desktop-portal-kde نصب باشند، و برای چاپگر واقعی، cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>اجازه بزرگ‌نمایی تصویر</value>
@@ -1217,8 +1224,26 @@
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>سال جاری (۲ رقم)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>پیکان پایین</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>چرخ ماوس</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>صفحه به پایین</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>پیام پیمایش</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>خودکار</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>نمای فهرست</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>نمای بندانگشتی</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>آپلود کننده متن سفارشی</value>

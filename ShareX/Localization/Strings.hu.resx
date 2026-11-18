@@ -157,6 +157,9 @@
   <data name="AfterCaptureWindow_AfterUpload" xml:space="preserve">
     <value>Feltöltés után</value>
   </data>
+  <data name="AfterCaptureWindow_AlsoHeading" xml:space="preserve">
+    <value>Továbbá</value>
+  </data>
   <data name="AfterCaptureWindow_Cancel" xml:space="preserve">
     <value>Mégse</value>
   </data>
@@ -178,11 +181,56 @@
   <data name="AfterCaptureWindow_FileName" xml:space="preserve">
     <value>Fájlnév</value>
   </data>
+  <data name="AfterCaptureWindow_GoalCopyFile" xml:space="preserve">
+    <value>Fájl másolása</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFileDescription" xml:space="preserve">
+    <value>A mentett fájlt a vágólapra helyezi.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePath" xml:space="preserve">
+    <value>Fájl elérési útjának másolása</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePathDescription" xml:space="preserve">
+    <value>A mentett fájl elérési útját másolja.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPath" xml:space="preserve">
+    <value>Mappa elérési útjának másolása</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPathDescription" xml:space="preserve">
+    <value>A mentett fájl mappáját másolja.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImage" xml:space="preserve">
+    <value>Kép másolása</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImageDescription" xml:space="preserve">
+    <value>A képet a vágólapra helyezi.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrl" xml:space="preserve">
+    <value>URL másolása</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrlDescription" xml:space="preserve">
+    <value>Feltölti, majd másolja a hivatkozást.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalDescription" xml:space="preserve">
+    <value>A szükséges lépések a céljából következnek. Adjon hozzá tetszőleges extrákat.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalHeading" xml:space="preserve">
+    <value>Mit szeretne a vágólapra tenni?</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboard" xml:space="preserve">
+    <value>Vágólap érintetlenül hagyása</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboardDescription" xml:space="preserve">
+    <value>Nem másol és nem tölt fel semmit.</value>
+  </data>
   <data name="AfterCaptureWindow_Heading" xml:space="preserve">
     <value>Rögzítés után</value>
   </data>
   <data name="AfterCaptureWindow_NoPreview" xml:space="preserve">
     <value>Nincs elérhető képelőnézet</value>
+  </data>
+  <data name="AfterCaptureWindow_RequiredHeading" xml:space="preserve">
+    <value>Ehhez a célhoz szükséges</value>
   </data>
   <data name="AfterCaptureWindow_Subtitle" xml:space="preserve">
     <value>Tekintse át a rögzített tartalmat, és válassza ki a következő lépést.</value>
@@ -237,6 +285,18 @@
   </data>
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Would you like to visszaállítás ShareX beállítások?</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Indításup has been letiltva by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Az indítás le lett tiltva a Feladatkezelőben</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Indításup has been engedélyezve by your organization</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>A ShareX futtatása a Windows indításakor</value>
   </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>For beállítások to take effektus ShareX needs to be remegnyitásed from Steam.</value>
@@ -345,6 +405,9 @@
   </data>
   <data name="ApplicationSettingsWindow_ClipboardFormats" xml:space="preserve">
     <value>Vágólap-formátumok</value>
+  </data>
+  <data name="ApplicationSettingsWindow_CompactMode" xml:space="preserve">
+    <value>Kompakt mód</value>
   </data>
   <data name="ApplicationSettingsWindow_CustomHotkeysConfigPath" xml:space="preserve">
     <value>Gyorsbillentyű-konfiguráció egyéni elérési útja</value>
@@ -460,6 +523,21 @@
   <data name="ApplicationSettingsWindow_HotkeyRepeatLimit" xml:space="preserve">
     <value>Gyorsbillentyű-ismétlési időköz (ezredmásodperc)</value>
   </data>
+  <data name="ApplicationSettingsWindow_IconPackLabel" xml:space="preserve">
+    <value>Ikoncsomag:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackLegacy" xml:space="preserve">
+    <value>Klasszikus</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackModern" xml:space="preserve">
+    <value>Modern</value>
+  </data>
+  <data name="ApplicationSettingsWindow_Icons" xml:space="preserve">
+    <value>Ikonok</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ImagePreviewLabel" xml:space="preserve">
+    <value>Kép előnézet láthatósága:</value>
+  </data>
   <data name="ApplicationSettingsWindow_ImagePrintSettings" xml:space="preserve">
     <value>Kép nyomtatási beállítások...</value>
   </data>
@@ -493,6 +571,9 @@
   <data name="ApplicationSettingsWindow_Light" xml:space="preserve">
     <value>Világos</value>
   </data>
+  <data name="ApplicationSettingsWindow_ListView" xml:space="preserve">
+    <value>Listanézet</value>
+  </data>
   <data name="ApplicationSettingsWindow_MainWindow" xml:space="preserve">
     <value>Főablak</value>
   </data>
@@ -522,6 +603,9 @@
   </data>
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Bal kattintás a tálcaikonon:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Középső kattintás a tálcaikonon:</value>
   </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Only mentés if URL is not empty</value>
@@ -610,8 +694,17 @@
   <data name="ApplicationSettingsWindow_ShowClipboardContentViewer" xml:space="preserve">
     <value>A vágólap tartalommegjelenítőjének megjelenítése</value>
   </data>
+  <data name="ApplicationSettingsWindow_ShowColumns" xml:space="preserve">
+    <value>Oszlopok megjelenítése</value>
+  </data>
   <data name="ApplicationSettingsWindow_ShowEditWithShareXButtonInWindowsExplorerContextMenu" xml:space="preserve">
-    <value>"Szerkesztés ShareX-szel" gomb megjelenítése a Windows Intéző helyi menüjében</value>
+    <value>"Szerkesztés a ShareX képszerkesztőben" gomb megjelenítése a Windows Intéző helyi menüjében</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXPhotoEditorButtonInWindowsExplorerContextMenu" xml:space="preserve">
+    <value>"Szerkesztés a ShareX fotószerkesztőben" gomb megjelenítése a Windows Intéző helyi menüjében</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowFileDeleteConfirmation" xml:space="preserve">
+    <value>Megerősítés kérése fájlok törlése előtt</value>
   </data>
   <data name="ApplicationSettingsWindow_ShowLargeFileSizeWarning" xml:space="preserve">
     <value>Nagy fájlok figyelmeztetési küszöbe (MB)</value>
@@ -649,6 +742,39 @@
   <data name="ApplicationSettingsWindow_SimultaneousUploadLimitLabel" xml:space="preserve">
     <value>Egyidejű feltöltési limit:</value>
   </data>
+  <data name="ApplicationSettingsWindow_Spacing" xml:space="preserve">
+    <value>Térköz</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingCompact" xml:space="preserve">
+    <value>Kompakt</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingDefault" xml:space="preserve">
+    <value>Alapértelmezett</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenus" xml:space="preserve">
+    <value>Menük</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenusLabel" xml:space="preserve">
+    <value>Menük:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingPreviewLabel" xml:space="preserve">
+    <value>Előnézet:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSettingsWindowsLabel" xml:space="preserve">
+    <value>Beállítási ablakok:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebar" xml:space="preserve">
+    <value>Oldalsáv</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebarLabel" xml:space="preserve">
+    <value>Oldalsáv:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenus" xml:space="preserve">
+    <value>Eszközmenük</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenusLabel" xml:space="preserve">
+    <value>Eszközmenük:</value>
+  </data>
   <data name="ApplicationSettingsWindow_Steam" xml:space="preserve">
     <value>Steam</value>
   </data>
@@ -657,6 +783,9 @@
   </data>
   <data name="ApplicationSettingsWindow_SubFolderPatternLabel" xml:space="preserve">
     <value>Almappa sablon:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_TaskViewModeLabel" xml:space="preserve">
+    <value>Feladatnézet mód:</value>
   </data>
   <data name="ApplicationSettingsWindow_Theme" xml:space="preserve">
     <value>Téma</value>
@@ -732,18 +861,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Alkalmazás beállítások</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Asztal</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>ShareX futtatása bejelentkezéskor</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>"Szerkesztés ShareX-szel" megjelenítése a Dolphin helyi menüjében</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>"Feltöltés ShareX használatával" megjelenítése a Dolphin helyi menüjében</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1210,6 +1327,9 @@
   <data name="FailedToSaveSettings" xml:space="preserve">
     <value>Failed to mentés beállítások</value>
   </data>
+  <data name="FileDeleteConfirmation_DontRemindAgain" xml:space="preserve">
+    <value>Ne emlékeztessen újra</value>
+  </data>
   <data name="FileExistWindow_Cancel" xml:space="preserve">
     <value>Mégse</value>
   </data>
@@ -1319,11 +1439,29 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   <data name="HotkeySettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Gyorsbillentyű-beállítások</value>
   </data>
+  <data name="IconPackPrompt_ChangeLater" xml:space="preserve">
+    <value>Ezt bármikor módosíthatja az alkalmazás beállításaiban.</value>
+  </data>
+  <data name="IconPackPrompt_LegacyDescription" xml:space="preserve">
+    <value>A ShareX 21 színes ikonjai.</value>
+  </data>
+  <data name="IconPackPrompt_ModernDescription" xml:space="preserve">
+    <value>Letisztult vonalas ikonok, amelyek a téma színeit követik.</value>
+  </data>
+  <data name="IconPackPrompt_Subtitle" xml:space="preserve">
+    <value>A ShareX új ikonokat kapott. Válassza ki az Önnek tetsző megjelenést.</value>
+  </data>
+  <data name="IconPackPrompt_Title" xml:space="preserve">
+    <value>Válassza ki az ikonokat</value>
+  </data>
   <data name="ImageData_Write_Error_Message" xml:space="preserve">
     <value>Could not write kép to elérési út:</value>
   </data>
   <data name="IntegrationHelpers_EditWithShareX" xml:space="preserve">
-    <value>Szerkesztés with ShareX</value>
+    <value>Szerkesztés a ShareX képszerkesztőben</value>
+  </data>
+  <data name="IntegrationHelpers_EditWithShareXPhotoEditor" xml:space="preserve">
+    <value>Szerkesztés a ShareX fotószerkesztőben</value>
   </data>
   <data name="IntegrationHelpers_UploadWithShareX" xml:space="preserve">
     <value>Feltöltés with ShareX</value>
@@ -1393,6 +1531,9 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   </data>
   <data name="MainMenuBuilder_Capture" xml:space="preserve">
     <value>Rögzítés</value>
+  </data>
+  <data name="MainMenuBuilder_ClassicRuler" xml:space="preserve">
+    <value>Vonalzó</value>
   </data>
   <data name="MainMenuBuilder_ClipboardViewer" xml:space="preserve">
     <value>Vágólap viewer</value>
@@ -1517,11 +1658,11 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   <data name="MainMenuBuilder_NetworkMonitor" xml:space="preserve">
     <value>Hálózatfigyelő...</value>
   </data>
+  <data name="MainMenuBuilder_NewBadge" xml:space="preserve">
+    <value>Új</value>
+  </data>
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Nincsenek képeffektus-előbeállítások</value>
-  </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Nincs más rögzíthető ablak. Nyissa meg a kívánt ablakot, majd próbálja újra.</value>
   </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Nem találhatók ablakok</value>
@@ -1547,11 +1688,17 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   <data name="MainMenuBuilder_Region" xml:space="preserve">
     <value>Terület...</value>
   </data>
+  <data name="MainMenuBuilder_RegionTransparent" xml:space="preserve">
+    <value>Terület (átlátszó)...</value>
+  </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Távoli tároló böngésző...</value>
   </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Újraindítás rendszergazdaként</value>
+  </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
-    <value>Vonalzó</value>
+    <value>Mérés</value>
   </data>
   <data name="MainMenuBuilder_ScreenColorPicker" xml:space="preserve">
     <value>Színszedő</value>
@@ -1561,6 +1708,9 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   </data>
   <data name="MainMenuBuilder_ScreenRecordingGif" xml:space="preserve">
     <value>Képernyőfelvétel (GIF)...</value>
+  </data>
+  <data name="MainMenuBuilder_ScreenshotDelayJustOnce" xml:space="preserve">
+    <value>Csak egyszer</value>
   </data>
   <data name="MainMenuBuilder_ScreenshotsFolder" xml:space="preserve">
     <value>Képernyőképek mappája...</value>
@@ -1666,6 +1816,9 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   </data>
   <data name="MainWindow_BeautifyImage" xml:space="preserve">
     <value>Beautify kép</value>
+  </data>
+  <data name="MainWindow_ClearTaskList" xml:space="preserve">
+    <value>Lista törlése</value>
   </data>
   <data name="MainWindow_ClearThumbnailView" xml:space="preserve">
     <value>Miniatűrnézet törlése</value>
@@ -1829,6 +1982,12 @@ Kérlek, válassz egy másik gyorsbillentyűt vagy zárd be a problémát okozó
   <data name="MainWindow_StopUpload" xml:space="preserve">
     <value>Feltöltés leállítása</value>
   </data>
+  <data name="MainWindow_SwitchToListView" xml:space="preserve">
+    <value>Váltás listanézetre</value>
+  </data>
+  <data name="MainWindow_SwitchToThumbnailView" xml:space="preserve">
+    <value>Váltás miniatűr nézetre</value>
+  </data>
   <data name="MainWindow_Text" xml:space="preserve">
     <value>Szöveg</value>
   </data>
@@ -1971,20 +2130,6 @@ Kérlek futtasd a ShareX-et adminisztrátori jogosultságokkal a személyes mapp
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Képernyő szín picker</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>A GIF nem készült el, ezért a program elvetette. A felvétel MP4-ként megmaradt itt:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-A fájl megmaradt, de lehet, hogy nem játszható le:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>A ShareX váratlanul bezárult egy felvétel közben. A felvétel ide lett mentve:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Sáv</value>
   </data>
@@ -2048,6 +2193,9 @@ A fájl megmaradt, de lehet, hogy nem játszható le:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Rendszerhang</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>A felvételhez kiválasztott ablak már nem érhető el.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Felvételi hangerő (%)</value>
   </data>
@@ -2061,69 +2209,14 @@ A fájl megmaradt, de lehet, hogy nem játszható le:
     <value>Hiba a biztonsági mentés exportálásakor:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>A ShareX biztonsági mentés egyszerű szövegként tartalmazza a bejelentkezési adatait és API-kulcsait, hogy átvihetők legyenek egy másik gépre. Bárki, aki megszerzi a fájlt, felhasználhatja őket.&#xD;
-&#xD;
-Tartsa titokban, és törölje, miután visszaállította. Exportálja mégis?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Hiba a biztonsági mentés importálásakor:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>A biztonsági mentésben a(z) {0} sérült, ezért semmi sem lett importálva.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>A biztonsági mentés bejelentkezési adatokat tartalmaz, és ezek nem tárolhatók a jelszótárca nélkül, ezért semmi sem lett importálva. Nyissa meg a jelszótárcát, és próbálja újra.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>A fájl nem tartalmaz ShareX-beállításokat vagy előzményeket.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Kihagyott képeffektusok, mert ez a verzió nem tartalmazza őket:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Előzmények: {0} hozzáadva, {1} már megvolt, {2} olvashatatlan.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>A korábbi előzményei ide lettek mentve: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Az előzmények importálása nem történt meg: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Linuxos helyükre módosított mappák:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Alapértékre visszaállított beállítások, mert az elérési útnak itt nincs megfelelője:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Ez a biztonsági mentés fájl egyszerű szövegként tartalmazza a bejelentkezési adatait. Törölje, ha elégedett az importálással.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Átkerült bejelentkezési adatok, most a jelszótárcájával titkosítva:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Jelentkezzen be újra. Ezek egy másik géphez lettek titkosítva, és itt nem olvashatók:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>A biztonsági mentés figyelmen kívül hagyott fájljai:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Biztonsági mentés importálva</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Kikapcsolt műveletek, hogy a biztonsági mentésből semmi ne fusson magától. Ellenőrizze és kapcsolja vissza őket:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>A(z) {0} nem menthető. Az importálás itt leállt.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
-    <value>A ShareX nem zárható be, amíg a képernyőfelvétel aktív.
+    <value>ShareX cannot be closed while képernyőfelvétel is active.
 
-Leállítja és menti az aktív képernyőfelvételt?</value>
+Do you want to megszakítás the active képernyőfelvétel?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>A ShareX a rendszertálcára van kicsinyítve.</value>
@@ -2159,7 +2252,7 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
     <value>Tegye egyedivé a ShareX-et</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Nyílt forráskódú • Linux rendszerre készült</value>
+    <value>Nyílt forráskódú • Windowshoz készült</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Ezeket a beállításokat bármikor módosíthatja az alkalmazás beállításaiban.</value>
@@ -2194,6 +2287,33 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   </data>
   <data name="TaskHelpers_ToggleHotkeys_Hotkeys_enabled_" xml:space="preserve">
     <value>Gyorsbillentyűk engedélyezve.</value>
+  </data>
+  <data name="TaskListView_Elapsed" xml:space="preserve">
+    <value>Eltelt</value>
+  </data>
+  <data name="TaskListView_Filename" xml:space="preserve">
+    <value>Fájlnév</value>
+  </data>
+  <data name="TaskListView_History" xml:space="preserve">
+    <value>Előzmények</value>
+  </data>
+  <data name="TaskListView_InQueue" xml:space="preserve">
+    <value>Várakozik</value>
+  </data>
+  <data name="TaskListView_Progress" xml:space="preserve">
+    <value>Folyamat</value>
+  </data>
+  <data name="TaskListView_Remaining" xml:space="preserve">
+    <value>Hátralévő</value>
+  </data>
+  <data name="TaskListView_Speed" xml:space="preserve">
+    <value>Sebesség</value>
+  </data>
+  <data name="TaskListView_Status" xml:space="preserve">
+    <value>Állapot</value>
+  </data>
+  <data name="TaskListView_URL" xml:space="preserve">
+    <value>URL</value>
   </data>
   <data name="TaskManager_UploadCompletedURL" xml:space="preserve">
     <value>A feltöltés befejeződött. URL: {0}</value>
@@ -2270,6 +2390,9 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   <data name="TaskSettingsWindow_AutoCopyImageToClipboard" xml:space="preserve">
     <value>Kép automatikus másolása a vágólapra</value>
   </data>
+  <data name="TaskSettingsWindow_AutoExpandCanvas" xml:space="preserve">
+    <value>A vászon automatikus bővítése, ha a szöveg vagy az alakzatok túllógnak a szélén</value>
+  </data>
   <data name="TaskSettingsWindow_AutoIncrementNumber" xml:space="preserve">
     <value>Automatikusan növekvő szám:</value>
   </data>
@@ -2302,6 +2425,9 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   </data>
   <data name="TaskSettingsWindow_Cancel" xml:space="preserve">
     <value>Mégse</value>
+  </data>
+  <data name="TaskSettingsWindow_CanvasFillColor" xml:space="preserve">
+    <value>A hozzáadott vászonterület kitöltőszíne:</value>
   </data>
   <data name="TaskSettingsWindow_Capture" xml:space="preserve">
     <value>Rögzítés</value>
@@ -2348,6 +2474,9 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   <data name="TaskSettingsWindow_CloseOCRWindowAfterOpeningServiceLink" xml:space="preserve">
     <value>OCR-ablak bezárása a szolgáltatáshivatkozás megnyitása után</value>
   </data>
+  <data name="TaskSettingsWindow_CompactRegionCaptureToolbar" xml:space="preserve">
+    <value>Kompakt területrögzítési eszköztár</value>
+  </data>
   <data name="TaskSettingsWindow_ConfigureWithEllipsis" xml:space="preserve">
     <value>Beállítás...</value>
   </data>
@@ -2378,8 +2507,8 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   <data name="TaskSettingsWindow_DetectWindowRegions" xml:space="preserve">
     <value>Ablakterületek észlelése</value>
   </data>
-  <data name="TaskSettingsWindow_DimAllExceptCurrentSelection" xml:space="preserve">
-    <value>Minden sötétítése az aktuális kijelölés kivételével</value>
+  <data name="TaskSettingsWindow_DimHoveredWindowsAndControls" xml:space="preserve">
+    <value>A kurzor alatti ablakok és vezérlők sötétítése</value>
   </data>
   <data name="TaskSettingsWindow_DisableToastNotificationsOnFullscreen" xml:space="preserve">
     <value>Értesítések letiltása teljes képernyőn</value>
@@ -2573,6 +2702,9 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   <data name="TaskSettingsWindow_MoveUp" xml:space="preserve">
     <value>Mozgatás felfelé</value>
   </data>
+  <data name="TaskSettingsWindow_MultiRegionMode" xml:space="preserve">
+    <value>Többterületes mód</value>
+  </data>
   <data name="TaskSettingsWindow_Name" xml:space="preserve">
     <value>Név</value>
   </data>
@@ -2641,6 +2773,9 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   </data>
   <data name="TaskSettingsWindow_NativeRecorderEnabled" xml:space="preserve">
     <value>A beépített képernyőrögzítő használata</value>
+  </data>
+  <data name="TaskSettingsWindow_NativeRecorderHDRToneMapping" xml:space="preserve">
+    <value>HDR tónusleképezés</value>
   </data>
   <data name="TaskSettingsWindow_NativeRecorderHardware" xml:space="preserve">
     <value>Hardveres videókódolás megkövetelése</value>
@@ -3068,6 +3203,18 @@ Leállítja és menti az aktív képernyőfelvételt?</value>
   <data name="TaskSettingsWindow_WaveAudio" xml:space="preserve">
     <value>Wave hang</value>
   </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffort" xml:space="preserve">
+    <value>WebP tömörítési erőfeszítés:</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffortHint" xml:space="preserve">
+    <value>Az alacsonyabb értékek gyorsabb kódolást eredményeznek. A magasabb értékek kisebb fájlokat hoznak létre. Minden érték megőrzi a képminőséget.</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPLossless" xml:space="preserve">
+    <value>Veszteségmentes</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPQuality" xml:space="preserve">
+    <value>WebP-minőség:</value>
+  </data>
   <data name="TaskSettingsWindow_Width" xml:space="preserve">
     <value>Szélesség:</value>
   </data>
@@ -3187,6 +3334,9 @@ You can later disable it from "Rögzítés után tasks" menü.</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Would you like to újrapróbálás vágólap feltöltés?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Your anti-virus software or the controlled mappa access feature in Ablaks could be blocking ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Your system admin letiltva the feltöltés feature.</value>

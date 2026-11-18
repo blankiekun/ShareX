@@ -349,6 +349,9 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Duyệt...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>Thiết bị</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Ảnh</value>
   </data>
@@ -360,6 +363,9 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Mở thư mục mô hình</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>Thiết bị xử lý</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Làm mới mô hình</value>
@@ -381,9 +387,6 @@
   </data>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - Xóa nền</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin không thể làm việc này với cửa sổ này: cửa sổ tự vẽ thanh tiêu đề, hoặc không thể chuyển sang toàn màn hình.</value>
   </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Không thể chuyển đổi cửa sổ đã chọn. {0}</value>
@@ -426,6 +429,18 @@
   </data>
   <data name="BorderlessWindowWindow_Window_title" xml:space="preserve">
     <value>Tiêu đề cửa sổ</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Distance" xml:space="preserve">
+    <value>Khoảng cách: {0:0.00} px | Góc: {1:0.00}°</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Position" xml:space="preserve">
+    <value>X: {0} | Y: {1} | Phải: {2} | Dưới: {3}</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Size" xml:space="preserve">
+    <value>Chiều rộng: {0} px | Chiều cao: {1} px | Diện tích: {2} px | Chu vi: {3} px</value>
+  </data>
+  <data name="ClassicRulerWindow_Title" xml:space="preserve">
+    <value>ShareX - Thước kẻ</value>
   </data>
   <data name="ClipboardViewerViewModel_Clipboard_content" xml:space="preserve">
     <value>Nội dung bảng tạm</value>
@@ -983,7 +998,7 @@
     <value>Giá trị thấp hơn giúp mã hóa nhanh hơn. Giá trị cao hơn tạo tệp nhỏ hơn. Mọi giá trị đều giữ nguyên chất lượng hình ảnh.</value>
   </data>
   <data name="ImageConverterWindow_WebPLossless" xml:space="preserve">
-    <value>Không mất dữ liệu:</value>
+    <value>Không mất dữ liệu</value>
   </data>
   <data name="ImageResizerWindow_Fill" xml:space="preserve">
     <value>Lấp đầy</value>
@@ -1159,20 +1174,11 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Điều khiển</value>
   </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>Tệp .desktop</value>
-  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Kiểu cửa sổ mở rộng</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Chưa chọn mục tiêu</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>Màn hình</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>Chọn một cửa sổ để kiểm tra thuộc tính.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Chọn một cửa sổ hoặc điều khiển để kiểm tra thuộc tính</value>
@@ -1189,9 +1195,6 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Rộng: {2}  Cao: {3}</value>
   </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>Tên tài nguyên</value>
-  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Cửa sổ không tiêu đề</value>
   </data>
@@ -1201,26 +1204,14 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Tay cầm cửa sổ</value>
   </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>ID cửa sổ</value>
-  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Hình chữ nhật cửa sổ</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>Vai trò cửa sổ</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>Trạng thái cửa sổ</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Kiểu cửa sổ</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Tiêu đề cửa sổ</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>Loại cửa sổ</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Luôn ở trên cùng</value>
@@ -1255,14 +1246,23 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Cài đặt cửa sổ</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>Tự động</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Đường chéo ngược</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Bàn cờ</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Đường chéo xuôi</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1462,9 +1462,6 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Chế độ nổi bật:</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>Tô sáng con trỏ, kể cả trong bản ghi khi tùy chọn bút đánh dấu chuột được bật trong Thiết lập tác vụ → Chụp → Trình quay màn hình. Không thể tô sáng các lần nhấp: Wayland không cho ứng dụng nhìn thấy chúng.</value>
-  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Màu nút chính:</value>
   </data>
@@ -1615,26 +1612,11 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Đích</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract thất bại với mã {0}. {1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>Tesseract không có dữ liệu cho ngôn ngữ «{0}». Hãy cài đặt bằng trình quản lý gói của bạn, ví dụ: sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>Ngôn ngữ {0} không khả dụng cho OCR trên hệ thống này.</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>Tesseract chưa cài đặt dữ liệu ngôn ngữ nào. Hãy cài đặt một ngôn ngữ bằng trình quản lý gói của bạn, ví dụ: sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Nhận dạng ký tự quang học chỉ khả dụng với Windows phiên bản {0} trở lên.</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>OCR cần chương trình tesseract nhưng không tìm thấy trong PATH. Hãy cài đặt bằng trình quản lý gói của bạn, ví dụ: sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract không hoàn tất trong {0} giây và đã bị dừng.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2063,7 +2045,7 @@
     <value>Dung sai: {0}%</value>
   </data>
   <data name="RulerWindow_ShareX_Ruler" xml:space="preserve">
-    <value>ShareX - Thước đo</value>
+    <value>ShareX - Đo</value>
   </data>
   <data name="VideoConverterViewModel_Choose_video" xml:space="preserve">
     <value>Chọn một video để bắt đầu.</value>
@@ -2182,14 +2164,8 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Đang tải video...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>Phát video cần libmpv. Hãy cài đặt gói mpv.</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Tắt tiếng</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>Không thể phát video này. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Vị trí phát</value>

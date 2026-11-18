@@ -57,6 +57,18 @@ namespace ShareX.HelpersLib
             return value.ToString();
         }
 
+        public static string GetFileExtension(this EImageFormat format)
+        {
+            return format switch
+            {
+                EImageFormat.JPEG => "jpg",
+                EImageFormat.WEBP => "webp",
+                EImageFormat.GIF => "gif",
+                EImageFormat.BMP => "bmp",
+                _ => "png"
+            };
+        }
+
         public static string GetLocalizedDescription(this Enum value)
         {
             return value.GetLocalizedDescription(Localization.Strings.ResourceManager);
@@ -65,7 +77,7 @@ namespace ShareX.HelpersLib
         public static string GetLocalizedDescription(this Enum value, ResourceManager resourceManager)
         {
             string resourceName = value.GetType().Name + "_" + value;
-            string description = resourceManager.GetString(resourceName);
+            string description = resourceManager.GetString(resourceName) ?? Localization.LinuxStrings.ResourceManager.GetString(resourceName);
 
             if (string.IsNullOrEmpty(description))
             {

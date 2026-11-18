@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Reconnaître un texte (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Ouvrir dans l’éditeur de photos</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Effectuer des actions</value>
   </data>
@@ -639,6 +642,9 @@ Voulez-vous quand même l’exécuter ?</value>
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Mise en ligne</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Règle</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Mise en ligne depuis le presse-papier</value>
   </data>
@@ -786,8 +792,11 @@ Voulez-vous quand même l’exécuter ?</value>
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Capturer une région</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Capturer une région (transparente)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Règle</value>
+    <value>Mesurer</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Sélecteur de couleurs de l'écran</value>
@@ -867,11 +876,14 @@ Voulez-vous quand même l’exécuter ?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Fichiers image</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Impossible d’ouvrir « {0} », car ce format nécessite ImageMagick et la commande magick est introuvable. Installez le paquet imagemagick.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Automatique</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>L’enregistrement au format TIFF nécessite ImageMagick et la commande magick est introuvable. Installez le paquet imagemagick.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Masquer</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Afficher</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Ouvrir une image</value>
@@ -992,11 +1004,6 @@ Voulez-vous quand même l’exécuter ?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nom d’imprimante non valide</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX n’a pas pu imprimer : {0}
-
-L’impression passe par le portail d’impression du bureau. Vérifiez que xdg-desktop-portal et xdg-desktop-portal-kde sont installés, ainsi que cups pour une véritable imprimante.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Autoriser l’agrandissement de l’image</value>
@@ -1217,8 +1224,26 @@ L’impression passe par le portail d’impression du bureau. Vérifiez que xdg-
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Année en cours (2 chiffres)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Flèche bas</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Molette de la souris</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Page suivante</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Message de défilement</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automatique</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>Vue liste</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Vue miniatures</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Service de mise en ligne de textes personnalisé</value>

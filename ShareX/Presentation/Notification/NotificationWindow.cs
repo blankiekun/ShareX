@@ -34,9 +34,11 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using ShareX.AvaloniaUI.Controls;
 using ShareX.AvaloniaUI.Imaging;
 using ShareX.AvaloniaUI.Theming;
 using ShareX.HelpersLib;
+using ShareX.Icons;
 using ShareX.Localization;
 using System;
 using System.Diagnostics;
@@ -88,8 +90,26 @@ public partial class NotificationWindow : Window
         _hoverTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(40) };
         _hoverTimer.Tick += OnHoverTick;
 
+        ApplyToolWindowStyle();
+
         Opened += OnOpened;
         Closed += OnClosed;
+    }
+
+    // ShowInTaskbar="False" alone leaves the window in Alt+Tab, so mark it as a tool window
+    // before it is first shown, and keep the styles whenever Avalonia rewrites them.
+    private void ApplyToolWindowStyle()
+    {
+        const uint extraExStyles = (uint)(WindowStyles.WS_EX_TOOLWINDOW | WindowStyles.WS_EX_NOACTIVATE);
+
+        Win32Properties.AddWindowStylesCallback(this, (style, exStyle) => (style, exStyle | extraExStyles));
+
+        IntPtr handle = TryGetPlatformHandle()?.Handle ?? IntPtr.Zero;
+        if (handle != IntPtr.Zero)
+        {
+            WindowInfo info = new(handle);
+            info.ExStyle |= WindowStyles.WS_EX_TOOLWINDOW | WindowStyles.WS_EX_NOACTIVATE;
+        }
     }
 
     public static void Show(NotificationWindowConfig config)
@@ -273,14 +293,14 @@ public partial class NotificationWindow : Window
             string label = string.IsNullOrWhiteSpace(definition.Label)
                 ? definition.Action.GetLocalizedDescription()
                 : definition.Label;
-            string icon = string.IsNullOrWhiteSpace(definition.Icon)
-                ? NotificationActionButton.GetDefaultIcon(definition.Action)
-                : definition.Icon;
+            // A saved icon that is not an icon key, such as one from an older version, falls back to the default.
+            string icon = IconCatalog.Find(definition.Icon) != null
+                ? definition.Icon!
+                : NotificationActionButton.GetDefaultIcon(definition.Action);
 
-            TextBlock iconText = new()
+            IconPresenter iconText = new()
             {
-                Text = icon,
-                FontFamily = (FontFamily)Application.Current!.FindResource("ShareX.FontFamily.Icon")!,
+                Icon = icon,
                 FontSize = iconSize,
                 HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                 VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center
@@ -654,9 +674,7 @@ public partial class NotificationWindow : Window
                     TaskHelpers.PinToScreen(config.FilePath);
                     break;
                 case ToastClickAction.DeleteFile:
-                    if (MessageBox.Show(Strings.MainForm_tsmiDeleteSelectedFile_Click_Do_you_really_want_to_delete_this_file_,
-                        "ShareX - " + Strings.MainForm_tsmiDeleteSelectedFile_Click_File_delete_confirmation,
-                        MessageBoxButtons.YesNo) == MessageBoxResult.Yes)
+                    if (TaskHelpers.ConfirmFileDelete())
                     {
                         FileHelpers.DeleteFile(config.FilePath, true);
                     }

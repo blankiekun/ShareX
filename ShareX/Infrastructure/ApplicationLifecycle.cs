@@ -200,7 +200,7 @@ internal static class ApplicationLifecycle
 
         if (ScreenRecordManager.IsRecording)
         {
-            if (MessageBox.Show(Strings.ShareXCannotBeClosedWhileScreenRecordingIsActive, ApplicationInfo.Name,
+            if (MessageBox.Show(LinuxStrings.ShareXCannotBeClosedWhileScreenRecordingIsActive, ApplicationInfo.Name,
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 ScreenRecordManager.FinishRecording();

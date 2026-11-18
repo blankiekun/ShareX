@@ -26,8 +26,8 @@
 #nullable enable
 
 using Avalonia.Platform;
-using ShareX.AvaloniaUI.Theming;
 using ShareX.HelpersLib;
+using ShareX.Icons;
 using ShareX.Localization;
 using System;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
     public string CaptureFeature => Strings.MainMenuBuilder_Capture;
     public string AutomateFeature => Strings.MainMenuBuilder_Workflows;
     public string ShareFeature => Strings.MainMenuBuilder_Tools;
-    public string PlatformNote => Strings.StartScreen_PlatformNote;
+    public string PlatformNote => LinuxStrings.StartScreen_PlatformNote;
     public string PersonalizeTitle => Strings.StartScreen_PersonalizeTitle;
     public string PersonalizeSubtitle => Strings.StartScreen_PersonalizeSubtitle;
     public string SettingsNote => Strings.StartScreen_SettingsNote;
@@ -143,6 +143,27 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
 
     public bool CanEditAccentColor => !UseSystemAccentColor;
 
+    public string IconPackLabel => RemoveTrailingColon(Strings.ApplicationSettingsWindow_IconPackLabel);
+
+    public IReadOnlyList<StartScreenIconPackOption> IconPackOptions { get; } =
+    [
+        new(IconPack.Modern, Strings.ApplicationSettingsWindow_IconPackModern),
+        new(IconPack.Legacy, Strings.ApplicationSettingsWindow_IconPackLegacy)
+    ];
+
+    public StartScreenIconPackOption? SelectedIconPack
+    {
+        get => IconPackOptions.FirstOrDefault(x => x.Value == Settings.ThemeOptions.IconPack);
+        set
+        {
+            if (value != null && Settings.ThemeOptions.IconPack != value.Value)
+            {
+                Settings.ThemeOptions.IconPack = value.Value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public AvaloniaColor AccentColor
     {
         get => Settings.ThemeOptions.AccentColor;
@@ -180,7 +201,7 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
     }
 
     public bool StartWithWindowsEnabled => _startWithWindowsEnabled;
-    public string StartWithWindowsText => Strings.ApplicationSettingsWindow_RunShareXAtLogin;
+    public string StartWithWindowsText => LinuxStrings.ApplicationSettingsWindow_RunShareXAtLogin;
 
     private void RefreshStartWithWindows()
     {
@@ -206,7 +227,7 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
                 x,
                 x.GetLocalizedDescription(),
                 LoadLanguageFlag(x),
-                x == SupportedLanguage.Automatic ? LucideIcons.languages : null))
+                x == SupportedLanguage.Automatic ? AppIcons.Language : null))
             .ToArray();
 
     private static AvaloniaBitmap? LoadLanguageFlag(SupportedLanguage language)
@@ -235,6 +256,8 @@ public sealed class StartScreenViewModel : INotifyPropertyChanged, IDisposable
 
         ThemeOptions[0].UpdateDisplayName(Strings.ApplicationSettingsWindow_Dark);
         ThemeOptions[1].UpdateDisplayName(Strings.ApplicationSettingsWindow_Light);
+        IconPackOptions[0].UpdateDisplayName(Strings.ApplicationSettingsWindow_IconPackModern);
+        IconPackOptions[1].UpdateDisplayName(Strings.ApplicationSettingsWindow_IconPackLegacy);
 
         RefreshStartWithWindows();
         OnPropertyChanged(string.Empty);
@@ -274,6 +297,31 @@ public sealed class StartScreenLanguageOption : INotifyPropertyChanged
         _displayName = displayName;
         Flag = flag;
         IconGlyph = iconGlyph;
+    }
+
+    public void UpdateDisplayName(string displayName)
+    {
+        if (_displayName != displayName)
+        {
+            _displayName = displayName;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayName)));
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+}
+
+public sealed class StartScreenIconPackOption : INotifyPropertyChanged
+{
+    private string _displayName;
+
+    public IconPack Value { get; }
+    public string DisplayName => _displayName;
+
+    public StartScreenIconPackOption(IconPack value, string displayName)
+    {
+        Value = value;
+        _displayName = displayName;
     }
 
     public void UpdateDisplayName(string displayName)

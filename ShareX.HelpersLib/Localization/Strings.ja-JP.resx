@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>文字認識 (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>フォトエディターで開く</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>アクションを実行</value>
   </data>
@@ -639,6 +642,9 @@
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>アップロード</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>定規</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>クリップボードからアップロード</value>
   </data>
@@ -786,8 +792,11 @@
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>領域をキャプチャー</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>領域をキャプチャー (透過モード)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>定規</value>
+    <value>計測</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>スクリーン カラー ピッカー</value>
@@ -867,11 +876,14 @@
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>画像ファイル</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>この形式には ImageMagick が必要ですが、magick コマンドが見つからなかったため、「{0}」を開けませんでした。imagemagick パッケージをインストールしてください。</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>自動</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>TIFF の保存には ImageMagick が必要ですが、magick コマンドが見つかりませんでした。imagemagick パッケージをインストールしてください。</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>表示しない</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>表示</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>画像を開く</value>
@@ -992,11 +1004,6 @@
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>プリンター名が無効です</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX で印刷できませんでした: {0}
-
-印刷はデスクトップの印刷ポータルを経由します。xdg-desktop-portal と xdg-desktop-portal-kde がインストールされていること、実際のプリンターを使う場合は cups もインストールされていることを確認してください。</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>画像の拡大を許可</value>
@@ -1217,8 +1224,26 @@
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>年 (2桁)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>下矢印</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>マウスホイール</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>ページダウン</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>スクロールメッセージ</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>自動</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>リスト表示</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>サムネイル表示</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>独自のテキスト アップローダー</value>

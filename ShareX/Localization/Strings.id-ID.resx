@@ -157,6 +157,9 @@
   <data name="AfterCaptureWindow_AfterUpload" xml:space="preserve">
     <value>Setelah mengunggah</value>
   </data>
+  <data name="AfterCaptureWindow_AlsoHeading" xml:space="preserve">
+    <value>Selain itu</value>
+  </data>
   <data name="AfterCaptureWindow_Cancel" xml:space="preserve">
     <value>Batal</value>
   </data>
@@ -178,11 +181,56 @@
   <data name="AfterCaptureWindow_FileName" xml:space="preserve">
     <value>Nama file</value>
   </data>
+  <data name="AfterCaptureWindow_GoalCopyFile" xml:space="preserve">
+    <value>Salin berkas</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFileDescription" xml:space="preserve">
+    <value>Menaruh berkas tersimpan di papan klip.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePath" xml:space="preserve">
+    <value>Salin jalur berkas</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePathDescription" xml:space="preserve">
+    <value>Menyalin jalur berkas tersimpan.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPath" xml:space="preserve">
+    <value>Salin jalur folder</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPathDescription" xml:space="preserve">
+    <value>Menyalin folder berkas tersimpan.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImage" xml:space="preserve">
+    <value>Salin gambar</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImageDescription" xml:space="preserve">
+    <value>Menaruh gambar di papan klip.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrl" xml:space="preserve">
+    <value>Salin URL</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrlDescription" xml:space="preserve">
+    <value>Mengunggahnya, lalu menyalin tautan.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalDescription" xml:space="preserve">
+    <value>Langkah yang diperlukan mengikuti tujuan Anda. Tambahkan tambahan apa pun yang Anda inginkan.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalHeading" xml:space="preserve">
+    <value>Apa yang ingin Anda taruh di papan klip?</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboard" xml:space="preserve">
+    <value>Biarkan papan klip</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboardDescription" xml:space="preserve">
+    <value>Tidak menyalin dan tidak mengunggah apa pun.</value>
+  </data>
   <data name="AfterCaptureWindow_Heading" xml:space="preserve">
     <value>Setelah menangkap</value>
   </data>
   <data name="AfterCaptureWindow_NoPreview" xml:space="preserve">
     <value>Pratinjau gambar tidak tersedia</value>
+  </data>
+  <data name="AfterCaptureWindow_RequiredHeading" xml:space="preserve">
+    <value>Diperlukan untuk tujuan ini</value>
   </data>
   <data name="AfterCaptureWindow_Subtitle" xml:space="preserve">
     <value>Tinjau konten yang ditangkap dan pilih tindakan berikutnya.</value>
@@ -237,6 +285,18 @@
   </data>
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Apakah Anda ingin mengatur ulang pengaturan ShareX?</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Startup telah dinonaktifkan oleh organisasi Anda</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Pengaktifan telah dinonaktifkan di Pengelola Tugas</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Startup telah diaktifkan oleh organisasi Anda</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Jalankan ShareX saat memulai Windows</value>
   </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Agar pengaturan diterapkan, ShareX perlu dibuka kembali dari Steam.</value>
@@ -345,6 +405,9 @@
   </data>
   <data name="ApplicationSettingsWindow_ClipboardFormats" xml:space="preserve">
     <value>Format clipboard</value>
+  </data>
+  <data name="ApplicationSettingsWindow_CompactMode" xml:space="preserve">
+    <value>Mode ringkas</value>
   </data>
   <data name="ApplicationSettingsWindow_CustomHotkeysConfigPath" xml:space="preserve">
     <value>Jalur konfigurasi tombol pintas khusus</value>
@@ -460,6 +523,21 @@
   <data name="ApplicationSettingsWindow_HotkeyRepeatLimit" xml:space="preserve">
     <value>Interval pengulangan tombol pintas (milidetik)</value>
   </data>
+  <data name="ApplicationSettingsWindow_IconPackLabel" xml:space="preserve">
+    <value>Paket ikon:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackLegacy" xml:space="preserve">
+    <value>Klasik</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackModern" xml:space="preserve">
+    <value>Modern</value>
+  </data>
+  <data name="ApplicationSettingsWindow_Icons" xml:space="preserve">
+    <value>Ikon</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ImagePreviewLabel" xml:space="preserve">
+    <value>Visibilitas pratinjau gambar:</value>
+  </data>
   <data name="ApplicationSettingsWindow_ImagePrintSettings" xml:space="preserve">
     <value>Pengaturan cetak gambar...</value>
   </data>
@@ -493,6 +571,9 @@
   <data name="ApplicationSettingsWindow_Light" xml:space="preserve">
     <value>Terang</value>
   </data>
+  <data name="ApplicationSettingsWindow_ListView" xml:space="preserve">
+    <value>Tampilan daftar</value>
+  </data>
   <data name="ApplicationSettingsWindow_MainWindow" xml:space="preserve">
     <value>Jendela utama</value>
   </data>
@@ -522,6 +603,9 @@
   </data>
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Klik kiri di ikon baki:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Klik tengah di ikon baki:</value>
   </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Hanya simpan bila URL tidak kosong</value>
@@ -610,8 +694,17 @@
   <data name="ApplicationSettingsWindow_ShowClipboardContentViewer" xml:space="preserve">
     <value>Tampilkan penampil isi papan klip</value>
   </data>
+  <data name="ApplicationSettingsWindow_ShowColumns" xml:space="preserve">
+    <value>Tampilkan kolom</value>
+  </data>
   <data name="ApplicationSettingsWindow_ShowEditWithShareXButtonInWindowsExplorerContextMenu" xml:space="preserve">
-    <value>Tampilkan "Edit dengan ShareX" di menu konteks Windows Explorer</value>
+    <value>Tampilkan "Edit di editor gambar ShareX" di menu konteks Windows Explorer</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXPhotoEditorButtonInWindowsExplorerContextMenu" xml:space="preserve">
+    <value>Tampilkan "Edit di editor foto ShareX" di menu konteks Windows Explorer</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowFileDeleteConfirmation" xml:space="preserve">
+    <value>Minta konfirmasi sebelum menghapus file</value>
   </data>
   <data name="ApplicationSettingsWindow_ShowLargeFileSizeWarning" xml:space="preserve">
     <value>Ambang peringatan berkas besar (MB)</value>
@@ -649,6 +742,39 @@
   <data name="ApplicationSettingsWindow_SimultaneousUploadLimitLabel" xml:space="preserve">
     <value>Batas unggahan secara bersamaan:</value>
   </data>
+  <data name="ApplicationSettingsWindow_Spacing" xml:space="preserve">
+    <value>Jarak</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingCompact" xml:space="preserve">
+    <value>Ringkas</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingDefault" xml:space="preserve">
+    <value>Bawaan</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenus" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenusLabel" xml:space="preserve">
+    <value>Menu:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingPreviewLabel" xml:space="preserve">
+    <value>Pratinjau:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSettingsWindowsLabel" xml:space="preserve">
+    <value>Jendela pengaturan:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebar" xml:space="preserve">
+    <value>Bilah samping</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebarLabel" xml:space="preserve">
+    <value>Bilah samping:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenus" xml:space="preserve">
+    <value>Menu alat</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenusLabel" xml:space="preserve">
+    <value>Menu alat:</value>
+  </data>
   <data name="ApplicationSettingsWindow_Steam" xml:space="preserve">
     <value>Steam</value>
   </data>
@@ -657,6 +783,9 @@
   </data>
   <data name="ApplicationSettingsWindow_SubFolderPatternLabel" xml:space="preserve">
     <value>Pola sub folder:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_TaskViewModeLabel" xml:space="preserve">
+    <value>Mode tampilan tugas:</value>
   </data>
   <data name="ApplicationSettingsWindow_Theme" xml:space="preserve">
     <value>Tema</value>
@@ -732,18 +861,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Pengaturan aplikasi</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Desktop</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>Jalankan ShareX saat Anda masuk</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Tampilkan "Edit dengan ShareX" di menu konteks Dolphin</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>Tampilkan "Unggah dengan ShareX" di menu konteks Dolphin</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1210,6 +1327,9 @@
   <data name="FailedToSaveSettings" xml:space="preserve">
     <value>Gagal menyimpan pengaturan</value>
   </data>
+  <data name="FileDeleteConfirmation_DontRemindAgain" xml:space="preserve">
+    <value>Jangan ingatkan saya lagi</value>
+  </data>
   <data name="FileExistWindow_Cancel" xml:space="preserve">
     <value>Batal</value>
   </data>
@@ -1319,11 +1439,29 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   <data name="HotkeySettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Pengaturan tombol pintas</value>
   </data>
+  <data name="IconPackPrompt_ChangeLater" xml:space="preserve">
+    <value>Anda dapat mengubahnya kapan saja di pengaturan aplikasi.</value>
+  </data>
+  <data name="IconPackPrompt_LegacyDescription" xml:space="preserve">
+    <value>Ikon berwarna dari ShareX 21.</value>
+  </data>
+  <data name="IconPackPrompt_ModernDescription" xml:space="preserve">
+    <value>Ikon garis yang bersih dan mengikuti warna tema Anda.</value>
+  </data>
+  <data name="IconPackPrompt_Subtitle" xml:space="preserve">
+    <value>ShareX memiliki ikon baru. Pilih tampilan yang Anda sukai.</value>
+  </data>
+  <data name="IconPackPrompt_Title" xml:space="preserve">
+    <value>Pilih ikon Anda</value>
+  </data>
   <data name="ImageData_Write_Error_Message" xml:space="preserve">
     <value>Tidak dapat menulis gambar ke jalur:</value>
   </data>
   <data name="IntegrationHelpers_EditWithShareX" xml:space="preserve">
-    <value>Edit dengan ShareX</value>
+    <value>Edit di editor gambar ShareX</value>
+  </data>
+  <data name="IntegrationHelpers_EditWithShareXPhotoEditor" xml:space="preserve">
+    <value>Edit di editor foto ShareX</value>
   </data>
   <data name="IntegrationHelpers_UploadWithShareX" xml:space="preserve">
     <value>Unggah dengan ShareX</value>
@@ -1393,6 +1531,9 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   </data>
   <data name="MainMenuBuilder_Capture" xml:space="preserve">
     <value>Ambil</value>
+  </data>
+  <data name="MainMenuBuilder_ClassicRuler" xml:space="preserve">
+    <value>Penggaris</value>
   </data>
   <data name="MainMenuBuilder_ClipboardViewer" xml:space="preserve">
     <value>Penampil clipboard</value>
@@ -1517,11 +1658,11 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   <data name="MainMenuBuilder_NetworkMonitor" xml:space="preserve">
     <value>Pemantau jaringan...</value>
   </data>
+  <data name="MainMenuBuilder_NewBadge" xml:space="preserve">
+    <value>Baru</value>
+  </data>
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Tidak ada preset efek gambar</value>
-  </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Tidak ada jendela lain untuk ditangkap. Buka jendela yang Anda inginkan, lalu coba lagi.</value>
   </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Tidak ada jendela ditemukan</value>
@@ -1547,11 +1688,17 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   <data name="MainMenuBuilder_Region" xml:space="preserve">
     <value>Wilayah...</value>
   </data>
+  <data name="MainMenuBuilder_RegionTransparent" xml:space="preserve">
+    <value>Wilayah (transparan)...</value>
+  </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Browser penyimpanan jarak jauh...</value>
   </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Mulai ulang sebagai administrator</value>
+  </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
-    <value>Penggaris</value>
+    <value>Ukur</value>
   </data>
   <data name="MainMenuBuilder_ScreenColorPicker" xml:space="preserve">
     <value>Pemilih warna layar</value>
@@ -1561,6 +1708,9 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   </data>
   <data name="MainMenuBuilder_ScreenRecordingGif" xml:space="preserve">
     <value>Perekaman layar (GIF)...</value>
+  </data>
+  <data name="MainMenuBuilder_ScreenshotDelayJustOnce" xml:space="preserve">
+    <value>Hanya sekali</value>
   </data>
   <data name="MainMenuBuilder_ScreenshotsFolder" xml:space="preserve">
     <value>Folder tangkapan layar...</value>
@@ -1666,6 +1816,9 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   </data>
   <data name="MainWindow_BeautifyImage" xml:space="preserve">
     <value>Percantik gambar</value>
+  </data>
+  <data name="MainWindow_ClearTaskList" xml:space="preserve">
+    <value>Bersihkan daftar</value>
   </data>
   <data name="MainWindow_ClearThumbnailView" xml:space="preserve">
     <value>Bersihkan tampilan gambar mini</value>
@@ -1829,6 +1982,12 @@ Silakan pilih tombol cepat yang berbeda atau keluar dari aplikasi yang bertentan
   <data name="MainWindow_StopUpload" xml:space="preserve">
     <value>Hentikan unggahan</value>
   </data>
+  <data name="MainWindow_SwitchToListView" xml:space="preserve">
+    <value>Beralih ke tampilan daftar</value>
+  </data>
+  <data name="MainWindow_SwitchToThumbnailView" xml:space="preserve">
+    <value>Beralih ke tampilan thumbnail</value>
+  </data>
   <data name="MainWindow_Text" xml:space="preserve">
     <value>Teks</value>
   </data>
@@ -1971,20 +2130,6 @@ Jalankan ShareX sebagai administrator untuk mengubah jalur folder pribadi.</valu
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Pemilih warna layar</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>GIF tidak selesai, sehingga dibuang. Rekaman disimpan sebagai MP4 di:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-File tetap disimpan, tetapi mungkin tidak dapat diputar:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX tertutup secara tidak terduga saat perekaman. Rekaman disimpan ke:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Bilah</value>
   </data>
@@ -2048,6 +2193,9 @@ File tetap disimpan, tetapi mungkin tidak dapat diputar:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Audio sistem</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Jendela yang dipilih untuk direkam tidak lagi tersedia.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Volume rekaman (%)</value>
   </data>
@@ -2061,69 +2209,14 @@ File tetap disimpan, tetapi mungkin tidak dapat diputar:
     <value>Kesalahan saat mengekspor cadangan:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Cadangan ShareX menyimpan data login dan kunci API Anda dalam teks biasa, agar dapat dipindahkan ke komputer lain. Siapa pun yang mendapatkan file ini dapat menggunakannya.&#xD;
-&#xD;
-Simpan secara pribadi dan hapus setelah Anda memulihkannya. Tetap ekspor?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Kesalahan saat mengimpor cadangan:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} dalam cadangan rusak, sehingga tidak ada yang diimpor.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Cadangan berisi data login, dan data itu tidak dapat disimpan tanpa dompet Anda, sehingga tidak ada yang diimpor. Buka dompet dan coba lagi.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>File ini tidak berisi pengaturan atau riwayat ShareX.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Efek gambar yang dihilangkan, karena versi ini tidak memilikinya:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Riwayat: {0} ditambahkan, {1} sudah ada, {2} tidak terbaca.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Riwayat Anda sebelumnya disimpan ke {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Riwayat tidak diimpor: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Folder yang diubah ke lokasi Linux-nya:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Pengaturan yang dikembalikan ke default, karena jalurnya tidak memiliki padanan di sini:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>File cadangan ini menyimpan data login Anda dalam teks biasa. Hapus setelah Anda puas dengan hasil impor.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Data login yang berhasil dipindahkan, kini dienkripsi dengan dompet Anda:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Masuk kembali. Data ini dienkripsi untuk komputer lain dan tidak dapat dibaca di sini:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>File dalam cadangan yang diabaikan:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Cadangan diimpor</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Tindakan yang dimatikan, agar tidak ada isi cadangan yang berjalan sendiri. Periksa dan nyalakan kembali:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>Tidak dapat menyimpan {0}. Impor berhenti di situ.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX tidak dapat ditutup saat perekaman layar aktif.
 
-Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
+Apakah Anda ingin membatalkan perekaman layar aktif?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX diminimalkan ke baki sistem.</value>
@@ -2159,7 +2252,7 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
     <value>Jadikan ShareX milik Anda</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Sumber terbuka • Dibuat untuk Linux</value>
+    <value>Sumber terbuka • Dibuat untuk Windows</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Anda dapat mengubah opsi ini kapan saja di pengaturan aplikasi.</value>
@@ -2194,6 +2287,33 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   </data>
   <data name="TaskHelpers_ToggleHotkeys_Hotkeys_enabled_" xml:space="preserve">
     <value>Tombol cepat diaktifkan</value>
+  </data>
+  <data name="TaskListView_Elapsed" xml:space="preserve">
+    <value>Berlalu</value>
+  </data>
+  <data name="TaskListView_Filename" xml:space="preserve">
+    <value>Nama file</value>
+  </data>
+  <data name="TaskListView_History" xml:space="preserve">
+    <value>Riwayat</value>
+  </data>
+  <data name="TaskListView_InQueue" xml:space="preserve">
+    <value>Di antrian</value>
+  </data>
+  <data name="TaskListView_Progress" xml:space="preserve">
+    <value>Kemajuan</value>
+  </data>
+  <data name="TaskListView_Remaining" xml:space="preserve">
+    <value>Tersisa</value>
+  </data>
+  <data name="TaskListView_Speed" xml:space="preserve">
+    <value>Kecepatan</value>
+  </data>
+  <data name="TaskListView_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="TaskListView_URL" xml:space="preserve">
+    <value>URL</value>
   </data>
   <data name="TaskManager_UploadCompletedURL" xml:space="preserve">
     <value>Unggahan selesai. URL: {0}</value>
@@ -2270,6 +2390,9 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   <data name="TaskSettingsWindow_AutoCopyImageToClipboard" xml:space="preserve">
     <value>Salin gambar otomatis ke papan klip</value>
   </data>
+  <data name="TaskSettingsWindow_AutoExpandCanvas" xml:space="preserve">
+    <value>Perluas kanvas secara otomatis saat teks atau bentuk melewati tepi</value>
+  </data>
   <data name="TaskSettingsWindow_AutoIncrementNumber" xml:space="preserve">
     <value>Nomor bertambah otomatis:</value>
   </data>
@@ -2302,6 +2425,9 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   </data>
   <data name="TaskSettingsWindow_Cancel" xml:space="preserve">
     <value>Batal</value>
+  </data>
+  <data name="TaskSettingsWindow_CanvasFillColor" xml:space="preserve">
+    <value>Warna isian untuk area kanvas yang ditambahkan:</value>
   </data>
   <data name="TaskSettingsWindow_Capture" xml:space="preserve">
     <value>Tangkap</value>
@@ -2348,6 +2474,9 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   <data name="TaskSettingsWindow_CloseOCRWindowAfterOpeningServiceLink" xml:space="preserve">
     <value>Tutup jendela OCR setelah membuka tautan layanan</value>
   </data>
+  <data name="TaskSettingsWindow_CompactRegionCaptureToolbar" xml:space="preserve">
+    <value>Bilah alat tangkap wilayah yang ringkas</value>
+  </data>
   <data name="TaskSettingsWindow_ConfigureWithEllipsis" xml:space="preserve">
     <value>Konfigurasikan...</value>
   </data>
@@ -2378,8 +2507,8 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   <data name="TaskSettingsWindow_DetectWindowRegions" xml:space="preserve">
     <value>Deteksi wilayah jendela</value>
   </data>
-  <data name="TaskSettingsWindow_DimAllExceptCurrentSelection" xml:space="preserve">
-    <value>Redupkan semua kecuali pemilihan saat ini</value>
+  <data name="TaskSettingsWindow_DimHoveredWindowsAndControls" xml:space="preserve">
+    <value>Redupkan jendela dan kontrol di bawah kursor</value>
   </data>
   <data name="TaskSettingsWindow_DisableToastNotificationsOnFullscreen" xml:space="preserve">
     <value>Nonaktifkan notifikasi saat layar penuh</value>
@@ -2573,6 +2702,9 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   <data name="TaskSettingsWindow_MoveUp" xml:space="preserve">
     <value>Pindah ke atas</value>
   </data>
+  <data name="TaskSettingsWindow_MultiRegionMode" xml:space="preserve">
+    <value>Mode multi-area</value>
+  </data>
   <data name="TaskSettingsWindow_Name" xml:space="preserve">
     <value>Nama</value>
   </data>
@@ -2641,6 +2773,9 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   </data>
   <data name="TaskSettingsWindow_NativeRecorderEnabled" xml:space="preserve">
     <value>Gunakan perekam layar bawaan</value>
+  </data>
+  <data name="TaskSettingsWindow_NativeRecorderHDRToneMapping" xml:space="preserve">
+    <value>Pemetaan nada HDR</value>
   </data>
   <data name="TaskSettingsWindow_NativeRecorderHardware" xml:space="preserve">
     <value>Wajibkan pengodean video perangkat keras</value>
@@ -3068,6 +3203,18 @@ Apakah Anda ingin menghentikan perekaman layar aktif dan menyimpannya?</value>
   <data name="TaskSettingsWindow_WaveAudio" xml:space="preserve">
     <value>Audio Wave</value>
   </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffort" xml:space="preserve">
+    <value>Upaya kompresi WebP:</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffortHint" xml:space="preserve">
+    <value>Nilai yang lebih rendah mempercepat pengodean. Nilai yang lebih tinggi menghasilkan berkas yang lebih kecil. Semua nilai mempertahankan kualitas gambar.</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPLossless" xml:space="preserve">
+    <value>Tanpa kehilangan</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPQuality" xml:space="preserve">
+    <value>Kualitas WebP:</value>
+  </data>
   <data name="TaskSettingsWindow_Width" xml:space="preserve">
     <value>Lebar:</value>
   </data>
@@ -3187,6 +3334,9 @@ Anda dapat menonaktifkannya nanti dari menu "Tugas setelah tangkapan".</value>
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Apakah Anda ingin mencoba ulang unggahan clipboard?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Perangkat lunak antivirus Anda atau fitur akses folder terkontrol di Windows mungkin memblokir ShareX.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Admin sistem Anda menonaktifkan fitur unggah.</value>

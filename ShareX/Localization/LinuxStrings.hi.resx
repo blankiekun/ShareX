@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>डेस्कटॉप</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>लॉग इन करने पर ShareX चलाएँ</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Dolphin संदर्भ मेनू में "ShareX से संपादित करें" दिखाएँ</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>Dolphin संदर्भ मेनू में "ShareX से अपलोड करें" दिखाएँ</value>
+  </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>कैप्चर करने के लिए कोई अन्य विंडो नहीं है। अपनी इच्छित विंडो खोलें, फिर पुनः प्रयास करें।</value>
+  </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>GIF पूरा नहीं हुआ, इसलिए उसे हटा दिया गया। रिकॉर्डिंग को MP4 के रूप में यहाँ रखा गया है:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+फ़ाइल रखी गई है, लेकिन हो सकता है कि वह न चले:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>रिकॉर्डिंग के दौरान ShareX अचानक बंद हो गया। रिकॉर्डिंग यहाँ सहेजी गई है:
+{0}</value>
+  </data>
+  <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
+    <value>स्क्रीन रिकॉर्डिंग सक्रिय होने पर ShareX बंद नहीं किया जा सकता।
+
+क्या आप सक्रिय स्क्रीन रिकॉर्डिंग रोककर उसे सहेजना चाहते हैं?</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>ओपन सोर्स • Linux के लिए निर्मित</value>
+  </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>ShareX बैकअप में आपके लॉगिन और API कुंजियाँ सादे टेक्स्ट में होती हैं, ताकि उन्हें दूसरी मशीन पर ले जाया जा सके। जिसे भी यह फ़ाइल मिलेगी, वह उनका उपयोग कर सकता है।&#xD;
+&#xD;
+इसे निजी रखें और पुनर्स्थापित करने के बाद हटा दें। फिर भी निर्यात करें?</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>बैकअप आयात किया गया</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>फिर से लॉगिन करें। ये दूसरी मशीन के लिए एन्क्रिप्ट किए गए थे और यहाँ पढ़े नहीं जा सकते:</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>स्थानांतरित हुए लॉगिन, जो अब आपके वॉलेट से एन्क्रिप्ट किए गए हैं:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>अपने Linux स्थान में बदले गए फ़ोल्डर:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>डिफ़ॉल्ट पर वापस की गई सेटिंग, क्योंकि पथ का यहाँ कोई समकक्ष नहीं है:</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>बंद की गई क्रियाएँ, ताकि बैकअप से कुछ भी अपने आप न चले। उन्हें जाँचें और फिर से चालू करें:</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>छोड़े गए छवि प्रभाव, क्योंकि इस संस्करण में वे नहीं हैं:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>इतिहास: {0} जोड़े गए, {1} पहले से मौजूद, {2} अपठनीय।</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>आपका पिछला इतिहास {0} में सहेजा गया</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>इतिहास आयात नहीं हुआ: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>बैकअप की वे फ़ाइलें जिन्हें अनदेखा किया गया:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>इस बैकअप फ़ाइल में आपके लॉगिन सादे टेक्स्ट में हैं। आयात से संतुष्ट होने पर इसे हटा दें।</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>फ़ाइल में कोई ShareX सेटिंग या इतिहास नहीं है।</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>बैकअप में {0} क्षतिग्रस्त है, इसलिए कुछ भी आयात नहीं किया गया।</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>बैकअप में लॉगिन हैं, और उन्हें आपके वॉलेट के बिना संग्रहीत नहीं किया जा सकता, इसलिए कुछ भी आयात नहीं किया गया। वॉलेट खोलें और फिर से प्रयास करें।&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>{0} सहेजा नहीं जा सका। आयात वहीं रुक गया।</value>
+  </data>
+</root>

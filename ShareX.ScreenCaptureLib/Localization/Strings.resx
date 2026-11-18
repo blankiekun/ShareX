@@ -436,6 +436,10 @@
   <data name="Pause" xml:space="preserve">
     <value>Pause</value>
   </data>
+  <data name="RegionCaptureWindow_MoveToolbar" xml:space="preserve">
+    <value>Drag to move the toolbar, double-click to reset its position</value>
+    <comment>Tooltip of the grip handle at the left end of the region capture toolbar.</comment>
+  </data>
   <data name="RegionCaptureWindow_RectangleRegionTab" xml:space="preserve">
     <value>Rectangle region (Tab)</value>
   </data>
@@ -485,23 +489,11 @@
   <data name="ScreenRecordWindow_Title" xml:space="preserve">
     <value>ShareX - Screen recording</value>
   </data>
-  <data name="ScrollingCaptureWindow_Press_start" xml:space="preserve">
-    <value>Press Start, then scroll by hand.</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_now" xml:space="preserve">
-    <value>Scroll now, top to bottom. Press Stop or the hotkey when done.</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Scroll_back" xml:space="preserve">
-    <value>Not capturing here. Scroll back to the last captured part.</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Stop" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="ScrollingCaptureWindow_Height_limit_reached" xml:space="preserve">
-    <value>Stopped at the height limit</value>
-  </data>
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>Auto ignore bottom edge</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
+    <value>Automatically scroll to top</value>
   </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>Automatically upload / save</value>
@@ -520,6 +512,9 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>Capture successful</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
+    <value>Capturing...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>Copy</value>
@@ -542,6 +537,15 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>Ready</value>
   </data>
+  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
+    <value>Scroll amount:</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
+    <value>Scroll delay:</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
+    <value>Scroll method:</value>
+  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>Select a scrollable window to begin</value>
   </data>
@@ -556,6 +560,9 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>Stopping capture...</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
+    <value>times</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX - Scrolling capture</value>

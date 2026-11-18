@@ -157,6 +157,9 @@
   <data name="AfterCaptureWindow_AfterUpload" xml:space="preserve">
     <value>Nach dem Hochladen</value>
   </data>
+  <data name="AfterCaptureWindow_AlsoHeading" xml:space="preserve">
+    <value>Außerdem</value>
+  </data>
   <data name="AfterCaptureWindow_Cancel" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
@@ -178,11 +181,56 @@
   <data name="AfterCaptureWindow_FileName" xml:space="preserve">
     <value>Dateiname</value>
   </data>
+  <data name="AfterCaptureWindow_GoalCopyFile" xml:space="preserve">
+    <value>Datei kopieren</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFileDescription" xml:space="preserve">
+    <value>Legt die gespeicherte Datei in die Zwischenablage.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePath" xml:space="preserve">
+    <value>Dateipfad kopieren</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFilePathDescription" xml:space="preserve">
+    <value>Kopiert den Pfad der gespeicherten Datei.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPath" xml:space="preserve">
+    <value>Ordnerpfad kopieren</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyFolderPathDescription" xml:space="preserve">
+    <value>Kopiert den Ordner der gespeicherten Datei.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImage" xml:space="preserve">
+    <value>Bild kopieren</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyImageDescription" xml:space="preserve">
+    <value>Legt das Bild in die Zwischenablage.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrl" xml:space="preserve">
+    <value>URL kopieren</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalCopyUrlDescription" xml:space="preserve">
+    <value>Lädt es hoch und kopiert dann den Link.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalDescription" xml:space="preserve">
+    <value>Die erforderlichen Schritte ergeben sich aus deinem Ziel. Füge beliebige Extras hinzu.</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalHeading" xml:space="preserve">
+    <value>Was soll in die Zwischenablage?</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboard" xml:space="preserve">
+    <value>Zwischenablage unverändert lassen</value>
+  </data>
+  <data name="AfterCaptureWindow_GoalLeaveClipboardDescription" xml:space="preserve">
+    <value>Kopiert nichts und lädt nichts hoch.</value>
+  </data>
   <data name="AfterCaptureWindow_Heading" xml:space="preserve">
     <value>Nach der Aufnahme</value>
   </data>
   <data name="AfterCaptureWindow_NoPreview" xml:space="preserve">
     <value>Keine Bildvorschau verfügbar</value>
+  </data>
+  <data name="AfterCaptureWindow_RequiredHeading" xml:space="preserve">
+    <value>Für dieses Ziel erforderlich</value>
   </data>
   <data name="AfterCaptureWindow_Subtitle" xml:space="preserve">
     <value>Prüfen Sie den aufgenommenen Inhalt und wählen Sie die nächsten Schritte.</value>
@@ -237,6 +285,18 @@
   </data>
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>Möchten Sie die ShareX-Einstellungen zurücksetzen?</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>Autostart wurde durch Ihrer Organisation deaktiviert</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text" xml:space="preserve">
+    <value>Autostart wurde im Task-Manager deaktiviert</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>Autostart wurde durch Ihrer Organisation aktiviert</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>ShareX beim Starten von Windows ausführen</value>
   </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
     <value>Um die Einstellungen zu Übernehmen muss ShareX über Steam neu gestartet werden.</value>
@@ -345,6 +405,9 @@
   </data>
   <data name="ApplicationSettingsWindow_ClipboardFormats" xml:space="preserve">
     <value>Zwischenablageformate</value>
+  </data>
+  <data name="ApplicationSettingsWindow_CompactMode" xml:space="preserve">
+    <value>Kompakter Modus</value>
   </data>
   <data name="ApplicationSettingsWindow_CustomHotkeysConfigPath" xml:space="preserve">
     <value>Benutzerdefinierter Pfad zur Tastenkürzel-Konfiguration</value>
@@ -460,6 +523,21 @@
   <data name="ApplicationSettingsWindow_HotkeyRepeatLimit" xml:space="preserve">
     <value>Wiederholungsintervall für Tastenkürzel (Millisekunden)</value>
   </data>
+  <data name="ApplicationSettingsWindow_IconPackLabel" xml:space="preserve">
+    <value>Symbolpaket:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackLegacy" xml:space="preserve">
+    <value>Klassisch</value>
+  </data>
+  <data name="ApplicationSettingsWindow_IconPackModern" xml:space="preserve">
+    <value>Modern</value>
+  </data>
+  <data name="ApplicationSettingsWindow_Icons" xml:space="preserve">
+    <value>Symbole</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ImagePreviewLabel" xml:space="preserve">
+    <value>Sichtbarkeit der Bildvorschau:</value>
+  </data>
   <data name="ApplicationSettingsWindow_ImagePrintSettings" xml:space="preserve">
     <value>Bilddruckeinstellungen...</value>
   </data>
@@ -493,6 +571,9 @@
   <data name="ApplicationSettingsWindow_Light" xml:space="preserve">
     <value>Hell</value>
   </data>
+  <data name="ApplicationSettingsWindow_ListView" xml:space="preserve">
+    <value>Listenansicht</value>
+  </data>
   <data name="ApplicationSettingsWindow_MainWindow" xml:space="preserve">
     <value>Hauptfenster</value>
   </data>
@@ -522,6 +603,9 @@
   </data>
   <data name="ApplicationSettingsWindow_OnTrayIconLeftClickLabel" xml:space="preserve">
     <value>Bei linkem Klick auf das Symbol:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_OnTrayIconMiddleClickLabel" xml:space="preserve">
+    <value>Bei mittlerem Klick auf das Symbol:</value>
   </data>
   <data name="ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty" xml:space="preserve">
     <value>Nur speichern, wenn die URL nicht leer ist</value>
@@ -610,8 +694,17 @@
   <data name="ApplicationSettingsWindow_ShowClipboardContentViewer" xml:space="preserve">
     <value>Zwischenablage-Inhaltsanzeige anzeigen</value>
   </data>
+  <data name="ApplicationSettingsWindow_ShowColumns" xml:space="preserve">
+    <value>Spalten anzeigen</value>
+  </data>
   <data name="ApplicationSettingsWindow_ShowEditWithShareXButtonInWindowsExplorerContextMenu" xml:space="preserve">
-    <value>Schaltfläche „Mit ShareX bearbeiten“ im Kontextmenü des Windows-Explorers anzeigen</value>
+    <value>Schaltfläche „Im ShareX-Bildeditor bearbeiten“ im Kontextmenü des Windows-Explorers anzeigen</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXPhotoEditorButtonInWindowsExplorerContextMenu" xml:space="preserve">
+    <value>Schaltfläche „Im ShareX-Fotoeditor bearbeiten“ im Kontextmenü des Windows-Explorers anzeigen</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowFileDeleteConfirmation" xml:space="preserve">
+    <value>Vor dem Löschen von Dateien um Bestätigung bitten</value>
   </data>
   <data name="ApplicationSettingsWindow_ShowLargeFileSizeWarning" xml:space="preserve">
     <value>Warnschwelle für große Dateien (MB)</value>
@@ -649,6 +742,39 @@
   <data name="ApplicationSettingsWindow_SimultaneousUploadLimitLabel" xml:space="preserve">
     <value>Limit gleichzeitiger Uploads:</value>
   </data>
+  <data name="ApplicationSettingsWindow_Spacing" xml:space="preserve">
+    <value>Abstand</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingCompact" xml:space="preserve">
+    <value>Kompakt</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingDefault" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenus" xml:space="preserve">
+    <value>Menüs</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingMenusLabel" xml:space="preserve">
+    <value>Menüs:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingPreviewLabel" xml:space="preserve">
+    <value>Vorschau:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSettingsWindowsLabel" xml:space="preserve">
+    <value>Einstellungsfenster:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebar" xml:space="preserve">
+    <value>Seitenleiste</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingSidebarLabel" xml:space="preserve">
+    <value>Seitenleiste:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenus" xml:space="preserve">
+    <value>Werkzeugmenüs</value>
+  </data>
+  <data name="ApplicationSettingsWindow_SpacingToolMenusLabel" xml:space="preserve">
+    <value>Werkzeugmenüs:</value>
+  </data>
   <data name="ApplicationSettingsWindow_Steam" xml:space="preserve">
     <value>Steam</value>
   </data>
@@ -657,6 +783,9 @@
   </data>
   <data name="ApplicationSettingsWindow_SubFolderPatternLabel" xml:space="preserve">
     <value>Unterordnermuster:</value>
+  </data>
+  <data name="ApplicationSettingsWindow_TaskViewModeLabel" xml:space="preserve">
+    <value>Aufgabenansichtsmodus:</value>
   </data>
   <data name="ApplicationSettingsWindow_Theme" xml:space="preserve">
     <value>Design</value>
@@ -732,18 +861,6 @@
   </data>
   <data name="ApplicationSettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Anwendungseinstellungen</value>
-  </data>
-  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
-    <value>Desktop</value>
-  </data>
-  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
-    <value>ShareX bei der Anmeldung starten</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>„Mit ShareX bearbeiten“ im Kontextmenü von Dolphin anzeigen</value>
-  </data>
-  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
-    <value>„Mit ShareX hochladen“ im Kontextmenü von Dolphin anzeigen</value>
   </data>
   <data name="ApplicationSettingsWindow_Windows" xml:space="preserve">
     <value>Windows</value>
@@ -1210,6 +1327,9 @@
   <data name="FailedToSaveSettings" xml:space="preserve">
     <value>Einstellungen speichern fehlgeschlagen</value>
   </data>
+  <data name="FileDeleteConfirmation_DontRemindAgain" xml:space="preserve">
+    <value>Nicht mehr erinnern</value>
+  </data>
   <data name="FileExistWindow_Cancel" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
@@ -1319,11 +1439,29 @@ Bitte wähle ein anderes Tastenkürzel aus oder beende das widersprüchliche Pro
   <data name="HotkeySettingsWindow_WindowTitle" xml:space="preserve">
     <value>ShareX - Tastenkürzeleinstellungen</value>
   </data>
+  <data name="IconPackPrompt_ChangeLater" xml:space="preserve">
+    <value>Sie können dies jederzeit in den Anwendungseinstellungen ändern.</value>
+  </data>
+  <data name="IconPackPrompt_LegacyDescription" xml:space="preserve">
+    <value>Die farbenfrohen Symbole aus ShareX 21.</value>
+  </data>
+  <data name="IconPackPrompt_ModernDescription" xml:space="preserve">
+    <value>Klare Liniensymbole, die den Farben Ihres Designs folgen.</value>
+  </data>
+  <data name="IconPackPrompt_Subtitle" xml:space="preserve">
+    <value>ShareX hat neue Symbole. Wählen Sie das Aussehen, das Ihnen am besten gefällt.</value>
+  </data>
+  <data name="IconPackPrompt_Title" xml:space="preserve">
+    <value>Wählen Sie Ihre Symbole</value>
+  </data>
   <data name="ImageData_Write_Error_Message" xml:space="preserve">
     <value>Konnte das Bild nicht in den Pfad schreiben:</value>
   </data>
   <data name="IntegrationHelpers_EditWithShareX" xml:space="preserve">
-    <value>Mit ShareX bearbeiten</value>
+    <value>Im ShareX-Bildeditor bearbeiten</value>
+  </data>
+  <data name="IntegrationHelpers_EditWithShareXPhotoEditor" xml:space="preserve">
+    <value>Im ShareX-Fotoeditor bearbeiten</value>
   </data>
   <data name="IntegrationHelpers_UploadWithShareX" xml:space="preserve">
     <value>Mit ShareX hochladen</value>
@@ -1393,6 +1531,9 @@ Bitte wähle ein anderes Tastenkürzel aus oder beende das widersprüchliche Pro
   </data>
   <data name="MainMenuBuilder_Capture" xml:space="preserve">
     <value>Aufnahme</value>
+  </data>
+  <data name="MainMenuBuilder_ClassicRuler" xml:space="preserve">
+    <value>Lineal</value>
   </data>
   <data name="MainMenuBuilder_ClipboardViewer" xml:space="preserve">
     <value>Zwischenablage-Betrachter</value>
@@ -1517,11 +1658,11 @@ Bitte wähle ein anderes Tastenkürzel aus oder beende das widersprüchliche Pro
   <data name="MainMenuBuilder_NetworkMonitor" xml:space="preserve">
     <value>Netzwerkmonitor...</value>
   </data>
+  <data name="MainMenuBuilder_NewBadge" xml:space="preserve">
+    <value>Neu</value>
+  </data>
   <data name="MainMenuBuilder_NoImageEffectPresets" xml:space="preserve">
     <value>Keine Bildeffekt-Voreinstellungen</value>
-  </data>
-  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
-    <value>Es gibt kein anderes Fenster zum Aufnehmen. Öffnen Sie das gewünschte Fenster und versuchen Sie es erneut.</value>
   </data>
   <data name="MainMenuBuilder_NoWindowsFound" xml:space="preserve">
     <value>Keine Fenster gefunden</value>
@@ -1547,11 +1688,17 @@ Bitte wähle ein anderes Tastenkürzel aus oder beende das widersprüchliche Pro
   <data name="MainMenuBuilder_Region" xml:space="preserve">
     <value>Region...</value>
   </data>
+  <data name="MainMenuBuilder_RegionTransparent" xml:space="preserve">
+    <value>Bereich (Transparent)...</value>
+  </data>
   <data name="MainMenuBuilder_RemoteStorageBrowser" xml:space="preserve">
     <value>Remote-Speicherbrowser...</value>
   </data>
+  <data name="MainMenuBuilder_RestartAsAdministrator" xml:space="preserve">
+    <value>Als Administrator neu starten</value>
+  </data>
   <data name="MainMenuBuilder_Ruler" xml:space="preserve">
-    <value>Lineal</value>
+    <value>Messen</value>
   </data>
   <data name="MainMenuBuilder_ScreenColorPicker" xml:space="preserve">
     <value>Bildschirmfarbenwähler</value>
@@ -1561,6 +1708,9 @@ Bitte wähle ein anderes Tastenkürzel aus oder beende das widersprüchliche Pro
   </data>
   <data name="MainMenuBuilder_ScreenRecordingGif" xml:space="preserve">
     <value>Bildschirmaufnahme (GIF)...</value>
+  </data>
+  <data name="MainMenuBuilder_ScreenshotDelayJustOnce" xml:space="preserve">
+    <value>Nur einmal</value>
   </data>
   <data name="MainMenuBuilder_ScreenshotsFolder" xml:space="preserve">
     <value>Screenshot-Ordner...</value>
@@ -1666,6 +1816,9 @@ Bitte wähle ein anderes Tastenkürzel aus oder beende das widersprüchliche Pro
   </data>
   <data name="MainWindow_BeautifyImage" xml:space="preserve">
     <value>Bild verschönern</value>
+  </data>
+  <data name="MainWindow_ClearTaskList" xml:space="preserve">
+    <value>Liste leeren</value>
   </data>
   <data name="MainWindow_ClearThumbnailView" xml:space="preserve">
     <value>Miniaturansicht leeren</value>
@@ -1829,6 +1982,12 @@ Bitte wähle ein anderes Tastenkürzel aus oder beende das widersprüchliche Pro
   <data name="MainWindow_StopUpload" xml:space="preserve">
     <value>Upload stoppen</value>
   </data>
+  <data name="MainWindow_SwitchToListView" xml:space="preserve">
+    <value>Zur Listenansicht wechseln</value>
+  </data>
+  <data name="MainWindow_SwitchToThumbnailView" xml:space="preserve">
+    <value>Zur Bildvorschau wechseln</value>
+  </data>
   <data name="MainWindow_Text" xml:space="preserve">
     <value>Text</value>
   </data>
@@ -1971,20 +2130,6 @@ Bitte starte ShareX als Administrator, um den Einstellungsordner zu ändern.</va
   <data name="ScreenColorPicker" xml:space="preserve">
     <value>Bildschirm-Farbwähler</value>
   </data>
-  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
-    <value>Das GIF wurde nicht fertiggestellt und daher verworfen. Die Aufnahme wurde als MP4 gespeichert unter:
-{0}</value>
-  </data>
-  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
-    <value>{0}
-
-Die Datei wurde behalten, lässt sich aber möglicherweise nicht abspielen:
-{1}</value>
-  </data>
-  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
-    <value>ShareX wurde während einer Aufnahme unerwartet geschlossen. Die Aufnahme wurde gespeichert unter:
-{0}</value>
-  </data>
   <data name="ScreenRecorderBar_Bar" xml:space="preserve">
     <value>Leiste</value>
   </data>
@@ -2048,6 +2193,9 @@ Die Datei wurde behalten, lässt sich aber möglicherweise nicht abspielen:
   <data name="ScreenRecorderBar_SystemAudio" xml:space="preserve">
     <value>Systemaudio</value>
   </data>
+  <data name="ScreenRecorderBar_TargetUnavailable" xml:space="preserve">
+    <value>Das ausgewählte Aufnahmefenster ist nicht mehr verfügbar.</value>
+  </data>
   <data name="ScreenRecorderBar_Volume" xml:space="preserve">
     <value>Aufnahmelautstärke (%)</value>
   </data>
@@ -2061,69 +2209,14 @@ Die Datei wurde behalten, lässt sich aber möglicherweise nicht abspielen:
     <value>Fehler beim Exportieren der Sicherung:
 {0}</value>
   </data>
-  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
-    <value>Eine ShareX-Sicherung enthält Ihre Anmeldedaten und API-Schlüssel im Klartext, damit sie auf einen anderen Rechner übertragen werden können. Jeder, der die Datei erhält, kann sie verwenden.&#xD;
-&#xD;
-Halten Sie sie geheim und löschen Sie sie, sobald Sie sie wiederhergestellt haben. Trotzdem exportieren?</value>
-  </data>
   <data name="SettingManager_ImportBackupError" xml:space="preserve">
     <value>Fehler beim Importieren der Sicherung:
 {0}</value>
   </data>
-  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
-    <value>{0} in der Sicherung ist beschädigt, daher wurde nichts importiert.</value>
-  </data>
-  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
-    <value>Die Sicherung enthält Anmeldedaten, die ohne Ihre digitale Brieftasche nicht gespeichert werden können, daher wurde nichts importiert. Öffnen Sie die digitale Brieftasche und versuchen Sie es erneut.&#xD;
-&#xD;
-{0}</value>
-  </data>
-  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
-    <value>Die Datei enthält keine ShareX-Einstellungen und keinen Verlauf.</value>
-  </data>
-  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
-    <value>Ausgelassene Bildeffekte, weil diese Version sie nicht enthält:</value>
-  </data>
-  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
-    <value>Verlauf: {0} hinzugefügt, {1} bereits vorhanden, {2} nicht lesbar.</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
-    <value>Ihr bisheriger Verlauf wurde in {0} gespeichert</value>
-  </data>
-  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
-    <value>Der Verlauf wurde nicht importiert: {0}</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
-    <value>Ordner, die auf ihren Linux-Speicherort geändert wurden:</value>
-  </data>
-  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
-    <value>Einstellungen, die auf den Standardwert zurückgesetzt wurden, weil der Pfad hier keine Entsprechung hat:</value>
-  </data>
-  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
-    <value>Diese Sicherungsdatei enthält Ihre Anmeldedaten im Klartext. Löschen Sie sie, sobald Sie mit dem Import zufrieden sind.</value>
-  </data>
-  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
-    <value>Übernommene Anmeldedaten, jetzt mit Ihrer digitalen Brieftasche verschlüsselt:</value>
-  </data>
-  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
-    <value>Melden Sie sich erneut an. Diese Daten wurden für einen anderen Rechner verschlüsselt und können hier nicht gelesen werden:</value>
-  </data>
-  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
-    <value>Ignorierte Dateien in der Sicherung:</value>
-  </data>
-  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
-    <value>Sicherung importiert</value>
-  </data>
-  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
-    <value>Deaktivierte Aktionen, damit nichts aus der Sicherung von selbst ausgeführt wird. Prüfen Sie sie und aktivieren Sie sie wieder:</value>
-  </data>
-  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
-    <value>{0} konnte nicht gespeichert werden. Der Import wurde an dieser Stelle beendet.</value>
-  </data>
   <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
     <value>ShareX kann nicht geschlossen werden, während die Bildschirmaufnahme aktiv ist.
 
-Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
+Möchten Sie die aktive Bildschirmaufzeichnung abbrechen?</value>
   </data>
   <data name="ShareXIsMinimizedToTheSystemTray" xml:space="preserve">
     <value>ShareX wird in die Taskleiste minimiert.</value>
@@ -2159,7 +2252,7 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
     <value>Machen Sie ShareX zu Ihrem</value>
   </data>
   <data name="StartScreen_PlatformNote" xml:space="preserve">
-    <value>Open Source • Für Linux entwickelt</value>
+    <value>Open Source • Für Windows entwickelt</value>
   </data>
   <data name="StartScreen_SettingsNote" xml:space="preserve">
     <value>Sie können diese Optionen jederzeit in den Anwendungseinstellungen ändern.</value>
@@ -2194,6 +2287,33 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   </data>
   <data name="TaskHelpers_ToggleHotkeys_Hotkeys_enabled_" xml:space="preserve">
     <value>Hotkeys aktiviert.</value>
+  </data>
+  <data name="TaskListView_Elapsed" xml:space="preserve">
+    <value>Verstrichen</value>
+  </data>
+  <data name="TaskListView_Filename" xml:space="preserve">
+    <value>Dateiname</value>
+  </data>
+  <data name="TaskListView_History" xml:space="preserve">
+    <value>Chronik</value>
+  </data>
+  <data name="TaskListView_InQueue" xml:space="preserve">
+    <value>In Warteschlange</value>
+  </data>
+  <data name="TaskListView_Progress" xml:space="preserve">
+    <value>Fortschritt</value>
+  </data>
+  <data name="TaskListView_Remaining" xml:space="preserve">
+    <value>Übrig</value>
+  </data>
+  <data name="TaskListView_Speed" xml:space="preserve">
+    <value>Geschwindigkeit</value>
+  </data>
+  <data name="TaskListView_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="TaskListView_URL" xml:space="preserve">
+    <value>URL</value>
   </data>
   <data name="TaskManager_UploadCompletedURL" xml:space="preserve">
     <value>Upload abgeschlossen. URL: {0}</value>
@@ -2270,6 +2390,9 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   <data name="TaskSettingsWindow_AutoCopyImageToClipboard" xml:space="preserve">
     <value>Bild automatisch in die Zwischenablage kopieren</value>
   </data>
+  <data name="TaskSettingsWindow_AutoExpandCanvas" xml:space="preserve">
+    <value>Leinwand automatisch erweitern, wenn Text oder Formen über den Rand hinausgehen</value>
+  </data>
   <data name="TaskSettingsWindow_AutoIncrementNumber" xml:space="preserve">
     <value>Automatisch fortlaufende Nummer:</value>
   </data>
@@ -2302,6 +2425,9 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   </data>
   <data name="TaskSettingsWindow_Cancel" xml:space="preserve">
     <value>Abbrechen</value>
+  </data>
+  <data name="TaskSettingsWindow_CanvasFillColor" xml:space="preserve">
+    <value>Füllfarbe für hinzugefügte Leinwandfläche:</value>
   </data>
   <data name="TaskSettingsWindow_Capture" xml:space="preserve">
     <value>Aufnahme</value>
@@ -2348,6 +2474,9 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   <data name="TaskSettingsWindow_CloseOCRWindowAfterOpeningServiceLink" xml:space="preserve">
     <value>OCR-Fenster nach dem Öffnen des Dienstlinks schließen</value>
   </data>
+  <data name="TaskSettingsWindow_CompactRegionCaptureToolbar" xml:space="preserve">
+    <value>Kompakte Symbolleiste für Bereichsaufnahme</value>
+  </data>
   <data name="TaskSettingsWindow_ConfigureWithEllipsis" xml:space="preserve">
     <value>Konfigurieren...</value>
   </data>
@@ -2378,8 +2507,8 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   <data name="TaskSettingsWindow_DetectWindowRegions" xml:space="preserve">
     <value>Fensterbereiche erkennen</value>
   </data>
-  <data name="TaskSettingsWindow_DimAllExceptCurrentSelection" xml:space="preserve">
-    <value>Alles außer der aktuellen Auswahl abdunkeln</value>
+  <data name="TaskSettingsWindow_DimHoveredWindowsAndControls" xml:space="preserve">
+    <value>Fenster und Steuerelemente unter dem Mauszeiger abdunkeln</value>
   </data>
   <data name="TaskSettingsWindow_DisableToastNotificationsOnFullscreen" xml:space="preserve">
     <value>Toast-Benachrichtigungen im Vollbildmodus deaktivieren</value>
@@ -2573,6 +2702,9 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   <data name="TaskSettingsWindow_MoveUp" xml:space="preserve">
     <value>Nach oben</value>
   </data>
+  <data name="TaskSettingsWindow_MultiRegionMode" xml:space="preserve">
+    <value>Mehrbereichsmodus</value>
+  </data>
   <data name="TaskSettingsWindow_Name" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -2641,6 +2773,9 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   </data>
   <data name="TaskSettingsWindow_NativeRecorderEnabled" xml:space="preserve">
     <value>Integrierten Bildschirmrekorder verwenden</value>
+  </data>
+  <data name="TaskSettingsWindow_NativeRecorderHDRToneMapping" xml:space="preserve">
+    <value>HDR-Tonemapping</value>
   </data>
   <data name="TaskSettingsWindow_NativeRecorderHardware" xml:space="preserve">
     <value>Hardware-Videokodierung voraussetzen</value>
@@ -3068,6 +3203,18 @@ Möchten Sie die aktive Bildschirmaufnahme beenden und speichern?</value>
   <data name="TaskSettingsWindow_WaveAudio" xml:space="preserve">
     <value>Wave-Audio</value>
   </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffort" xml:space="preserve">
+    <value>WebP-Komprimierungsaufwand:</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPCompressionEffortHint" xml:space="preserve">
+    <value>Niedrigere Werte beschleunigen die Kodierung. Höhere Werte erzeugen kleinere Dateien. Alle Werte erhalten die Bildqualität.</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPLossless" xml:space="preserve">
+    <value>Verlustfrei</value>
+  </data>
+  <data name="TaskSettingsWindow_WebPQuality" xml:space="preserve">
+    <value>WebP-Qualität:</value>
+  </data>
   <data name="TaskSettingsWindow_Width" xml:space="preserve">
     <value>Breite:</value>
   </data>
@@ -3186,6 +3333,9 @@ Sie können sie später im Menü „Aufgaben nach der Aufnahme“ deaktivieren.<
   </data>
   <data name="WouldYouLikeToRetryClipboardUpload" xml:space="preserve">
     <value>Möchten Sie das Hochladen der Zwischenablage wiederholen?</value>
+  </data>
+  <data name="YourAntiVirusSoftwareOrTheControlledFolderAccessFeatureInWindowsCouldBeBlockingShareX" xml:space="preserve">
+    <value>Ihre Antiviren-Software oder die Funktion für kontrollierten Ordnerzugriff in Windows könnte ShareX blockieren.</value>
   </data>
   <data name="YourSystemAdminDisabledTheUploadFeature" xml:space="preserve">
     <value>Ihr Systemadministrator hat diese Funktion ausgeschaltet.</value>

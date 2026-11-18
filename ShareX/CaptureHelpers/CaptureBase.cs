@@ -74,6 +74,12 @@ namespace ShareX
                 if (taskSettings.CaptureSettings.ScreenshotDelay > 0)
                 {
                     int delay = (int)(taskSettings.CaptureSettings.ScreenshotDelay * 1000);
+
+                    if (taskSettings.UseDefaultCaptureSettings && ApplicationState.Settings.ScreenshotDelayJustOnce)
+                    {
+                        MainWindowIntegration.SetScreenshotDelay(0);
+                    }
+
                     await Task.Delay(delay);
                 }
 
@@ -174,7 +180,7 @@ namespace ShareX
             // With no window at all, a monitor capture still has the desktop to show.
             if ((window == null || !KWinDesktop.ActivateWindow(window.Id)) && this is CaptureActiveWindow)
             {
-                throw new ScreenCaptureException(Strings.CaptureBase_NoOtherWindow);
+                throw new ScreenCaptureException(LinuxStrings.CaptureBase_NoOtherWindow);
             }
         }
 

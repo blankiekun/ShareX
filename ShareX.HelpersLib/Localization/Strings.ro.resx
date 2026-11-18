@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Recunoaștere text (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Deschideți în editorul foto</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Efectuați acțiuni</value>
   </data>
@@ -639,6 +642,9 @@ Doriți totuși să îl executați?</value>
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Încărcați</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Riglă</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Încărcați din clipboard</value>
   </data>
@@ -786,8 +792,11 @@ Doriți totuși să îl executați?</value>
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Regiune de captură</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Regiune de captură (Transparentă)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Riglă</value>
+    <value>Măsurare</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Alegător de culori pe ecran</value>
@@ -867,11 +876,14 @@ Doriți totuși să îl executați?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Fișiere imagine</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Nu s-a putut deschide «{0}» deoarece acest format necesită ImageMagick, iar comanda magick nu a fost găsită. Instalați pachetul imagemagick.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Automat</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Salvarea în TIFF necesită ImageMagick, iar comanda magick nu a fost găsită. Instalați pachetul imagemagick.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Ascunde</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Arată</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Deschideți imaginea</value>
@@ -992,11 +1004,6 @@ Doriți totuși să îl executați?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Nume de imprimantă nevalid</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX nu a putut imprima: {0}
-
-Imprimarea trece prin portalul de imprimare al desktopului. Verificați dacă xdg-desktop-portal și xdg-desktop-portal-kde sunt instalate, iar pentru o imprimantă reală și cups.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Permiteți mărirea imaginii</value>
@@ -1217,8 +1224,26 @@ Imprimarea trece prin portalul de imprimare al desktopului. Verificați dacă xd
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>Anul (2 cifre)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Săgeată jos</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Rotița mouse-ului</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Pagină în jos</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Mesaj de derulare</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automat</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>Vizualizare listă</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Vizualizare în miniatură</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Destinație de text personalizat</value>

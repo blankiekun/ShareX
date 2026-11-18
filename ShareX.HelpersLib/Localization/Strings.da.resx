@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Registrér tekst (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Åbn i fotoredigering</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Udfør handlinger</value>
   </data>
@@ -639,6 +642,9 @@ Vil du stadig køre den?</value>
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Upload</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Lineal</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Upload fra udklipsholder</value>
   </data>
@@ -786,8 +792,11 @@ Vil du stadig køre den?</value>
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Tag billede af område</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Tag billede af område (gennemsigtigt)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Lineal</value>
+    <value>Måling</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Skærmfarvevælger</value>
@@ -867,11 +876,14 @@ Vil du stadig køre den?</value>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Billedfiler</value>
   </data>
-  <data name="ImageIO_Open_needs_ImageMagick" xml:space="preserve">
-    <value>Kunne ikke åbne ”{0}”, fordi dette format kræver ImageMagick, og kommandoen magick blev ikke fundet. Installér pakken imagemagick.</value>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Automatisk</value>
   </data>
-  <data name="ImageIO_Save_needs_ImageMagick" xml:space="preserve">
-    <value>Det kræver ImageMagick at gemme som TIFF, og kommandoen magick blev ikke fundet. Installér pakken imagemagick.</value>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Skjul</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Vis</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Åbn billede</value>
@@ -992,11 +1004,6 @@ Vil du stadig køre den?</value>
   </data>
   <data name="PrintHelper_Invalid_printer_name" xml:space="preserve">
     <value>Ugyldigt printernavn</value>
-  </data>
-  <data name="PrintHelper_Print_failed" xml:space="preserve">
-    <value>ShareX kunne ikke udskrive: {0}
-
-Udskrivning sker gennem skrivebordets udskriftsportal. Kontrollér, at xdg-desktop-portal og xdg-desktop-portal-kde er installeret, og cups til en rigtig printer.</value>
   </data>
   <data name="PrintWindow_Allow_image_to_enlarge" xml:space="preserve">
     <value>Tillad at billedet forstørres</value>
@@ -1217,8 +1224,26 @@ Udskrivning sker gennem skrivebordets udskriftsportal. Kontrollér, at xdg-deskt
   <data name="ReplCodeMenuEntry_yy_Current_year__2_digits_" xml:space="preserve">
     <value>År (2 cifre)</value>
   </data>
+  <data name="ScrollMethod_DownArrow" xml:space="preserve">
+    <value>Pil ned</value>
+  </data>
+  <data name="ScrollMethod_MouseWheel" xml:space="preserve">
+    <value>Musehjul</value>
+  </data>
+  <data name="ScrollMethod_PageDown" xml:space="preserve">
+    <value>Side ned</value>
+  </data>
+  <data name="ScrollMethod_ScrollMessage" xml:space="preserve">
+    <value>Rullemeddelelse</value>
+  </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automatisk</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>Listevisning</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Miniaturevisning</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Brugerdefineret tekstuploadere</value>

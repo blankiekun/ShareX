@@ -349,6 +349,9 @@
   <data name="BackgroundRemoverWindow_Browse" xml:space="preserve">
     <value>Răsfoire...</value>
   </data>
+  <data name="BackgroundRemoverWindow_Device" xml:space="preserve">
+    <value>Dispozitiv</value>
+  </data>
   <data name="BackgroundRemoverWindow_Image" xml:space="preserve">
     <value>Imagine</value>
   </data>
@@ -360,6 +363,9 @@
   </data>
   <data name="BackgroundRemoverWindow_Open_models_folder" xml:space="preserve">
     <value>Deschide dosarul modelelor</value>
+  </data>
+  <data name="BackgroundRemoverWindow_Processing_device" xml:space="preserve">
+    <value>Dispozitiv de procesare</value>
   </data>
   <data name="BackgroundRemoverWindow_Refresh_models" xml:space="preserve">
     <value>Reîmprospătează modelele</value>
@@ -381,9 +387,6 @@
   </data>
   <data name="BackgroundRemoverWindow_ShareX_Background_Remover" xml:space="preserve">
     <value>ShareX - Eliminare fundal</value>
-  </data>
-  <data name="BorderlessWindowManager_Not_supported_by_KWin" xml:space="preserve">
-    <value>KWin nu poate face asta pentru această fereastră: își desenează propria bară de titlu sau nu poate trece pe ecran complet.</value>
   </data>
   <data name="BorderlessWindowViewModel_Unable_to_toggle" xml:space="preserve">
     <value>Nu se poate comuta fereastra selectată. {0}</value>
@@ -426,6 +429,18 @@
   </data>
   <data name="BorderlessWindowWindow_Window_title" xml:space="preserve">
     <value>Titlul ferestrei</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Distance" xml:space="preserve">
+    <value>Distanță: {0:0.00} px | Unghi: {1:0.00}°</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Position" xml:space="preserve">
+    <value>X: {0} | Y: {1} | Dreapta: {2} | Jos: {3}</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Size" xml:space="preserve">
+    <value>Lățime: {0} px | Înălțime: {1} px | Arie: {2} px | Perimetru: {3} px</value>
+  </data>
+  <data name="ClassicRulerWindow_Title" xml:space="preserve">
+    <value>ShareX - Riglă</value>
   </data>
   <data name="ClipboardViewerViewModel_Clipboard_content" xml:space="preserve">
     <value>Conținut clipboard</value>
@@ -983,7 +998,7 @@
     <value>Valorile mai mici accelerează codificarea. Valorile mai mari produc fișiere mai mici. Toate valorile păstrează calitatea imaginii.</value>
   </data>
   <data name="ImageConverterWindow_WebPLossless" xml:space="preserve">
-    <value>Fără pierderi:</value>
+    <value>Fără pierderi</value>
   </data>
   <data name="ImageResizerWindow_Fill" xml:space="preserve">
     <value>Umplere</value>
@@ -1159,20 +1174,11 @@
   <data name="InspectWindowViewModel_Control" xml:space="preserve">
     <value>Control</value>
   </data>
-  <data name="InspectWindowViewModel_Desktop_file" xml:space="preserve">
-    <value>Fișier .desktop</value>
-  </data>
   <data name="InspectWindowViewModel_Extended_window_styles" xml:space="preserve">
     <value>Stiluri extinse ale ferestrei</value>
   </data>
   <data name="InspectWindowViewModel_No_target_selected" xml:space="preserve">
     <value>Nicio țintă selectată</value>
-  </data>
-  <data name="InspectWindowViewModel_Output" xml:space="preserve">
-    <value>Ecran</value>
-  </data>
-  <data name="InspectWindowViewModel_Pick_a_window" xml:space="preserve">
-    <value>Alegeți o fereastră pentru a-i inspecta proprietățile.</value>
   </data>
   <data name="InspectWindowViewModel_Pick_target" xml:space="preserve">
     <value>Alegeți o fereastră sau un control pentru a-i inspecta proprietățile</value>
@@ -1189,9 +1195,6 @@
   <data name="InspectWindowViewModel_Rectangle_format" xml:space="preserve">
     <value>X: {0}  Y: {1}  |  Lățime: {2}  Înălțime: {3}</value>
   </data>
-  <data name="InspectWindowViewModel_Resource_name" xml:space="preserve">
-    <value>Numele resursei</value>
-  </data>
   <data name="InspectWindowViewModel_Untitled_window" xml:space="preserve">
     <value>Fereastră fără titlu</value>
   </data>
@@ -1201,26 +1204,14 @@
   <data name="InspectWindowViewModel_Window_handle" xml:space="preserve">
     <value>Identificator fereastră</value>
   </data>
-  <data name="InspectWindowViewModel_Window_id" xml:space="preserve">
-    <value>ID fereastră</value>
-  </data>
   <data name="InspectWindowViewModel_Window_rectangle" xml:space="preserve">
     <value>Dreptunghi fereastră</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_role" xml:space="preserve">
-    <value>Rolul ferestrei</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_state" xml:space="preserve">
-    <value>Starea ferestrei</value>
   </data>
   <data name="InspectWindowViewModel_Window_styles" xml:space="preserve">
     <value>Stiluri fereastră</value>
   </data>
   <data name="InspectWindowViewModel_Window_title" xml:space="preserve">
     <value>Titlul ferestrei</value>
-  </data>
-  <data name="InspectWindowViewModel_Window_type" xml:space="preserve">
-    <value>Tipul ferestrei</value>
   </data>
   <data name="InspectWindowWindow_Always_on_top" xml:space="preserve">
     <value>Întotdeauna deasupra</value>
@@ -1255,14 +1246,23 @@
   <data name="InspectWindowWindow_Window_settings" xml:space="preserve">
     <value>Setări fereastră</value>
   </data>
+  <data name="LocalizedDisplayConverter_Automatic" xml:space="preserve">
+    <value>Automat</value>
+  </data>
   <data name="LocalizedDisplayConverter_Backward_diagonal" xml:space="preserve">
     <value>Diagonală înapoi</value>
+  </data>
+  <data name="LocalizedDisplayConverter_CPU" xml:space="preserve">
+    <value>CPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Checkerboard" xml:space="preserve">
     <value>Tablă de șah</value>
   </data>
   <data name="LocalizedDisplayConverter_Forward_diagonal" xml:space="preserve">
     <value>Diagonală înainte</value>
+  </data>
+  <data name="LocalizedDisplayConverter_GPU" xml:space="preserve">
+    <value>GPU</value>
   </data>
   <data name="LocalizedDisplayConverter_Gemini" xml:space="preserve">
     <value>Gemini</value>
@@ -1462,9 +1462,6 @@
   <data name="MouseHighlighter_Mode" xml:space="preserve">
     <value>Mod evidențiere:</value>
   </data>
-  <data name="MouseHighlighter_PointerOnlyHelp" xml:space="preserve">
-    <value>Evidențiază indicatorul, inclusiv în înregistrări când opțiunea de evidențiere a mouse-ului este activată în Setări sarcină → Captură → Înregistrator de ecran. Clicurile nu pot fi evidențiate: Wayland nu permite aplicațiilor să le vadă.</value>
-  </data>
   <data name="MouseHighlighter_PrimaryColor" xml:space="preserve">
     <value>Culoarea butonului principal:</value>
   </data>
@@ -1615,26 +1612,11 @@
   <data name="NetworkMonitorWindow_Target" xml:space="preserve">
     <value>Țintă</value>
   </data>
-  <data name="OCRHelper_Failed" xml:space="preserve">
-    <value>Tesseract a eșuat cu codul {0}. {1}</value>
-  </data>
-  <data name="OCRHelper_Language_data_missing" xml:space="preserve">
-    <value>Tesseract nu are date pentru limba «{0}». Instalați-o cu managerul de pachete, de exemplu: sudo pacman -S tesseract-data-{0}</value>
-  </data>
   <data name="OCRHelper_Language_unavailable" xml:space="preserve">
     <value>Limba {0} nu este disponibilă în acest sistem pentru OCR.</value>
   </data>
-  <data name="OCRHelper_No_languages" xml:space="preserve">
-    <value>Tesseract nu are date de limbă instalate. Instalați o limbă cu managerul de pachete, de exemplu: sudo pacman -S tesseract-data-eng</value>
-  </data>
   <data name="OCRHelper_Requires_Windows_version" xml:space="preserve">
     <value>Recunoașterea optică a caracterelor este disponibilă numai în Windows versiunea {0} sau mai nouă.</value>
-  </data>
-  <data name="OCRHelper_Tesseract_missing" xml:space="preserve">
-    <value>OCR necesită programul tesseract, care nu a fost găsit în PATH. Instalați-l cu managerul de pachete, de exemplu: sudo pacman -S tesseract tesseract-data-eng</value>
-  </data>
-  <data name="OCRHelper_Timed_out" xml:space="preserve">
-    <value>Tesseract nu a terminat în {0} secunde și a fost oprit.</value>
   </data>
   <data name="OCROptions_Bing" xml:space="preserve">
     <value>Bing</value>
@@ -2063,7 +2045,7 @@
     <value>Toleranță: {0}%</value>
   </data>
   <data name="RulerWindow_ShareX_Ruler" xml:space="preserve">
-    <value>ShareX - Riglă</value>
+    <value>ShareX - Măsurare</value>
   </data>
   <data name="VideoConverterViewModel_Choose_video" xml:space="preserve">
     <value>Alegeți un videoclip pentru a începe.</value>
@@ -2182,14 +2164,8 @@
   <data name="VideoPlayer_Loading" xml:space="preserve">
     <value>Se încarcă videoclipul...</value>
   </data>
-  <data name="VideoPlayer_MpvMissing" xml:space="preserve">
-    <value>Redarea video necesită libmpv. Instalați pachetul mpv.</value>
-  </data>
   <data name="VideoPlayer_Mute" xml:space="preserve">
     <value>Dezactivează sunetul</value>
-  </data>
-  <data name="VideoPlayer_PlaybackError" xml:space="preserve">
-    <value>Acest videoclip nu a putut fi redat. {0}</value>
   </data>
   <data name="VideoPlayer_Seek" xml:space="preserve">
     <value>Poziția redării</value>

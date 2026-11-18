@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ApplicationSettingsWindow_Desktop" xml:space="preserve">
+    <value>سطح المكتب</value>
+  </data>
+  <data name="ApplicationSettingsWindow_RunShareXAtLogin" xml:space="preserve">
+    <value>تشغيل ShareX عند تسجيل الدخول</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowEditWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>عرض الخيار "تعديل باستخدام ShareX" في قائمة سياق Dolphin</value>
+  </data>
+  <data name="ApplicationSettingsWindow_ShowUploadWithShareXInDolphinContextMenu" xml:space="preserve">
+    <value>عرض الخيار "رفع باستخدام ShareX" في قائمة سياق Dolphin</value>
+  </data>
+  <data name="CaptureBase_NoOtherWindow" xml:space="preserve">
+    <value>لا توجد نافذة أخرى لالتقاطها. افتح النافذة التي تريدها، ثم حاول مرة أخرى.</value>
+  </data>
+  <data name="ScreenRecord_GifNotFinished" xml:space="preserve">
+    <value>لم يكتمل إنشاء ملف GIF، لذا تم حذفه. تم الاحتفاظ بالتسجيل بصيغة MP4 في:
+{0}</value>
+  </data>
+  <data name="ScreenRecord_RecordingKept" xml:space="preserve">
+    <value>{0}
+
+تم الاحتفاظ بالملف، لكن قد يتعذر تشغيله:
+{1}</value>
+  </data>
+  <data name="ScreenRecord_RecordingsRecovered" xml:space="preserve">
+    <value>تم إغلاق ShareX بشكل غير متوقع أثناء التسجيل. تم حفظ التسجيل في:
+{0}</value>
+  </data>
+  <data name="ShareXCannotBeClosedWhileScreenRecordingIsActive" xml:space="preserve">
+    <value>لا يمكن إغلاق البرنامج أثناء تسجيل الشاشة.
+
+هل تريد إيقاف تسجيل الشاشة الحاليّ وحفظه؟</value>
+  </data>
+  <data name="StartScreen_PlatformNote" xml:space="preserve">
+    <value>مفتوح المصدر • مصمم لنظام Linux</value>
+  </data>
+  <data name="SettingManager_ExportPlaintextWarning" xml:space="preserve">
+    <value>تحتوي نسخة ShareX الاحتياطية على بيانات تسجيل الدخول ومفاتيح API الخاصة بك كنص عادي غير مشفر، حتى يمكن نقلها إلى جهاز آخر. يمكن لأي شخص يحصل على الملف استخدامها.&#xD;
+&#xD;
+احتفظ به بشكل خاص واحذفه بعد الانتهاء من استعادته. هل تريد التصدير رغم ذلك؟</value>
+  </data>
+  <data name="SettingManager_ImportReportTitle" xml:space="preserve">
+    <value>تم استيراد النسخة الاحتياطية</value>
+  </data>
+  <data name="SettingManager_ImportReportSignInAgain" xml:space="preserve">
+    <value>سجّل الدخول مرة أخرى. هذه البيانات مشفرة لجهاز آخر ولا يمكن قراءتها هنا:</value>
+  </data>
+  <data name="SettingManager_ImportReportSecretsImported" xml:space="preserve">
+    <value>بيانات تسجيل الدخول التي تم نقلها، وهي الآن مشفرة بمحفظتك:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsMapped" xml:space="preserve">
+    <value>المجلدات التي تم تغييرها إلى موقعها في Linux:</value>
+  </data>
+  <data name="SettingManager_ImportReportPathsReset" xml:space="preserve">
+    <value>الإعدادات التي أعيدت إلى قيمتها الافتراضية، لأن المسار ليس له مقابل هنا:</value>
+  </data>
+  <data name="SettingManager_ImportReportTurnedOff" xml:space="preserve">
+    <value>الإجراءات التي تم إيقافها، حتى لا يعمل أي شيء من النسخة الاحتياطية من تلقاء نفسه. تحقق منها وأعد تشغيلها:</value>
+  </data>
+  <data name="SettingManager_ImportReportDroppedEffects" xml:space="preserve">
+    <value>تأثيرات الصور التي تم استبعادها، لأن هذا الإصدار لا يتضمنها:</value>
+  </data>
+  <data name="SettingManager_ImportReportHistory" xml:space="preserve">
+    <value>السجل: تمت إضافة {0}، و{1} موجودة هنا بالفعل، و{2} غير قابلة للقراءة.</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryBackup" xml:space="preserve">
+    <value>تم حفظ سجلك السابق في {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportHistoryFailed" xml:space="preserve">
+    <value>لم يتم استيراد السجل: {0}</value>
+  </data>
+  <data name="SettingManager_ImportReportSkipped" xml:space="preserve">
+    <value>الملفات الموجودة في النسخة الاحتياطية التي تم تجاهلها:</value>
+  </data>
+  <data name="SettingManager_ImportReportPlaintextWarning" xml:space="preserve">
+    <value>يحتوي ملف النسخة الاحتياطية هذا على بيانات تسجيل الدخول الخاصة بك كنص عادي غير مشفر. احذفه بعد أن تتأكد من نجاح الاستيراد.</value>
+  </data>
+  <data name="SettingManager_ImportNothingFound" xml:space="preserve">
+    <value>لا يحتوي الملف على إعدادات أو سجل ShareX.</value>
+  </data>
+  <data name="SettingManager_ImportFileDamaged" xml:space="preserve">
+    <value>{0} في النسخة الاحتياطية تالف، لذا لم يتم استيراد أي شيء.</value>
+  </data>
+  <data name="SettingManager_ImportNeedsWallet" xml:space="preserve">
+    <value>تحتوي النسخة الاحتياطية على بيانات تسجيل دخول لا يمكن تخزينها بدون محفظتك، لذا لم يتم استيراد أي شيء. افتح المحفظة وحاول مرة أخرى.&#xD;
+&#xD;
+{0}</value>
+  </data>
+  <data name="SettingManager_ImportSaveFailed" xml:space="preserve">
+    <value>تعذّر حفظ {0}. توقف الاستيراد عند هذه النقطة.</value>
+  </data>
+</root>

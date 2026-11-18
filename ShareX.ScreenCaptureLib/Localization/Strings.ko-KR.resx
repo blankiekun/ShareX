@@ -430,6 +430,9 @@
   <data name="Pause" xml:space="preserve">
     <value>일시 중지</value>
   </data>
+  <data name="RegionCaptureWindow_MoveToolbar" xml:space="preserve">
+    <value>끌어서 도구 모음을 이동하고, 두 번 클릭하면 위치가 초기화됩니다</value>
+  </data>
   <data name="RegionCaptureWindow_RectangleRegionTab" xml:space="preserve">
     <value>직사각형 영역 촬영 (Tab)</value>
   </data>
@@ -478,6 +481,9 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>아래쪽 가장자리 자동 무시</value>
   </data>
+  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
+    <value>자동으로 맨 위로 스크롤</value>
+  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>자동으로 업로드 / 저장</value>
   </data>
@@ -495,6 +501,9 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>캡처 성공</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
+    <value>캡처하는 중...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>복사</value>
@@ -517,6 +526,15 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>준비</value>
   </data>
+  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
+    <value>스크롤 횟수:</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
+    <value>스크롤 지연:</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
+    <value>스크롤 방법:</value>
+  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>시작하려면 스크롤 가능한 창을 선택하세요</value>
   </data>
@@ -531,6 +549,9 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>캡처를 중지하는 중...</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
+    <value>회</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX - 스크롤 캡처</value>

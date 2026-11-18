@@ -430,6 +430,9 @@
   <data name="Pause" xml:space="preserve">
     <value>Pauză</value>
   </data>
+  <data name="RegionCaptureWindow_MoveToolbar" xml:space="preserve">
+    <value>Trageți pentru a muta bara de instrumente, faceți dublu clic pentru a-i reseta poziția</value>
+  </data>
   <data name="RegionCaptureWindow_RectangleRegionTab" xml:space="preserve">
     <value>Regiune de captură (Tab)</value>
   </data>
@@ -478,6 +481,9 @@
   <data name="ScrollingCaptureWindow_Auto_ignore_bottom_edge" xml:space="preserve">
     <value>Ignoră automat marginea de jos</value>
   </data>
+  <data name="ScrollingCaptureWindow_Automatically_scroll_to_top" xml:space="preserve">
+    <value>Derulare automată în partea de sus</value>
+  </data>
   <data name="ScrollingCaptureWindow_Automatically_upload_save" xml:space="preserve">
     <value>Încărcare / salvare automată</value>
   </data>
@@ -495,6 +501,9 @@
   </data>
   <data name="ScrollingCaptureWindow_Capture_successful" xml:space="preserve">
     <value>Capturare reușită</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Capturing" xml:space="preserve">
+    <value>Se capturează...</value>
   </data>
   <data name="ScrollingCaptureWindow_Copy" xml:space="preserve">
     <value>Copiere</value>
@@ -517,6 +526,15 @@
   <data name="ScrollingCaptureWindow_Ready" xml:space="preserve">
     <value>Pregătit</value>
   </data>
+  <data name="ScrollingCaptureWindow_Scroll_amount" xml:space="preserve">
+    <value>Număr de derulări:</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_delay" xml:space="preserve">
+    <value>Întârziere la derulare:</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Scroll_method" xml:space="preserve">
+    <value>Metodă de derulare:</value>
+  </data>
   <data name="ScrollingCaptureWindow_Select_scrollable_window" xml:space="preserve">
     <value>Selectați o fereastră derulabilă pentru a începe</value>
   </data>
@@ -531,6 +549,9 @@
   </data>
   <data name="ScrollingCaptureWindow_Stopping_capture" xml:space="preserve">
     <value>Se oprește captura...</value>
+  </data>
+  <data name="ScrollingCaptureWindow_Times" xml:space="preserve">
+    <value>ori</value>
   </data>
   <data name="ScrollingCaptureWindow_Title" xml:space="preserve">
     <value>ShareX - Captură cu derulare</value>

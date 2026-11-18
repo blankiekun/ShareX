@@ -523,7 +523,7 @@ namespace ShareX
 
                 if (configs.Count == 0 && !File.Exists(importedHistory) && !File.Exists(importedHistoryOld))
                 {
-                    throw new InvalidDataException(Strings.SettingManager_ImportNothingFound);
+                    throw new InvalidDataException(LinuxStrings.SettingManager_ImportNothingFound);
                 }
 
                 BackupImportReport report = new BackupImportReport() { SkippedEntries = skipped };
@@ -608,7 +608,7 @@ namespace ShareX
             {
                 // Not e.Message or e itself: a parsing message can quote the value it choked on, and this one could be a secret.
                 DebugHelper.WriteLine($"{fileName} in the backup can't be read: {e.GetType().Name}");
-                throw new InvalidDataException(string.Format(Strings.SettingManager_ImportFileDamaged, fileName));
+                throw new InvalidDataException(string.Format(LinuxStrings.SettingManager_ImportFileDamaged, fileName));
             }
         }
 
@@ -637,7 +637,7 @@ namespace ShareX
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException(string.Format(Strings.SettingManager_ImportNeedsWallet, e.Message), e);
+                throw new InvalidOperationException(string.Format(LinuxStrings.SettingManager_ImportNeedsWallet, e.Message), e);
             }
         }
 
@@ -645,7 +645,7 @@ namespace ShareX
         {
             if (config != null && !config.SaveImported(filePath))
             {
-                throw new IOException(string.Format(Strings.SettingManager_ImportSaveFailed, filePath));
+                throw new IOException(string.Format(LinuxStrings.SettingManager_ImportSaveFailed, filePath));
             }
         }
 
