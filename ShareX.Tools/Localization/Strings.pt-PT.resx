@@ -431,6 +431,18 @@ Caminho do ficheiro: {0}</value>
   <data name="BorderlessWindowWindow_Window_title" xml:space="preserve">
     <value>Título da janela</value>
   </data>
+  <data name="ClassicRulerOverlayControl_Distance" xml:space="preserve">
+    <value>Distância: {0:0.00} px | Ângulo: {1:0.00}°</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Position" xml:space="preserve">
+    <value>X: {0} | Y: {1} | Direita: {2} | Inferior: {3}</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Size" xml:space="preserve">
+    <value>Largura: {0} px | Altura: {1} px | Área: {2} px | Perímetro: {3} px</value>
+  </data>
+  <data name="ClassicRulerWindow_Title" xml:space="preserve">
+    <value>ShareX - Régua</value>
+  </data>
   <data name="ClipboardViewerViewModel_Clipboard_content" xml:space="preserve">
     <value>Conteúdo da área de transferência</value>
   </data>
@@ -990,7 +1002,7 @@ Caminho do ficheiro: {0}</value>
     <value>Valores mais baixos aceleram a codificação. Valores mais altos produzem ficheiros mais pequenos. Todos os valores preservam a qualidade da imagem.</value>
   </data>
   <data name="ImageConverterWindow_WebPLossless" xml:space="preserve">
-    <value>Sem perdas:</value>
+    <value>Sem perdas</value>
   </data>
   <data name="ImageResizerWindow_Fill" xml:space="preserve">
     <value>Preencher</value>
@@ -2039,7 +2051,7 @@ Caminho do ficheiro: {0}</value>
     <value>Tolerância: {0}%</value>
   </data>
   <data name="RulerWindow_ShareX_Ruler" xml:space="preserve">
-    <value>ShareX - Régua</value>
+    <value>ShareX - Medir</value>
   </data>
   <data name="VideoConverterViewModel_Choose_video" xml:space="preserve">
     <value>Escolha um vídeo para começar.</value>

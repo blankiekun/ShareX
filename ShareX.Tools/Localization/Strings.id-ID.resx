@@ -430,6 +430,18 @@
   <data name="BorderlessWindowWindow_Window_title" xml:space="preserve">
     <value>Judul jendela</value>
   </data>
+  <data name="ClassicRulerOverlayControl_Distance" xml:space="preserve">
+    <value>Jarak: {0:0.00} px | Sudut: {1:0.00}°</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Position" xml:space="preserve">
+    <value>X: {0} | Y: {1} | Kanan: {2} | Bawah: {3}</value>
+  </data>
+  <data name="ClassicRulerOverlayControl_Size" xml:space="preserve">
+    <value>Lebar: {0} px | Tinggi: {1} px | Luas: {2} px | Keliling: {3} px</value>
+  </data>
+  <data name="ClassicRulerWindow_Title" xml:space="preserve">
+    <value>ShareX - Penggaris</value>
+  </data>
   <data name="ClipboardViewerViewModel_Clipboard_content" xml:space="preserve">
     <value>Isi papan klip</value>
   </data>
@@ -986,7 +998,7 @@
     <value>Nilai yang lebih rendah mempercepat pengodean. Nilai yang lebih tinggi menghasilkan berkas yang lebih kecil. Semua nilai mempertahankan kualitas gambar.</value>
   </data>
   <data name="ImageConverterWindow_WebPLossless" xml:space="preserve">
-    <value>Tanpa kehilangan:</value>
+    <value>Tanpa kehilangan</value>
   </data>
   <data name="ImageResizerWindow_Fill" xml:space="preserve">
     <value>Isi</value>
@@ -2033,7 +2045,7 @@
     <value>Toleransi: {0}%</value>
   </data>
   <data name="RulerWindow_ShareX_Ruler" xml:space="preserve">
-    <value>ShareX - Penggaris</value>
+    <value>ShareX - Ukur</value>
   </data>
   <data name="VideoConverterViewModel_Choose_video" xml:space="preserve">
     <value>Pilih video untuk memulai.</value>

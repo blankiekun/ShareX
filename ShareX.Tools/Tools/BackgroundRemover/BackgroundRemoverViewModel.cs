@@ -26,10 +26,10 @@
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ShareX.AvaloniaUI.Theming;
 using SkiaSharp;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using ShareX.Icons;
 
 namespace ShareX.Tools;
 
@@ -279,7 +279,7 @@ public sealed partial class BackgroundRemoverViewModel : ViewModelBase, IDisposa
 
             SetResultImage(result.Image);
             stopwatch.Stop();
-            ShowNotification(string.Format(Localization.Strings.BackgroundRemoverViewModel_Background_removed_ms, stopwatch.ElapsedMilliseconds), LucideIcons.eraser);
+            ShowNotification(string.Format(Localization.Strings.BackgroundRemoverViewModel_Background_removed_ms, stopwatch.ElapsedMilliseconds), AppIcons.Eraser);
             string cacheStatus = result.IsSessionCached ? "cached" : "not cached";
             Debug.WriteLine(
                 $"Background removal (model={selectedModel.FileName}, {cacheStatus}): " +
@@ -301,13 +301,13 @@ public sealed partial class BackgroundRemoverViewModel : ViewModelBase, IDisposa
     [RelayCommand(CanExecute = nameof(CanSaveImage))]
     private async Task SaveAsync()
     {
-        await SaveImageAsync(SaveImageRequested, LucideIcons.save);
+        await SaveImageAsync(SaveImageRequested, AppIcons.Save);
     }
 
     [RelayCommand(CanExecute = nameof(CanSaveImage))]
     private async Task SaveAsAsync()
     {
-        await SaveImageAsync(SaveImageAsRequested, LucideIcons.save_all);
+        await SaveImageAsync(SaveImageAsRequested, AppIcons.SaveAs);
     }
 
     private async Task SaveImageAsync(Func<SKBitmap, string?, Task<string?>>? saveRequested, string notificationIcon)

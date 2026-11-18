@@ -94,6 +94,9 @@
   <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
     <value>Reconhecer texto (OCR)</value>
   </data>
+  <data name="AfterCaptureTasks_OpenInPhotoEditor" xml:space="preserve">
+    <value>Abrir no editor de fotos</value>
+  </data>
   <data name="AfterCaptureTasks_PerformActions" xml:space="preserve">
     <value>Realizar ações</value>
   </data>
@@ -639,6 +642,9 @@ Mesmo assim, deseja executá-lo?</value>
   <data name="HotkeyType_Category_Upload" xml:space="preserve">
     <value>Upload</value>
   </data>
+  <data name="HotkeyType_ClassicRuler" xml:space="preserve">
+    <value>Régua</value>
+  </data>
   <data name="HotkeyType_ClipboardUpload" xml:space="preserve">
     <value>Upload da área de transferência</value>
   </data>
@@ -786,8 +792,11 @@ Mesmo assim, deseja executá-lo?</value>
   <data name="HotkeyType_RectangleRegion" xml:space="preserve">
     <value>Capturar região</value>
   </data>
+  <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
+    <value>Capturar região (transparente)</value>
+  </data>
   <data name="HotkeyType_Ruler" xml:space="preserve">
-    <value>Régua</value>
+    <value>Medir</value>
   </data>
   <data name="HotkeyType_ScreenColorPicker" xml:space="preserve">
     <value>Seletor de cores da tela</value>
@@ -866,6 +875,15 @@ Mesmo assim, deseja executá-lo?</value>
   </data>
   <data name="ImageHelpers_Image_files" xml:space="preserve">
     <value>Arquivos de imagem</value>
+  </data>
+  <data name="ImagePreviewVisibility_Automatic" xml:space="preserve">
+    <value>Automático</value>
+  </data>
+  <data name="ImagePreviewVisibility_Hide" xml:space="preserve">
+    <value>Ocultar</value>
+  </data>
+  <data name="ImagePreviewVisibility_Show" xml:space="preserve">
+    <value>Mostrar</value>
   </data>
   <data name="ImageViewerWindow_Open_image" xml:space="preserve">
     <value>Abrir imagem</value>
@@ -1220,6 +1238,12 @@ Mesmo assim, deseja executá-lo?</value>
   </data>
   <data name="SupportedLanguage_Automatic" xml:space="preserve">
     <value>Automático</value>
+  </data>
+  <data name="TaskViewMode_ListView" xml:space="preserve">
+    <value>Exibição de lista</value>
+  </data>
+  <data name="TaskViewMode_ThumbnailView" xml:space="preserve">
+    <value>Exibição em miniatura</value>
   </data>
   <data name="TextDestination_CustomTextUploader" xml:space="preserve">
     <value>Serviço de upload de texto personalizado</value>

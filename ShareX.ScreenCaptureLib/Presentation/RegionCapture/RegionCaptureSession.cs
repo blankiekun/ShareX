@@ -197,7 +197,7 @@ internal sealed class RegionCaptureSession
         KWinWindow? window = includeWindowInfo ? FindWindow(rectangle) : null;
         DrawingRectangle x11Rectangle = Request.Coordinates.ImageToX11(rectangle);
         _result = new AvaloniaRegionCaptureResult(output, x11Rectangle, window, _windows.Any(x => x.IsDirty));
-        RegionCaptureIntegration.LastRegionRectangle = x11Rectangle;
+        RegionCaptureIntegration.SetLastRegion(x11Rectangle, [x11Rectangle]);
         CloseAll();
     }
 

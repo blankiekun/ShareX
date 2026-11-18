@@ -26,6 +26,7 @@
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ShareX.AvaloniaUI.Theming;
+using ShareX.Icons;
 
 namespace ShareX.Tools;
 
@@ -68,7 +69,7 @@ public sealed partial class BackgroundRemoverViewModel
 
     private void ShowErrorNotification(string message)
     {
-        _ = ShowNotificationAsync(message, LucideIcons.circle_alert, ErrorNotificationDuration);
+        _ = ShowNotificationAsync(message, AppIcons.CircleX, ErrorNotificationDuration);
     }
 
     public void DismissNotification()

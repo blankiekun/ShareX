@@ -55,4 +55,10 @@ public sealed class AvaloniaRegionCaptureRequest
     public required ImageEditorOptions ImageEditorOptions { get; init; }
 
     public bool EnableAnnotations { get; init; } = true;
+
+    /// <summary>
+    /// Allows <see cref="RegionCaptureOptions.MultiRegionMode"/> to select several regions. Only image captures
+    /// enable this; callers that need a single rectangle leave it off.
+    /// </summary>
+    public bool AllowMultipleRegions { get; init; }
 }

@@ -170,16 +170,8 @@ namespace ShareX
                 taskSettings.CaptureSettings.ScreenRecordTwoPassEncoding = true;
             }
 
-            int fps;
-
-            if (isGif || (!useNative && taskSettings.CaptureSettings.FFmpegOptions.VideoCodec == FFmpegVideoCodec.gif))
-            {
-                fps = taskSettings.CaptureSettings.GIFFPS;
-            }
-            else
-            {
-                fps = taskSettings.CaptureSettings.ScreenRecordFPS;
-            }
+            bool useGifFps = isGif || (!useNative && taskSettings.CaptureSettings.FFmpegOptions.VideoCodec == FFmpegVideoCodec.gif);
+            int fps = useGifFps ? taskSettings.CaptureSettings.GIFFPS : taskSettings.CaptureSettings.ScreenRecordFPS;
 
             if (useNative)
                 DebugHelper.WriteLine("Starting native screen recording. {0}, FPS: {1}", isGif ? "Adaptive GIF" : "H.264/AAC MP4", fps);
@@ -241,7 +233,8 @@ namespace ShareX
             Rectangle screenRectangle = CaptureHelpers.GetScreenBounds();
             captureRectangle = Rectangle.Intersect(captureRectangle, screenRectangle);
 
-            if (useNative ? !isGif : taskSettings.CaptureSettings.FFmpegOptions.IsEvenSizeRequired)
+            bool evenSize = useNative ? !isGif : taskSettings.CaptureSettings.FFmpegOptions.IsEvenSizeRequired;
+            if (evenSize)
             {
                 captureRectangle = CaptureHelpers.EvenRectangleSize(captureRectangle);
             }
@@ -253,8 +246,7 @@ namespace ShareX
 
             IsRecording = true;
 
-            bool startedFromBar = useNative && taskSettings.CaptureSettings.ScreenRecordShowBar;
-            if (startedFromBar)
+            if (taskSettings.CaptureSettings.ScreenRecordShowBar)
             {
                 try
                 {

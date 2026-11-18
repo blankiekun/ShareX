@@ -74,6 +74,12 @@ namespace ShareX
                 if (taskSettings.CaptureSettings.ScreenshotDelay > 0)
                 {
                     int delay = (int)(taskSettings.CaptureSettings.ScreenshotDelay * 1000);
+
+                    if (taskSettings.UseDefaultCaptureSettings && ApplicationState.Settings.ScreenshotDelayJustOnce)
+                    {
+                        MainWindowIntegration.SetScreenshotDelay(0);
+                    }
+
                     await Task.Delay(delay);
                 }
 
