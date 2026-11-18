@@ -48,9 +48,13 @@ jobs:
           git switch -c "$BRANCH"
           DROPPED=""
           if ! git merge --no-edit "$TAG"; then
-            # Files the fork deleted stay deleted, whatever upstream did to them.
+            # Files the fork deleted stay deleted, whatever upstream did to them. A file that is new on
+            # upstream's side (a rename of something we edited) is left as a conflict.
+            BASE=$(git merge-base HEAD "$TAG")
             for f in $(git diff --name-only --diff-filter=U); do
-              git cat-file -e "HEAD:$f" 2>/dev/null || { git rm -q "$f"; DROPPED="$DROPPED$f"$'\n'; }
+              if ! git cat-file -e "HEAD:$f" 2>/dev/null && git cat-file -e "$BASE:$f" 2>/dev/null; then
+                git rm -q "$f"; DROPPED="$DROPPED$f"$'\n'
+              fi
             done
           fi
 
