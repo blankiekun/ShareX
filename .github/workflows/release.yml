@@ -1,0 +1,80 @@
+name: Release
+
+# Publishes a Linux build when the version on develop changes, which happens when a sync PR for a new
+# upstream release (upstream-sync.yml) is merged. Run it by hand to build a release that is missing.
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - Directory.Build.props
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      release: ${{ steps.version.outputs.release }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: Directory.Build.props
+          sparse-checkout-cone-mode: false
+
+      - name: Read the version
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props)
+          [ -n "$VERSION" ] || { echo "::error::No <Version> in Directory.Build.props"; exit 1; }
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if gh release view "v$VERSION-linux" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "v$VERSION-linux is already released."
+          else
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  release:
+    needs: check
+    if: needs.check.outputs.release == 'true'
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      # The video thumbnail tests run the real ffmpeg.
+      - name: Test
+        run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+          dotnet test --configuration Release -p:Platform=x64 ShareX.ScreenRecordingLib.Tests/ShareX.ScreenRecordingLib.Tests.csproj
+
+      - name: Publish
+        run: |
+          NAME="ShareX-$VERSION-linux-x64"
+          dotnet publish ShareX/ShareX.csproj --configuration Release -p:Platform=x64 --self-contained false -o "$NAME"
+          tar -czf "$NAME.tar.gz" "$NAME"
+          sha256sum "$NAME.tar.gz" > "$NAME.tar.gz.sha256"
+
+      - name: Create the release
+        run: |
+          cat > notes.md <<EOF
+          ShareX $VERSION for Linux, built from \`develop\` at ${GITHUB_SHA::9}. Upstream release notes: https://github.com/ShareX/ShareX/releases/tag/v$VERSION
+
+          Unpack it and run \`./ShareX\`. Needs the .NET 10 runtime, \`ffmpeg\` and \`mpv\` (for \`libmpv.so.2\`). OCR needs \`tesseract\` with a language data package.
+          EOF
+          gh release create "v$VERSION-linux" "ShareX-$VERSION-linux-x64.tar.gz" "ShareX-$VERSION-linux-x64.tar.gz.sha256" \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "ShareX $VERSION for Linux" --notes-file notes.md

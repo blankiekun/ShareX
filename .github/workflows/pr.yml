@@ -4,9 +4,16 @@ on:
   pull_request:
     branches:
       - "**"
+    paths-ignore:
+      - "**.md"
 
 permissions:
   contents: read
+
+# A new push to the same PR cancels the build still running for the old one.
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   build:
